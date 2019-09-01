@@ -1,0 +1,44 @@
+doctype html
+html
+    head
+        meta(charset='utf-8')
+        meta(http-equiv='X-UA-Compatible' content='IE=edge')
+        meta(name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no')
+        link(rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous")
+        link(href='/css/sb-admin.css' rel='stylesheet')
+        link(rel='stylesheet' href='/css/style2.css')
+        
+        link(rel='shortcut icon' type='image/svg' href='/img/ABC_LOGO.svg') 
+            
+        title ABC Univiersity Educational System | #{title}
+    body.bg-light
+        .container
+            .card.card-login.mx-auto.my-5
+                .card-header.d-inline-flex.justify-content-center.text-white
+                    img(src='/img/ABC_ICON_NAVBAR_2.svg' alt='ABC Logo' width='auto' height='60')
+                    h3.mt-4 University Login
+                .card-body
+                    form.was-validated
+                        .form-group
+                            .form-label-group
+                                input#inputEmail.form-control(type='email' placeholder='Email address' required='required' autofocus='autofocus')
+                                label(for='inputEmail') Email Address
+                        .form-group
+                            .form-label-group
+                                input#inputPassword.form-control(type='password' placeholder='Password' required='required', minlength='8')
+                                label(for='inputPassword') Password
+                        .form-group
+                            .checkbox
+                                label
+                                input(type='checkbox' value='remember-me')
+                                |                 Remember Password
+                        a.btn.btn-primary.btn-block(href='home') Login
+                    .text-center
+                        //- a.d-block.small.mt-3(href='register.html') Register an Account
+                        a.d-block.small(href='/') Forgot Password?
+        #footerLogin               
+            include components/_footer
+        // Bootstrap core JavaScript
+        script(src='https://code.jquery.com/jquery-3.3.1.slim.min.js' integrity='sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo' crossorigin='anonymous')
+        script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js' integrity='sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49' crossorigin='anonymous')
+        script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js' integrity='sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy' crossorigin='anonymous')

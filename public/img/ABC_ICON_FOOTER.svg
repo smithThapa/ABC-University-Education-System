@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:osb="http://www.openswatchbook.org/uri/2009/osb"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="217.33mm"
+   height="50.931mm"
+   viewBox="0 0 217.33 50.931"
+   version="1.1"
+   id="svg8"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
+   sodipodi:docname="ABC_ICON_FOOTER.svg"
+   inkscape:export-filename="C:\Users\jljim\OneDrive\Escritorio\abc icon.png"
+   inkscape:export-xdpi="63.835384"
+   inkscape:export-ydpi="63.835384">
+  <defs
+     id="defs2">
+    <linearGradient
+       id="linearGradient6527"
+       osb:paint="solid">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop6525" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient6483"
+       osb:paint="gradient">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop6479" />
+      <stop
+         style="stop-color:#000000;stop-opacity:0;"
+         offset="1"
+         id="stop6481" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient6437"
+       osb:paint="solid">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop6435" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient6429"
+       osb:paint="solid">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop6427" />
+    </linearGradient>
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 148.5 : 1"
+       inkscape:vp_y="0 : 999.99998 : 0"
+       inkscape:vp_z="210 : 148.5 : 1"
+       inkscape:persp3d-origin="105 : 98.999998 : 1"
+       id="perspective3715" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.98999998"
+     inkscape:cx="212.02437"
+     inkscape:cy="78.395252"
+     inkscape:document-units="mm"
+     inkscape:current-layer="g1193"
+     showgrid="false"
+     inkscape:snap-grids="true"
+     inkscape:snap-to-guides="false"
+     inkscape:snap-page="true"
+     inkscape:measure-start="572.828,939.238"
+     inkscape:measure-end="405.027,996.797"
+     inkscape:snap-midpoints="false"
+     inkscape:snap-text-baseline="true"
+     inkscape:object-paths="true"
+     inkscape:window-width="1366"
+     inkscape:window-height="705"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-246.069)">
+    <g
+       id="g6715">
+      <g
+         id="g895"
+         style="fill:#0095a3"
+         transform="translate(-13.268477,-10.582794)">
+        <g
+           id="g1193"
+           transform="translate(-4.3988037e-7,222.85379)">
+          <rect
+             rx="0.5"
+             y="53.878635"
+             x="20.768476"
+             height="2"
+             width="60"
+             id="rect3799"
+             style="fill:#0095a3;stroke-width:0.29353473" />
+          <rect
+             y="58.790424"
+             x="20.768476"
+             height="17.5"
+             width="3.6578357"
+             id="rect3801"
+             style="fill:#0095a3;stroke-width:0.34085482" />
+          <rect
+             rx="6.5780714e-015"
+             y="58.790424"
+             x="76.768478"
+             height="17.5"
+             width="4"
+             id="rect3801-0"
+             style="fill:#0095a3;stroke-width:0.35644072" />
+          <rect
+             rx="0.41095889"
+             y="78.677948"
+             x="20.768476"
+             height="2"
+             width="60"
+             id="rect3799-7"
+             style="fill:#0095a3;stroke-width:0.29752856" />
+          <rect
+             rx="0.5"
+             y="82.729004"
+             x="13.268477"
+             height="2"
+             width="75"
+             id="rect3799-7-5"
+             style="fill:#0095a3;stroke-width:0.32818183" />
+          <path
+             inkscape:transform-center-y="0.23276401"
+             inkscape:transform-center-x="-2.4024215"
+             inkscape:connector-curvature="0"
+             id="path6499"
+             d="m 13.551288,51.104524 c 0.644956,0 74.427949,0 74.427949,0 L 50.431846,34.554463 Z"
+             style="fill:none;fill-opacity:1;stroke:#0095a3;stroke-width:1.38199997;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+          <circle
+             r="2.5"
+             cy="43.850159"
+             cx="50.513741"
+             id="path6697"
+             style="opacity:1;fill:#0095a3;fill-opacity:1;stroke:none;stroke-width:1.39999998;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:markers stroke fill" />
+          <text
+             xml:space="preserve"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:23.22759438px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#0095a3;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+             x="158.24632"
+             y="76.184319"
+             id="text1197"><tspan
+               sodipodi:role="line"
+               id="tspan1195"
+               x="158.24632"
+               y="76.184319"
+               style="font-size:23.16762161px;fill:#0095a3;fill-opacity:1;stroke-width:0.26458332">UNIVERSITY</tspan></text>
+          <text
+             xml:space="preserve"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:23.22759438px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#0095a3;fill-opacity:1;stroke:none;stroke-width:0.26458332;"
+             x="50.792103"
+             y="75.98378"
+             id="text1201"><tspan
+               sodipodi:role="line"
+               id="tspan1199"
+               x="50.792103"
+               y="75.98378"
+               style="stroke-width:0.26458332;fill:#0095a3;fill-opacity:1;">ABC</tspan></text>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

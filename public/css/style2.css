@@ -1,0 +1,96 @@
+.navbar {
+  background-color: #0095a3;
+}
+
+.sidebar {
+  background-color: #00838f;
+}
+
+.sidebar .nav-item .nav-link {
+  color: rgba(255, 255, 255, 1);
+}
+
+#dashboard {
+  background-color: #006972;
+}
+
+.icon-box {
+  height: 2.25rem;
+  width: 2.25rem;
+  fill: #ffffff;
+}
+
+.icon-box_sidebar {
+  height: 1.5rem;
+  width: 1.5rem;
+  fill: #ffffff;
+}
+
+.dropdown-header {
+  font-size: 0.8rem;
+}
+
+.dropdown-item {
+  font-size: 0.8rem;
+}
+
+.container-fluid > .container {
+  background-color: #fafafb;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.container-fluid > .container > * {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.container-fluid > .container > h2 {
+  color: #006972;
+}
+
+.footer__logo img {
+  height: 2.5rem;
+}
+
+@media (min-width: 768px) {
+  .sidebar .nav-item .nav-link span {
+    font-size: 0.8rem;
+  }
+  .sidebar .nav-item .nav-link {
+    padding: 0.7rem;
+  }
+}
+
+/* Login */
+.card-login {
+  width: 30rem;
+}
+
+.card-login .card-header {
+  background-color: #0095a3;
+}
+
+.card-login .card-body form a {
+  background-color: #0095a3;
+}
+.card-login .card-body .text-center a {
+  color: #0095a3;
+}
+
+#footerLogin .sticky-footer {
+  width: 100%;
+  /* bottom: -4rem; */
+}
+
+@media (max-height: 500px) {
+  .card.card-login {
+    margin-top: 1rem;
+  }
+
+  #footerLogin .sticky-footer {
+    bottom: -3rem;
+  }
+}

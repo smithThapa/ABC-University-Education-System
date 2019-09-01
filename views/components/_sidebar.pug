@@ -1,0 +1,66 @@
+mixin sidebarMenu(link, text, icon)
+    li.nav-item
+        a.nav-link(href= link)
+            svg.icon-box_sidebar.mr-2.pb-1
+                use(xlink:href=`/img/icons.svg#icon-${icon}`)
+            span= text
+
+#wrapper
+    // Sidebar
+    ul.sidebar.navbar-nav
+        li.nav-item.active#dashboard
+            a.nav-link(href='#')
+                svg.icon-box_sidebar.mr-2.pb-1
+                    use(xlink:href=`/img/icons.svg#icon-dashboard`)
+                span.font-weight-bold.text-uppercase Dashboards
+        //- Administrator menu
+        li.nav-item.dropdown.no-arrow
+            a#pagesDropdown.nav-link.dropdown-toggle(href='#' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
+                svg.icon-box_sidebar.mr-2.pb-1
+                    use(xlink:href=`/img/icons.svg#icon-settings`)
+                span Admin Management
+                svg.icon-box_sidebar.ml-3.pb-1
+                    use(xlink:href=`/img/icons.svg#icon-arrow-sidebar-down`)
+            .dropdown-menu(aria-labelledby='pagesDropdown')
+                h6.dropdown-header Management:
+                a.dropdown-item(href='#') Manage Users
+                a.dropdown-item(href='#') Manege Forums
+                a.dropdown-item(href='#') Manage Announcements
+                a.dropdown-item(href='#') Manage News
+                a.dropdown-item(href='#') Manage Resources
+                .dropdown-divider
+                h6.dropdown-header System tools:
+                a.dropdown-item(href='#') Statistics
+                a.dropdown-item(href='#') System Reports
+        //- Staff Menu  
+        li.nav-item.dropdown.no-arrow
+            a#pagesDropdown.nav-link.dropdown-toggle(href='#' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
+                svg.icon-box_sidebar.mr-2.pb-1
+                    use(xlink:href=`/img/icons.svg#icon-settings`)
+                span Staff Management
+                svg.icon-box_sidebar.ml-3.pb-1
+                    use(xlink:href=`/img/icons.svg#icon-arrow-sidebar-down`)
+            .dropdown-menu(aria-labelledby='pagesDropdown')
+                h6.dropdown-header Management:
+                a.dropdown-item(href='#') Create Forums
+                a.dropdown-item(href='#') Create Topics
+                a.dropdown-item(href='#') Create Announcements
+                a.dropdown-item(href='#') Create News
+                .dropdown-divider
+                h6.dropdown-header System tools:
+                a.dropdown-item(href='#') System Reports
+
+        +sidebarMenu('#','Discussion Forums', 'users')
+        +sidebarMenu('#','Announcements', 'paperclip')
+        +sidebarMenu('#','News', 'file-text')
+        +sidebarMenu('#','Resources', 'folder')
+
+        //- team maintenances
+        +sidebarMenu('#','Maintenance Requests', 'compass')
+        +sidebarMenu('#','Send Notification', 'inbox')
+        +sidebarMenu('#','Log in As - Testing', 'users')
+        +sidebarMenu('#','Error Reports', 'alert-triangle')
+
+        .dropdown-divider.mx-2
+        +sidebarMenu('#','My Details', 'user')
+        +sidebarMenu('#','Maintenance Request', 'help-circle')
