@@ -1,8 +1,10 @@
 const path = require('path');
 const express = require('express');
+const bodyParser = require('body-parser');
 
 // const userRouter = require('./routes/userRouter');
 const forumRouter = require('./routes/forumRouter');
+const topicRouter = require('./routes/topicRouter');
 
 const app = express();
 
@@ -14,6 +16,8 @@ app.set('views', path.join(__dirname, 'views'));
 
 //server static files
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(bodyParser.json());
 
 // router.get('/home', (req, res, next) => {
 //   res.status(200).render('HomeView', {
@@ -29,5 +33,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 // app.use('/', router);
 // app.use('/api/v1/users', userRouter);
 app.use('/api/v1/forums', forumRouter);
+app.use('/api/v1/topics', topicRouter);
 
 module.exports = app;
