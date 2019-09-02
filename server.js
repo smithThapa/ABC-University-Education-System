@@ -13,22 +13,22 @@ dotenv.config({ path: './config.env' });
 // get application file
 const app = require('./app');
 
-// //Database variable parse within the password
-// const DB = process.env.DATABASE.replace(
-//   '<PASSWORD>',
-//   process.env.DATABASE_PASSWORD
-// );
+//Database variable parse within the password
+const DB = process.env.DATABASE.replace(
+  '<PASSWORD>',
+  process.env.DATABASE_PASSWORD
+);
 
-// //Database connection
-// mongoose
-//   .connect(DB, {
-//     useNewUrlParser: true,
-//     useCreateIndex: true,
-//     useFindAndModify: false
-//   })
-//   .then(() => {
-//     console.log('DB connection successful');
-//   });
+//Database connection
+mongoose
+  .connect(DB, {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useFindAndModify: false
+  })
+  .then(() => {
+    console.log('DB connection successful');
+  });
 
 //Server
 const port = process.env.PORT || 3000;
