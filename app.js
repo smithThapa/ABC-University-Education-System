@@ -2,7 +2,7 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 
-// const userRouter = require('./routes/userRouter');
+const userRouter = require('./routes/userRouter');
 const forumRouter = require('./routes/forumRouter');
 const topicRouter = require('./routes/topicRouter');
 const commentRouter = require('./routes/commentRouter');
@@ -32,7 +32,7 @@ app.use(bodyParser.json());
 // });
 
 // app.use('/', router);
-// app.use('/api/v1/users', userRouter);
+app.use('/api/v1/users', userRouter);
 app.use('/api/v1/forums', forumRouter);
 app.use('/api/v1/topics', topicRouter);
 app.use('/api/v1/comments', commentRouter);

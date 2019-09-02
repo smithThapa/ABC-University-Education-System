@@ -1,57 +1,60 @@
 // const crypto = require('crypto');
 // const { promisify } = require('util');
-// const jwt = require('jsonwebtoken');
-// const User = require('./../models/UserModel');
-// const catchAsync = require('./../utils/CatchAsync');
+const jwt = require('jsonwebtoken');
+const User = require('./../models/UserModel');
+const catchAsync = require('./../utils/CatchAsync');
 // const AppError = require('./../utils/AppError');
-// // const Email = require('./../utils/email');
+// const Email = require('./../utils/email');
 
-// const signToken = id => {
-//   return jwt.sign({ id: id }, process.env.JWT_SECRET, {
-//     expiresIn: process.env.JWT_EXPIRES_IN
-//   });
-// };
+const signToken = id => {
+  return jwt.sign({ id: id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_IN
+  });
+};
 
-// const createSendToken = (user, statusCode, res) => {
-//   const token = signToken(user._id);
-//   const cookieOptions = {
-//     expires: new Date(
-//       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
-//     ),
-//     httpOnly: true
-//   };
+const createSendToken = (user, statusCode, res) => {
+  const token = signToken(user._id);
+  const cookieOptions = {
+    expires: new Date(
+      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+    ),
+    httpOnly: true
+  };
 
-//   // if (process.env.NODE_ENV.trim() === 'production') cookieOptions.secure = true;
-//   if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
-//   res.cookie('jwt', token, cookieOptions);
+  // if (process.env.NODE_ENV.trim() === 'production') cookieOptions.secure = true;
+  if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
+  res.cookie('jwt', token, cookieOptions);
 
-//   //remove password from the
-//   user.password = undefined;
+  //remove password from the
+  user.password = undefined;
 
-//   res.status(statusCode).json({
-//     status: 'success',
-//     token,
-//     data: {
-//       user
-//     }
-//   });
-// };
+  res.status(statusCode).json({
+    status: 'success',
+    token,
+    data: {
+      user
+    }
+  });
+};
 
-// exports.signup = catchAsync(async (req, res, next) => {
-//   const newUser = await User.create({
-//     name: req.body.name,
-//     email: req.body.email,
-//     password: req.body.password,
-//     passwordConfirm: req.body.passwordConfirm,
-//     passwordChangedAt: req.body.passwordChangedAt,
-//     role: req.body.role
-//   });
-//   //   const url = `${req.protocol}://${req.get('host')}/me`;
-//   //   console.log(url);
-//   //   await new Email(newUser, url).sendWelcome();
+exports.signup = catchAsync(async (req, res, next) => {
+  const newUser = await User.create({
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    email: req.body.email,
+    role: req.body.role,
+    major: req.body.major,
+    phoneNumber: req.body.phoneNumber,
+    password: req.body.password,
+    passwordConfirm: req.body.passwordConfirm
+    // passwordChangedAt: req.body.passwordChangedAt,
+  });
+  //   const url = `${req.protocol}://${req.get('host')}/me`;
+  //   console.log(url);
+  //   await new Email(newUser, url).sendWelcome();
 
-//   createSendToken(newUser, 201, res);
-// });
+  createSendToken(newUser, 201, res);
+});
 
 // // exports.login = catchAsync(async (req, res, next) => {
 // //   const { email, password } = req.body;
