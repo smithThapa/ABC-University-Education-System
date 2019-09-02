@@ -1,6 +1,8 @@
 const path = require('path');
 const express = require('express');
 
+const userRouter = require('./routes/userRouter');
+
 const app = express();
 
 // add pug enginering to log pages
