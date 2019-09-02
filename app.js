@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 // const userRouter = require('./routes/userRouter');
 const forumRouter = require('./routes/forumRouter');
 const topicRouter = require('./routes/topicRouter');
+const commentRouter = require('./routes/commentRouter');
 
 const app = express();
 
@@ -34,5 +35,6 @@ app.use(bodyParser.json());
 // app.use('/api/v1/users', userRouter);
 app.use('/api/v1/forums', forumRouter);
 app.use('/api/v1/topics', topicRouter);
+app.use('/api/v1/comments', commentRouter);
 
 module.exports = app;
