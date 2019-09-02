@@ -4,6 +4,7 @@
   "description": "MY NAME IS SMITH jk",
   "main": "app.js",
   "scripts": {
+    "start": "nodemon sever.js"
   },
   "repository": {
     "type": "git",
