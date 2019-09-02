@@ -1,7 +1,11 @@
 const express = require('express');
 const forumPresenter = require('./../presenters/ForumPresenter');
+const topicRouter = require('./topicRouter');
 
 const router = express.Router();
+
+//create topic through forum id
+router.use('/:forumId/topics', topicRouter);
 
 router
   .route('/')

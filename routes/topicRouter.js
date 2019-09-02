@@ -1,7 +1,11 @@
 const express = require('express');
 const topicPresenter = require('./../presenters/TopicPresenter');
 
-const router = express.Router();
+const router = express.Router({
+  mergeParams: true
+});
+
+router.use(topicPresenter.setForumIds);
 
 router
   .route('/')

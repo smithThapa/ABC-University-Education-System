@@ -4,10 +4,7 @@ const Forum = require('./../models/ForumModel');
 const factory = require('./HandlerFactory');
 
 exports.getAllForums = factory.getAll(Forum);
-exports.getForum = factory.getOne(Forum, {
-  path: 'topics',
-  select: 'title _id'
-});
+exports.getForum = factory.getOne(Forum, { path: 'topics' });
 exports.createForum = factory.createOne(Forum);
 exports.updateForum = factory.updateOne(Forum);
 exports.deleteForum = factory.deleteOne(Forum);
