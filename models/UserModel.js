@@ -67,8 +67,8 @@ const userSchema = new mongoose.Schema({
   },
   testUser: {
     type: Boolean,
-    required: true,
-    default: false
+    default: false,
+    select: false
   }
 });
 
@@ -104,6 +104,7 @@ userSchema.methods.correctPassword = async function(
   return await bcrypt.compare(candidatePassword, userPassword);
 };
 
+//function if the user change password
 userSchema.methods.changedPasswordAfter = function(JWTTimestamp) {
   if (this.passwordChangedAt) {
     const changedTimestamp = parseInt(

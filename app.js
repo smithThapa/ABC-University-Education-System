@@ -2,6 +2,8 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 
+const globalErrorHandler = require('./utils/GlobalErrorHandler');
+
 const userRouter = require('./routes/userRouter');
 const forumRouter = require('./routes/forumRouter');
 const topicRouter = require('./routes/topicRouter');
@@ -36,5 +38,7 @@ app.use('/api/v1/users', userRouter);
 app.use('/api/v1/forums', forumRouter);
 app.use('/api/v1/topics', topicRouter);
 app.use('/api/v1/comments', commentRouter);
+
+app.use(globalErrorHandler);
 
 module.exports = app;
