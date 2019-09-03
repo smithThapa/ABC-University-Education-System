@@ -48,7 +48,7 @@ exports.createOne = Model =>
     });
   });
 
-exports.getOne = (Model, popOptions) =>
+exports.getOne = (Model, popOptions, selectAttributes) =>
   catchAsync(async (req, res, next) => {
     let query = Model.findById(req.params.id);
 
@@ -56,8 +56,11 @@ exports.getOne = (Model, popOptions) =>
       query = query.populate(popOptions);
     }
 
+    if (selectAttributes) {
+      query = query.select(selectAttributes);
+    }
+
     const doc = await query;
-    //Tour.findOne({_id : req.params.id});
 
     if (!doc) {
       return next(new AppError('No document found with that ID', 404));
@@ -71,7 +74,7 @@ exports.getOne = (Model, popOptions) =>
     });
   });
 
-exports.getAll = Model =>
+exports.getAll = (Model, selectAttributes) =>
   catchAsync(async (req, res, next) => {
     // to allow for nested get review on tours
     let filter = {};
@@ -87,7 +90,7 @@ exports.getAll = Model =>
       .sort()
       .limitFields()
       .pagination();
-    const doc = await features.query;
+    const doc = await features.query.select(selectAttributes);
     //const doc = await features.query.explain();
 
     //Send responce

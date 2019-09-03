@@ -1,5 +1,5 @@
 const express = require('express');
-// const userPresenter = require('./../presenters/UserPresenter');
+const userPresenter = require('./../presenters/UserPresenter');
 const authenticationPresenter = require('./../presenters/AuthenticationPresenter');
 
 const router = express.Router();
@@ -16,6 +16,22 @@ router.patch('/resetPassword/:token', authenticationPresenter.resetPassword);
 //Add protection to all following routers
 router.use(authenticationPresenter.protect);
 
+//manage personal account
 router.patch('/updateMyPassword', authenticationPresenter.updatePassword);
+router.get('/me', userPresenter.getMe, userPresenter.getUser);
+router.patch('/updateMe', userPresenter.updateMe);
+router.delete('/deleteMe', userPresenter.deleteMe);
+
+//all by admin
+router.use(authenticationPresenter.restrictTo('admin'));
+
+router.route('/').get(userPresenter.getAllUsers);
+//.post(userPresenter.createNewUsers);
+
+router
+  .route('/:id')
+  .get(userPresenter.getUser)
+  .patch(userPresenter.updateUser)
+  .delete(userPresenter.deleteUser);
 
 module.exports = router;
