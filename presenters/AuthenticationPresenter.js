@@ -272,3 +272,10 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   //4 log user in, send jwt
   createSendToken(user, 200, res);
 });
+
+//middleware to add forum if it is provided
+exports.setUserId = (req, res, next) => {
+  //Allows nested routes
+  if (!req.body.user) req.body.user = req.user.id;
+  next();
+};

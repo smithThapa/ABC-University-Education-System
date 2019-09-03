@@ -24,12 +24,12 @@ const forumSchema = mongoose.Schema(
         'NOT A STUDENT'
       ]
     },
-    slug: String
-    //   createdBy: {
-    //     type: mongoose.Schema.ObjectId,
-    //     ref: 'User',
-    //     required: [true, 'Forum must belong to a user']
-    //   }
+    slug: String,
+    user: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'User',
+      required: [true, 'Forum must belong to a user']
+    }
   },
   {
     toJSON: { virtuals: true },
@@ -37,13 +37,14 @@ const forumSchema = mongoose.Schema(
   }
 );
 
-// forumSchema.pre(/^find/, function(next) {
-//   this.populate({
-//     path: author,
-//     select: 'firstName lastName'
-//   });
-//   next();
-// });
+forumSchema.pre(/^find/, function(next) {
+  this.populate({
+    path: 'user',
+    select: 'firstName lastName role'
+  });
+  next();
+});
+
 forumSchema.virtual('topics', {
   ref: 'Topic',
   foreignField: 'forum',
