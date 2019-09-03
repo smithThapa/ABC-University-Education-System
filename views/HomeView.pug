@@ -1,7 +1,9 @@
 extends components/_templateBase
            
 block content
-    h2 Welcome Jose to ABC University
+    - const role = user.role.charAt(0).toUpperCase() + user.role.slice(1)
+    
+    h2 Welcome #{user.firstName} #{user.lastName} to ABC University - #{role}
     .container
         p  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse neque magna, congue eget rutrum non, blandit ut elit. Fusce scelerisque malesuada metus ut facilisis. Etiam efficitur, purus sit amet venenatis ullamcorper, risus libero tempor magna, id euismod urna felis ut orci. Suspendisse finibus ante rutrum facilisis condimentum. Praesent eu eros felis. Mauris gravida dui viverra, pharetra arcu et, congue enim. Sed ipsum felis, ornare sed luctus vel, gravida non orci. Donec rhoncus pulvinar diam, vitae faucibus eros pharetra eu. Curabitur pulvinar dictum sodales. In ac aliquet lectus, at dignissim ipsum.
 

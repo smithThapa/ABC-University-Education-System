@@ -26,7 +26,7 @@ const createSendToken = (user, statusCode, res) => {
   };
 
   // if (process.env.NODE_ENV.trim() === 'production') cookieOptions.secure = true;
-  // if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
+  if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
   res.cookie('jwt', token, cookieOptions); //add token into the cookies
 
   //remove password from data that the user sees
@@ -151,18 +151,18 @@ exports.isLoggedIn = async (req, res, next) => {
       //console.log(decoded);
 
       // 2 : Check if the user still exist
-      const currentUSer = await User.findById(decoded.id);
-      if (!currentUSer) {
+      const currentUser = await User.findById(decoded.id);
+      if (!currentUser) {
         return next();
       }
 
       // 3 : Check if user change password after the JWT was issued
-      if (currentUSer.changedPasswordAfter(decoded.iat)) {
+      if (currentUser.changedPasswordAfter(decoded.iat)) {
         return next();
       }
 
       //There is a logged in Uses
-      res.locals.user = currentUSer;
+      res.locals.user = currentUser;
       return next();
     }
   } catch (err) {
