@@ -22,7 +22,8 @@ exports.updateMe = catchAsync(async (req, res, next) => {
   if (req.body.password || req.body.passwordConfirm) {
     return next(
       new AppError(
-        'This route is not for password updates. Please use /updateMyPassword'
+        'This route is not for password updates. Please use /updateMyPassword',
+        400
       )
     );
   }
@@ -61,5 +62,39 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
 // These functional are only accessible to administrators
 exports.getUser = factory.getOne(User, null, '+active');
 exports.getAllUsers = factory.getAll(User, '+active');
-exports.updateUser = factory.updateOne(User); //Do not update passsword
+exports.updateUser = catchAsync(async (req, res, next) => {
+  if (req.body.password || req.body.passwordConfirm) {
+    return next(
+      new AppError('Administrator cannot update other user password.', 400)
+    );
+  }
+  //filter object of available options to update by admin
+  const filteredBody = filterObj(
+    req.body,
+    'firstName',
+    'lastName',
+    'email',
+    'role',
+    'major',
+    'phoneNumber',
+    'active',
+    'testUser'
+  );
+
+  const user = await User.findByIdAndUpdate(req.params.id, filteredBody, {
+    new: true,
+    runValidators: true
+  }).select('+active');
+
+  if (!user) {
+    return next(new AppError('No user found with that ID', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      user
+    }
+  });
+});
 exports.deleteUser = factory.deleteOne(User);
