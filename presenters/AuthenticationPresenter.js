@@ -1,6 +1,7 @@
 const crypto = require('crypto');
 const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
+const validator = require('validator');
 const User = require('./../models/UserModel');
 const catchAsync = require('./../utils/CatchAsync');
 const AppError = require('./../utils/AppError');
