@@ -1,14 +1,15 @@
 extends components/_templateBase
            
 block content
+    h2 Resources
     .container
         .row
             .col-md-6.m-auto
-                h1.my-4 Lets upload some things
+                
                 form(action="/upload" method="post" enctype="multipart/form-data")
                     .custom-file.mb-3
                         input.custom-file-input#file(type="file" name="file")
-                        label(for="file" class="custom-file-label") Choose Stuff
+                        label(for="file" class="custom-file-label") csadfsadf
                     input.btn.btn-primary.btn-block( type= "submit" value="Submit")   
                 hr
                 if files
