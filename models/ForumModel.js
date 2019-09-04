@@ -12,7 +12,8 @@ const forumSchema = mongoose.Schema(
     createdAt: {
       type: Date,
       required: true,
-      default: Date.now()
+      default: Date.now(),
+      immutable: true
     },
     type: {
       type: String,
@@ -28,7 +29,8 @@ const forumSchema = mongoose.Schema(
     user: {
       type: mongoose.Schema.ObjectId,
       ref: 'User',
-      required: [true, 'Forum must belong to a user']
+      required: [true, 'Forum must belong to a user'],
+      immutable: true
     }
   },
   {

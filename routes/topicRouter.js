@@ -1,21 +1,37 @@
 const express = require('express');
 const topicPresenter = require('./../presenters/TopicPresenter');
+const authenticationPresenter = require('./../presenters/AuthenticationPresenter');
 
 const router = express.Router({
   mergeParams: true
 });
 
-router.use(topicPresenter.setForumIds);
+router.use(
+  authenticationPresenter.protect,
+  authenticationPresenter.restrictTo('student', 'staff', 'admin')
+);
+// router.use(topicPresenter.setForumIds, authenticationPresenter.setUserId);
 
 router
   .route('/')
   .get(topicPresenter.getAllTopics)
-  .post(topicPresenter.createTopic);
+  .post(
+    topicPresenter.setForumIds,
+    authenticationPresenter.setUserId,
+    authenticationPresenter.restrictTo('staff', 'admin'),
+    topicPresenter.createTopic
+  );
 
 router
   .route('/:id')
   .get(topicPresenter.getTopic)
-  .patch(topicPresenter.updateTopic)
-  .delete(topicPresenter.deleteTopic);
+  .patch(
+    authenticationPresenter.restrictTo('admin'),
+    topicPresenter.updateTopic
+  )
+  .delete(
+    authenticationPresenter.restrictTo('admin'),
+    topicPresenter.deleteTopic
+  );
 
 module.exports = router;

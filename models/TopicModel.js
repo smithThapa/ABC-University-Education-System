@@ -18,18 +18,21 @@ const topicSchema = mongoose.Schema(
     createdAt: {
       type: Date,
       required: true,
-      default: Date.now()
+      default: Date.now(),
+      immutable: true
     },
     slug: String,
-    //   createdBy: {
-    //     type: mongoose.Schema.ObjectId,
-    //     ref: 'User',
-    //     required: [true, 'Topic must belong to a user']
-    //   },
+    user: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'User',
+      required: [true, 'topic must belong to a user'],
+      immutable: true
+    },
     forum: {
       type: mongoose.Schema.ObjectId,
       ref: 'Forum',
-      required: [true, 'Topic must belong to a given forum']
+      required: [true, 'Topic must belong to a given forum'],
+      immutable: true
     }
   },
   {
@@ -38,16 +41,16 @@ const topicSchema = mongoose.Schema(
   }
 );
 
-// topicSchema.pre(/^find/, function(next) {
-//   this.populate({
-//     path: createdBy,
-//     select: 'firstName lastName'
-//   }).populate({
-//     path: forum,
-//     select: 'title'
-//   });
-//   next();
-// });
+topicSchema.pre(/^find/, function(next) {
+  this.populate({
+    path: 'user',
+    select: 'firstName lastName role'
+  }).populate({
+    path: 'forum',
+    select: 'title'
+  });
+  next();
+});
 
 topicSchema.virtual('comments', {
   ref: 'Comment',
@@ -58,6 +61,12 @@ topicSchema.virtual('comments', {
 topicSchema.pre('save', function(next) {
   this.slug = slugify(this.title, { lower: true });
   next();
+});
+
+topicSchema.pre('save', function(next) {
+  if (this.isNew) return next();
+
+  if (this.isModified('user') || this.isModified('forum')) return next();
 });
 
 const Topic = mongoose.model('Topic', topicSchema);
