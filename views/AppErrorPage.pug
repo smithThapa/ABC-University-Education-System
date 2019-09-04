@@ -1,0 +1,37 @@
+extends components/_noBarsTemplateBase
+
+block noBarsContent
+    .card.card-login.mx-auto.my-5
+        .card-header.d-inline-flex.justify-content-center.text-white
+            img(src='/img/ABC_ICON_NAVBAR.svg' alt='ABC Logo' width='auto' height='60')
+            h3.mt-4 University | Error #{statusCode}
+        .card-body
+            h5.text-center.py-5= msg
+            if user
+                a.btn.btn-primary.w-100(href='/home') Return Home Page
+            else
+                a.btn.btn-primary.w-100(href='/') Return Log In Page
+    //-         form#login-form.was-validated
+    //-             .form-group
+    //-                 .form-label-group
+    //-                     input#inputEmail.form-control(type='email' placeholder='Email address' required='required' autofocus='autofocus')
+    //-                     label(for='inputEmail') Email Address
+    //-             .form-group
+    //-                 .form-label-group
+    //-                     input#inputPassword.form-control(type='password' placeholder='Password' required='required', minlength='8')
+    //-                     label(for='inputPassword') Password
+    //-             .form-group
+    //-                 .checkbox
+    //-                     label
+    //-                     input(type='checkbox' value='remember-me')
+    //-                     |                 Remember Password
+    //-             button.btn.btn-primary.btn-block Login
+    //-         .text-center
+    //-             //- a.d-block.small.mt-3(href='register.html') Register an Account
+    //-             a.d-block.small(href='/') Forgot Password?
+    //- main.main
+    //-     .error
+    //-         .error__title
+    //-             h2.heading-secondary.heading-secondary--error Uh oh! Something went wrong!   
+    //-             h2.error__emoji 😢 🤯
+    //-         .error__msg= msg

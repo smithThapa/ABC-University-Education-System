@@ -12,6 +12,7 @@ const cookieParser = require('cookie-parser');
 // const GridFsStorage = require('multer-gridfs-storage');
 
 const globalErrorHandler = require('./utils/GlobalErrorHandler');
+const AppError = require('./utils/AppError');
 
 const viewRouter = require('./routes/viewRouter');
 const userRouter = require('./routes/userRouter');
@@ -66,6 +67,10 @@ app.use('/api/v1/forums', forumRouter);
 app.use('/api/v1/topics', topicRouter);
 app.use('/api/v1/comments', commentRouter);
 // app.use('/api/v1/resources', resourceRouter);
+
+app.all('*', (req, res, next) => {
+  next(new AppError(`Cannot find ${req.originalUrl} on this server`, 404));
+});
 
 app.use(globalErrorHandler);
 

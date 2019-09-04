@@ -5,6 +5,7 @@ const User = require('./../models/UserModel');
 const catchAsync = require('./../utils/CatchAsync');
 const AppError = require('./../utils/AppError');
 const Email = require('./../utils/Email');
+// const viewPresenter = require('./ViewPresenter');
 
 //create a JWT token with the id, key and expired day
 const signToken = id => {
