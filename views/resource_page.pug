@@ -1,0 +1,30 @@
+extends components/_templateBase
+           
+block content
+    .container
+        .row
+            .col-md-6.m-auto
+                h1.my-4 Lets upload some things
+                form(action="/upload" method="post" enctype="multipart/form-data")
+                    .custom-file.mb-3
+                        input.custom-file-input#file(type="file" name="file")
+                        label(for="file" class="custom-file-label") Choose Stuff
+                    input.btn.btn-primary.btn-block( type= "submit" value="Submit")   
+                hr
+                if files
+                    each file in files
+                        .card.mb-3
+                            .card-header
+                            .card-title= file._id
+                        .card-body
+                            if file.isImage
+                                img(src=`image/${file.fileName}`, width="250", alt="", class="img-responsive")
+                            else
+                                p= file.filename
+                        .card-footer
+                            form(action=`/files/del/${file._id}` method="post")
+                                button.btn.btn-danger(type="submit") Remove   
+                else
+                    No files to show
+
+    
