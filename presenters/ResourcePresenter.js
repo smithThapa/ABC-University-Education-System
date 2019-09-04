@@ -3,15 +3,20 @@ const GridFsStorage = require('multer-gridfs-storage');
 const multer = require('multer');
 const path = require('path');
 const crypto = require('crypto');
+const AppError = require('./../utils/AppError');
 
 const DB = process.env.DATABASE.replace(
   '<PASSWORD>',
   process.env.DATABASE_PASSWORD
 );
 
-const connection = mongoose.createConnection(DB, {
-  useNewUrlParser: true
+// get connection of db
+const connection = mongoose.connection.on('error', err => {
+  return new AppError(err.message, 404);
 });
+// mongoose.createConnection(DB, {
+//   useNewUrlParser: true
+// });
 
 // init gridfsBucket
 let gridfsBucket;
@@ -80,7 +85,7 @@ exports.uploadMulterMiddle = uploadMulter.single('file');
 
 exports.upload = (req, res) => {
   // uploadMulter.single('file');
-  console.log(req.file);
+  // console.log(req.file);
   res.redirect('/resources');
 };
 
