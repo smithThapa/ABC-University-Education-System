@@ -15,30 +15,33 @@ const commentSchema = mongoose.Schema({
   createdAt: {
     type: Date,
     required: true,
-    default: Date.now()
+    default: Date.now(),
+    immutable: true
   },
-  //   author: {
-  //     type: mongoose.Schema.ObjectId,
-  //     ref: 'User',
-  //     required: [true, 'Comment must belong to a user']
-  //   },
+  user: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'User',
+    required: [true, 'Comment must belong to a user'],
+    immutable: true
+  },
   topic: {
     type: mongoose.Schema.ObjectId,
     ref: 'Topic',
-    required: [true, 'Comment must belong to a given topic']
+    required: [true, 'Comment must belong to a given topic'],
+    immutable: true
   }
 });
 
-// commentSchema.pre(/^find/, function(next) {
-//   this.populate({
-//     path: author,
-//     select: 'firstName lastName'
-//   }).populate({
-//     path: topic,
-//     select: 'title'
-//   });
-//   next();
-// });
+commentSchema.pre(/^find/, function(next) {
+  this.populate({
+    path: 'user',
+    select: 'firstName lastName role'
+  }).populate({
+    path: 'topic',
+    select: 'title'
+  });
+  next();
+});
 
 const Comment = mongoose.model('Comment', commentSchema);
 
