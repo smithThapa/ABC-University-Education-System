@@ -17,7 +17,7 @@ router
   .get(topicPresenter.getAllTopics)
   .post(
     topicPresenter.setForumIds,
-    authenticationPresenter.setUserId,
+    topicPresenter.setUserId,
     authenticationPresenter.restrictTo('staff', 'admin'),
     topicPresenter.createTopic
   );

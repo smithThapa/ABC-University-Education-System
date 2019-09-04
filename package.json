@@ -54,6 +54,7 @@
     "eslint-plugin-node": "^9.2.0",
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.14.3",
+    "ndb": "^1.1.4",
     "nodemon": "^1.19.1",
     "parcel-bundler": "^1.12.3",
     "prettier": "^1.18.2"

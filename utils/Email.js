@@ -59,7 +59,7 @@ module.exports = class Email {
   }
 
   async sendWelcome() {
-    await this.send('welcome', 'Welcome to the Natour Family');
+    await this.send('welcome', 'Welcome to the ABC University');
   }
 
   async sendPasswordReset() {

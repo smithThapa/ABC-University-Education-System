@@ -5,7 +5,7 @@ const authenticationPresenter = require('./../presenters/AuthenticationPresenter
 const router = express.Router();
 
 // Sign up user, log in and out of users
-router.post('/signup', authenticationPresenter.signup);
+router.post('/signup', authenticationPresenter.signup); // This router will not be used
 router.post('/login', authenticationPresenter.login);
 router.get('/logout', authenticationPresenter.logout);
 
@@ -24,6 +24,8 @@ router.delete('/deleteMe', userPresenter.deleteMe);
 
 //all by admin
 router.use(authenticationPresenter.restrictTo('admin'));
+
+router.post('/createUser', authenticationPresenter.createUser);
 
 router.route('/').get(userPresenter.getAllUsers);
 //.post(userPresenter.createNewUsers);

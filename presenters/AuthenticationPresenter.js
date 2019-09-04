@@ -1,7 +1,6 @@
 const crypto = require('crypto');
 const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
-const validator = require('validator');
 const User = require('./../models/UserModel');
 const catchAsync = require('./../utils/CatchAsync');
 const AppError = require('./../utils/AppError');
@@ -52,7 +51,6 @@ exports.signup = catchAsync(async (req, res, next) => {
     phoneNumber: req.body.phoneNumber,
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm
-    // passwordChangedAt: req.body.passwordChangedAt,
   });
   //   const url = `${req.protocol}://${req.get('host')}/me`;
   //   console.log(url);
@@ -273,9 +271,53 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   createSendToken(user, 200, res);
 });
 
-//middleware to add forum if it is provided
-exports.setUserId = (req, res, next) => {
-  //Allows nested routes
-  if (!req.body.user) req.body.user = req.user.id;
-  next();
-};
+// function to create account account
+//create a new user
+exports.createUser = catchAsync(async (req, res, next) => {
+  if (req.body.password || req.body.passwordConfirm) {
+    return next(
+      new AppError('Administrator cannot create account with password', 400)
+    );
+  }
+  const newUser = new User({
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    email: req.body.email,
+    role: req.body.role,
+    major: req.body.major,
+    phoneNumber: req.body.phoneNumber
+    //It can not be added the passwords
+
+    // password: req.body.password,
+    // passwordConfirm: req.body.passwordConfirm
+  });
+
+  //2: generate the random reset passwordChangedAt
+  const resetToken = newUser.createPasswordResetToken();
+  await newUser.save({ validateBeforeSave: false });
+
+  try {
+    // 3: send it to the users's email
+    const resetURL = `${req.protocol}://${req.get(
+      'host'
+    )}/api/v1/users/resetPassword/${resetToken}`;
+
+    await new Email(newUser, resetURL).sendWelcome();
+
+    res.status(200).json({
+      status: 'success',
+      message: 'Token sent to email'
+    });
+  } catch (err) {
+    newUser.passwordResetToken = undefined;
+    newUser.passwordResetExpired = undefined;
+    await newUser.save({ validateBeforeSave: false });
+
+    return next(
+      new AppError(
+        'There was an error sending the email. Try again later!',
+        500
+      )
+    );
+  }
+});
