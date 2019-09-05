@@ -42,9 +42,10 @@ const sendErrorDev = (err, req, res) => {
   }
   //RENDERED WEBSITE
   console.log('Error!', err);
-  return res.status(err.statusCode).render('error', {
+  return res.status(err.statusCode).render('AppErrorPage', {
     title: 'Something went wrong!',
-    msg: err.message
+    msg: err.message,
+    statusCode: err.statusCode
   });
 };
 
@@ -93,7 +94,7 @@ module.exports = (err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
 
-  if (process.env.NODE_ENV.trim() === 'development') {
+  if (process.env.NODE_ENV === 'development') {
     sendErrorDev(err, req, res);
   } else if (process.env.NODE_ENV.trim() === 'production') {
     // eslint-disable-next-line node/no-unsupported-features/es-syntax

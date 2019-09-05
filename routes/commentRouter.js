@@ -15,7 +15,7 @@ router
   .route('/')
   .get(commentPresenter.getAllComments)
   .post(
-    authenticationPresenter.setUserId,
+    commentPresenter.setUserId,
     commentPresenter.setForumAndTopicIds,
     commentPresenter.createComment
   );

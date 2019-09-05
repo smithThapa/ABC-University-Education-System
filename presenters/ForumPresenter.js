@@ -3,6 +3,12 @@ const Forum = require('./../models/ForumModel');
 // const AppError = require('./../utils/appError');
 const factory = require('./HandlerFactory');
 
+exports.setUserId = (req, res, next) => {
+  //Allows nested routes
+  if (!req.body.user) req.body.user = req.user.id;
+  next();
+};
+
 exports.getAllForums = factory.getAll(Forum);
 exports.getForum = factory.getOne(Forum, { path: 'topics' });
 exports.createForum = factory.createOne(Forum);

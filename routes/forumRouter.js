@@ -21,7 +21,7 @@ router
   .route('/')
   .get(forumPresenter.getAllForums)
   .post(
-    authenticationPresenter.setUserId,
+    forumPresenter.setUserId,
     authenticationPresenter.restrictTo('staff', 'admin'),
     forumPresenter.createForum
   );

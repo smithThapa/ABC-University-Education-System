@@ -4,6 +4,13 @@ const Topic = require('./../models/TopicModel');
 const factory = require('./HandlerFactory');
 
 //middleware
+//middleware to add forum if it is provided
+exports.setUserId = (req, res, next) => {
+  //Allows nested routes
+  if (!req.body.user) req.body.user = req.user.id;
+  next();
+};
+
 exports.setForumIds = (req, res, next) => {
   if (!req.body.forum) req.body.forum = req.params.forumId;
   next();

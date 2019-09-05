@@ -9,7 +9,7 @@ mixin sidebarMenu(link, text, icon)
     // Sidebar
     ul.sidebar.navbar-nav
         li.nav-item.active#dashboard
-            a.nav-link(href='#')
+            a.nav-link(href='/home')
                 svg.icon-box_sidebar.mr-2.pb-1
                     use(xlink:href=`/img/icons.svg#icon-dashboard`)
                 span.font-weight-bold.text-uppercase Dashboards
@@ -56,7 +56,7 @@ mixin sidebarMenu(link, text, icon)
             +sidebarMenu('#','Discussion Forums', 'users')
             +sidebarMenu('#','Announcements', 'paperclip')
             +sidebarMenu('#','News', 'file-text')
-            +sidebarMenu('#','Resources', 'folder')
+            +sidebarMenu('/resources','Resources', 'folder')
 
         - else
          
