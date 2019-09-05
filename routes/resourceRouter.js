@@ -1,15 +1,35 @@
-// const express = require('express');
-// const resourcePresenter = require('../presenters/ResourcePresenter');
-// const authenticationPresenter = require('../presenters/AuthenticationPresenter');
+const express = require('express');
+const resourcePresenter = require('../presenters/ResourcePresenter');
+const authenticationPresenter = require('../presenters/AuthenticationPresenter');
 
-// const router = express.Router({
-//   mergeParams: true
-// });
+const router = express.Router();
 
-// router.use(authenticationPresenter.protect);
-// router
-//   .route('/')
-//   .get(resourcePresenter.getAllResources)
-//   .post(resourcePresenter.upload, resourcePresenter.uploadResource);
+router.get('/', authenticationPresenter.protect, resourcePresenter.resources);
+router.post(
+  '/upload',
+  authenticationPresenter.protect,
+  resourcePresenter.uploadMulterMiddle,
+  resourcePresenter.upload
+);
 
-// module.exports = router;
+router.get('/files', authenticationPresenter.protect, resourcePresenter.files);
+
+router.get(
+  '/files/:filename',
+  authenticationPresenter.protect,
+  resourcePresenter.getFile
+);
+
+router.get(
+  '/image/:filename',
+  authenticationPresenter.protect,
+  resourcePresenter.getImage
+);
+
+router.post(
+  '/files/del/:id',
+  authenticationPresenter.protect,
+  resourcePresenter.deleteFile
+);
+
+module.exports = router;

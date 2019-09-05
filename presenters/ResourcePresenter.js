@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const GridFsStorage = require('multer-gridfs-storage');
 const multer = require('multer');
-const path = require('path');
 const crypto = require('crypto');
 const AppError = require('./../utils/AppError');
 
@@ -36,9 +35,9 @@ const storage = new GridFsStorage({
         if (err) {
           return reject(err);
         }
-        const filename = buf.toString('hex') + path.extname(file.originalname);
+        //const filename = buf.toString('hex') + path.extname(file.originalname);
         const fileInfo = {
-          filename: filename,
+          filename: file.originalname,
           bucketName: 'uploads'
         };
         resolve(fileInfo);
