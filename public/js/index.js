@@ -1,6 +1,7 @@
 import '@babel/polyfill';
 import { login, logout } from './login';
 import { showAlert } from './alerts';
+import { getAllForums } from './forums';
 
 // variable
 const loginForm = document.getElementById('login-form');
@@ -26,3 +27,7 @@ if (loginForm) {
 if (logoutBtn) {
   logoutBtn.addEventListener('click', logout);
 }
+
+// if (forumDiv) {
+//   getAllForums(forumDiv);
+// }

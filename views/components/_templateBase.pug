@@ -1,3 +1,27 @@
+//create cards
+mixin cardDisplayItems(type, title, author, date, link,  button)
+    .card
+        .card-header.bg-info.text-white= type
+        .card-body
+            .card-title= title
+            .card-subtitle.mb-2
+                small.text-muted= `${author} | Created At:  ${date}`
+            //- p.card-text.text-muted= description
+            a.btn.btn-primary(href= link)= `Go to ${button}`
+            
+//Breadcrump in pages
+mixin breadcrumbDisplay(arrayBreadcrumb)
+    nav(aria-label='breadcrumb')
+        ol.breadcrumb
+            -let size=arrayBreadcrumb.length;
+            each element, index in arrayBreadcrumb
+                -if (index == size- 1)
+                    li.breadcrumb-item.active(aria-current='page')= element[0]
+                -else
+                    li.breadcrumb-item
+                        a(href= element[1])= element[0]
+                        
+
 doctype html
 html
     head

@@ -1,15 +1,10 @@
 const express = require('express');
-// const mongoose = require('mongoose');
-// const GridFsStorage = require('multer-gridfs-storage');
-// const multer = require('multer');
-// const path = require('path');
-// const crypto = require('crypto');
 const authenticationPresenter = require('./../presenters/AuthenticationPresenter');
 const viewPresenter = require('./../presenters/ViewPresenter');
-const resourcePresenter = require('./../presenters/ResourcePresenter');
 
 const router = express.Router();
 
+//Start
 router.get('/', viewPresenter.getLoginPage);
 
 router.get(
@@ -18,5 +13,15 @@ router.get(
   authenticationPresenter.isLoggedIn,
   viewPresenter.getHomePage
 );
+
+//Forum page
+router.use(
+  authenticationPresenter.protect,
+  authenticationPresenter.isLoggedIn,
+  authenticationPresenter.restrictTo('student', 'staff', 'admin')
+);
+
+router.get('/forums', viewPresenter.getForumView);
+router.get('/forum/:forumId', viewPresenter.getTopicByForumId);
 
 module.exports = router;

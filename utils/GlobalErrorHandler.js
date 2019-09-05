@@ -1,5 +1,34 @@
+const { promisify } = require('util');
+const jwt = require('jsonwebtoken');
 const AppError = require('./AppError');
+const User = require('./../models/UserModel');
 
+const userIsLogged = async function(err, req, res) {
+  let currentUser;
+  if (req.cookies.jwt) {
+    // 1: Verification signToken
+    const decoded = await promisify(jwt.verify)(
+      req.cookies.jwt,
+      process.env.JWT_SECRET
+    );
+
+    //2 : Check if the user still exist
+    currentUser = await User.findById(decoded.id);
+    if (currentUser) {
+      // 3 : Check if user change password after the JWT was issued
+      if (currentUser.changedPasswordAfter(decoded.iat)) {
+        currentUser = undefined;
+      }
+    }
+  }
+
+  return res.status(err.statusCode).render('AppErrorPage', {
+    title: 'Something went wrong!',
+    msg: err.message,
+    statusCode: err.statusCode,
+    user: currentUser
+  });
+};
 const handleCastErrorDB = err => {
   const message = `Invalid ${err.path}: ${err.value}`;
 
@@ -30,7 +59,7 @@ const handleJWTError = () =>
 const handleJWTExpiredError = () =>
   new AppError('Your token has expired, please log in again', 401);
 
-const sendErrorDev = (err, req, res) => {
+const sendErrorDev = async (err, req, res) => {
   // API
   if (req.originalUrl.startsWith('/api')) {
     return res.status(err.statusCode).json({
@@ -42,11 +71,15 @@ const sendErrorDev = (err, req, res) => {
   }
   //RENDERED WEBSITE
   console.log('Error!', err);
-  return res.status(err.statusCode).render('AppErrorPage', {
-    title: 'Something went wrong!',
-    msg: err.message,
-    statusCode: err.statusCode
-  });
+
+  userIsLogged(err, req, res);
+
+  // return res.status(err.statusCode).render('AppErrorPage', {
+  //   title: 'Something went wrong!',
+  //   msg: err.message,
+  //   statusCode: err.statusCode,
+  //   user: req.user
+  // });
 };
 
 const sendErrorProd = (err, req, res) => {
@@ -56,25 +89,28 @@ const sendErrorProd = (err, req, res) => {
     if (err.isOperational) {
       return res.status(err.statusCode).json({
         status: err.status,
-        message: err.message
+        message: err.message,
+        statusCode: err.statusCode
       });
       //Proframmon or other unkonwn error: don't leak error details
     }
     //1 log
     console.log('Error!', err);
 
+    userIsLogged(err, req, res);
     //2 send general message
-    return res.status(500).json({
-      status: 'error',
-      message: 'Something went very wrong!'
-    });
+    // return res.status(500).json({
+    //   status: 'error',
+    //   message: 'Something went very wrong!'
+    // });
   }
   //RENDERED WEBSITE
   // Operational, trusted error: send message to client
   if (err.isOperational) {
     return res.status(err.statusCode).render('error', {
       title: 'Something went wrong!',
-      msg: err.message
+      msg: err.message,
+      statusCode: err.statusCode
     });
     //Proframmon or other unkonwn error: don't leak error details
   }
@@ -82,10 +118,12 @@ const sendErrorProd = (err, req, res) => {
   console.log('Error!', err);
 
   //2 send general message
-  return res.status(err.statusCode).render('error', {
-    title: 'Something went wrong!',
-    msg: 'Please try agian later'
-  });
+  userIsLogged(err, req, res);
+  // return res.status(err.statusCode).render('error', {
+  //   title: 'Something went wrong!',
+  //   msg: 'Please try agian later',
+  //   statusCode: err.statusCode
+  // });
 };
 
 module.exports = (err, req, res, next) => {
