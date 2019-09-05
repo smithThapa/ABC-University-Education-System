@@ -5,11 +5,11 @@ block content
     .container
         .row
             .col-md-6.m-auto
-                
+                h1.my-4 Resources
                 form(action="/upload" method="post" enctype="multipart/form-data")
                     .custom-file.mb-3
                         input.custom-file-input#file(type="file" name="file")
-                        label(for="file" class="custom-file-label") csadfsadf
+                        label#file-label(for="file" class="custom-file-label") Choose Stuff
                     input.btn.btn-primary.btn-block( type= "submit" value="Submit")   
                 hr
                 if files
@@ -28,4 +28,5 @@ block content
                 else
                     No files to show
 
-    
+    script(src='/js/resource.js')
+
