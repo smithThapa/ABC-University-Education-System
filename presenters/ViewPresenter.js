@@ -1,6 +1,6 @@
 const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
-// eslint-disable-next-line no-unused-vars
+const axios = require('axios');
 const catchAsync = require('./../utils/CatchAsync');
 // eslint-disable-next-line no-unused-vars
 const AppError = require('./../utils/AppError');
@@ -53,4 +53,28 @@ exports.getHomePage = (req, res) => {
   res.status(200).render('HomeView', {
     title: 'Home'
   });
+};
+
+//get forums page
+exports.getForumView = async function(req, res, next) {
+  try {
+    //add authentitcation to axios
+    axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
+
+    //get api
+    const objs = await axios({
+      method: 'GET',
+      url: 'http://127.0.0.1:8000/api/v1/forums'
+    });
+
+    if (objs.data.status === 'success') {
+      res.status(200).render('ForumView', {
+        title: 'Forums',
+        forums: objs.data.data.data
+      });
+    }
+  } catch (err) {
+    console.log(err);
+    next(new AppError(err.message, err.statusCode));
+  }
 };

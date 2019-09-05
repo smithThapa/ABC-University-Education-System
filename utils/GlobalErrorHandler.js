@@ -70,7 +70,7 @@ const sendErrorDev = async (err, req, res) => {
     });
   }
   //RENDERED WEBSITE
-  // console.log('Error!', err);
+  console.log('Error!', err);
 
   userIsLogged(err, req, res);
 

@@ -29,6 +29,7 @@ const app = express();
 // add pug enginering to log pages
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
+app.locals.moment = require('moment');
 
 //server static files
 app.use(express.static(path.join(__dirname, 'public')));
@@ -61,12 +62,12 @@ app.use(mongoSanitize());
 // data sanitization -- aganings XSS
 app.use(xss());
 
-app.use('/', viewRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/forums', forumRouter);
 app.use('/api/v1/topics', topicRouter);
 app.use('/api/v1/comments', commentRouter);
 // app.use('/api/v1/resources', resourceRouter);
+app.use('/', viewRouter);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Cannot find ${req.originalUrl} on this server`, 404));

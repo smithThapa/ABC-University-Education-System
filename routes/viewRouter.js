@@ -10,6 +10,7 @@ const resourcePresenter = require('./../presenters/ResourcePresenter');
 
 const router = express.Router();
 
+//Start
 router.get('/', viewPresenter.getLoginPage);
 
 router.get(
@@ -19,8 +20,16 @@ router.get(
   viewPresenter.getHomePage
 );
 
-// Resources
+//Forum page
+router.use(
+  authenticationPresenter.protect,
+  authenticationPresenter.isLoggedIn,
+  authenticationPresenter.restrictTo('student', 'staff', 'admin')
+);
 
+router.get('/forums', viewPresenter.getForumView);
+
+// Resources
 router.get(
   '/resources',
   authenticationPresenter.protect,

@@ -1,0 +1,24 @@
+extends components/_templateBase
+
+
+mixin cardDisplayItems(type, title, author, date, link,  button)
+    .card
+        .card-header.bg-info.text-white= type
+        .card-body
+            .card-title= title
+            .card-subtitle.mb-2
+                small.text-muted= `${author} | Created At:  ${date}`
+            //-p.card-text.text-muted= description
+            a.btn.btn-primary(href= link)= `Go to ${button}`
+    
+           
+block content
+    h2 Forums
+    each forum in forums
+        
+        //- -const creationDate = forum.createdAt.format();
+        -const creationDate = moment(forum.createdAt).format('dddd DD MMM YYYY HH:mm');
+        
+        +cardDisplayItems(forum.type, forum.title, `${forum.user.firstName} ${forum.user.lastName}`, creationDate, '#', 'Forum')
+
+    
