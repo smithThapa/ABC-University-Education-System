@@ -9,6 +9,6 @@ block content
         //- -const creationDate = forum.createdAt.format();
         -const creationDate = moment(forum.createdAt).format('dddd DD MMM YYYY HH:mm');
         
-        +cardDisplayItems(forum.type, forum.title, `${forum.user.firstName} ${forum.user.lastName}`, creationDate, '#', 'Forum')
+        +cardDisplayItems(forum.type, forum.title, `${forum.user.firstName} ${forum.user.lastName}`, creationDate, `/forum/${forum.id}`, 'Forum')
 
     

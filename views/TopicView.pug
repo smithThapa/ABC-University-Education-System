@@ -1,0 +1,12 @@
+extends components/_templateBase
+           
+block content
+    +breadcrumbDisplay([['Home','/'],['Forums','/forums'],['Topics']])
+    
+    h2 Topics
+    each topic in topics
+        
+        //- -const creationDate = topics.createdAt.format();
+        -const creationDate = moment(topic.createdAt).format('dddd DD MMM YYYY HH:mm');
+        
+        +cardDisplayItems(topic.title, topic.description, `${topic.user.firstName} ${topic.user.lastName}`, creationDate, `/topics/${topic.id}`, 'Topic')

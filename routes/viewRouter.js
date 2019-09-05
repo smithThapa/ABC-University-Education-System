@@ -28,6 +28,7 @@ router.use(
 );
 
 router.get('/forums', viewPresenter.getForumView);
+router.get('/forum/:forumId', viewPresenter.getTopicByForumId);
 
 // Resources
 router.get(
