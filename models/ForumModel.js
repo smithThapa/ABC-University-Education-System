@@ -6,8 +6,7 @@ const forumSchema = mongoose.Schema(
   {
     title: {
       type: String,
-      required: true,
-      unique: true
+      required: true
     },
     createdAt: {
       type: Date,
@@ -17,13 +16,15 @@ const forumSchema = mongoose.Schema(
     },
     type: {
       type: String,
+      required: true,
       enum: [
         'Information Technology',
         'Business',
         'Accounting',
         'Project Management',
-        'NOT A STUDENT'
-      ]
+        'Other'
+      ],
+      default: 'Other'
     },
     slug: String,
     user: {
@@ -38,6 +39,8 @@ const forumSchema = mongoose.Schema(
     toObject: { virtuals: true }
   }
 );
+
+forumSchema.index({ type: 1, title: 1 }, { unique: true });
 
 forumSchema.pre(/^find/, function(next) {
   this.populate({
@@ -62,7 +65,7 @@ forumSchema.virtual('topics', {
 // });
 
 forumSchema.pre('save', function(next) {
-  this.slug = slugify(this.title, { lower: true });
+  this.slug = slugify(`${this.type} ${this.title}`, { lower: true });
   next();
 });
 

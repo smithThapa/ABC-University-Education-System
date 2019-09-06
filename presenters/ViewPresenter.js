@@ -85,16 +85,25 @@ exports.getTopicByForumId = async function(req, res, next) {
     //add authentitcation to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
-    //get api
-    const objs = await axios({
+    //get api of tours
+    const objTopics = await axios({
       method: 'GET',
       url: `http://127.0.0.1:8000/api/v1/forums/${req.params.forumId}/topics`
     });
 
-    if (objs.data.status === 'success') {
+    const objForum = await axios({
+      method: 'GET',
+      url: `http://127.0.0.1:8000/api/v1/forums/${req.params.forumId}`
+    });
+
+    if (
+      objTopics.data.status === 'success' &&
+      objForum.data.status === 'success'
+    ) {
       res.status(200).render('TopicView', {
         title: 'Topics',
-        topics: objs.data.data.data
+        topics: objTopics.data.data.data,
+        forum: objForum.data.data.data
       });
     }
   } catch (err) {
