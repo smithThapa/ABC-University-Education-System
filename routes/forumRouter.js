@@ -38,4 +38,6 @@ router
     forumPresenter.deleteForum
   );
 
+router.route('/slug/:slug').get(forumPresenter.getForumSlug);
+
 module.exports = router;

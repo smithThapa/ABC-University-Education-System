@@ -6,28 +6,24 @@ import { getAllForums } from './forums';
 // variable
 const loginForm = document.getElementById('login-form');
 const logoutBtn = document.getElementById('logoutBtn');
+const fileInput = document.getElementById('fileInput');
 
-
-document.getElementById('fileInput').onchange = function() {
-  alert(`Selected file: ${this.value}`);
-};
-
-
+if (fileInput) {
+  document.getElementById('fileInput').onchange = function() {
+    alert(`Selected file: ${this.value}`);
+  };
+}
 
 if (loginForm) {
   loginForm.addEventListener('submit', e => {
     e.preventDefault();
+    console.log('hello');
     const email = document.getElementById('inputEmail').value;
     const password = document.getElementById('inputPassword').value;
     login(email, password);
- 
   });
 }
 
 if (logoutBtn) {
   logoutBtn.addEventListener('click', logout);
 }
-
-// if (forumDiv) {
-//   getAllForums(forumDiv);
-// }

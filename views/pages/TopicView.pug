@@ -1,7 +1,7 @@
-extends components/_templateBase
+extends ../components/_templateBase
            
 block content
-    +breadcrumbDisplay([['Home','/'],['Forums','/forums'],['Topics']])
+    +breadcrumbDisplay([['Home','/home'],['Forums','/forums'],['Topics']])
     
     //- -const creationDate = forum.createdAt.format();
     -const creationDate = moment(forum.createdAt).format('dddd DD MMM YYYY HH:mm');

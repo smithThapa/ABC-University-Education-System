@@ -1,0 +1,48 @@
+extends ../components/_templateBase
+           
+block content
+    +breadcrumbDisplay([['Home','/home'],['Manage Forums','/manageForums'],['Manage Topics']])
+    
+    //- -const creationDate = forum.createdAt.format();
+    -const creationDate = moment(forum.createdAt).format('dddd DD MMM YYYY HH:mm'); 
+        
+    h2 #{forum.title} - #{forum.type}
+    small.text-muted.mt-0= `Author: ${forum.user.firstName} ${forum.user.lastName}. Created on: ${creationDate}`
+    p #{forum.description}
+    
+    .d-flex
+        h2 Manage Topics
+        a.btn.btn-primary.text-white.ml-auto + Add Topic
+        
+    -if(topics.length<1)
+        h4.font-weight-bold.text-dark.mt-0.ml-4 No topics in this forum to manage.
+    - else
+        table.table
+            thead
+                tr
+                    th(scope="col") #
+                    th(scope="col") Title
+                    th(scope="col") Author
+                    th(scope="col") Creation date
+                    th(scope="col") # Comments
+                    th.text-center(scope="col") Comments Links
+                    th.text-center(scope="col") Edit
+                    th.text-center(scope="col") Delete
+
+            each topic,index in topics
+                //- -const creationDate = forum.createdAt.format();
+                -const creationDate = moment(topic.createdAt).format('DD/MMM/YYYY');
+                tbody
+                    tr
+                        th(scope='row')= index+1
+                        td= topic.title
+                        td= `${topic.user.firstName} ${topic.user.lastName}`
+                        td= creationDate
+                        td.text-center= topic.comments.length
+                        td.text-center
+                            a.btn.btn-info(href=`/forums/${forum.slug}/topics/${topic.slug}/comments`) Open
+                            //- a.btn.btn-info(href=`/manageForums/${forum.slug}/manageTopics`) Open
+                        td.text-center
+                            a.btn.btn-success.text-white Edit
+                        td.text-center
+                            a.btn.btn-danger.text-white Delete
