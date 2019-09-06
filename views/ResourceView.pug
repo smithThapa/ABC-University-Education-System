@@ -6,7 +6,7 @@ block content
         .row
             .col-md-6.m-auto
                 h1.my-4 Resources
-                form(action="/upload" method="post" enctype="multipart/form-data")
+                form(action="/resources/upload" method="post" enctype="multipart/form-data")
                     .custom-file.mb-3
                         input.custom-file-input#file(type="file" name="file")
                         label#file-label(for="file" class="custom-file-label") Choose Stuff
@@ -16,17 +16,17 @@ block content
                     each file in files
                         .card.mb-3
                             .card-header
-                            .card-title= file._id
-                        .card-body
-                            if file.isImage
-                                img(src=`image/${file.fileName}`, width="250", alt="", class="img-responsive")
-                            else
-                                p= file.filename
-                        .card-footer
-                            form(action=`/files/del/${file._id}` method="post")
-                                button.btn.btn-danger(type="submit") Remove   
+                            .card-title= file.filename
+                            .card-body
+                                if file.isImage
+                                    img(src=`/resources/image/${file.filename}`, width="250", alt="", class="img-responsive")
+                            .card-footer
+                                a.btn.btn-info( href= `/resources/files/${file.filename}`) Download
+                                hr
+                                form(action=`/resources/files/del/${file._id}` method="post")
+                                    button.btn.btn-danger(type="submit") Remove   
                 else
-                    No files to show
+                    No files to show 
 
     script(src='/js/resource.js')
 

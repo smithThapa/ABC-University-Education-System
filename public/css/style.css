@@ -54,8 +54,16 @@
   color: #006972;
 }
 
+.card-title {
+  font-size: 1.5em;
+}
+
 .footer__logo img {
   height: 2.5rem;
+}
+
+.card-footer {
+  display: flex;
 }
 
 @media (min-width: 768px) {
