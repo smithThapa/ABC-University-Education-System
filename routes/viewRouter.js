@@ -24,4 +24,8 @@ router.use(
 router.get('/forums', viewPresenter.getForumView);
 router.get('/forum/:forumId', viewPresenter.getTopicByForumId);
 
+router.use(authenticationPresenter.restrictTo('staff', 'admin'));
+
+router.get('/manageForums', viewPresenter.getManageForumsList);
+
 module.exports = router;

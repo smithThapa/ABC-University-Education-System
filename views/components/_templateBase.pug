@@ -23,6 +23,19 @@ mixin breadcrumbDisplay(arrayBreadcrumb)
                     li.breadcrumb-item
                         a(href= element[1])= element[0]
                         
+// Dinamic Table rows
+mixin tableRowsDisplay(index, type, name, author, date)
+    tr
+        th(scope='row')= index
+        td= type
+        td= name
+        td= author
+        td= date
+        td
+            a.btn.btn-success.text-white Edit
+        td
+            a.btn.btn-danger.text-white Delete
+                        
 
 doctype html
 html
