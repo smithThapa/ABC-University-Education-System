@@ -15,6 +15,9 @@ const forumRouter = require('./routes/forumRouter');
 const topicRouter = require('./routes/topicRouter');
 const commentRouter = require('./routes/commentRouter');
 const resourceRouter = require('./routes/resourceRouter');
+const articleRouter = require('./routes/articleRouter');
+const errorReportRouter = require('./routes/errorReportRouter');
+const maintainanceRequestRouter = require('./routes/maintenanceRequestRouter');
 
 const app = express();
 
@@ -54,14 +57,17 @@ app.use(mongoSanitize());
 // data sanitization -- aganings XSS
 app.use(xss());
 
+
+app.use('/api/v1/articles', articleRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/forums', forumRouter);
 app.use('/api/v1/topics', topicRouter);
 app.use('/api/v1/comments', commentRouter);
+app.use('/errorReports', errorReportRouter);
 app.use('/resources', resourceRouter);
-// app.use('/api/v1/resources', resourceRouter);
-app.use('/', viewRouter);
+app.use('/maintenanceRequests', maintainanceRequestRouter);
 
+app.use('/', viewRouter);
 app.all('*', (req, res, next) => {
   next(new AppError(`Cannot find ${req.originalUrl} on this server`, 404));
 });

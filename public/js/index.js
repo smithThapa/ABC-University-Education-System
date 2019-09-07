@@ -20,6 +20,7 @@ if (loginForm) {
     console.log('hello');
     const email = document.getElementById('inputEmail').value;
     const password = document.getElementById('inputPassword').value;
+
     login(email, password);
   });
 }
