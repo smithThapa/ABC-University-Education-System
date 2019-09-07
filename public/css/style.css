@@ -50,12 +50,16 @@
 .container-fluid > .container > h2 {
   color: #006972;
 }
-.container-fluid > .container > .d-flex > h2 {
+.container-fluid > .container > h3 {
   color: #006972;
 }
 .container-fluid > .container > h4 {
   color: #006972;
 }
+.container-fluid > .container > .d-flex > h2 {
+  color: #006972;
+}
+
 
 .card-title {
   font-size: 1.5em;

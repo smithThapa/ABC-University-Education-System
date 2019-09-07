@@ -2,9 +2,12 @@ const express = require('express');
 const authenticationPresenter = require('./../presenters/AuthenticationPresenter');
 // const viewPresenter = require('./../presenters/ViewPresenter');
 
+const resourceRouter = require('./resourceRouter');
+
 const homeView = require('./../views/HomeView');
 const forumView = require('./../views/ForumView');
 const topicView = require('./../views/TopicView');
+const commentView = require('./../views/CommentView');
 const userView = require('./../views/UserView');
 
 const router = express.Router();
@@ -25,10 +28,16 @@ router.use(
   authenticationPresenter.isLoggedIn,
   authenticationPresenter.restrictTo('student', 'staff', 'admin')
 );
+//Resource view
+router.use('/resources', resourceRouter);
 
+//Fourm, Topics and comments views
 router.get('/forums', forumView.getForumView);
-// router.get('/forum/:forumId', viewPresenter.getTopicByForumId);
-router.get('/forums/:forumSlug/topics', topicView.getTopicByForumSlug);
+router.get('/forums/:forumSlug/topics', topicView.getTopicsByForumSlug);
+router.get(
+  '/forums/:forumSlug/topics/:topicSlug/comments',
+  commentView.getCommentsByTopicSlug
+);
 
 router.use(authenticationPresenter.restrictTo('admin'));
 

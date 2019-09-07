@@ -38,4 +38,6 @@ router
     topicPresenter.deleteTopic
   );
 
+router.route('/slug/:slug').get(topicPresenter.getTopicSlug);
+
 module.exports = router;

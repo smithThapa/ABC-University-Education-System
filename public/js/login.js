@@ -3,7 +3,6 @@ import { showAlert } from './alerts';
 
 export const login = async (email, password) => {
   try {
-
     const res = await axios({
       method: 'POST',
       url: 'http://127.0.0.1:8000/api/v1/users/login',
@@ -13,7 +12,7 @@ export const login = async (email, password) => {
       }
     });
 
-    console.log(res.data);
+    // console.log(res.data);
 
     if (res.data.status == 'success') {
       if (res.data.status === 'success') {
@@ -32,7 +31,7 @@ export const login = async (email, password) => {
       // }, 1500);
     }
   } catch (err) {
-    console.log(err.response.data);
+    // console.log(err.response.data);
     showAlert('danger', 'Logged in failed!', err.response.data.message);
   }
 };
