@@ -31,12 +31,17 @@ router.use(
 //Resource view
 router.use('/resources', resourceRouter);
 
-//Fourm, Topics and comments views
+//Forum, Topics and comments views
 router.get('/forums', forumView.getForumView);
 router.get('/forums/:forumSlug/topics', topicView.getTopicsByForumSlug);
 router.get(
   '/forums/:forumSlug/topics/:topicSlug/comments',
   commentView.getCommentsByTopicSlug
+);
+//Create comments
+router.get(
+  `/forums/:forumSlug/topics/:topicSlug/comments/newComment`,
+  commentView.createComment
 );
 
 router.use(authenticationPresenter.restrictTo('admin'));

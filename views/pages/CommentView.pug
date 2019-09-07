@@ -7,17 +7,17 @@ block content
     -const creationDateForum = moment(forum.createdAt).format('dddd DD MMM YYYY HH:mm');
     -const creationDateTopic = moment(topic.createdAt).format('dddd DD MMM YYYY HH:mm');
     
-    h2 #{forum.title} - #{forum.type} | Forum
+    h2 Forum : #{forum.title} - #{forum.type}
     small.text-muted.mt-0= `Author: ${forum.user.firstName} ${forum.user.lastName}. Created on: ${creationDateForum}`
     p #{forum.description}
     
-    h3 #{topic.title} | Topic
+    h3 Topic : #{topic.title}
     small.text-muted.mt-0= `Author: ${topic.user.firstName} ${topic.user.lastName}. Created on: ${creationDateTopic}`
     p #{topic.description}
     
     .d-flex
         h2 Comments
-        a.btn.btn-primary.text-white.mb-auto.ml-auto + Add Comment
+        a.btn.btn-primary.text-white.mb-auto.ml-auto(href=`/forums/${forum.slug}/topics/${topic.slug}/comments/newComment`) + Add Comment
     
     -if(comments.length<1)
         h4.font-weight-bold.text-dark.mt-0.ml-4 No Comments in this forum.
@@ -26,4 +26,4 @@ block content
         //- -const creationDate = topics.createdAt.format();
         -const creationDateComment = moment(comment.createdAt).format('dddd DD MMM YYYY HH:mm');
         
-        +cardDisplayItems(comment.title, comment.description, `${comment.user.firstName} ${comment.user.lastName}`, creationDate, `/forums/${forum.slug}/topics/${comment.slug}/comments`, 'Comment')
+        +cardDisplayItems(comment.title, comment.description, `${comment.user.firstName} ${comment.user.lastName}`, creationDate, `/forums/${forum.slug}/topics/${topic.slug}/comments`, 'Comment')
