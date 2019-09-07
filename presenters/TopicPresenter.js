@@ -16,8 +16,10 @@ exports.setForumIds = (req, res, next) => {
   next();
 };
 
-exports.getAllTopics = factory.getAll(Topic);
+exports.getAllTopics = factory.getAll(Topic, { path: 'comments' });
 exports.getTopic = factory.getOne(Topic, { path: 'comments' });
+// exports.getAllTopics = factory.getAllBySlug(Topic, { path: 'comments' });
+// exports.getTopic = factory.getOneBySlug(Topic, { path: 'comments' });
 exports.createTopic = factory.createOne(Topic);
 exports.updateTopic = factory.updateOne(Topic);
 exports.deleteTopic = factory.deleteOne(Topic);

@@ -1,0 +1,25 @@
+extends components/_templateBase
+           
+block content
+    +breadcrumbDisplay([['Home','/'],['Manage Forums']])
+    
+    h2 Manage Forums
+    
+    table.table
+        thead
+            tr.text-center
+                th(scope="col") #
+                th(scope="col") Type
+                th(scope="col") Title
+                th(scope="col") Author
+                th(scope="col") Creation date
+                th(scope="col") Edit
+                th(scope="col") Delete
+
+        each forum,index in forums
+            //- -const creationDate = forum.createdAt.format();
+            -const creationDate = moment(forum.createdAt).format('dddd DD MMM YYYY HH:mm');
+            tbody
+                +tableRowsDisplay(index, forum.type, forum.title, `${forum.user.firstName} ${forum.user.lastName}`, creationDate)
+                
+                //- +cardDisplayItems(forum.type, `${forum.title} | Number of topics: ${forum.topics.length}`, `${forum.user.firstName} ${forum.user.lastName}`, creationDate, `/forum/${forum.id}`, 'Forum')

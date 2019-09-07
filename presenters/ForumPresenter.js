@@ -9,8 +9,10 @@ exports.setUserId = (req, res, next) => {
   next();
 };
 
-exports.getAllForums = factory.getAll(Forum);
+exports.getAllForums = factory.getAll(Forum, { path: 'topics' });
 exports.getForum = factory.getOne(Forum, { path: 'topics' });
+// exports.getAllForums = factory.getAllBySlug(Forum, { path: 'topics' });
+// exports.getForum = factory.getOneBySlug(Forum, { path: 'topics' });
 exports.createForum = factory.createOne(Forum);
 exports.updateForum = factory.updateOne(Forum);
 exports.deleteForum = factory.deleteOne(Forum);

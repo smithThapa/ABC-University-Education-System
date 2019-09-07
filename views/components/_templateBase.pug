@@ -1,12 +1,14 @@
 //create cards
-mixin cardDisplayItems(type, title, author, date, link,  button)
+mixin cardDisplayItems(type, title, author, date, link,  button, description)
     .card
         .card-header.bg-info.text-white= type
         .card-body
-            .card-title= title
+            .card-title= title 
             .card-subtitle.mb-2
                 small.text-muted= `${author} | Created At:  ${date}`
-            //- p.card-text.text-muted= description
+            -if(description)
+                p.card-text
+                    small= description
             a.btn.btn-primary(href= link)= `Go to ${button}`
             
 //Breadcrump in pages
@@ -20,6 +22,19 @@ mixin breadcrumbDisplay(arrayBreadcrumb)
                 -else
                     li.breadcrumb-item
                         a(href= element[1])= element[0]
+                        
+// Dinamic Table rows
+mixin tableRowsDisplay(index, type, name, author, date)
+    tr
+        th(scope='row')= index
+        td= type
+        td= name
+        td= author
+        td= date
+        td
+            a.btn.btn-success.text-white Edit
+        td
+            a.btn.btn-danger.text-white Delete
                         
 
 doctype html

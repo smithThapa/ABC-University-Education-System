@@ -73,14 +73,44 @@ exports.getOne = (Model, popOptions, selectAttributes) =>
       }
     });
   });
+// exports.getOneBySlug = (Model, popOptions, selectAttributes) =>
+//   catchAsync(async (req, res, next) => {
+//     let query = Model.find({ slug: req.params.id });
 
-exports.getAll = (Model, selectAttributes) =>
+//     if (popOptions) {
+//       query = query.populate(popOptions);
+//     }
+
+//     if (selectAttributes) {
+//       query = query.select(selectAttributes);
+//     }
+
+//     const doc = await query;
+
+//     if (!doc) {
+//       return next(new AppError('No document found with that ID', 404));
+//     }
+
+//     res.status(200).json({
+//       status: 'success',
+//       data: {
+//         data: doc
+//       }
+//     });
+//   });
+
+exports.getAll = (Model, popOptions) =>
   catchAsync(async (req, res, next) => {
     // to allow for nested get review on tours
     let filter = {};
-    if (req.params.tourId) {
+    if (req.params.forumId) {
       filter = {
-        tour: req.params.tourId
+        forum: req.params.forumId
+      };
+    }
+    if (req.params.topicId) {
+      filter = {
+        topic: req.params.topicId
       };
     }
 
@@ -90,7 +120,12 @@ exports.getAll = (Model, selectAttributes) =>
       .sort()
       .limitFields()
       .pagination();
-    const doc = await features.query.select(selectAttributes);
+
+    if (popOptions) {
+      features.query = features.query.populate(popOptions);
+    }
+    const doc = await features.query;
+
     //const doc = await features.query.explain();
 
     //Send responce
@@ -102,3 +137,42 @@ exports.getAll = (Model, selectAttributes) =>
       }
     });
   });
+
+// exports.getAllBySlug = (Model, popOptions) =>
+//   catchAsync(async (req, res, next) => {
+//     // const tour = await Tour.findOne({ slug: req.params.slug });
+//     // to allow for nested get review on tours
+//     let filter = {};
+//     if (req.params.forumId) {
+//       filter = {
+//         slug: req.params.fourmId
+//       };
+//     }
+//     if (req.params.topicId) {
+//       filter = {
+//         slug: req.params.topicId
+//       };
+//     }
+
+//     //Execute query
+//     const features = new APIFeatures(Model.find(filter), req.query)
+//       .filter()
+//       .sort()
+//       .limitFields()
+//       .pagination();
+
+//     if (popOptions) {
+//       features.query = features.query.populate(popOptions);
+//     }
+//     const doc = await features.query;
+//     //const doc = await features.query.explain();
+
+//     //Send responce
+//     res.status(200).json({
+//       status: 'success',
+//       results: doc.length,
+//       data: {
+//         data: doc
+//       }
+//     });
+//   });
