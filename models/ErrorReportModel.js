@@ -22,7 +22,7 @@ const errorReportSchema = mongoose.Schema({
 });
 errorReportSchema.pre(/^find/, function(next) {
   this.populate({
-    path: author,
+    path: 'author',
     select: 'firstName lastName'
   });
   next();

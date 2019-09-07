@@ -63,10 +63,10 @@ app.use('/api/v1/users', userRouter);
 app.use('/api/v1/forums', forumRouter);
 app.use('/api/v1/topics', topicRouter);
 app.use('/api/v1/comments', commentRouter);
-//app.use('/errorReports', errorReportRouter);
+app.use('/errorReports', errorReportRouter);
 app.use('/resources', resourceRouter);
 app.use('/maintenanceRequests', maintainanceRequestRouter);
-// app.use('/api/v1/resources', resourceRouter);
+app.use('/api/v1/resources', resourceRouter);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Cannot find ${req.originalUrl} on this server`, 404));
