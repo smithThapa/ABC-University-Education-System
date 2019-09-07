@@ -7,6 +7,7 @@ import { getAllForums } from './forums';
 const loginForm = document.getElementById('login-form');
 const logoutBtn = document.getElementById('logoutBtn');
 
+console.log("I am here");
 
 document.getElementById('fileInput').onchange = function() {
   alert(`Selected file: ${this.value}`);
@@ -19,6 +20,7 @@ if (loginForm) {
     e.preventDefault();
     const email = document.getElementById('inputEmail').value;
     const password = document.getElementById('inputPassword').value;
+    
     login(email, password);
  
   });

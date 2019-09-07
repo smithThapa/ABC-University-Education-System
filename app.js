@@ -57,7 +57,7 @@ app.use(mongoSanitize());
 // data sanitization -- aganings XSS
 app.use(xss());
 
-app.use('/', viewRouter);
+
 app.use('/api/v1/articles', articleRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/forums', forumRouter);
@@ -66,8 +66,8 @@ app.use('/api/v1/comments', commentRouter);
 app.use('/errorReports', errorReportRouter);
 app.use('/resources', resourceRouter);
 app.use('/maintenanceRequests', maintainanceRequestRouter);
-app.use('/api/v1/resources', resourceRouter);
 
+app.use('/', viewRouter);
 app.all('*', (req, res, next) => {
   next(new AppError(`Cannot find ${req.originalUrl} on this server`, 404));
 });
