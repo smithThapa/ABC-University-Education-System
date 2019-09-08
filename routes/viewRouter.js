@@ -64,4 +64,9 @@ router.get(
   topicView.getManageTopicsListByForumSlug
 );
 
+router.get(
+  '/manage_forums/:forumSlug/manage_topics/new_topic',
+  topicView.createTopicByForumSlug
+);
+
 module.exports = router;

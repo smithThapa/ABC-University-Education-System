@@ -11,7 +11,18 @@ block content
         
         -previousPath = '/manage_forums'
         
-
+    -if(title == 'Topic' && user.role == 'admin')
+    
+        -forumId = forum.id
+        -previousPath = `/manage_forums/${forum.slug}/manage_topics`  
+        +breadcrumbDisplay([['Home','/home'],['Manage Forums','/manage_forums'], ['Manage Topics', `${previousPath}`],['New Topic']])
+        
+        -const creationDateForum = moment(forum.createdAt).format('dddd DD MMM YYYY HH:mm');
+        
+        h2 Forum: #{forum.title} - #{forum.type}
+        small.text-muted.mt-0= `Author: ${forum.user.firstName} ${forum.user.lastName}. Created on: ${creationDateForum}`
+        p #{forum.description}
+        
     -if (title == 'Comment')
         
         -previousPath = `/forums/${forum.slug}/topics/${topic.slug}/comments`
@@ -21,11 +32,11 @@ block content
         -const creationDateForum = moment(forum.createdAt).format('dddd DD MMM YYYY HH:mm');
         -const creationDateTopic = moment(topic.createdAt).format('dddd DD MMM YYYY HH:mm');
 
-        h2 #{forum.title} - #{forum.type} | Forum
+        h2 Forum: #{forum.title} - #{forum.type}
         small.text-muted.mt-0= `Author: ${forum.user.firstName} ${forum.user.lastName}. Created on: ${creationDateForum}`
         p #{forum.description}
 
-        h3 #{topic.title} | Topic
+        h3 Topic: #{topic.title}
         small.text-muted.mt-0= `Author: ${topic.user.firstName} ${topic.user.lastName}. Created on: ${creationDateTopic}`
         p #{topic.description}
         
@@ -36,9 +47,9 @@ block content
 
     form#createElementForm
         input#hiddenInputCreateType.d-none(value=`${title}`)
-        input#hiddenInoutCreateForum.d-none(value=`${forumId}`)
-        input#hiddenInoutCreateTopic.d-none(value=`${topicId}`)
-        input#hiddenInoutCreatePath.d-none(value= `${previousPath}`)
+        input#hiddenInputCreateForum.d-none(value=`${forumId}`)
+        input#hiddenInputCreateTopic.d-none(value=`${topicId}`)
+        input#hiddenInputCreatePath.d-none(value= `${previousPath}`)
         .form-group.row
             label.col-sm-2.col-form-label(for='inputCreation1') Title
             .col-sm-10

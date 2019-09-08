@@ -64,3 +64,26 @@ exports.getManageTopicsListByForumSlug = async function(req, res, next) {
     next(new AppError(err.message, err.statusCode));
   }
 };
+
+exports.createTopicByForumSlug = async function(req, res, next) {
+  try {
+    //add authentitcation to axios
+    axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
+
+    const objForum = await axios({
+      method: 'GET',
+      url: `http://127.0.0.1:8000/api/v1/forums/slug/${req.params.forumSlug}`
+    });
+
+    if (objForum.data.status === 'success') {
+      res.status(200).render('AddElementView', {
+        title: 'Topic',
+        forum: objForum.data.data.data,
+        user: req.user
+      });
+    }
+  } catch (err) {
+    console.log(err);
+    next(new AppError(err.message, err.statusCode));
+  }
+};

@@ -1,7 +1,7 @@
 import '@babel/polyfill';
 import { login, logout } from './login';
 import { showAlert } from './alerts';
-import { createForum, createComment } from './createElement';
+import { createForum, createTopic, createComment } from './createElement';
 
 // variable
 const loginForm = document.getElementById('login-form');
@@ -36,15 +36,23 @@ if (createElementForm) {
     if (elementType == 'Forum') {
       const title = document.getElementById('inputCreation1').value;
       const type = document.getElementById('inputCreation3').value;
-      const previousPath = document.getElementById('hiddenInoutCreatePath')
+      const previousPath = document.getElementById('hiddenInputCreatePath')
         .value;
       createForum(title, type, previousPath);
     }
-    if (elementType == 'Comment') {
-      const topicId = document.getElementById('hiddenInoutCreateTopic').value;
+    if (elementType == 'Topic') {
+      const forumId = document.getElementById('hiddenInputCreateForum').value;
       const title = document.getElementById('inputCreation1').value;
       const description = document.getElementById('inputCreation2').value;
-      const previousPath = document.getElementById('hiddenInoutCreatePath')
+      const previousPath = document.getElementById('hiddenInputCreatePath')
+        .value;
+      createTopic(title, description, forumId, previousPath);
+    }
+    if (elementType == 'Comment') {
+      const topicId = document.getElementById('hiddenInputCreateTopic').value;
+      const title = document.getElementById('inputCreation1').value;
+      const description = document.getElementById('inputCreation2').value;
+      const previousPath = document.getElementById('hiddenInputCreatePath')
         .value;
       createComment(title, description, topicId, previousPath);
     }

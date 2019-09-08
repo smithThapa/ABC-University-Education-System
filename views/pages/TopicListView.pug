@@ -12,7 +12,7 @@ block content
     
     .d-flex
         h2 Manage Topics
-        a.btn.btn-primary.text-white.mb-auto.ml-auto + Add Topic
+        a.btn.btn-primary.text-white.mb-auto.ml-auto(href =`/manage_forums/${forum.slug}/manage_topics/new_topic`) + Add Topic
         
     -if(topics.length<1)
         h4.font-weight-bold.text-dark.mt-0.ml-4 No topics in this forum to manage.

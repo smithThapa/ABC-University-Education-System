@@ -62,7 +62,8 @@ exports.createComment = async function(req, res, next) {
       res.status(200).render('AddElementView', {
         title: 'Comment',
         topic: objTopic.data.data.data,
-        forum: objForum.data.data.data
+        forum: objForum.data.data.data,
+        user: req.user
       });
     }
   } catch (err) {
