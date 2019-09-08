@@ -1,6 +1,35 @@
 import axios from 'axios';
 import { showAlert } from './alerts';
 
+export const createForum = async (title, type, previousPath) => {
+  try {
+    const res = await axios({
+      method: 'POST',
+      url: 'http://127.0.0.1:8000/api/v1/forums',
+      data: {
+        title,
+        type
+      }
+    });
+
+    if (res.data.status == 'success') {
+      if (res.data.status === 'success') {
+        window.setTimeout(() => {
+          location.assign(previousPath);
+        }, 0);
+        showAlert(
+          'success',
+          'Created Forum Sucessfully!',
+          'This forum new is visible to all users'
+        );
+      }
+    }
+  } catch (err) {
+    // console.log(err.response.data);
+    showAlert('danger', 'Forum was not created', err.response.data.message);
+  }
+};
+
 export const createComment = async (
   title,
   description,
@@ -29,10 +58,6 @@ export const createComment = async (
           'Thank you for comment into this topic'
         );
       }
-
-      // window.setTimeout(() => {
-      //   location.assign('/home');
-      // }, 1500);
     }
   } catch (err) {
     // console.log(err.response.data);

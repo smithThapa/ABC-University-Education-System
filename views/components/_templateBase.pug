@@ -9,7 +9,8 @@ mixin cardDisplayItems(type, title, author, date, link,  button, description)
             -if(description)
                 p.card-text
                     small= description
-            a.btn.btn-primary(href= link)= `Go to ${button}`
+            -if(button)
+                a.btn.btn-primary(href= link)= `Go to ${button}`
             
 //Breadcrump in pages
 mixin breadcrumbDisplay(arrayBreadcrumb)

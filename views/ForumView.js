@@ -47,3 +47,10 @@ exports.getManageForumsList = async function(req, res, next) {
     next(new AppError(err.message, err.statusCode));
   }
 };
+
+exports.createForum = async function(req, res, next) {
+  res.status(200).render('AddElementView', {
+    title: 'Forum',
+    user: req.user
+  });
+};

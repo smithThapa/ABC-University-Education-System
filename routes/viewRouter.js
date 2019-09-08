@@ -47,18 +47,20 @@ router.get(
 );
 //Create comments
 router.get(
-  `/forums/:forumSlug/topics/:topicSlug/comments/newComment`,
+  `/forums/:forumSlug/topics/:topicSlug/comments/new_comment`,
   commentView.createComment
 );
 
 router.use(authenticationPresenter.restrictTo('admin'));
 
-router.get('/manageUsers', userView.getManageUsersList);
+router.get('/manage_users', userView.getManageUsersList);
 
-router.get('/manageForums', forumView.getManageForumsList);
+router.get('/manage_forums', forumView.getManageForumsList);
+
+router.get('/manage_forums/new_forum', forumView.createForum);
 
 router.get(
-  '/manageForums/:forumSlug/manageTopics',
+  '/manage_forums/:forumSlug/manage_topics',
   topicView.getManageTopicsListByForumSlug
 );
 

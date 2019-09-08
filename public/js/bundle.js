@@ -8445,7 +8445,7 @@ exports.logout = logout;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.createComment = void 0;
+exports.createComment = exports.createForum = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
 
@@ -8457,12 +8457,12 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-var createComment =
+var createForum =
 /*#__PURE__*/
 function () {
   var _ref = _asyncToGenerator(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee(title, description, topicId, previousPath) {
+  regeneratorRuntime.mark(function _callee(title, type, previousPath) {
     var res;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
@@ -8472,11 +8472,10 @@ function () {
             _context.next = 3;
             return (0, _axios.default)({
               method: 'POST',
-              url: 'http://127.0.0.1:8000/api/v1/comments',
+              url: 'http://127.0.0.1:8000/api/v1/forums',
               data: {
                 title: title,
-                description: description,
-                topic: topicId
+                type: type
               }
             });
 
@@ -8488,11 +8487,8 @@ function () {
                 window.setTimeout(function () {
                   location.assign(previousPath);
                 }, 0);
-                (0, _alerts.showAlert)('success', 'Created commnet Sucessfully!', 'Thank you for comment into this topic');
-              } // window.setTimeout(() => {
-              //   location.assign('/home');
-              // }, 1500);
-
+                (0, _alerts.showAlert)('success', 'Created Forum Sucessfully!', 'This forum new is visible to all users');
+              }
             }
 
             _context.next = 10;
@@ -8502,7 +8498,7 @@ function () {
             _context.prev = 7;
             _context.t0 = _context["catch"](0);
             // console.log(err.response.data);
-            (0, _alerts.showAlert)('danger', 'Comment was not created', _context.t0.response.data.message);
+            (0, _alerts.showAlert)('danger', 'Forum was not created', _context.t0.response.data.message);
 
           case 10:
           case "end":
@@ -8512,8 +8508,67 @@ function () {
     }, _callee, null, [[0, 7]]);
   }));
 
-  return function createComment(_x, _x2, _x3, _x4) {
+  return function createForum(_x, _x2, _x3) {
     return _ref.apply(this, arguments);
+  };
+}();
+
+exports.createForum = createForum;
+
+var createComment =
+/*#__PURE__*/
+function () {
+  var _ref2 = _asyncToGenerator(
+  /*#__PURE__*/
+  regeneratorRuntime.mark(function _callee2(title, description, topicId, previousPath) {
+    var res;
+    return regeneratorRuntime.wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            _context2.prev = 0;
+            _context2.next = 3;
+            return (0, _axios.default)({
+              method: 'POST',
+              url: 'http://127.0.0.1:8000/api/v1/comments',
+              data: {
+                title: title,
+                description: description,
+                topic: topicId
+              }
+            });
+
+          case 3:
+            res = _context2.sent;
+
+            if (res.data.status == 'success') {
+              if (res.data.status === 'success') {
+                window.setTimeout(function () {
+                  location.assign(previousPath);
+                }, 0);
+                (0, _alerts.showAlert)('success', 'Created commnet Sucessfully!', 'Thank you for comment into this topic');
+              }
+            }
+
+            _context2.next = 10;
+            break;
+
+          case 7:
+            _context2.prev = 7;
+            _context2.t0 = _context2["catch"](0);
+            // console.log(err.response.data);
+            (0, _alerts.showAlert)('danger', 'Comment was not created', _context2.t0.response.data.message);
+
+          case 10:
+          case "end":
+            return _context2.stop();
+        }
+      }
+    }, _callee2, null, [[0, 7]]);
+  }));
+
+  return function createComment(_x4, _x5, _x6, _x7) {
+    return _ref2.apply(this, arguments);
   };
 }();
 
@@ -8809,15 +8864,21 @@ if (logoutBtn) {
 if (createElementForm) {
   createElementForm.addEventListener('submit', function (e) {
     e.preventDefault();
-    var type = document.getElementById('hiddenInputCreateType').value;
-    console.log(type);
+    var elementType = document.getElementById('hiddenInputCreateType').value;
 
-    if (type == 'Comment') {
-      var topicId = document.getElementById('hiddenInoutCreateTopic').value;
+    if (elementType == 'Forum') {
       var title = document.getElementById('inputCreation1').value;
-      var description = document.getElementById('inputCreation2').value;
+      var type = document.getElementById('inputCreation3').value;
       var previousPath = document.getElementById('hiddenInoutCreatePath').value;
-      (0, _createElement.createComment)(title, description, topicId, previousPath);
+      (0, _createElement.createForum)(title, type, previousPath);
+    }
+
+    if (elementType == 'Comment') {
+      var topicId = document.getElementById('hiddenInoutCreateTopic').value;
+      var _title = document.getElementById('inputCreation1').value;
+      var description = document.getElementById('inputCreation2').value;
+      var _previousPath = document.getElementById('hiddenInoutCreatePath').value;
+      (0, _createElement.createComment)(_title, description, topicId, _previousPath);
     }
   });
 }

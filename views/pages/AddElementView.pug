@@ -2,12 +2,20 @@ extends ../components/_templateBase
 
 block content
     
+    -let forumId
+    -let topicId
     -let previousPath
+    
+    -if(title == 'Forum' && user.role == 'admin')
+        +breadcrumbDisplay([['Home','/home'],['Manage Forums','/manage_forums'],['New Forum']])
+        
+        -previousPath = '/manage_forums'
+        
 
     -if (title == 'Comment')
         
         -previousPath = `/forums/${forum.slug}/topics/${topic.slug}/comments`
-        +breadcrumbDisplay([['Home','/home'],['Forums','/forums'],['Topics',`/forums/${forum.slug}/topics`], ['Comments']])
+        +breadcrumbDisplay([['Home','/home'],['Forums','/forums'],['Topics',`/forums/${forum.slug}/topics`], ['Comments', previousPath ], ['New Comment']])
 
         //- -const creationDate = forum.createdAt.format();
         -const creationDateForum = moment(forum.createdAt).format('dddd DD MMM YYYY HH:mm');
@@ -20,23 +28,37 @@ block content
         h3 #{topic.title} | Topic
         small.text-muted.mt-0= `Author: ${topic.user.firstName} ${topic.user.lastName}. Created on: ${creationDateTopic}`
         p #{topic.description}
+        
+        -forumId = forum.id
+        -topicId = topic.id
 
     h2 Create New #{title}
 
     form#createElementForm
         input#hiddenInputCreateType.d-none(value=`${title}`)
-        input#hiddenInoutCreateForum.d-none(value=`${forum.id}`)
-        input#hiddenInoutCreateTopic.d-none(value=`${topic.id}`)
+        input#hiddenInoutCreateForum.d-none(value=`${forumId}`)
+        input#hiddenInoutCreateTopic.d-none(value=`${topicId}`)
         input#hiddenInoutCreatePath.d-none(value= `${previousPath}`)
         .form-group.row
             label.col-sm-2.col-form-label(for='inputCreation1') Title
             .col-sm-10
                 input#inputCreation1.form-control(type='text' maxlength="50"  placeholder='Title')
-        .form-group.row
-            label.col-sm-2.col-form-label(for='inputCreation2') Description <br/> 
-                p.text-muted (max: 400 characters)
-            .col-sm-10
-                textarea#inputCreation2.form-control(type='text'  rows="5" maxlength="400" placeholder='Description (max: 400 characters)')
+        -if (title != 'Forum')
+            .form-group.row
+                label.col-sm-2.col-form-label(for='inputCreation2') Description <br/> 
+                    p.text-muted (max: 400 characters)
+                .col-sm-10
+                    textarea#inputCreation2.form-control(type='text'  rows="5" maxlength="400" placeholder='Description (max: 400 characters)')
+        -if (title == 'Forum')
+            .form-group.row
+                label.col-sm-2.col-form-label(for='inputCreation3') Type 
+                .col-sm-10
+                    select#inputCreation3.form-control
+                        option Information Technology
+                        option Business
+                        option Accounting
+                        option Project Management
+                        option Other   
         .form-group.row
             .col-sm-10
                 button.btn.btn-primary New #{title}
