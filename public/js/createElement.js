@@ -18,18 +18,16 @@ export const createComment = async (
       }
     });
 
-    console.log(res.data);
-
     if (res.data.status == 'success') {
       if (res.data.status === 'success') {
+        window.setTimeout(() => {
+          location.assign(previousPath);
+        }, 0);
         showAlert(
           'success',
           'Created commnet Sucessfully!',
           'Thank you for comment into this topic'
         );
-        window.setTimeout(() => {
-          location.assign(previousPath);
-        }, 1000);
       }
 
       // window.setTimeout(() => {

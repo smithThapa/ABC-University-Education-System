@@ -8482,35 +8482,34 @@ function () {
 
           case 3:
             res = _context.sent;
-            console.log(res.data);
 
             if (res.data.status == 'success') {
               if (res.data.status === 'success') {
-                (0, _alerts.showAlert)('success', 'Created commnet Sucessfully!', 'Thank you for comment into this topic');
                 window.setTimeout(function () {
                   location.assign(previousPath);
-                }, 1000);
+                }, 0);
+                (0, _alerts.showAlert)('success', 'Created commnet Sucessfully!', 'Thank you for comment into this topic');
               } // window.setTimeout(() => {
               //   location.assign('/home');
               // }, 1500);
 
             }
 
-            _context.next = 11;
+            _context.next = 10;
             break;
 
-          case 8:
-            _context.prev = 8;
+          case 7:
+            _context.prev = 7;
             _context.t0 = _context["catch"](0);
             // console.log(err.response.data);
             (0, _alerts.showAlert)('danger', 'Comment was not created', _context.t0.response.data.message);
 
-          case 11:
+          case 10:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 8]]);
+    }, _callee, null, [[0, 7]]);
   }));
 
   return function createComment(_x, _x2, _x3, _x4) {
@@ -8850,7 +8849,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55706" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56261" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

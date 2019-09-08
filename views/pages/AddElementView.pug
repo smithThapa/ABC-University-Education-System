@@ -6,7 +6,7 @@ block content
 
     -if (title == 'Comment')
         
-        -previousPath = `/forums/${forum.slug}/topics`
+        -previousPath = `/forums/${forum.slug}/topics/${topic.slug}/comments`
         +breadcrumbDisplay([['Home','/home'],['Forums','/forums'],['Topics',`/forums/${forum.slug}/topics`], ['Comments']])
 
         //- -const creationDate = forum.createdAt.format();
