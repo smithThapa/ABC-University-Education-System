@@ -24,9 +24,13 @@ block content
         p #{forum.description}
         
     -if (title == 'Comment')
-        
-        -previousPath = `/forums/${forum.slug}/topics/${topic.slug}/comments`
-        +breadcrumbDisplay([['Home','/home'],['Forums','/forums'],['Topics',`/forums/${forum.slug}/topics`], ['Comments', previousPath ], ['New Comment']])
+    
+        -if(originalUrl && originalUrl.includes('manage_comments'))
+            - previousPath = `/manage_forums/${forum.slug}/manage_topics/${topic.slug}/manage_comments`
+            +breadcrumbDisplay([['Home','/home'],['Manage Forums','/manage_forums'],['Manage Topics',`/manage _forums/${forum.slug}/manage_topics`], ['Manage Comments', previousPath ], ['New Comment']])  
+        -else
+            -previousPath = `/forums/${forum.slug}/topics/${topic.slug}/comments`
+            +breadcrumbDisplay([['Home','/home'],['Forums','/forums'],['Topics',`/forums/${forum.slug}/topics`], ['Comments', previousPath ], ['New Comment']])
 
         //- -const creationDate = forum.createdAt.format();
         -const creationDateForum = moment(forum.createdAt).format('dddd DD MMM YYYY HH:mm');
