@@ -105,3 +105,33 @@
     bottom: -3rem;
   }
 }
+
+/* Maintenance Request page */
+#inputDescription {
+  height: 400px;
+  width: 400px;
+}
+
+#inputSubject {
+  width: 400px;
+}
+
+.form-maintenance-group {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.form-label {
+  width: 100px;
+}
+
+#maintenance-form {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+#maintenance-button {
+  width: 400px;
+  margin-left: 100px;
+}

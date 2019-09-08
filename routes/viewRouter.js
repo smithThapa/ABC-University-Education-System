@@ -14,6 +14,13 @@ router.get(
   viewPresenter.getHomePage
 );
 
+router.get(
+  '/maintenance_request',
+  authenticationPresenter.protect,
+  authenticationPresenter.isLoggedIn,
+  viewPresenter.getMaintenancePage
+);
+
 //Forum page
 router.use(
   authenticationPresenter.protect,

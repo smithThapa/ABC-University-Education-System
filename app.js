@@ -57,15 +57,14 @@ app.use(mongoSanitize());
 // data sanitization -- aganings XSS
 app.use(xss());
 
-
 app.use('/api/v1/articles', articleRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/forums', forumRouter);
 app.use('/api/v1/topics', topicRouter);
 app.use('/api/v1/comments', commentRouter);
-app.use('/errorReports', errorReportRouter);
+app.use('/api/v1/errorReports', errorReportRouter);
+app.use('/api/v1/maintenanceRequests', maintainanceRequestRouter);
 app.use('/resources', resourceRouter);
-app.use('/maintenanceRequests', maintainanceRequestRouter);
 
 app.use('/', viewRouter);
 app.all('*', (req, res, next) => {
