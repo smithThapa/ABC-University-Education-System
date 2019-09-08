@@ -94,13 +94,15 @@ exports.getManageCommentsListByTopicSlug = async function(req, res, next) {
       url: `http://127.0.0.1:8000/api/v1/topics/${objTopic.data.data.data._id}/comments`
     });
 
+    console.log(objComments.data.data);
+
     if (
       objForum.data.status === 'success' &&
       objTopic.data.status === 'success' &&
       objComments.data.status === 'success'
     ) {
       res.status(200).render('CommentListView', {
-        title: 'Comments',
+        title: 'Comment',
         comments: objComments.data.data.data,
         topic: objTopic.data.data.data,
         forum: objForum.data.data.data

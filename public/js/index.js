@@ -2,12 +2,14 @@ import '@babel/polyfill';
 import { login, logout } from './login';
 import { showAlert } from './alerts';
 import { createForum, createTopic, createComment } from './createElement';
+import { deleteElement } from './deleteElement';
 
 // variable
 const loginForm = document.getElementById('login-form');
 const logoutBtn = document.getElementById('logoutBtn');
 const fileInput = document.getElementById('fileInput');
 const createElementForm = document.getElementById('createElementForm');
+const deleteElementBtnList = document.querySelectorAll('.deleteModalBtn');
 
 if (fileInput) {
   document.getElementById('fileInput').onchange = function() {
@@ -56,5 +58,15 @@ if (createElementForm) {
         .value;
       createComment(title, description, topicId, previousPath);
     }
+  });
+}
+
+if (deleteElementBtnList) {
+  deleteElementBtnList.forEach(function(btn) {
+    btn.addEventListener('click', e => {
+      const { typeId, typeType } = e.target.dataset;
+      console.log(typeId, typeType.toLowerCase());
+      deleteElement(typeId, typeType.toLowerCase());
+    });
   });
 }

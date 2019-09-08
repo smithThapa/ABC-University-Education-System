@@ -54,7 +54,7 @@ exports.getManageTopicsListByForumSlug = async function(req, res, next) {
       objForum.data.status === 'success'
     ) {
       res.status(200).render('TopicListView', {
-        title: 'Manage Topics',
+        title: 'Topic',
         topics: objTopics.data.data.data,
         forum: objForum.data.data.data
       });

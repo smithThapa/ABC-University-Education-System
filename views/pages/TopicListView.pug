@@ -30,6 +30,8 @@ block content
                     th.text-center(scope="col") Delete
 
             each topic,index in topics
+                //- modal to delete element
+                +deleteModalTemplate(topic.id, title, topic.title)
                 //- -const creationDate = forum.createdAt.format();
                 -const creationDate = moment(topic.createdAt).format('DD/MMM/YYYY');
                 tbody
@@ -45,4 +47,4 @@ block content
                         td.text-center
                             a.btn.btn-success.text-white Edit
                         td.text-center
-                            a.btn.btn-danger.text-white Delete
+                            a.btn.btn-danger.text-white(type='button' data-toggle="modal" data-target=`#deleteModal${topic.id}`) Delete

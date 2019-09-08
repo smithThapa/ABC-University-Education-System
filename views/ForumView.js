@@ -38,7 +38,7 @@ exports.getManageForumsList = async function(req, res, next) {
 
     if (objs.data.status === 'success') {
       res.status(200).render('ForumListView', {
-        title: 'Manage Forums',
+        title: 'Forum',
         forums: objs.data.data.data
       });
     }

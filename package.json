@@ -71,6 +71,7 @@
     "alerts.js",
     "forums.js",
     "resource.js",
-    "createElement.js"
+    "createElement.js",
+    "deleteElement.js"
   ]
 }

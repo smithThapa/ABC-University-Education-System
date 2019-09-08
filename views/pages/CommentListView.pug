@@ -34,6 +34,9 @@ block content
                     th.text-center(scope="col") Delete
 
             each comment,index in comments
+                //- modal to delete element
+                +deleteModalTemplate(comment.id, title, comment.title)
+                
                 //- -const creationDate = forum.createdAt.format();
                 -const creationDate = moment(comment.createdAt).format('DD/MMM/YYYY');
                 tbody
@@ -48,4 +51,4 @@ block content
                         td.text-center
                             a.btn.btn-success.text-white Edit
                         td.text-center
-                            a.btn.btn-danger.text-white Delete
+                            a.btn.btn-danger.text-white(type='button' data-toggle="modal" data-target=`#deleteModal${comment.id}`) Delete

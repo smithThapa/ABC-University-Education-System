@@ -1,16 +1,16 @@
 extends ../components/_templateBase
-           
+
 block content
     +breadcrumbDisplay([['Home','/home'],['Manage Forums']])
-    
+
     .d-flex
         h2 Manage Forums
         a.btn.btn-primary.text-white.mb-auto.ml-auto(href=`/manage_forums/new_forum`) + Add Forum
-        
+
     -if(forums.length<1)
         h4.font-weight-bold.text-dark.mt-0.ml-4 No forum to manage.
     - else
-    
+
         table.table
             thead
                 tr
@@ -25,6 +25,8 @@ block content
                     th.text-center(scope="col") Delete
 
             each forum,index in forums
+                //- modal to delete element
+                +deleteModalTemplate(forum.id, title, forum.title)
                 //- -const creationDate = forum.createdAt.format();
                 -const creationDate = moment(forum.createdAt).format('DD/MMM/YYYY');
                 tbody
@@ -41,4 +43,4 @@ block content
                         td.text-center
                             a.btn.btn-success.text-white Edit
                         td.text-center
-                            a.btn.btn-danger.text-white Delete
+                            a.btn.btn-danger.text-white(type='button' data-toggle="modal" data-target=`#deleteModal${forum.id}`) Delete
