@@ -42,11 +42,12 @@ mixin deleteModalTemplate(id, type, title)
         .modal-dialog(role='document')
             .modal-content
                 .modal-header
-                    h5#deleteModalLabel.modal-title Delete #{type}
+                    h3#deleteModalLabel.modal-title Delete #{type}
                     button.close(type='button' data-dismiss='modal' aria-label='Close')
                         span(aria-hidden='true') &times;
                 .modal-body
-                    | If you delete this #{type}: #{title}, it will be erased from the system.
+                    h5.text-center
+                        | If you delete this <b> #{type}: #{title} </b>, it will be erased from the system.
                     
                 .modal-footer
                     button.btn.btn-secondary(type='button' data-dismiss='modal') Cancel

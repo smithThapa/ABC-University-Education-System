@@ -94,8 +94,6 @@ exports.getManageCommentsListByTopicSlug = async function(req, res, next) {
       url: `http://127.0.0.1:8000/api/v1/topics/${objTopic.data.data.data._id}/comments`
     });
 
-    console.log(objComments.data.data);
-
     if (
       objForum.data.status === 'success' &&
       objTopic.data.status === 'success' &&

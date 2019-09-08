@@ -60,6 +60,8 @@ router.get('/manage_forums', forumView.getManageForumsList);
 
 router.get('/manage_forums/new_forum', forumView.createForum);
 
+router.get('/manage_forum/:forumSlug/edit_forum', forumView.editForum);
+
 router.get(
   '/manage_forums/:forumSlug/manage_topics',
   topicView.getManageTopicsListByForumSlug

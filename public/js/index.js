@@ -2,6 +2,7 @@ import '@babel/polyfill';
 import { login, logout } from './login';
 import { showAlert } from './alerts';
 import { createForum, createTopic, createComment } from './createElement';
+import { editElement } from './editElement';
 import { deleteElement } from './deleteElement';
 
 // variable
@@ -9,6 +10,7 @@ const loginForm = document.getElementById('login-form');
 const logoutBtn = document.getElementById('logoutBtn');
 const fileInput = document.getElementById('fileInput');
 const createElementForm = document.getElementById('createElementForm');
+const editElementForm = document.getElementById('editElementForm');
 const deleteElementBtnList = document.querySelectorAll('.deleteModalBtn');
 
 if (fileInput) {
@@ -58,6 +60,31 @@ if (createElementForm) {
         .value;
       createComment(title, description, topicId, previousPath);
     }
+  });
+}
+
+if (editElementForm) {
+  editElementForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const elementType = document.getElementById('hiddenInputEditionType').value;
+    const elementId = document.getElementById('hiddenInputEditionId').value;
+    const elementPath = document.getElementById('hiddenInputEditionPath').value;
+
+    const inputs = document.querySelectorAll('.inputsEdition');
+
+    const obj = new Object();
+
+    inputs.forEach(element => {
+      if (element.id === 'inputEdition1') obj.title = element.value;
+      if (element.id === 'inputEdition2') obj.description = element.value;
+      if (element.id === 'inputEdition3') obj.type = element.value;
+      // if (element.id === 'inputEdition1') form.append('title', element.value);
+      // if (element.id === 'inputEdition2')
+      //   form.append('description', element.value);
+      // if (element.id === 'inputEdition3') form.append('type', element.value);
+    });
+
+    editElement(obj, elementType.toLowerCase(), elementId, elementPath);
   });
 }
 

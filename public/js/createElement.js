@@ -83,18 +83,16 @@ export const createComment = async (
       }
     });
 
-    if (res.data.status == 'success') {
-      if (res.data.status === 'success') {
-        window.scrollTo(0, 0);
-        showAlert(
-          'success',
-          'Created commnet Sucessfully!',
-          'Thank you for comment into this topic'
-        );
-        window.setTimeout(() => {
-          location.assign(previousPath);
-        }, 0);
-      }
+    if (res.data.status === 'success') {
+      window.scrollTo(0, 0);
+      showAlert(
+        'success',
+        'Created commnet Sucessfully!',
+        'Thank you for comment into this topic'
+      );
+      window.setTimeout(() => {
+        location.assign(previousPath);
+      }, 0);
     }
   } catch (err) {
     // console.log(err.response.data);
