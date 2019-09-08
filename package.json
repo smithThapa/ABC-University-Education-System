@@ -69,6 +69,8 @@
     "index.js",
     "login.js",
     "alerts.js",
-    "forums.js"
+    "forums.js",
+    "resource.js",
+    "createElement.js"
   ]
 }

@@ -113,6 +113,11 @@ exports.getAll = (Model, popOptions) =>
         topic: req.params.topicId
       };
     }
+    // if (req.params.forumSlug) {
+    //   filter = {
+    //     forum: req.params.forumSlug
+    //   };
+    // }
 
     //Execute query
     const features = new APIFeatures(Model.find(filter), req.query)

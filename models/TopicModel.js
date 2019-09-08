@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
 // const User = require('./UserModel');
-// const Forum = require('./ForumModel');
+const Forum = require('./ForumModel');
 
 const topicSchema = mongoose.Schema(
   {
@@ -41,13 +41,15 @@ const topicSchema = mongoose.Schema(
   }
 );
 
+topicSchema.index({ title: 1, forum: 1 }, { unique: true });
+
 topicSchema.pre(/^find/, function(next) {
   this.populate({
     path: 'user',
     select: 'firstName lastName role'
   }).populate({
     path: 'forum',
-    select: 'title'
+    select: 'title type'
   });
   next();
 });
@@ -58,8 +60,10 @@ topicSchema.virtual('comments', {
   localField: '_id'
 });
 
-topicSchema.pre('save', function(next) {
-  this.slug = slugify(this.title, { lower: true });
+topicSchema.pre('save', async function(next) {
+  const forum = await Forum.findById(this.forum);
+
+  this.slug = slugify(`${this.title} ${forum.type} topic`, { lower: true });
   next();
 });
 

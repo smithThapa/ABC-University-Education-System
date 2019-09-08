@@ -1,17 +1,25 @@
 const express = require('express');
 const authenticationPresenter = require('./../presenters/AuthenticationPresenter');
-const viewPresenter = require('./../presenters/ViewPresenter');
+// const viewPresenter = require('./../presenters/ViewPresenter');
+
+const resourceRouter = require('./resourceRouter');
+
+const homeView = require('./../views/HomeView');
+const forumView = require('./../views/ForumView');
+const topicView = require('./../views/TopicView');
+const commentView = require('./../views/CommentView');
+const userView = require('./../views/UserView');
 
 const router = express.Router();
 
 //Start
-router.get('/', viewPresenter.getLoginPage);
+router.get('/', homeView.getLoginPage);
 
 router.get(
   '/home',
   authenticationPresenter.protect,
   authenticationPresenter.isLoggedIn,
-  viewPresenter.getHomePage
+  homeView.getHomePage
 );
 
 router.get(
@@ -27,12 +35,31 @@ router.use(
   authenticationPresenter.isLoggedIn,
   authenticationPresenter.restrictTo('student', 'staff', 'admin')
 );
+//Resource view
+router.use('/resources', resourceRouter);
 
-router.get('/forums', viewPresenter.getForumView);
-router.get('/forum/:forumId', viewPresenter.getTopicByForumId);
+//Forum, Topics and comments views
+router.get('/forums', forumView.getForumView);
+router.get('/forums/:forumSlug/topics', topicView.getTopicsByForumSlug);
+router.get(
+  '/forums/:forumSlug/topics/:topicSlug/comments',
+  commentView.getCommentsByTopicSlug
+);
+//Create comments
+router.get(
+  `/forums/:forumSlug/topics/:topicSlug/comments/newComment`,
+  commentView.createComment
+);
 
-router.use(authenticationPresenter.restrictTo('staff', 'admin'));
+router.use(authenticationPresenter.restrictTo('admin'));
 
-router.get('/manageForums', viewPresenter.getManageForumsList);
+router.get('/manageUsers', userView.getManageUsersList);
+
+router.get('/manageForums', forumView.getManageForumsList);
+
+router.get(
+  '/manageForums/:forumSlug/manageTopics',
+  topicView.getManageTopicsListByForumSlug
+);
 
 module.exports = router;

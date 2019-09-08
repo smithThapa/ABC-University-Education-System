@@ -1,6 +1,6 @@
 const Forum = require('./../models/ForumModel');
-// const catchAsync = require('./../utils/catchAsync');
-// const AppError = require('./../utils/appError');
+const catchAsync = require('./../utils/CatchAsync');
+const AppError = require('./../utils/AppError');
 const factory = require('./HandlerFactory');
 
 exports.setUserId = (req, res, next) => {
@@ -8,6 +8,23 @@ exports.setUserId = (req, res, next) => {
   if (!req.body.user) req.body.user = req.user.id;
   next();
 };
+
+exports.getForumSlug = catchAsync(async (req, res, next) => {
+  const forum = await Forum.findOne({ slug: req.params.slug }).populate({
+    path: 'topics'
+  });
+
+  if (!forum) {
+    return next(new AppError('No Forum found with that name', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      data: forum
+    }
+  });
+});
 
 exports.getAllForums = factory.getAll(Forum, { path: 'topics' });
 exports.getForum = factory.getOne(Forum, { path: 'topics' });

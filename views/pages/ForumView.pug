@@ -1,4 +1,4 @@
-extends components/_templateBase
+extends ../components/_templateBase
            
 block content
     +breadcrumbDisplay([['Home','/'],['Forums']])
@@ -9,6 +9,6 @@ block content
         //- -const creationDate = forum.createdAt.format();
         -const creationDate = moment(forum.createdAt).format('dddd DD MMM YYYY HH:mm');
         
-        +cardDisplayItems(forum.type, `${forum.title} | Number of topics: ${forum.topics.length}`, `${forum.user.firstName} ${forum.user.lastName}`, creationDate, `/forum/${forum.id}`, 'Forum')
+        +cardDisplayItems(forum.type, `${forum.title} | Number of topics: ${forum.topics.length}`, `${forum.user.firstName} ${forum.user.lastName}`, creationDate, `/forums/${forum.slug}/topics`, 'Forum')
 
     
