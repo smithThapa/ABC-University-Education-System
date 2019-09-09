@@ -11,6 +11,11 @@ block content
         
         -previousPath = '/manage_forums'
         
+    -if(title == 'Forum' && user.role == 'staff')
+        +breadcrumbDisplay([['Home','/home'],['New Forum']])
+        
+        -previousPath = '/forums'
+        
     -if(title == 'Topic' && user.role == 'admin')
     
         -forumId = forum.id
@@ -46,6 +51,11 @@ block content
         
         -forumId = forum.id
         -topicId = topic.id
+    
+    -if(title == 'Topic' && user.role == 'staff')
+        +breadcrumbDisplay([['Home','/home'],['New Topic']])
+        
+        -previousPath = '/forums'
 
     h2 Create New #{title}
 
@@ -53,22 +63,30 @@ block content
         input#hiddenInputCreateType.d-none(value=`${title}`)
         input#hiddenInputCreateForum.d-none(value=`${forumId}`)
         input#hiddenInputCreateTopic.d-none(value=`${topicId}`)
+        input#hiddenInputCreateUserRole.d-none(value=`${user.role}`)
         input#hiddenInputCreatePath.d-none(value= `${previousPath}`)
+        -if(title == 'Topic' && user.role == 'staff')
+            .form-group.row
+                label.col-sm-2.col-form-label(for='inputCreationForum') Forum 
+                .col-sm-10
+                    select#inputCreationForum.form-control(required='required')
+                        each forum, index in forums
+                            option(data-forum-id= `${forum.id}` data-forum-slug=`${forum.slug}`) #{forum.title} - #{forum.type}
         .form-group.row
-            label.col-sm-2.col-form-label(for='inputCreation1') Title
+            label.col-sm-2.col-form-label(for='inputCreationTitle') Title
             .col-sm-10
-                input#inputCreation1.form-control(type='text' maxlength="50"  placeholder='Title' required='required')
+                input#inputCreationTitle.form-control(type='text' maxlength="50"  placeholder='Title' required='required')
         -if (title != 'Forum')
             .form-group.row
-                label.col-sm-2.col-form-label(for='inputCreation2') Description <br/> 
+                label.col-sm-2.col-form-label(for='inputCreationDescription') Description <br/> 
                     p.text-muted (max: 400 characters)
                 .col-sm-10
-                    textarea#inputCreation2.form-control(type='text'  rows="5" maxlength="400" placeholder='Description (max: 400 characters)' required='required')
+                    textarea#inputCreationDescription.form-control(type='text'  rows="5" maxlength="400" placeholder='Description (max: 400 characters)' required='required')
         -if (title == 'Forum')
             .form-group.row
-                label.col-sm-2.col-form-label(for='inputCreation3') Type 
+                label.col-sm-2.col-form-label(for='inputCreationType') Type 
                 .col-sm-10
-                    select#inputCreation3.form-control(required='required')
+                    select#inputCreationType.form-control(required='required')
                         option Information Technology
                         option Business
                         option Accounting

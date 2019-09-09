@@ -57,6 +57,12 @@ router.get(
   commentView.editComment
 );
 
+//Staff
+router.get(authenticationPresenter.restrictTo('staff'));
+
+router.get('/create_forum', forumView.createForum);
+router.get('/create_topic', topicView.createTopic);
+
 // ADMIN
 router.use(authenticationPresenter.restrictTo('admin'));
 

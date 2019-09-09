@@ -47,25 +47,37 @@ if (createElementForm) {
     e.preventDefault();
 
     const elementType = document.getElementById('hiddenInputCreateType').value;
+    const userRole = document.getElementById('hiddenInputCreateUserRole').value;
     if (elementType == 'Forum') {
-      const title = document.getElementById('inputCreation1').value;
-      const type = document.getElementById('inputCreation3').value;
+      const title = document.getElementById('inputCreationTitle').value;
+      const type = document.getElementById('inputCreationType').value;
       const previousPath = document.getElementById('hiddenInputCreatePath')
         .value;
       createForum(title, type, previousPath);
     }
     if (elementType == 'Topic') {
-      const forumId = document.getElementById('hiddenInputCreateForum').value;
-      const title = document.getElementById('inputCreation1').value;
-      const description = document.getElementById('inputCreation2').value;
-      const previousPath = document.getElementById('hiddenInputCreatePath')
+      let forumId;
+      const title = document.getElementById('inputCreationTitle').value;
+      const description = document.getElementById('inputCreationDescription')
         .value;
+      let previousPath = document.getElementById('hiddenInputCreatePath').value;
+
+      if (userRole == 'staff') {
+        forumId = document.getElementById('inputCreationForum')
+          .selectedOptions[0].dataset.forumId;
+        const forumSlug = document.getElementById('inputCreationForum')
+          .selectedOptions[0].dataset.forumSlug;
+        previousPath += `/${forumSlug}/topics`;
+      } else {
+        forumId = document.getElementById('hiddenInputCreateForum').value;
+      }
       createTopic(title, description, forumId, previousPath);
     }
     if (elementType == 'Comment') {
       const topicId = document.getElementById('hiddenInputCreateTopic').value;
-      const title = document.getElementById('inputCreation1').value;
-      const description = document.getElementById('inputCreation2').value;
+      const title = document.getElementById('inputCreationTitle').value;
+      const description = document.getElementById('inputCreationDescription')
+        .value;
       const previousPath = document.getElementById('hiddenInputCreatePath')
         .value;
       createComment(title, description, topicId, previousPath);
@@ -102,7 +114,7 @@ if (deleteElementBtnList) {
   deleteElementBtnList.forEach(function(btn) {
     btn.addEventListener('click', e => {
       const { typeId, typeType } = e.target.dataset;
-      console.log(typeId, typeType.toLowerCase());
+      // console.log(typeId, typeType.toLowerCase());
       deleteElement(typeId, typeType.toLowerCase());
     });
   });

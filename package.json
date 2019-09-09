@@ -68,14 +68,6 @@
     "prettier": "^1.18.2"
   },
   "eslintIgnore": [
-    "index.js",
-    "login.js",
-    "alerts.js",
-    "forums.js",
-    "resource.js",
-    "createElement.js",
-    "editElement.js",
-    "deleteElement.js",
-    "maintenanceRequest.js"
+    "index.js"
   ]
 }

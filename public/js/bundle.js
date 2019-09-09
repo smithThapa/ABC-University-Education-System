@@ -9157,26 +9157,36 @@ if (createElementForm) {
   createElementForm.addEventListener('submit', function (e) {
     e.preventDefault();
     var elementType = document.getElementById('hiddenInputCreateType').value;
+    var userRole = document.getElementById('hiddenInputCreateUserRole').value;
 
     if (elementType == 'Forum') {
-      var title = document.getElementById('inputCreation1').value;
-      var type = document.getElementById('inputCreation3').value;
+      var title = document.getElementById('inputCreationTitle').value;
+      var type = document.getElementById('inputCreationType').value;
       var previousPath = document.getElementById('hiddenInputCreatePath').value;
       (0, _createElement.createForum)(title, type, previousPath);
     }
 
     if (elementType == 'Topic') {
-      var forumId = document.getElementById('hiddenInputCreateForum').value;
-      var _title = document.getElementById('inputCreation1').value;
-      var description = document.getElementById('inputCreation2').value;
+      var forumId;
+      var _title = document.getElementById('inputCreationTitle').value;
+      var description = document.getElementById('inputCreationDescription').value;
       var _previousPath = document.getElementById('hiddenInputCreatePath').value;
+
+      if (userRole == 'staff') {
+        forumId = document.getElementById('inputCreationForum').selectedOptions[0].dataset.forumId;
+        var forumSlug = document.getElementById('inputCreationForum').selectedOptions[0].dataset.forumSlug;
+        _previousPath += "/".concat(forumSlug, "/topics");
+      } else {
+        forumId = document.getElementById('hiddenInputCreateForum').value;
+      }
+
       (0, _createElement.createTopic)(_title, description, forumId, _previousPath);
     }
 
     if (elementType == 'Comment') {
       var topicId = document.getElementById('hiddenInputCreateTopic').value;
-      var _title2 = document.getElementById('inputCreation1').value;
-      var _description = document.getElementById('inputCreation2').value;
+      var _title2 = document.getElementById('inputCreationTitle').value;
+      var _description = document.getElementById('inputCreationDescription').value;
       var _previousPath2 = document.getElementById('hiddenInputCreatePath').value;
       (0, _createElement.createComment)(_title2, _description, topicId, _previousPath2);
     }
@@ -9208,8 +9218,8 @@ if (deleteElementBtnList) {
     btn.addEventListener('click', function (e) {
       var _e$target$dataset = e.target.dataset,
           typeId = _e$target$dataset.typeId,
-          typeType = _e$target$dataset.typeType;
-      console.log(typeId, typeType.toLowerCase());
+          typeType = _e$target$dataset.typeType; // console.log(typeId, typeType.toLowerCase());
+
       (0, _deleteElement.deleteElement)(typeId, typeType.toLowerCase());
     });
   });
