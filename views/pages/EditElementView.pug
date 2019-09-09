@@ -4,24 +4,30 @@ block content
     
     -let previousPath
     -let elementId
+    -let descriptionElement
     
+    //- Forum Managemt
     -if(title == 'Forum' && user.role == 'admin')
         +breadcrumbDisplay([['Home','/home'],['Manage Forums','/manage_forums'],['Edit Forum']])
         
         -previousPath = '/manage_forums'
         -elementId = forum.id
         
-    //- -if(title == 'Topic' && user.role == 'admin')
+    //- Topic Managament
+    -if(title == 'Topic' && user.role == 'admin')
     
-    //-     -forumId = forum.id
-    //-     -previousPath = `/manage_forums/${forum.slug}/manage_topics`  
-    //-     +breadcrumbDisplay([['Home','/home'],['Manage Forums','/manage_forums'], ['Manage Topics', `${previousPath}`],['New Topic']])
+        -forumId = forum.id
+        -elementId = topic.id
+        -descriptionElement = topic.description
+        -previousPath = `/manage_forums/${forum.slug}/manage_topics`  
         
-    //-     -const creationDateForum = moment(forum.createdAt).format('dddd DD MMM YYYY HH:mm');
+        +breadcrumbDisplay([['Home','/home'],['Manage Forums','/manage_forums'], ['Manage Topics', `${previousPath}`],['Edit Topic']])
         
-    //-     h2 Forum: #{forum.title} - #{forum.type}
-    //-     small.text-muted.mt-0= `Author: ${forum.user.firstName} ${forum.user.lastName}. Created on: ${creationDateForum}`
-    //-     p #{forum.description}
+        -const creationDateForum = moment(forum.createdAt).format('dddd DD MMM YYYY HH:mm');
+        
+        h2 Forum: #{forum.title} - #{forum.type}
+        small.text-muted.mt-0= `Author: ${forum.user.firstName} ${forum.user.lastName}. Created on: ${creationDateForum}`
+        p #{forum.description}
         
     //- -if (title == 'Comment')
     
@@ -56,29 +62,25 @@ block content
         .form-group.row
             label.col-sm-2.col-form-label(for='inputEdition1') Title
             .col-sm-10
-                input.inputsEdition#inputEdition1.form-control(type='text' value=`${forum.title}` maxlength="50"  placeholder='Title')
+                input.inputsEdition#inputEdition1.form-control(type='text' value=`${forum.title}` maxlength="50"  placeholder='Title' required='required')
         -if (title != 'Forum')
             .form-group.row
                 label.col-sm-2.col-form-label(for='inputEdition2') Description <br/> 
                     p.text-muted (max: 400 characters)
                 .col-sm-10
-                    textarea.inputsEdition#inputEdition2.form-control(type='text'  rows="5" maxlength="400" placeholder='Description (max: 400 characters)')
+                    textarea.inputsEdition#inputEdition2.form-control(type='text' rows="5" maxlength="400" placeholder='Description (max: 400 characters)' required='required')
+                        |#{descriptionElement}
         -if (title == 'Forum')
             .form-group.row
                 label.col-sm-2.col-form-label(for='inputEdition3') Type 
                 .col-sm-10
-                    select.inputsEdition#inputEdition3.form-control
+                    select.inputsEdition#inputEdition3.form-control(required='required')
                         -const typeArray = ['Information Technology', 'Business', 'Accounting', 'Project Management', 'Other']
                             each forumType in typeArray
                                 -if (forumType == forum.type)
                                     option(selected = true)= forumType
                                 -else
                                     option= forumType
-                        //- option Information Technology
-                        //- option Business
-                        //- option Accounting
-                        //- option Project Management
-                        //- option Other   
         .form-group.row
             .col-sm-10
                 button.btn.btn-primary Edit #{title}

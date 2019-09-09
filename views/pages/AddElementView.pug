@@ -57,18 +57,18 @@ block content
         .form-group.row
             label.col-sm-2.col-form-label(for='inputCreation1') Title
             .col-sm-10
-                input#inputCreation1.form-control(type='text' maxlength="50"  placeholder='Title')
+                input#inputCreation1.form-control(type='text' maxlength="50"  placeholder='Title' required='required')
         -if (title != 'Forum')
             .form-group.row
                 label.col-sm-2.col-form-label(for='inputCreation2') Description <br/> 
                     p.text-muted (max: 400 characters)
                 .col-sm-10
-                    textarea#inputCreation2.form-control(type='text'  rows="5" maxlength="400" placeholder='Description (max: 400 characters)')
+                    textarea#inputCreation2.form-control(type='text'  rows="5" maxlength="400" placeholder='Description (max: 400 characters)' required='required')
         -if (title == 'Forum')
             .form-group.row
                 label.col-sm-2.col-form-label(for='inputCreation3') Type 
                 .col-sm-10
-                    select#inputCreation3.form-control
+                    select#inputCreation3.form-control(required='required')
                         option Information Technology
                         option Business
                         option Accounting

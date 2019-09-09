@@ -65,12 +65,15 @@ if (createElementForm) {
 
 if (editElementForm) {
   editElementForm.addEventListener('submit', e => {
+    console.log('Hello');
     e.preventDefault();
     const elementType = document.getElementById('hiddenInputEditionType').value;
     const elementId = document.getElementById('hiddenInputEditionId').value;
     const elementPath = document.getElementById('hiddenInputEditionPath').value;
 
     const inputs = document.querySelectorAll('.inputsEdition');
+
+    console.log(inputs);
 
     const obj = new Object();
 

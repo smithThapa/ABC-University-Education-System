@@ -9098,11 +9098,13 @@ if (createElementForm) {
 
 if (editElementForm) {
   editElementForm.addEventListener('submit', function (e) {
+    console.log('Hello');
     e.preventDefault();
     var elementType = document.getElementById('hiddenInputEditionType').value;
     var elementId = document.getElementById('hiddenInputEditionId').value;
     var elementPath = document.getElementById('hiddenInputEditionPath').value;
     var inputs = document.querySelectorAll('.inputsEdition');
+    console.log(inputs);
     var obj = new Object();
     inputs.forEach(function (element) {
       if (element.id === 'inputEdition1') obj.title = element.value;
@@ -9155,7 +9157,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56261" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54652" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
