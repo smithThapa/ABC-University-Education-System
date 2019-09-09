@@ -7,11 +7,11 @@ block content
     -const creationDateForum = moment(forum.createdAt).format('dddd DD MMM YYYY HH:mm');
     -const creationDateTopic = moment(topic.createdAt).format('dddd DD MMM YYYY HH:mm');
     
-    h2 Forum : #{forum.title} - #{forum.type}
+    a.text-decoration-none.h2(href='/forums') Forum : #{forum.title} - #{forum.type}
     small.text-muted.mt-0= `Author: ${forum.user.firstName} ${forum.user.lastName}. Created on: ${creationDateForum}`
     p #{forum.description}
     
-    h3 Topic : #{topic.title}
+    a.text-decoration-none.h3.mt-0(href=`/forums/${forum.slug}/topics`) Topic : #{topic.title}
     small.text-muted.mt-0= `Author: ${topic.user.firstName} ${topic.user.lastName}. Created on: ${creationDateTopic}`
     p #{topic.description}
     

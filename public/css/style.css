@@ -53,6 +53,12 @@
 .container-fluid > .container > h3 {
   color: #006972;
 }
+.container-fluid > .container > .h2 {
+  color: #006972;
+}
+.container-fluid > .container > .h3 {
+  color: #006972;
+}
 .container-fluid > .container > h4 {
   color: #006972;
 }

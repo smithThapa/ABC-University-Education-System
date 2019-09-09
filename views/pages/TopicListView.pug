@@ -6,7 +6,7 @@ block content
     //- -const creationDate = forum.createdAt.format();
     -const creationDate = moment(forum.createdAt).format('dddd DD MMM YYYY HH:mm'); 
         
-    h2 #{forum.title} - #{forum.type}
+    a.text-decoration-none.h2(href='/manage_forums') Forum: #{forum.title} - #{forum.type}
     small.text-muted.mt-0= `Author: ${forum.user.firstName} ${forum.user.lastName}. Created on: ${creationDate}`
     p #{forum.description}
     
