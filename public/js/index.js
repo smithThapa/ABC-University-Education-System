@@ -4,7 +4,7 @@ import { showAlert } from './alerts';
 import { createForum, createTopic, createComment } from './createElement';
 import { editElement } from './editElement';
 import { deleteElement } from './deleteElement';
-import {submitMaintenanceRequest} from './maintenanceRequest';
+import { submitMaintenanceRequest } from './maintenanceRequest';
 // variable
 const loginForm = document.getElementById('login-form');
 const logoutBtn = document.getElementById('logoutBtn');
@@ -14,15 +14,13 @@ const editElementForm = document.getElementById('editElementForm');
 const deleteElementBtnList = document.querySelectorAll('.deleteModalBtn');
 const maintenanceForm = document.getElementById('maintenance-form');
 
-if(maintenanceForm){
-  maintenanceForm.addEventListener('submit', e=> {
+if (maintenanceForm) {
+  maintenanceForm.addEventListener('submit', e => {
     e.preventDefault();
     const subject = document.getElementById('inputSubject').value;
     const description = document.getElementById('inputDescription').value;
-    console.log("SUBJECT": , subject);
-    console.log('DESCRIPTION', description);
     submitMaintenanceRequest(subject, description);
-  })
+  });
 }
 
 if (fileInput) {

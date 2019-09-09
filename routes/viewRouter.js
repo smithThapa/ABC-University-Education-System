@@ -1,6 +1,6 @@
 const express = require('express');
 const authenticationPresenter = require('./../presenters/AuthenticationPresenter');
-const viewPresenter = require('./../presenters/ViewPresenter');
+// const viewPresenter = require('./../presenters/ViewPresenter');
 
 const resourceRouter = require('./resourceRouter');
 
@@ -9,6 +9,7 @@ const forumView = require('./../views/ForumView');
 const topicView = require('./../views/TopicView');
 const commentView = require('./../views/CommentView');
 const userView = require('./../views/UserView');
+const maintenanceRequestView = require('./../views/MaintenanceRequestView');
 
 const router = express.Router();
 
@@ -26,7 +27,7 @@ router.get(
   '/maintenance_request',
   authenticationPresenter.protect,
   authenticationPresenter.isLoggedIn,
-  viewPresenter.getMaintenancePage
+  maintenanceRequestView.getMaintenancePage
 );
 
 //Forum page

@@ -75,6 +75,7 @@
     "resource.js",
     "createElement.js",
     "editElement.js",
-    "deleteElement.js"
+    "deleteElement.js",
+    "maintenanceRequest.js"
   ]
 }

@@ -55,12 +55,6 @@ exports.getHomePage = (req, res) => {
   });
 };
 
-exports.getMaintenancePage = (req, res) => {
-  res.status(200).render('MainRequestView', {
-    title: 'Maintenance Request'
-  });
-};
-
 //get forums page
 exports.getForumView = async function(req, res, next) {
   try {
