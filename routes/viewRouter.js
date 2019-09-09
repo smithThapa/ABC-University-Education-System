@@ -50,6 +50,11 @@ router.get(
   `/forums/:forumSlug/topics/:topicSlug/comments/new_comment`,
   commentView.createComment
 );
+//Create comments
+router.get(
+  `/forums/:forumSlug/topics/:topicSlug/comments/:commentId/edit_comment`,
+  commentView.editComment
+);
 
 // ADMIN
 router.use(authenticationPresenter.restrictTo('admin'));

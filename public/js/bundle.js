@@ -8664,14 +8664,15 @@ function () {
         switch (_context.prev = _context.next) {
           case 0:
             _context.prev = 0;
-            _context.next = 3;
+            console.log(data, type, id, previousPath);
+            _context.next = 4;
             return (0, _axios.default)({
               method: 'PATCH',
               url: "http://127.0.0.1:8000/api/v1/".concat(type, "s/").concat(id),
               data: data
             });
 
-          case 3:
+          case 4:
             res = _context.sent;
 
             // console.log(data);
@@ -8683,21 +8684,22 @@ function () {
               }, 0);
             }
 
-            _context.next = 11;
+            _context.next = 13;
             break;
 
-          case 7:
-            _context.prev = 7;
+          case 8:
+            _context.prev = 8;
             _context.t0 = _context["catch"](0);
+            window.scrollTo(0, 0);
             console.log(_context.t0);
             (0, _alerts.showAlert)('error', _context.t0.response.data.message);
 
-          case 11:
+          case 13:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 7]]);
+    }, _callee, null, [[0, 8]]);
   }));
 
   return function editElement(_x, _x2, _x3, _x4) {
@@ -9098,13 +9100,11 @@ if (createElementForm) {
 
 if (editElementForm) {
   editElementForm.addEventListener('submit', function (e) {
-    console.log('Hello');
     e.preventDefault();
     var elementType = document.getElementById('hiddenInputEditionType').value;
     var elementId = document.getElementById('hiddenInputEditionId').value;
     var elementPath = document.getElementById('hiddenInputEditionPath').value;
     var inputs = document.querySelectorAll('.inputsEdition');
-    console.log(inputs);
     var obj = new Object();
     inputs.forEach(function (element) {
       if (element.id === 'inputEdition1') obj.title = element.value;

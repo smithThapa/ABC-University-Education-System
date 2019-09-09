@@ -24,18 +24,6 @@ mixin breadcrumbDisplay(arrayBreadcrumb)
                     li.breadcrumb-item
                         a(href= element[1])= element[0]
 
-// Dinamic Table rows
-mixin tableRowsDisplay(index, type, name, author, date)
-    tr
-        th(scope='row')= index
-        td= type
-        td= name
-        td= author
-        td= date
-        td
-            a.btn.btn-success.text-white Edit
-        td
-            a.btn.btn-danger.text-white Delete
 
 mixin deleteModalTemplate(id, type, title)
     .modal.fade(tabindex='-1' role='dialog' aria-labelledby='deleteModalLabel' aria-hidden='true' id=`deleteModal${id}`)
@@ -52,6 +40,7 @@ mixin deleteModalTemplate(id, type, title)
                 .modal-footer
                     button.btn.btn-secondary(type='button' data-dismiss='modal') Cancel
                     button.btn.btn-danger.deleteModalBtn(type='button' data-type-id=`${id}` data-type-type =`${type}`) Delete #{type}
+                
 
 
 doctype html

@@ -7,7 +7,7 @@ block content
     -const creationDateForum = moment(forum.createdAt).format('dddd DD MMM YYYY HH:mm');
     
     h2 #{forum.title} - #{forum.type}
-    small.text-muted.mt-0= `Author: ${forum.user.firstName} ${forum.user.lastName}. Created on: ${creationDate}`
+    small.text-muted.mt-0= `Author: ${forum.user.firstName} ${forum.user.lastName}. Created on: ${creationDateForum}`
     p #{forum.description}
     
     h4 Topics
@@ -19,4 +19,4 @@ block content
         //- -const creationDate = topics.createdAt.format();
         -const creationDateTopic = moment(topic.createdAt).format('dddd DD MMM YYYY HH:mm');
         
-        +cardDisplayItems(topic.title, topic.description, `${topic.user.firstName} ${topic.user.lastName}`, creationDate, `/forums/${forum.slug}/topics/${topic.slug}/comments`, 'Topic', `Number of Comments: ${topic.comments.length}`)
+        +cardDisplayItems(topic.title, topic.description, `${topic.user.firstName} ${topic.user.lastName}`, creationDateTopic, `/forums/${forum.slug}/topics/${topic.slug}/comments`, 'Topic', `Number of Comments: ${topic.comments.length}`)

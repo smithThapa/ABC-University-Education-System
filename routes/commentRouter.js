@@ -23,10 +23,7 @@ router
 router
   .route('/:id')
   .get(commentPresenter.getComment)
-  .patch(
-    authenticationPresenter.restrictTo('admin'),
-    commentPresenter.updateComment
-  )
+  .patch(commentPresenter.updateComment)
   .delete(
     authenticationPresenter.restrictTo('admin'),
     commentPresenter.deleteComment

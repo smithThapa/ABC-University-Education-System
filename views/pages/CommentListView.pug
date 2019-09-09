@@ -1,4 +1,19 @@
 extends ../components/_templateBase
+
+mixin openComment(id, title, description)
+    .modal.fade(tabindex='-1' role='dialog' aria-labelledby='deleteModalLabel' aria-hidden='true' id=`deleteModalComment${id}`)
+        .modal-dialog(role='document')
+            .modal-content
+                .modal-header
+                    h3#deleteModalLabel.modal-title Comment: #{title}
+                    button.close(type='button' data-dismiss='modal' aria-label='Close')
+                        span(aria-hidden='true') &times;
+                .modal-body
+                    h5.text-center
+                        | #{description}
+                    
+                .modal-footer
+                    button.btn.btn-secondary(type='button' data-dismiss='modal') Close
            
 block content
     +breadcrumbDisplay([['Home','/home'],['Manage Forums','/manage_forums'],['Manage Topics', `/manage_forums/${forum.slug}/manage_topics/${topic.slug}/manage_comments`],['Manage Comments']])
@@ -30,12 +45,12 @@ block content
                     th(scope="col") Author
                     th(scope="col") Creation date
                     th.text-center(scope="col") Details
-                    th.text-center(scope="col") Edit
                     th.text-center(scope="col") Delete
 
             each comment,index in comments
                 //- modal to delete element
                 +deleteModalTemplate(comment.id, title, comment.title)
+                +openComment(comment.id,comment.title, comment.description)
                 
                 //- -const creationDate = forum.createdAt.format();
                 -const creationDate = moment(comment.createdAt).format('DD/MMM/YYYY');
@@ -46,9 +61,7 @@ block content
                         td= `${comment.user.firstName} ${comment.user.lastName}`
                         td= creationDate
                         td.text-center
-                            a.btn.btn-info(href=`/forums/${forum.slug}/topics/${topic.slug}/comments`) Open
+                            a.btn.btn-info.text-white(type='button' data-toggle="modal" data-target=`#deleteModalComment${comment.id}`) Open
                             //- a.btn.btn-info(href=`/manageForums/${forum.slug}/manageTopics`) Open
-                        td.text-center
-                            a.btn.btn-success.text-white Edit
                         td.text-center
                             a.btn.btn-danger.text-white(type='button' data-toggle="modal" data-target=`#deleteModal${comment.id}`) Delete

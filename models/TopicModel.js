@@ -67,11 +67,11 @@ topicSchema.pre('save', async function(next) {
   next();
 });
 
-topicSchema.pre('save', function(next) {
-  if (this.isNew) return next();
+// topicSchema.pre('save', function(next) {
+//   if (this.isNew) return next();
 
-  if (this.isModified('user') || this.isModified('forum')) return next();
-});
+//   if (this.isModified('user') || this.isModified('forum')) return next();
+// });x
 
 const Topic = mongoose.model('Topic', topicSchema);
 

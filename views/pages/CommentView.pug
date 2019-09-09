@@ -26,4 +26,7 @@ block content
         //- -const creationDate = topics.createdAt.format();
         -const creationDateComment = moment(comment.createdAt).format('dddd DD MMM YYYY HH:mm');
         
-        +cardDisplayItems(comment.title, comment.description, `${comment.user.firstName} ${comment.user.lastName}`, creationDateComment, `/forums/${forum.slug}/topics/${topic.slug}/comments`)
+        -if (user.id == comment.user.id)
+            +cardDisplayItems(comment.title, comment.description, `${comment.user.firstName} ${comment.user.lastName}`, creationDateComment, `/forums/${forum.slug}/topics/${topic.slug}/comments/${comment.id}/edit_comment`, `Edit Comment`)
+        -else
+            +cardDisplayItems(comment.title, comment.description, `${comment.user.firstName} ${comment.user.lastName}`, creationDateComment)
