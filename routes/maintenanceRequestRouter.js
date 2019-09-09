@@ -11,7 +11,10 @@ router.use(authenticationPresenter.protect);
 
 router
   .route('/')
-  .get(maintenanceRequestPresenter.getAllMaintenanceRequests)
+  .get(
+    authenticationPresenter.restrictTo('team-maintenance'),
+    maintenanceRequestPresenter.getAllMaintenanceRequests
+  )
   .post(
     maintenanceRequestPresenter.setUserId,
     maintenanceRequestPresenter.createMaintenanceRequest
