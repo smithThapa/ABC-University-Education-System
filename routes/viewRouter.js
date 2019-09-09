@@ -97,4 +97,15 @@ router.get(
   commentView.createComment
 );
 
+router.use(
+  authenticationPresenter.isLoggedIn,
+  authenticationPresenter.restrictTo('team-maintenance')
+);
+
+//Maintenance requests management
+router.get(
+  '/manage_maintenance_requests',
+  maintenanceRequestView.getManageMaintenanceRequestsList
+);
+
 module.exports = router;

@@ -3,12 +3,15 @@ extends ../components/_templateBase
 block content
     h2 Send a maintenance request
     form#maintenance-form
-        .form-group
-            .form-label-group
-                input#inputSubject.form-control(placeholder='Email address' required='required' autofocus='autofocus')
-                label(for='inputSubject') Email Address
-        .form-group
-            .form-label-group
-                input#inputDescription.form-control(placeholder='Password' required='required', minlength='8')
-                label(for='inputDescription') Password
-        button.btn.btn-primary.btn-block Login
+        .form-group.form-maintenance-group.row
+            label.form-label.col-sm-2.col-form-label(for='inputSubject') Subject
+            .col-sm-10
+                input#inputSubject.form-control(placeholder='Subject' required='required' autofocus='autofocus', maxLength='40')
+
+        .form-group.form-maintenance-group.row
+            label.form-label.col-sm-2.col-form-label(for='inputDescription') Description
+            .col-sm-10
+                textarea#inputDescription.form-control(placeholder='Description for the maintenance request' rows='6' required='required', maxlength='5000')
+
+
+        button.btn.btn-primary#maintenance-button Submit

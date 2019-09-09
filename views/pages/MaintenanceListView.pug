@@ -1,0 +1,40 @@
+extends ../components/_templateBase
+
+block content
+    +breadcrumbDisplay([['Home','/home'],['Manage Maintenance Requests']])
+
+    .d-flex
+        h2 Manage Maintenance Requests
+
+    -if(maintenanceRequests.length<1)
+        h4.font-weight-bold.text-dark.mt-0.ml-4 No maintenance requests to process.
+    - else
+
+        table.table
+            thead
+                tr
+                    th(scope="col") #
+                    th(scope="col") Subject
+                    th(scope="col") Description
+                    th(scope="col") Author
+                    th(scope="col") Creation date
+                    th(scope="col") Status
+                    th.text-center(scope="col") Completed
+                    th.text-center(scope="col") Rejected
+
+            each maintenanceRequest,index in maintenanceRequests
+
+                //- -const creationDate = maintenanceRequest.createdAt.format();
+                -const creationDate = moment(maintenanceRequest.createdAt).format('DD/MMM/YYYY');
+                tbody
+                    tr
+                        th(scope='row')= index+1
+                        td= maintenanceRequest.subject
+                        td= maintenanceRequest.description
+                        td= `${maintenanceRequest.user.firstName} ${maintenanceRequest.user.lastName}`
+                        td= creationDate
+                        td.text-center= maintenanceRequest.status
+                        td.text-center
+                            button.btn.btn-success.text-white(id = `success-maintenance-button-${index+1}`) Edit
+                        td.text-center
+                            button.btn.btn-danger.text-white(id = `success-maintenance-button-${index+1}) Delete
