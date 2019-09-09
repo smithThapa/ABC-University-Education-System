@@ -1,18 +1,14 @@
-extends components/_templateBase
-           
+extends ../components/_templateBase
+
 block content
-    h2 Send a maintenance request 
+    h2 Send a maintenance request
     form#maintenance-form
-                .form-group.form-maintenance-group
-                    label.form-label(for='inputSubject') Subject
-                    input#inputSubject(placeholder='Subject' required='required' autofocus='autofocus')
-                    
-                .form-group.form-maintenance-group
-                    label.form-label(for='inputDescription') Description
-                    textarea#inputDescription(placeholder='Description for the maintenance request' required='required', minlength='8')
-                    
-
-                button.btn.btn-primary#maintenance-button Submit
-
-
-
+        .form-group
+            .form-label-group
+                input#inputSubject.form-control(placeholder='Email address' required='required' autofocus='autofocus')
+                label(for='inputSubject') Email Address
+        .form-group
+            .form-label-group
+                input#inputDescription.form-control(placeholder='Password' required='required', minlength='8')
+                label(for='inputDescription') Password
+        button.btn.btn-primary.btn-block Login
