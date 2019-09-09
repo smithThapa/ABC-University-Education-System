@@ -17,7 +17,7 @@ block content
     
     .d-flex
         h2 Comments
-        a.btn.btn-primary.text-white.mb-auto.ml-auto(href=`/forums/${forum.slug}/topics/${topic.slug}/comments/newComment`) + Add Comment
+        a.btn.btn-primary.text-white.mb-auto.ml-auto(href=`/forums/${forum.slug}/topics/${topic.slug}/comments/new_comment`) + Add Comment
     
     -if(comments.length<1)
         h4.font-weight-bold.text-dark.mt-0.ml-4 No Comments in this forum.
@@ -26,4 +26,4 @@ block content
         //- -const creationDate = topics.createdAt.format();
         -const creationDateComment = moment(comment.createdAt).format('dddd DD MMM YYYY HH:mm');
         
-        +cardDisplayItems(comment.title, comment.description, `${comment.user.firstName} ${comment.user.lastName}`, creationDate, `/forums/${forum.slug}/topics/${topic.slug}/comments`, 'Comment')
+        +cardDisplayItems(comment.title, comment.description, `${comment.user.firstName} ${comment.user.lastName}`, creationDateComment, `/forums/${forum.slug}/topics/${topic.slug}/comments`)

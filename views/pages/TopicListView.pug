@@ -1,7 +1,7 @@
 extends ../components/_templateBase
            
 block content
-    +breadcrumbDisplay([['Home','/home'],['Manage Forums','/manageForums'],['Manage Topics']])
+    +breadcrumbDisplay([['Home','/home'],['Manage Forums','/manage_forums'],['Manage Topics']])
     
     //- -const creationDate = forum.createdAt.format();
     -const creationDate = moment(forum.createdAt).format('dddd DD MMM YYYY HH:mm'); 
@@ -12,7 +12,7 @@ block content
     
     .d-flex
         h2 Manage Topics
-        a.btn.btn-primary.text-white.mb-auto.ml-auto + Add Topic
+        a.btn.btn-primary.text-white.mb-auto.ml-auto(href =`/manage_forums/${forum.slug}/manage_topics/new_topic`) + Add Topic
         
     -if(topics.length<1)
         h4.font-weight-bold.text-dark.mt-0.ml-4 No topics in this forum to manage.
@@ -30,6 +30,8 @@ block content
                     th.text-center(scope="col") Delete
 
             each topic,index in topics
+                //- modal to delete element
+                +deleteModalTemplate(topic.id, title, topic.title)
                 //- -const creationDate = forum.createdAt.format();
                 -const creationDate = moment(topic.createdAt).format('DD/MMM/YYYY');
                 tbody
@@ -40,9 +42,9 @@ block content
                         td= creationDate
                         td.text-center= topic.comments.length
                         td.text-center
-                            a.btn.btn-info(href=`/forums/${forum.slug}/topics/${topic.slug}/comments`) Open
+                            a.btn.btn-info(href=`/manage_forums/${forum.slug}/manage_topics/${topic.slug}/manage_comments`) Open
                             //- a.btn.btn-info(href=`/manageForums/${forum.slug}/manageTopics`) Open
                         td.text-center
-                            a.btn.btn-success.text-white Edit
+                            a.btn.btn-success.text-white(href=`/manage_forums/${forum.slug}/manage_topics/${topic.slug}/edit_topic`) Edit
                         td.text-center
-                            a.btn.btn-danger.text-white Delete
+                            a.btn.btn-danger.text-white(type='button' data-toggle="modal" data-target=`#deleteModal${topic.id}`) Delete

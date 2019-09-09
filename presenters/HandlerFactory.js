@@ -18,10 +18,23 @@ exports.deleteOne = Model =>
 
 exports.updateOne = Model =>
   catchAsync(async (req, res, next) => {
-    const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true
-    });
+    const doc = await Model.findById(req.params.id, req.body);
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const key in req.body) {
+      if (req.body.hasOwnProperty(key)) {
+        if (key !== 'user') doc[key] = req.body[key];
+      }
+    }
+
+    await doc.save();
+
+    // console.log(doc);
+    // doc.
+    // const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
+    //   new: true,
+    //   runValidators: true
+    // });
 
     if (!doc) {
       return next(new AppError('No document found with that ID', 404));

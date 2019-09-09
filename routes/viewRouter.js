@@ -47,19 +47,42 @@ router.get(
 );
 //Create comments
 router.get(
-  `/forums/:forumSlug/topics/:topicSlug/comments/newComment`,
+  `/forums/:forumSlug/topics/:topicSlug/comments/new_comment`,
   commentView.createComment
 );
 
+// ADMIN
 router.use(authenticationPresenter.restrictTo('admin'));
 
-router.get('/manageUsers', userView.getManageUsersList);
+router.get('/manage_users', userView.getManageUsersList);
 
-router.get('/manageForums', forumView.getManageForumsList);
+// Forum management
+router.get('/manage_forums', forumView.getManageForumsList);
+router.get('/manage_forums/new_forum', forumView.createForum);
+router.get('/manage_forums/:forumSlug/edit_forum', forumView.editForum);
 
+//Topic Management
 router.get(
-  '/manageForums/:forumSlug/manageTopics',
+  '/manage_forums/:forumSlug/manage_topics',
   topicView.getManageTopicsListByForumSlug
+);
+router.get(
+  '/manage_forums/:forumSlug/manage_topics/new_topic',
+  topicView.createTopicByForumSlug
+);
+router.get(
+  '/manage_forums/:forumSlug/manage_topics/:topicSlug/edit_topic',
+  topicView.editTopic
+);
+
+//Comment Managament
+router.get(
+  '/manage_forums/:forumSlug/manage_topics/:topicSlug/manage_comments',
+  commentView.getManageCommentsListByTopicSlug
+);
+router.get(
+  '/manage_forums/:forumSlug/manage_topics/:topicSlug/manage_comments/new_comment',
+  commentView.createComment
 );
 
 module.exports = router;

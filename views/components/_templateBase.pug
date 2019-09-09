@@ -9,8 +9,9 @@ mixin cardDisplayItems(type, title, author, date, link,  button, description)
             -if(description)
                 p.card-text
                     small= description
-            a.btn.btn-primary(href= link)= `Go to ${button}`
-            
+            -if(button)
+                a.btn.btn-primary(href= link)= `Go to ${button}`
+
 //Breadcrump in pages
 mixin breadcrumbDisplay(arrayBreadcrumb)
     nav(aria-label='breadcrumb')
@@ -22,7 +23,7 @@ mixin breadcrumbDisplay(arrayBreadcrumb)
                 -else
                     li.breadcrumb-item
                         a(href= element[1])= element[0]
-                        
+
 // Dinamic Table rows
 mixin tableRowsDisplay(index, type, name, author, date)
     tr
@@ -35,7 +36,23 @@ mixin tableRowsDisplay(index, type, name, author, date)
             a.btn.btn-success.text-white Edit
         td
             a.btn.btn-danger.text-white Delete
-                        
+
+mixin deleteModalTemplate(id, type, title)
+    .modal.fade(tabindex='-1' role='dialog' aria-labelledby='deleteModalLabel' aria-hidden='true' id=`deleteModal${id}`)
+        .modal-dialog(role='document')
+            .modal-content
+                .modal-header
+                    h3#deleteModalLabel.modal-title Delete #{type}
+                    button.close(type='button' data-dismiss='modal' aria-label='Close')
+                        span(aria-hidden='true') &times;
+                .modal-body
+                    h5.text-center
+                        | If you delete this <b> #{type}: #{title} </b>, it will be erased from the system.
+                    
+                .modal-footer
+                    button.btn.btn-secondary(type='button' data-dismiss='modal') Cancel
+                    button.btn.btn-danger.deleteModalBtn(type='button' data-type-id=`${id}` data-type-type =`${type}`) Delete #{type}
+
 
 doctype html
 html
@@ -48,25 +65,26 @@ html
             //- link(rel='stylesheet' href='/css/style.css')
             link(rel='stylesheet' href='/css/style.css')
             link(rel='shortcut icon' type='image/svg' href='/img/ABC_LOGO.svg') 
-            
+
             title ABC University Educational System | #{title}
     body
         //Header
         include _navbar
-        
+
         #wrapper
             include _sidebar
-            
+
             #content-wrapper
                 .container-fluid
                     .container
                         // content
                         block content
-            
+
                 //Footer
                 include _footer
-        
+
         script(src='https://code.jquery.com/jquery-3.3.1.slim.min.js' integrity='sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo' crossorigin='anonymous')
+        //- script(src='/js/jquery-3.3.1.slim.js')
         script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js' integrity='sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49' crossorigin='anonymous')
         script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js' integrity='sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy' crossorigin='anonymous')
         script(src='/js/bundle.js')
