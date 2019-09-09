@@ -6,12 +6,13 @@ const mainRequestSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  body: {
+  description: {
     type: String
   },
   status: {
     type: String,
-    enum: ['Completed', 'Pending', 'Unsuccessful']
+    enum: ['Completed', 'Pending', 'Unsuccessful'],
+    default: 'Pending'
   },
   createdAt: {
     type: Date,

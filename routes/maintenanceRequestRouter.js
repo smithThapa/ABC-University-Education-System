@@ -12,7 +12,10 @@ router.use(authenticationPresenter.protect);
 router
   .route('/')
   .get(maintenanceRequestPresenter.getAllMaintenanceRequests)
-  .post(maintenanceRequestPresenter.createMaintenanceRequest);
+  .post(
+    maintenanceRequestPresenter.setUserId,
+    maintenanceRequestPresenter.createMaintenanceRequest
+  );
 
 router
   .route('/:id')
