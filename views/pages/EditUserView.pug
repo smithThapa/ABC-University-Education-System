@@ -1,0 +1,65 @@
+extends ../components/_templateBase
+
+block content
+    
+    +breadcrumbDisplay([['Home','/home'],['Manage Users','/manage_users'],['Edit User']])
+
+    h2 Edit #{title}
+
+    form#editElementForm
+        //- input#hiddenInputEditionType.d-none(value=`${title}`)
+        .form-group.row
+            label.col-sm-2.col-form-label(for='inputEditFirstName') First Name
+            .col-sm-10
+                input.#inputEditFirstName.form-control(type='text' pattern="^[A-Za-z ]+$" value=`${currentUser.firstName}` maxlength="50"  placeholder='First Name' required='required')
+        .form-group.row
+            label.col-sm-2.col-form-label(for='inputEditLastName') Last Name
+            .col-sm-10
+                input.#inputEditLastName.form-control(type='text' pattern="^[A-Za-z ]+$" value=`${currentUser.lastName}` maxlength="50"  placeholder='Last Name' required='required')
+        .form-group.row
+            label.col-sm-2.col-form-label(for='inputEditEmailAddress') Email Address
+            .col-sm-10
+                input.#inputEditEmailAddress.form-control(type='email' value=`${currentUser.email}` maxlength="50"  placeholder='Email Address' required='required')
+        .form-group.row
+            label.col-sm-2.col-form-label(for='inputEditPhoneNumber') Phone Number
+            .col-sm-10
+                input.#inputEditPhoneNumber.form-control(type='tel' value=`${currentUser.phoneNumber}` pattern="[0-9]{10}" minlength="10"  maxlength="10"  placeholder='Phone Number' required='required')
+        .form-group.row
+            label.col-sm-2.col-form-label(for='inputEditPhoneNumber') Phone Number
+            .col-sm-10
+                input.#inputEditPhoneNumber.form-control(type='tel' value=`${currentUser.phoneNumber}` pattern="[0-9]{10}" minlength="10"  maxlength="10"  placeholder='Phone Number' required='required')
+
+        .form-group.row
+            label.col-sm-2.col-form-label(for='inputEditUserRole') Role 
+            .col-sm-10
+                
+                select#inputEditUserRole.form-control(required='required')
+                    -const roleArray = ['Student', 'Staff', 'Admin', 'Team Maintenance']
+                    each role in roleArray
+                        -if (role == currentUser.role)
+                            option(selected = true)= role
+                        -else
+                            option= role
+        .form-group.row
+            label.col-sm-2.col-form-label(for='inputEditUserMajor') Major 
+            .col-sm-10
+                select#inputEditUserMajor.form-control(required='required')
+                    option Information Technology
+                    option Business
+                    option Accounting
+                    option Project Management
+                    option NOT A MAJOR
+        -if (title == 'Forum')
+            .form-group.row
+                label.col-sm-2.col-form-label(for='inputEdition3') Type 
+                .col-sm-10
+                    select.inputsEdition#inputEdition3.form-control(required='required')
+                        -const typeArray = ['Information Technology', 'Business', 'Accounting', 'Project Management', 'Other']
+                            each forumType in typeArray
+                                -if (forumType == forum.type)
+                                    option(selected = true)= forumType
+                                -else
+                                    option= forumType
+        .form-group.row
+            .col-sm-10
+                button.btn.btn-primary Edit #{title}

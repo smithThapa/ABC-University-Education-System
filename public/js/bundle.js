@@ -9420,6 +9420,7 @@ if (createUserForm) {
     newUser.email = document.getElementById('inputCreationEmailAddress').value;
     newUser.phoneNumber = document.getElementById('inputCreationPhoneNumber').value;
     newUser.role = document.getElementById('inputCreationUserRole').value.toLowerCase();
+    if (newUser.role == 'team maintenance') newUser.role = 'team-maintenance';
     newUser.major = document.getElementById('inputCreationUserMajor').value;
     newUser.resetURL = '/my_details/reset_password';
     (0, _createElement.createUser)(newUser);

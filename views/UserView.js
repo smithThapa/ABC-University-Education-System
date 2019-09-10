@@ -35,6 +35,29 @@ exports.createUser = async function(req, res, next) {
   }
 };
 
+exports.editUser = async function(req, res, next) {
+  try {
+    //add authentitcation to axios
+    axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
+
+    //get api
+    const currentUser = await axios({
+      method: 'GET',
+      url: `http://127.0.0.1:8000/api/v1/users/${req.params.currentUserId}`
+    });
+
+    if (currentUser.data.status === 'success') {
+      res.status(200).render('EditUserView', {
+        title: 'User',
+        currentUser: currentUser.data.data.data
+      });
+    }
+  } catch (err) {
+    console.log(err);
+    next(new AppError(err.message, err.statusCode));
+  }
+};
+
 exports.resetPassword = async function(req, res, next) {
   res.status(200).render('ResetPasswordView', {
     title: 'User',

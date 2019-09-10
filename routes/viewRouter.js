@@ -105,6 +105,7 @@ router.all(
 // //User Management
 router.get('/manage_users', userView.getManageUsersList);
 router.get('/manage_users/new_user', userView.createUser);
+router.get('/manage_users/:currentUserId/edit_user', userView.editUser);
 
 router.all(
   '/manage_forums',

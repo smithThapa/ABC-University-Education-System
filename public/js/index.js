@@ -133,6 +133,7 @@ if (createUserForm) {
     newUser.role = document
       .getElementById('inputCreationUserRole')
       .value.toLowerCase();
+    if (newUser.role == 'team maintenance') newUser.role = 'team-maintenance';
     newUser.major = document.getElementById('inputCreationUserMajor').value;
     newUser.resetURL = '/my_details/reset_password';
     createUser(newUser);
