@@ -7,7 +7,7 @@ import {
   createTopic,
   createComment
 } from './createElement';
-import { editUser, editElement } from './editElement';
+import { editUser, editMe, editMyPassword, editElement } from './editElement';
 import { deleteElement } from './deleteElement';
 import { submitMaintenanceRequest } from './maintenanceRequest';
 import { forgotPassword, resetPassword } from './passwordManagement';
@@ -22,6 +22,8 @@ const forgotPasswordForm = document.getElementById('forgotPasswordForm');
 const createElementForm = document.getElementById('createElementForm');
 const editElementForm = document.getElementById('editElementForm');
 const editUserForm = document.getElementById('editUserForm');
+const editMeForm = document.getElementById('editMeForm');
+const editMyPasswordForm = document.getElementById('editMyPasswordForm');
 const deleteElementBtnList = document.querySelectorAll('.deleteModalBtn');
 const maintenanceForm = document.getElementById('maintenance-form');
 
@@ -187,7 +189,7 @@ if (editUserForm) {
   editUserForm.addEventListener('submit', e => {
     e.preventDefault();
 
-    const currentUserId = document.getElementById('hiddenInputEditionUserId')
+    const currentUserId = document.getElementById('hiddenInputEditUserId')
       .value;
 
     const editUserObj = new Object();
@@ -233,6 +235,70 @@ if (editUserForm) {
 
     console.log(currentUserId, editUserObj);
     editUser(editUserObj, currentUserId);
+  });
+}
+
+if (editMeForm) {
+  editMeForm.addEventListener('submit', e => {
+    e.preventDefault();
+
+    const currentUser = new Object();
+
+    currentUser.firstName = document.getElementById(
+      'inputDetailFirstName'
+    ).value;
+    if (currentUser.firstName.includes(' ')) {
+      const firstNameArray = currentUser.firstName.split(' ');
+      currentUser.firstName = '';
+      for (let i = 0; i < firstNameArray.length; i++) {
+        const element =
+          firstNameArray[i].charAt(0).toUpperCase() +
+          firstNameArray[i].slice(1).toLowerCase();
+        if (i == firstNameArray.length - 1) currentUser.firstName += element;
+        else currentUser.firstName += element + ' ';
+      }
+    }
+    currentUser.lastName = document.getElementById('inputDetailLastName').value;
+    if (currentUser.lastName.includes(' ')) {
+      const lastNameArray = currentUser.lastName.split(' ');
+      currentUser.lastName = '';
+      for (let i = 0; i < lastNameArray.length; i++) {
+        const element =
+          lastNameArray[i].charAt(0).toUpperCase() +
+          lastNameArray[i].slice(1).toLowerCase();
+        if (i == lastNameArray.length - 1) currentUser.lastName += element;
+        else currentUser.lastName += element + ' ';
+      }
+    }
+    currentUser.email = document.getElementById(
+      'inputDetailEmailAddress'
+    ).value;
+    currentUser.phoneNumber = document.getElementById(
+      'inputDetailPhoneNumber'
+    ).value;
+
+    // console.log(currentUser);
+    editMe(currentUser);
+  });
+}
+
+if (editMyPasswordForm) {
+  editMyPasswordForm.addEventListener('submit', e => {
+    e.preventDefault();
+
+    const userPasswordObj = new Object();
+
+    userPasswordObj.passwordCurrent = document.getElementById(
+      'inputUpdateCurrentMyPassword'
+    ).value;
+    userPasswordObj.password = document.getElementById(
+      'inputUpdateNewMyPassword'
+    ).value;
+    userPasswordObj.confirmPassword = document.getElementById(
+      'inputUpdateConfirmMyPassword'
+    ).value;
+
+    editMyPassword(userPasswordObj);
   });
 }
 

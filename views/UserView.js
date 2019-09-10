@@ -70,3 +70,9 @@ exports.forgotPassword = async function(req, res, next) {
     title: 'User'
   });
 };
+
+exports.getMyDetails = async function(req, res, next) {
+  res.status(200).render('UserDetailsView', {
+    title: 'User'
+  });
+};

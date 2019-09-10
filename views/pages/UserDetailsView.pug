@@ -1,0 +1,63 @@
+extends ../components/_templateBase
+
+block content
+
+    +breadcrumbDisplay([['Home','/home'],['My Details']])
+
+    h2 Edit My Details
+
+    form#editMeForm
+        .form-group.row
+            label.col-sm-2.col-form-label(for='inputDetailFirstName') First Name
+            .col-sm-10
+                input#inputDetailFirstName.form-control(type='text' pattern="^[A-Za-z ]+$" value=`${user.firstName}` maxlength="50"  placeholder='First Name' required='required')
+        .form-group.row
+            label.col-sm-2.col-form-label(for='inputDetailLastName') Last Name
+            .col-sm-10
+                input#inputDetailLastName.form-control(type='text' pattern="^[A-Za-z ]+$" value=`${user.lastName}` maxlength="50"  placeholder='Last Name' required='required')
+        .form-group.row
+            label.col-sm-2.col-form-label(for='inputDetailEmailAddress') Email Address
+            .col-sm-10
+                input#inputDetailEmailAddress.form-control(type='email' value=`${user.email}` maxlength="50"  placeholder='Email Address' required='required')
+        .form-group.row
+            label.col-sm-2.col-form-label(for='inputDetailPhoneNumber') Phone Number
+            .col-sm-10
+                input#inputDetailPhoneNumber.form-control(type='tel' value=`${user.phoneNumber}` pattern="[0-9]{10}" minlength="10"  maxlength="10"  placeholder='Phone Number' required='required')
+        .form-group.row
+            label.col-sm-2.col-form-label(for='inputDetailUserRole') Role 
+            .col-sm-10
+                -const role = user.role == 'team-maintenance' ? 'Team Maintenance' : user.role.charAt(0).toUpperCase() + user.role.slice(1).toLowerCase();
+                input#inputDetailUserRole.form-control(type='text' value=`${role}` placeholder='Role' required='required' readonly)
+
+        .form-group.row
+            label.col-sm-2.col-form-label(for='inputDetailUserMajor') Major 
+            .col-sm-10
+                input#inputDetailUserMajor.form-control(type='text' value=`${user.major}` placeholder='Major' required='required' readonly)
+
+        .form-group.row
+            label.col-sm-2.col-form-label(for='inputDetailUserActive') Active 
+            .col-sm-10
+                -const active = user.active ? 'Yes' : 'No'
+                input#inputDetailUserActive.form-control(type='text' value=`${active}` placeholder='Active' required='required' readonly)
+        .form-group.row
+            .col-sm-10
+                button.btn.btn-primary Update Me
+
+    h2 Edit My Password
+
+    form#editMyPasswordForm
+        .form-group.row
+            label.col-sm-2.col-form-label(for='inputUpdateCurrentMyPassword') Current Password
+            .col-sm-10
+                input#inputUpdateCurrentMyPassword.form-control(type='password'  minlength="8" maxlength="50"  placeholder='Current Password' required='required')
+        .form-group.row
+            label.col-sm-2.col-form-label(for='inputUpdateNewMyPassword') New Password
+            .col-sm-10
+                input#inputUpdateNewMyPassword.form-control(type='password'  minlength="8" maxlength="50"  placeholder='New Password' required='required')
+        .form-group.row
+            label.col-sm-2.col-form-label(for='inputUpdateConfirmMyPassword') Confirm Password
+            .col-sm-10
+                input#inputUpdateConfirmMyPassword.form-control(type='password'  minlength="8" maxlength="50"  placeholder='Confirm Password' required='required')
+        .form-group.row
+            .col-sm-10
+                button.btn.btn-primary Update My Password

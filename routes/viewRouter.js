@@ -27,6 +27,12 @@ router.get('/my_details/forgot_password', userView.forgotPassword);
 router.get('/home', authenticationPresenter.protect, homeView.getHomePage);
 
 router.get(
+  '/my_details/me',
+  authenticationPresenter.protect,
+  userView.getMyDetails
+);
+
+router.get(
   '/maintenance_request',
   authenticationPresenter.protect,
   maintenanceRequestView.getMaintenancePage
