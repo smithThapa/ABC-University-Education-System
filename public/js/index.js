@@ -7,7 +7,7 @@ import {
   createTopic,
   createComment
 } from './createElement';
-import { editElement } from './editElement';
+import { editUser, editElement } from './editElement';
 import { deleteElement } from './deleteElement';
 import { submitMaintenanceRequest } from './maintenanceRequest';
 import { forgotPassword, resetPassword } from './passwordManagement';
@@ -21,6 +21,7 @@ const resetPasswordForm = document.getElementById('resetPasswordForm');
 const forgotPasswordForm = document.getElementById('forgotPasswordForm');
 const createElementForm = document.getElementById('createElementForm');
 const editElementForm = document.getElementById('editElementForm');
+const editUserForm = document.getElementById('editUserForm');
 const deleteElementBtnList = document.querySelectorAll('.deleteModalBtn');
 const maintenanceForm = document.getElementById('maintenance-form');
 
@@ -117,7 +118,6 @@ if (createUserForm) {
     if (newUser.lastName.includes(' ')) {
       const lastNameArray = newUser.lastName.split(' ');
       newUser.lastName = '';
-      newUser.lastName = '';
       for (let i = 0; i < lastNameArray.length; i++) {
         const element =
           lastNameArray[i].charAt(0).toUpperCase() +
@@ -180,6 +180,59 @@ if (editElementForm) {
     });
 
     editElement(obj, elementType.toLowerCase(), elementId, elementPath);
+  });
+}
+
+if (editUserForm) {
+  editUserForm.addEventListener('submit', e => {
+    e.preventDefault();
+
+    const currentUserId = document.getElementById('hiddenInputEditionUserId')
+      .value;
+
+    const editUserObj = new Object();
+
+    editUserObj.firstName = document.getElementById('inputEditFirstName').value;
+    if (editUserObj.firstName.includes(' ')) {
+      const firstNameArray = editUserObj.firstName.split(' ');
+      editUserObj.firstName = '';
+      for (let i = 0; i < firstNameArray.length; i++) {
+        const element =
+          firstNameArray[i].charAt(0).toUpperCase() +
+          firstNameArray[i].slice(1).toLowerCase();
+        if (i == firstNameArray.length - 1) editUserObj.firstName += element;
+        else editUserObj.firstName += element + ' ';
+      }
+    }
+    editUserObj.lastName = document.getElementById('inputEditLastName').value;
+    if (editUserObj.lastName.includes(' ')) {
+      const lastNameArray = editUserObj.lastName.split(' ');
+      editUserObj.lastName = '';
+      for (let i = 0; i < lastNameArray.length; i++) {
+        const element =
+          lastNameArray[i].charAt(0).toUpperCase() +
+          lastNameArray[i].slice(1).toLowerCase();
+        if (i == lastNameArray.length - 1) editUserObj.lastName += element;
+        else editUserObj.lastName += element + ' ';
+      }
+    }
+    editUserObj.email = document.getElementById('inputEditEmailAddress').value;
+    editUserObj.phoneNumber = document.getElementById(
+      'inputEditPhoneNumber'
+    ).value;
+    editUserObj.role = document
+      .getElementById('inputEditUserRole')
+      .value.toLowerCase();
+    if (editUserObj.role == 'team maintenance')
+      editUserObj.role = 'team-maintenance';
+    editUserObj.major = document.getElementById('inputEditUserMajor').value;
+    editUserObj.active =
+      document.getElementById('inputEditUserActive').value == 'Yes'
+        ? true
+        : false;
+
+    console.log(currentUserId, editUserObj);
+    editUser(editUserObj, currentUserId);
   });
 }
 
