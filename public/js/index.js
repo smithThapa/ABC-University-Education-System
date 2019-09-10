@@ -10,7 +10,7 @@ import {
 import { editElement } from './editElement';
 import { deleteElement } from './deleteElement';
 import { submitMaintenanceRequest } from './maintenanceRequest';
-import { resetPassword } from './passwordManagement';
+import { forgotPassword, resetPassword } from './passwordManagement';
 
 // variable
 const loginForm = document.getElementById('login-form');
@@ -18,6 +18,7 @@ const logoutBtn = document.getElementById('logoutBtn');
 const fileInput = document.getElementById('fileInput');
 const createUserForm = document.getElementById('createUserForm');
 const resetPasswordForm = document.getElementById('resetPasswordForm');
+const forgotPasswordForm = document.getElementById('forgotPasswordForm');
 const createElementForm = document.getElementById('createElementForm');
 const editElementForm = document.getElementById('editElementForm');
 const deleteElementBtnList = document.querySelectorAll('.deleteModalBtn');
@@ -150,6 +151,16 @@ if (resetPasswordForm) {
   });
 }
 
+if (forgotPasswordForm) {
+  forgotPasswordForm.addEventListener('submit', e => {
+    e.preventDefault();
+
+    const userEmail = document.getElementById('inputForgotUserEmail').value;
+    const resetURL = '/my_details/reset_password';
+
+    forgotPassword(userEmail, resetURL);
+  });
+}
 if (editElementForm) {
   editElementForm.addEventListener('submit', e => {
     e.preventDefault();

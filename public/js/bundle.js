@@ -8908,7 +8908,7 @@ exports.submitMaintenanceRequest = submitMaintenanceRequest;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.resetPassword = void 0;
+exports.forgotPassword = exports.resetPassword = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
 
@@ -8978,6 +8978,64 @@ function () {
 }();
 
 exports.resetPassword = resetPassword;
+
+var forgotPassword =
+/*#__PURE__*/
+function () {
+  var _ref2 = _asyncToGenerator(
+  /*#__PURE__*/
+  regeneratorRuntime.mark(function _callee2(email, resetURL) {
+    var res;
+    return regeneratorRuntime.wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            _context2.prev = 0;
+            _context2.next = 3;
+            return (0, _axios.default)({
+              method: 'POST',
+              url: 'http://127.0.0.1:8000/api/v1/users/forgotPassword',
+              data: {
+                email: email,
+                resetURL: resetURL
+              }
+            });
+
+          case 3:
+            res = _context2.sent;
+
+            if (res.data.status === 'success') {
+              window.scrollTo(0, 0);
+              (0, _alerts.showAlert)('success', 'Your request to your new password is success!', 'An email has been send you to reset your password within 24 hours.');
+              window.setTimeout(function () {
+                location.assign('/');
+              }, 0);
+            }
+
+            _context2.next = 11;
+            break;
+
+          case 7:
+            _context2.prev = 7;
+            _context2.t0 = _context2["catch"](0);
+            // console.log(err.response.data);
+            window.scrollTo(0, 0);
+            (0, _alerts.showAlert)('danger', 'Your request was decline!', _context2.t0.response.data.message);
+
+          case 11:
+          case "end":
+            return _context2.stop();
+        }
+      }
+    }, _callee2, null, [[0, 7]]);
+  }));
+
+  return function forgotPassword(_x4, _x5) {
+    return _ref2.apply(this, arguments);
+  };
+}();
+
+exports.forgotPassword = forgotPassword;
 },{"axios":"../../node_modules/axios/index.js","./alerts":"alerts.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
@@ -9255,6 +9313,7 @@ var logoutBtn = document.getElementById('logoutBtn');
 var fileInput = document.getElementById('fileInput');
 var createUserForm = document.getElementById('createUserForm');
 var resetPasswordForm = document.getElementById('resetPasswordForm');
+var forgotPasswordForm = document.getElementById('forgotPasswordForm');
 var createElementForm = document.getElementById('createElementForm');
 var editElementForm = document.getElementById('editElementForm');
 var deleteElementBtnList = document.querySelectorAll('.deleteModalBtn');
@@ -9374,6 +9433,15 @@ if (resetPasswordForm) {
     var confirmPassword = document.getElementById('inputConfirmPassword').value;
     var token = document.getElementById('hiddenResetToken').value;
     (0, _passwordManagement.resetPassword)(newPassword, confirmPassword, token);
+  });
+}
+
+if (forgotPasswordForm) {
+  forgotPasswordForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var userEmail = document.getElementById('inputForgotUserEmail').value;
+    var resetURL = '/my_details/reset_password';
+    (0, _passwordManagement.forgotPassword)(userEmail, resetURL);
   });
 }
 

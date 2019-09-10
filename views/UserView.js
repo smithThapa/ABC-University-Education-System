@@ -41,3 +41,9 @@ exports.resetPassword = async function(req, res, next) {
     token: req.params.token
   });
 };
+
+exports.forgotPassword = async function(req, res, next) {
+  res.status(200).render('ForgotPasswordView', {
+    title: 'User'
+  });
+};

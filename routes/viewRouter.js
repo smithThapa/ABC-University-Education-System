@@ -18,6 +18,8 @@ router.get('/', authenticationPresenter.isLoggedIn, homeView.getLoginPage);
 
 router.get('/my_details/reset_Password/:token', userView.resetPassword);
 
+router.get('/my_details/forgot_password', userView.forgotPassword);
+
 //------------------
 //----All Users---------
 //------------------

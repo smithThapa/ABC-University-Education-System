@@ -7,7 +7,8 @@ const htmlToText = require('html-to-text');
 module.exports = class Email {
   constructor(user, url) {
     this.to = user.email;
-    this.fistName = user.firstName.split(' ')[0];
+    this.fistName = user.firstName;
+    this.lastName = user.lastName;
     this.url = url;
     this.from = `ABC Univeristy Edication System <${process.env.EMAIL_FROM}>`;
   }
@@ -39,6 +40,7 @@ module.exports = class Email {
       `${__dirname}/../views/emails/${template}.pug`,
       {
         firstName: this.firstName,
+        lastName: this.lastName,
         url: this.url,
         subject
       }
