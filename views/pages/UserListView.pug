@@ -5,7 +5,7 @@ block content
     
     .d-flex
         h2 Manage Users
-        a.btn.btn-primary.text-white.mb-auto.ml-auto + Create User
+        a.btn.btn-primary.text-white.mb-auto.ml-auto(href=`/manage_users/new_user`) + Create User
         
     -if(users.length<1)
         h4.font-weight-bold.text-dark.mt-0.ml-4 No users in the system.
@@ -24,6 +24,9 @@ block content
                     th.text-center(scope="col") Delete
 
             each currentUser,index in users
+            
+                //- modal to delete element
+                +deleteModalTemplate(currentUser.id, title, `${currentUser.firstName} ${currentUser.lastName} - Email: ${currentUser.email}`)
                 
                 -const active = currentUser.active ? 'Yes' : 'No'
                 
@@ -38,4 +41,4 @@ block content
                         td.text-center
                             a.btn.btn-success.text-white Edit
                         td.text-center
-                            a.btn.btn-danger.text-white Delete
+                            a.btn.btn-danger.text-white(type='button' data-toggle="modal" data-target=`#deleteModal${currentUser.id}`) Delete

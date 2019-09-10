@@ -1,14 +1,23 @@
 import '@babel/polyfill';
 import { login, logout } from './login';
 import { showAlert } from './alerts';
-import { createForum, createTopic, createComment } from './createElement';
+import {
+  createUser,
+  createForum,
+  createTopic,
+  createComment
+} from './createElement';
 import { editElement } from './editElement';
 import { deleteElement } from './deleteElement';
 import { submitMaintenanceRequest } from './maintenanceRequest';
+import { resetPassword } from './passwordManagement';
+
 // variable
 const loginForm = document.getElementById('login-form');
 const logoutBtn = document.getElementById('logoutBtn');
 const fileInput = document.getElementById('fileInput');
+const createUserForm = document.getElementById('createUserForm');
+const resetPasswordForm = document.getElementById('resetPasswordForm');
 const createElementForm = document.getElementById('createElementForm');
 const editElementForm = document.getElementById('editElementForm');
 const deleteElementBtnList = document.querySelectorAll('.deleteModalBtn');
@@ -85,6 +94,62 @@ if (createElementForm) {
   });
 }
 
+if (createUserForm) {
+  createUserForm.addEventListener('submit', e => {
+    e.preventDefault();
+
+    const newUser = new Object();
+
+    newUser.firstName = document.getElementById('inputCreationFirstName').value;
+    if (newUser.firstName.includes(' ')) {
+      const firstNameArray = newUser.firstName.split(' ');
+      newUser.firstName = '';
+      for (let i = 0; i < firstNameArray.length; i++) {
+        const element =
+          firstNameArray[i].charAt(0).toUpperCase() +
+          firstNameArray[i].slice(1).toLowerCase();
+        if (i == firstNameArray.length - 1) newUser.firstName += element;
+        else newUser.firstName += element + ' ';
+      }
+    }
+    newUser.lastName = document.getElementById('inputCreationLastName').value;
+    if (newUser.lastName.includes(' ')) {
+      const lastNameArray = newUser.lastName.split(' ');
+      newUser.lastName = '';
+      newUser.lastName = '';
+      for (let i = 0; i < lastNameArray.length; i++) {
+        const element =
+          lastNameArray[i].charAt(0).toUpperCase() +
+          lastNameArray[i].slice(1).toLowerCase();
+        if (i == lastNameArray.length - 1) newUser.lastName += element;
+        else newUser.lastName += element + ' ';
+      }
+    }
+    newUser.email = document.getElementById('inputCreationEmailAddress').value;
+    newUser.phoneNumber = document.getElementById(
+      'inputCreationPhoneNumber'
+    ).value;
+    newUser.role = document
+      .getElementById('inputCreationUserRole')
+      .value.toLowerCase();
+    newUser.major = document.getElementById('inputCreationUserMajor').value;
+    newUser.resetURL = '/my_details/reset_password';
+    createUser(newUser);
+  });
+}
+
+if (resetPasswordForm) {
+  resetPasswordForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const newPassword = document.getElementById('inputNewPassword').value;
+    const confirmPassword = document.getElementById('inputConfirmPassword')
+      .value;
+    const token = document.getElementById('hiddenResetToken').value;
+
+    resetPassword(newPassword, confirmPassword, token);
+  });
+}
+
 if (editElementForm) {
   editElementForm.addEventListener('submit', e => {
     e.preventDefault();
@@ -100,10 +165,6 @@ if (editElementForm) {
       if (element.id === 'inputEdition1') obj.title = element.value;
       if (element.id === 'inputEdition2') obj.description = element.value;
       if (element.id === 'inputEdition3') obj.type = element.value;
-      // if (element.id === 'inputEdition1') form.append('title', element.value);
-      // if (element.id === 'inputEdition2')
-      //   form.append('description', element.value);
-      // if (element.id === 'inputEdition3') form.append('type', element.value);
     });
 
     editElement(obj, elementType.toLowerCase(), elementId, elementPath);

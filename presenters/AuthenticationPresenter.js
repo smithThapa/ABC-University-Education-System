@@ -159,7 +159,6 @@ exports.isLoggedIn = async (req, res, next) => {
       if (currentUser.changedPasswordAfter(decoded.iat)) {
         return next();
       }
-
       //There is a logged in Uses
       res.locals.user = currentUser;
       return next();
@@ -299,9 +298,9 @@ exports.createUser = catchAsync(async (req, res, next) => {
 
   try {
     // 3: send it to the users's email
-    const resetURL = `${req.protocol}://${req.get(
-      'host'
-    )}/api/v1/users/resetPassword/${resetToken}`;
+    const resetURL = `${req.protocol}://${req.get('host')}${
+      req.body.resetURL
+    }/${resetToken}`;
 
     await new Email(newUser, resetURL).sendWelcome();
 

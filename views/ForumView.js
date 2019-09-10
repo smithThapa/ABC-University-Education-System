@@ -48,8 +48,8 @@ exports.getManageForumsList = async function(req, res, next) {
   }
 };
 
-exports.createForum = async function(req, res, next) {
-  res.status(200).render('AddElementView', {
+exports.createForum = function(req, res) {
+  res.status(200).render('CreateElementView', {
     title: 'Forum',
     user: req.user
   });

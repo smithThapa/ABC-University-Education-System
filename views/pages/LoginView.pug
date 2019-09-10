@@ -7,7 +7,7 @@ block noBarsContent
             img(src='/img/ABC_ICON_NAVBAR.svg' alt='ABC Logo' width='auto' height='60')
             h3.mt-4 University Login
         .card-body
-            form#login-form.was-validated
+            form#login-form
                 .form-group
                     .form-label-group
                         input#inputEmail.form-control(type='email' placeholder='Email address' required='required' autofocus='autofocus')
@@ -16,11 +16,11 @@ block noBarsContent
                     .form-label-group
                         input#inputPassword.form-control(type='password' placeholder='Password' required='required', minlength='8')
                         label(for='inputPassword') Password
-                .form-group
-                    .checkbox
-                        label
-                        input(type='checkbox' value='remember-me')
-                        |                 Remember Password
+                //- .form-group
+                //-     .checkbox
+                //-         label
+                //-         input(type='checkbox' value='remember-me')
+                //-         |                 Remember Password
                 button.btn.btn-primary.btn-block Login
             .text-center
                 //- a.d-block.small.mt-3(href='register.html') Register an Account

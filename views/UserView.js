@@ -13,7 +13,7 @@ exports.getManageUsersList = async function(req, res, next) {
 
     if (obj.data.status === 'success') {
       res.status(200).render('UserListView', {
-        title: 'Manage Users',
+        title: 'User',
         users: obj.data.data.data
       });
     }
@@ -21,4 +21,23 @@ exports.getManageUsersList = async function(req, res, next) {
     console.log(err);
     next(new AppError(err.message, err.statusCode));
   }
+};
+
+exports.createUser = async function(req, res, next) {
+  try {
+    res.status(200).render('CreateUserView', {
+      title: 'User',
+      user: req.user
+    });
+  } catch (err) {
+    console.log(err);
+    next(new AppError(err.message, err.statusCode));
+  }
+};
+
+exports.resetPassword = async function(req, res, next) {
+  res.status(200).render('ResetPasswordView', {
+    title: 'User',
+    token: req.params.token
+  });
 };

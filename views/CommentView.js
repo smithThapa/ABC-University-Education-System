@@ -59,7 +59,7 @@ exports.createComment = async function(req, res, next) {
       objForum.data.status === 'success' &&
       objTopic.data.status === 'success'
     ) {
-      res.status(200).render('AddElementView', {
+      res.status(200).render('CreateElementView', {
         title: 'Comment',
         topic: objTopic.data.data.data,
         forum: objForum.data.data.data,

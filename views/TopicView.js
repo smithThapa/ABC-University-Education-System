@@ -76,7 +76,7 @@ exports.createTopicByForumSlug = async function(req, res, next) {
     });
 
     if (objForum.data.status === 'success') {
-      res.status(200).render('AddElementView', {
+      res.status(200).render('CreateElementView', {
         title: 'Topic',
         forum: objForum.data.data.data,
         user: req.user
@@ -130,7 +130,7 @@ exports.createTopicByForumSlug = async function(req, res, next) {
     });
 
     if (objForum.data.status === 'success') {
-      res.status(200).render('AddElementView', {
+      res.status(200).render('CreateElementView', {
         title: 'Topic',
         forum: objForum.data.data.data,
         user: req.user
@@ -186,7 +186,7 @@ exports.createTopic = async function(req, res, next) {
     });
 
     if (objForums.data.status === 'success') {
-      res.status(200).render('AddElementView', {
+      res.status(200).render('CreateElementView', {
         title: 'Topic',
         forums: objForums.data.data.data
       });

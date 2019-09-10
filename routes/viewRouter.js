@@ -14,30 +14,44 @@ const maintenanceRequestView = require('./../views/MaintenanceRequestView');
 const router = express.Router();
 
 //Start
-router.get('/', homeView.getLoginPage);
+router.get('/', authenticationPresenter.isLoggedIn, homeView.getLoginPage);
 
-router.get(
-  '/home',
-  authenticationPresenter.protect,
-  authenticationPresenter.isLoggedIn,
-  homeView.getHomePage
-);
+router.get('/my_details/reset_Password/:token', userView.resetPassword);
+
+//------------------
+//----All Users---------
+//------------------
+
+router.get('/home', authenticationPresenter.protect, homeView.getHomePage);
 
 router.get(
   '/maintenance_request',
   authenticationPresenter.protect,
-  authenticationPresenter.isLoggedIn,
   maintenanceRequestView.getMaintenancePage
 );
 
-//Forum page
+//------------------
+//----Stundet, Staff and Admin---------
+//------------------
+
+//Resource view
 router.use(
+  '/resources',
   authenticationPresenter.protect,
-  authenticationPresenter.isLoggedIn,
+  authenticationPresenter.restrictTo('student', 'staff', 'admin'),
+  resourceRouter
+);
+
+router.all(
+  '/forums',
+  authenticationPresenter.protect,
   authenticationPresenter.restrictTo('student', 'staff', 'admin')
 );
-//Resource view
-router.use('/resources', resourceRouter);
+router.all(
+  '/forums/*',
+  authenticationPresenter.protect,
+  authenticationPresenter.restrictTo('student', 'staff', 'admin')
+);
 
 //Forum, Topics and comments views
 router.get('/forums', forumView.getForumView);
@@ -56,17 +70,50 @@ router.get(
   `/forums/:forumSlug/topics/:topicSlug/comments/:commentId/edit_comment`,
   commentView.editComment
 );
+// //------------------
+// //----Staff---------
+// //------------------
+router.get(
+  '/create_forum',
+  authenticationPresenter.protect,
+  authenticationPresenter.restrictTo('staff'),
+  forumView.createForum
+);
+router.get(
+  '/create_topic',
+  authenticationPresenter.protect,
+  authenticationPresenter.restrictTo('staff'),
+  topicView.createTopic
+);
 
-//Staff
-router.get(authenticationPresenter.restrictTo('staff'));
+// //------------------
+// //----Admin---------
+// //------------------
+router.all(
+  '/manage_users',
+  authenticationPresenter.protect,
+  authenticationPresenter.restrictTo('admin')
+);
+router.all(
+  '/manage_users/*',
+  authenticationPresenter.protect,
+  authenticationPresenter.restrictTo('admin')
+);
 
-router.get('/create_forum', forumView.createForum);
-router.get('/create_topic', topicView.createTopic);
-
-// ADMIN
-router.use(authenticationPresenter.restrictTo('admin'));
-
+// //User Management
 router.get('/manage_users', userView.getManageUsersList);
+router.get('/manage_users/new_user', userView.createUser);
+
+router.all(
+  '/manage_forums',
+  authenticationPresenter.protect,
+  authenticationPresenter.restrictTo('admin')
+);
+router.all(
+  '/manage_forums/*',
+  authenticationPresenter.protect,
+  authenticationPresenter.restrictTo('admin')
+);
 
 // Forum management
 router.get('/manage_forums', forumView.getManageForumsList);
@@ -97,8 +144,13 @@ router.get(
   commentView.createComment
 );
 
-router.use(
-  authenticationPresenter.isLoggedIn,
+//------------------
+//----Team-Maintenance---------
+//------------------
+
+router.all(
+  '/manage_maintenance_requests',
+  authenticationPresenter.protect,
   authenticationPresenter.restrictTo('team-maintenance')
 );
 
