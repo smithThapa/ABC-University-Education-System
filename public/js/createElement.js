@@ -126,3 +126,29 @@ export const createComment = async (
     showAlert('danger', 'Comment was not created', err.response.data.message);
   }
 };
+
+export const createArticle = async function(data, previousPath) {
+  try {
+    const res = await axios({
+      method: 'POST',
+      url: 'http://127.0.0.1:8000/api/v1/articles',
+      data
+    });
+
+    if (res.data.status === 'success') {
+      window.scrollTo(0, 0);
+      showAlert(
+        'success',
+        `Created ${data.type} Sucessfully!`,
+        `${data.type} is accessible to all users`
+      );
+      window.setTimeout(() => {
+        location.assign(previousPath);
+      }, 0);
+    }
+  } catch (err) {
+    // console.log(err.response.data);
+    window.scrollTo(0, 0);
+    showAlert('danger', 'User was not created', err.response.data.message);
+  }
+};

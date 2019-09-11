@@ -35,12 +35,12 @@ block content
         table.table#dataTable.table.table-borderless.table-sm
             thead
                 tr
-                    th.text-right.px-5 Sort
+                    th.text-right.px-5 Sort By Title
             tbody 
                 each comment in comments
                     tr 
                         td
-                    
+                            p.d-none #{comment.title}
                             //- -const creationDate = topics.createdAt.format();
                             -const creationDateComment = moment(comment.createdAt).format('dddd DD MMM YYYY HH:mm');
                             

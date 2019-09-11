@@ -63,7 +63,10 @@ topicSchema.virtual('comments', {
 topicSchema.pre('save', async function(next) {
   const forum = await Forum.findById(this.forum);
 
-  this.slug = slugify(`${this.title} ${forum.type} topic`, { lower: true });
+  this.slug = slugify(`${this.title} ${forum.type} topic`, {
+    remove: null,
+    lower: true
+  });
   next();
 });
 

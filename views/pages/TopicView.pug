@@ -30,12 +30,13 @@ block content
         table.table#dataTable.table.table-borderless.table-sm
             thead
                 tr
-                    th.text-right.px-5 Sort
+                    th.text-right.px-5 Sort By Title
             tbody 
                 each topic in topics
                     tr
                         td
-                    
+                            
+                            p.d-none #{topic.title}
                             //- -const creationDate = topics.createdAt.format();
                             -const creationDateTopic = moment(topic.createdAt).format('dddd DD MMM YYYY HH:mm');
                             

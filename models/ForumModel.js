@@ -65,7 +65,10 @@ forumSchema.virtual('topics', {
 // });
 
 forumSchema.pre('save', function(next) {
-  this.slug = slugify(`${this.type} ${this.title} forum`, { lower: true });
+  this.slug = slugify(`${this.type} ${this.title} forum`, {
+    remove: null,
+    lower: true
+  });
   next();
 });
 // forumSchema.pre(/^find/, function(next) {

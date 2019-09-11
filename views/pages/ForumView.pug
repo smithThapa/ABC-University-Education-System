@@ -11,7 +11,7 @@ block append scripts
     script(src='/js/databaseDesignJQuerry.js')
            
 block content
-    +breadcrumbDisplay([['Home','/'],['Forums']])
+    +breadcrumbDisplay([['Home','/home'],['Forums']])
     
     h2 Forums
     
@@ -21,12 +21,13 @@ block content
         table.table#dataTable.table.table-borderless.table-sm
             thead
                 tr
-                    th.text-right.px-5 Sort
+                    th.text-right.px-5 Sort By Type
             tbody
                 each forum in forums
                     tr
                         td
-                    
+                            
+                            p.d-nonen #{forum.type}
                             //- -const creationDate = forum.createdAt.format();
                             -const creationDate = moment(forum.createdAt).format('dddd DD MMM YYYY HH:mm');
                             

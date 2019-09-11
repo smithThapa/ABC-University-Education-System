@@ -2,7 +2,7 @@ const axios = require('axios');
 const AppError = require('./../utils/AppError');
 
 //get forums page
-exports.getForumView = async function(req, res, next) {
+exports.getForums = async function(req, res, next) {
   try {
     //add authentitcation to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;

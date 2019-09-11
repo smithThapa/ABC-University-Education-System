@@ -8,6 +8,8 @@ const homeView = require('./../views/HomeView');
 const forumView = require('./../views/ForumView');
 const topicView = require('./../views/TopicView');
 const commentView = require('./../views/CommentView');
+const announcementView = require('./../views/AnnouncementView');
+const newsView = require('./../views/NewsView');
 const userView = require('./../views/UserView');
 const maintenanceRequestView = require('./../views/MaintenanceRequestView');
 
@@ -62,7 +64,7 @@ router.all(
 );
 
 //Forum, Topics and comments views
-router.get('/forums', forumView.getForumView);
+router.get('/forums', forumView.getForums);
 router.get('/forums/:forumSlug/topics', topicView.getTopicsByForumSlug);
 router.get(
   '/forums/:forumSlug/topics/:topicSlug/comments',
@@ -78,6 +80,32 @@ router.get(
   `/forums/:forumSlug/topics/:topicSlug/comments/:commentId/edit_comment`,
   commentView.editComment
 );
+
+router.get(
+  '/news',
+  authenticationPresenter.protect,
+  authenticationPresenter.restrictTo('student', 'staff', 'admin'),
+  newsView.getNews
+);
+router.get(
+  '/news/:slug',
+  authenticationPresenter.protect,
+  authenticationPresenter.restrictTo('student', 'staff', 'admin'),
+  newsView.getNewsDetails
+);
+
+router.get(
+  '/announcements',
+  authenticationPresenter.protect,
+  authenticationPresenter.restrictTo('student', 'staff', 'admin'),
+  announcementView.getAnnouncementView
+);
+// router.all(
+//   '/announcements/*',
+//   authenticationPresenter.protect,
+//   authenticationPresenter.restrictTo('student', 'staff', 'admin')
+// );
+
 // //------------------
 // //----Staff---------
 // //------------------
@@ -92,6 +120,12 @@ router.get(
   authenticationPresenter.protect,
   authenticationPresenter.restrictTo('staff'),
   topicView.createTopic
+);
+router.get(
+  '/create_news',
+  authenticationPresenter.protect,
+  authenticationPresenter.restrictTo('staff'),
+  newsView.createNews
 );
 
 // //------------------
@@ -152,6 +186,22 @@ router.get(
   '/manage_forums/:forumSlug/manage_topics/:topicSlug/manage_comments/new_comment',
   commentView.createComment
 );
+
+router.all(
+  '/manage_news',
+  authenticationPresenter.protect,
+  authenticationPresenter.restrictTo('admin')
+);
+router.all(
+  '/manage_news/*',
+  authenticationPresenter.protect,
+  authenticationPresenter.restrictTo('admin')
+);
+
+// Forum management
+router.get('/manage_news', newsView.getManageNewsList);
+router.get('/manage_news/new_news', newsView.createNews);
+router.get('/manage_news/:newsSlug/edit_news', newsView.editNews);
 
 //------------------
 //----Team-Maintenance---------

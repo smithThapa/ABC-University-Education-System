@@ -8445,7 +8445,7 @@ exports.logout = logout;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.createComment = exports.createTopic = exports.createForum = exports.createUser = void 0;
+exports.createArticle = exports.createComment = exports.createTopic = exports.createForum = exports.createUser = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
 
@@ -8688,13 +8688,68 @@ function () {
 }();
 
 exports.createComment = createComment;
+
+var createArticle =
+/*#__PURE__*/
+function () {
+  var _ref5 = _asyncToGenerator(
+  /*#__PURE__*/
+  regeneratorRuntime.mark(function _callee5(data, previousPath) {
+    var res;
+    return regeneratorRuntime.wrap(function _callee5$(_context5) {
+      while (1) {
+        switch (_context5.prev = _context5.next) {
+          case 0:
+            _context5.prev = 0;
+            _context5.next = 3;
+            return (0, _axios.default)({
+              method: 'POST',
+              url: 'http://127.0.0.1:8000/api/v1/articles',
+              data: data
+            });
+
+          case 3:
+            res = _context5.sent;
+
+            if (res.data.status === 'success') {
+              window.scrollTo(0, 0);
+              (0, _alerts.showAlert)('success', "Created ".concat(data.type, " Sucessfully!"), "".concat(data.type, " is accessible to all users"));
+              window.setTimeout(function () {
+                location.assign(previousPath);
+              }, 0);
+            }
+
+            _context5.next = 11;
+            break;
+
+          case 7:
+            _context5.prev = 7;
+            _context5.t0 = _context5["catch"](0);
+            // console.log(err.response.data);
+            window.scrollTo(0, 0);
+            (0, _alerts.showAlert)('danger', 'User was not created', _context5.t0.response.data.message);
+
+          case 11:
+          case "end":
+            return _context5.stop();
+        }
+      }
+    }, _callee5, null, [[0, 7]]);
+  }));
+
+  return function createArticle(_x13, _x14) {
+    return _ref5.apply(this, arguments);
+  };
+}();
+
+exports.createArticle = createArticle;
 },{"axios":"../../node_modules/axios/index.js","./alerts":"alerts.js"}],"editElement.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.editMyPassword = exports.editMe = exports.editUser = exports.editElement = void 0;
+exports.editMyPassword = exports.editMe = exports.editUser = exports.editArticle = exports.editElement = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
 
@@ -8763,12 +8818,12 @@ function () {
 
 exports.editElement = editElement;
 
-var editUser =
+var editArticle =
 /*#__PURE__*/
 function () {
   var _ref2 = _asyncToGenerator(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee2(data, id) {
+  regeneratorRuntime.mark(function _callee2(id, data, previousPath) {
     var res;
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
@@ -8778,7 +8833,7 @@ function () {
             _context2.next = 3;
             return (0, _axios.default)({
               method: 'PATCH',
-              url: "http://127.0.0.1:8000/api/v1/users/".concat(id),
+              url: "http://127.0.0.1:8000/api/v1/articles/".concat(id),
               data: data
             });
 
@@ -8788,9 +8843,9 @@ function () {
             // console.log(data);
             if (res.data.status === 'success') {
               window.scrollTo(0, 0);
-              (0, _alerts.showAlert)('success', "User updated successfully!", '');
+              (0, _alerts.showAlert)('success', "News updated successfully!", '');
               window.setTimeout(function () {
-                location.assign('/manage_users');
+                location.assign(previousPath);
               }, 0);
             }
 
@@ -8812,19 +8867,19 @@ function () {
     }, _callee2, null, [[0, 7]]);
   }));
 
-  return function editUser(_x5, _x6) {
+  return function editArticle(_x5, _x6, _x7) {
     return _ref2.apply(this, arguments);
   };
 }();
 
-exports.editUser = editUser;
+exports.editArticle = editArticle;
 
-var editMe =
+var editUser =
 /*#__PURE__*/
 function () {
   var _ref3 = _asyncToGenerator(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee3(data) {
+  regeneratorRuntime.mark(function _callee3(data, id) {
     var res;
     return regeneratorRuntime.wrap(function _callee3$(_context3) {
       while (1) {
@@ -8834,7 +8889,7 @@ function () {
             _context3.next = 3;
             return (0, _axios.default)({
               method: 'PATCH',
-              url: "http://127.0.0.1:8000/api/v1/users/updateMe",
+              url: "http://127.0.0.1:8000/api/v1/users/".concat(id),
               data: data
             });
 
@@ -8844,9 +8899,9 @@ function () {
             // console.log(data);
             if (res.data.status === 'success') {
               window.scrollTo(0, 0);
-              (0, _alerts.showAlert)('success', "Your User Details has been successfully Updated!", 'Thank you for sharing your details with us');
+              (0, _alerts.showAlert)('success', "User updated successfully!", '');
               window.setTimeout(function () {
-                location.assign('/my_details/me');
+                location.assign('/manage_users');
               }, 0);
             }
 
@@ -8868,14 +8923,14 @@ function () {
     }, _callee3, null, [[0, 7]]);
   }));
 
-  return function editMe(_x7) {
+  return function editUser(_x8, _x9) {
     return _ref3.apply(this, arguments);
   };
 }();
 
-exports.editMe = editMe;
+exports.editUser = editUser;
 
-var editMyPassword =
+var editMe =
 /*#__PURE__*/
 function () {
   var _ref4 = _asyncToGenerator(
@@ -8890,7 +8945,7 @@ function () {
             _context4.next = 3;
             return (0, _axios.default)({
               method: 'PATCH',
-              url: "http://127.0.0.1:8000/api/v1/users/updateMyPassword",
+              url: "http://127.0.0.1:8000/api/v1/users/updateMe",
               data: data
             });
 
@@ -8900,7 +8955,7 @@ function () {
             // console.log(data);
             if (res.data.status === 'success') {
               window.scrollTo(0, 0);
-              (0, _alerts.showAlert)('success', "Your Password has been updated!", '');
+              (0, _alerts.showAlert)('success', "Your User Details has been successfully Updated!", 'Thank you for sharing your details with us');
               window.setTimeout(function () {
                 location.assign('/my_details/me');
               }, 0);
@@ -8924,8 +8979,64 @@ function () {
     }, _callee4, null, [[0, 7]]);
   }));
 
-  return function editMyPassword(_x8) {
+  return function editMe(_x10) {
     return _ref4.apply(this, arguments);
+  };
+}();
+
+exports.editMe = editMe;
+
+var editMyPassword =
+/*#__PURE__*/
+function () {
+  var _ref5 = _asyncToGenerator(
+  /*#__PURE__*/
+  regeneratorRuntime.mark(function _callee5(data) {
+    var res;
+    return regeneratorRuntime.wrap(function _callee5$(_context5) {
+      while (1) {
+        switch (_context5.prev = _context5.next) {
+          case 0:
+            _context5.prev = 0;
+            _context5.next = 3;
+            return (0, _axios.default)({
+              method: 'PATCH',
+              url: "http://127.0.0.1:8000/api/v1/users/updateMyPassword",
+              data: data
+            });
+
+          case 3:
+            res = _context5.sent;
+
+            // console.log(data);
+            if (res.data.status === 'success') {
+              window.scrollTo(0, 0);
+              (0, _alerts.showAlert)('success', "Your Password has been updated!", '');
+              window.setTimeout(function () {
+                location.assign('/my_details/me');
+              }, 0);
+            }
+
+            _context5.next = 12;
+            break;
+
+          case 7:
+            _context5.prev = 7;
+            _context5.t0 = _context5["catch"](0);
+            window.scrollTo(0, 0);
+            console.log(_context5.t0);
+            (0, _alerts.showAlert)('error', _context5.t0.response.data.message);
+
+          case 12:
+          case "end":
+            return _context5.stop();
+        }
+      }
+    }, _callee5, null, [[0, 7]]);
+  }));
+
+  return function editMyPassword(_x11) {
+    return _ref5.apply(this, arguments);
   };
 }();
 
@@ -9478,14 +9589,16 @@ var _passwordManagement = require("./passwordManagement");
 var loginForm = document.getElementById('login-form');
 var logoutBtn = document.getElementById('logoutBtn');
 var fileInput = document.getElementById('fileInput');
-var createUserForm = document.getElementById('createUserForm');
 var resetPasswordForm = document.getElementById('resetPasswordForm');
 var forgotPasswordForm = document.getElementById('forgotPasswordForm');
+var editMyPasswordForm = document.getElementById('editMyPasswordForm');
 var createElementForm = document.getElementById('createElementForm');
+var createArticleForm = document.getElementById('createArticleForm');
+var createUserForm = document.getElementById('createUserForm');
 var editElementForm = document.getElementById('editElementForm');
+var editArticleForm = document.getElementById('editArticleForm');
 var editUserForm = document.getElementById('editUserForm');
 var editMeForm = document.getElementById('editMeForm');
-var editMyPasswordForm = document.getElementById('editMyPasswordForm');
 var deleteElementBtnList = document.querySelectorAll('.deleteModalBtn');
 var maintenanceForm = document.getElementById('maintenance-form');
 
@@ -9554,6 +9667,19 @@ if (createElementForm) {
       var _previousPath2 = document.getElementById('hiddenInputCreatePath').value;
       (0, _createElement.createComment)(_title2, _description, topicId, _previousPath2);
     }
+  });
+}
+
+if (createArticleForm) {
+  createArticleForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var previousPath = document.getElementById('hiddenInputCreateArticlePath').value;
+    var article = new Object();
+    article.type = document.getElementById('hiddenInputCreateArticleType').value;
+    article.title = document.getElementById('inputCreationArticleTitle').value;
+    article.description = document.getElementById('inputCreationArticleDescription').value; // console.log(article, previousPath);
+
+    (0, _createElement.createArticle)(article, previousPath);
   });
 }
 
@@ -9629,6 +9755,19 @@ if (editElementForm) {
       if (element.id === 'inputEdition3') obj.type = element.value;
     });
     (0, _editElement.editElement)(obj, elementType.toLowerCase(), elementId, elementPath);
+  });
+}
+
+if (editArticleForm) {
+  editArticleForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var elementId = document.getElementById('hiddenInputEditionArticleId').value;
+    var previousPath = document.getElementById('hiddenInputEditionArticlePath').value;
+    var article = new Object();
+    article.title = document.getElementById('inputEditionArticleTitle').value;
+    article.description = document.getElementById('inputEditionArticleDescription').value;
+    console.log(elementId, article, previousPath);
+    (0, _editElement.editArticle)(elementId, article, previousPath);
   });
 }
 

@@ -28,7 +28,7 @@ mixin sidebarMenu(link, text, icon)
                         a.dropdown-item(href='/manage_users') Manage Users
                         a.dropdown-item(href='/manage_forums') Manage Forums
                         a.dropdown-item(href='#') Manage Announcements
-                        a.dropdown-item(href='#') Manage News
+                        a.dropdown-item(href='/manage_news') Manage News
                         a.dropdown-item(href='#') Manage Resources
                         .dropdown-divider
                         h6.dropdown-header System tools:
@@ -48,14 +48,14 @@ mixin sidebarMenu(link, text, icon)
                         a.dropdown-item(href='/create_forum') Create Forums
                         a.dropdown-item(href='/create_topic') Create Topics
                         a.dropdown-item(href='#') Create Announcements
-                        a.dropdown-item(href='#') Create News
+                        a.dropdown-item(href='/create_news') Create News
                         .dropdown-divider
                         h6.dropdown-header System tools:
                         a.dropdown-item(href='#') System Reports
 
             +sidebarMenu('/forums','Discussion Forums', 'users')
-            +sidebarMenu('#','Announcements', 'paperclip')
-            +sidebarMenu('#','News', 'file-text')
+            +sidebarMenu('/announcements','Announcements', 'paperclip')
+            +sidebarMenu('/news','News', 'file-text')
             +sidebarMenu('/resources','Resources', 'folder')
 
         - else

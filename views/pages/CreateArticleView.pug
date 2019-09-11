@@ -1,0 +1,34 @@
+extends ../components/_templateBase
+
+block content
+    
+    -let previousPath
+    
+    -if(title == 'News' && user.role == 'admin')
+        +breadcrumbDisplay([['Home','/home'],['Manage News','/manage_news'],['New News']])
+        
+        -previousPath = '/manage_news'
+    
+    -else if(title == 'News' && user.role == 'staff')
+        +breadcrumbDisplay([['Home','/home'],['New News']])
+        
+        -previousPath = '/news'
+        
+    h2 Create New #{title}
+
+    form#createArticleForm
+        input#hiddenInputCreateArticleType.d-none(value=`${title}`)
+        input#hiddenInputCreateArticlePath.d-none(value= `${previousPath}`)
+        .form-group.row
+            label.col-sm-2.col-form-label(for='inputCreationArticleTitle') Title
+            .col-sm-10
+                input#inputCreationArticleTitle.form-control(type='text' maxlength="150"  placeholder='Title' required='required')
+        -if (title == 'News')
+            .form-group.row
+                label.col-sm-2.col-form-label(for='inputCreationArticleDescription') Description <br/> 
+                    p.text-muted (max: 5000 characters)
+                .col-sm-10
+                    textarea#inputCreationArticleDescription.form-control(type='text'  rows="20" maxlength="5000" placeholder='Description (max: 5000 characters)' required='required')
+        .form-group.row
+            .col-sm-10
+                button.btn.btn-primary New #{title}

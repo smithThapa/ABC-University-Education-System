@@ -5,9 +5,16 @@ import {
   createUser,
   createForum,
   createTopic,
-  createComment
+  createComment,
+  createArticle
 } from './createElement';
-import { editUser, editMe, editMyPassword, editElement } from './editElement';
+import {
+  editUser,
+  editMe,
+  editMyPassword,
+  editArticle,
+  editElement
+} from './editElement';
 import { deleteElement } from './deleteElement';
 import { submitMaintenanceRequest } from './maintenanceRequest';
 import { forgotPassword, resetPassword } from './passwordManagement';
@@ -16,14 +23,20 @@ import { forgotPassword, resetPassword } from './passwordManagement';
 const loginForm = document.getElementById('login-form');
 const logoutBtn = document.getElementById('logoutBtn');
 const fileInput = document.getElementById('fileInput');
-const createUserForm = document.getElementById('createUserForm');
+
 const resetPasswordForm = document.getElementById('resetPasswordForm');
 const forgotPasswordForm = document.getElementById('forgotPasswordForm');
+const editMyPasswordForm = document.getElementById('editMyPasswordForm');
+
 const createElementForm = document.getElementById('createElementForm');
+const createArticleForm = document.getElementById('createArticleForm');
+const createUserForm = document.getElementById('createUserForm');
+
 const editElementForm = document.getElementById('editElementForm');
+const editArticleForm = document.getElementById('editArticleForm');
 const editUserForm = document.getElementById('editUserForm');
 const editMeForm = document.getElementById('editMeForm');
-const editMyPasswordForm = document.getElementById('editMyPasswordForm');
+
 const deleteElementBtnList = document.querySelectorAll('.deleteModalBtn');
 const maintenanceForm = document.getElementById('maintenance-form');
 
@@ -95,6 +108,28 @@ if (createElementForm) {
         .value;
       createComment(title, description, topicId, previousPath);
     }
+  });
+}
+
+if (createArticleForm) {
+  createArticleForm.addEventListener('submit', e => {
+    e.preventDefault();
+
+    const previousPath = document.getElementById('hiddenInputCreateArticlePath')
+      .value;
+
+    const article = new Object();
+
+    article.type = document.getElementById(
+      'hiddenInputCreateArticleType'
+    ).value;
+    article.title = document.getElementById('inputCreationArticleTitle').value;
+    article.description = document.getElementById(
+      'inputCreationArticleDescription'
+    ).value;
+
+    // console.log(article, previousPath);
+    createArticle(article, previousPath);
   });
 }
 
@@ -182,6 +217,28 @@ if (editElementForm) {
     });
 
     editElement(obj, elementType.toLowerCase(), elementId, elementPath);
+  });
+}
+
+if (editArticleForm) {
+  editArticleForm.addEventListener('submit', e => {
+    e.preventDefault();
+
+    const elementId = document.getElementById('hiddenInputEditionArticleId')
+      .value;
+    const previousPath = document.getElementById(
+      'hiddenInputEditionArticlePath'
+    ).value;
+
+    const article = new Object();
+
+    article.title = document.getElementById('inputEditionArticleTitle').value;
+    article.description = document.getElementById(
+      'inputEditionArticleDescription'
+    ).value;
+
+    console.log(elementId, article, previousPath);
+    editArticle(elementId, article, previousPath);
   });
 }
 

@@ -39,6 +39,8 @@ mixin deleteModalTemplate(id, type, title)
                     
                 .modal-footer
                     button.btn.btn-secondary(type='button' data-dismiss='modal') Cancel
+                    -if(type=='News' || type=='Announcement')
+                        -type = 'Article' 
                     button.btn.btn-danger.deleteModalBtn(type='button' data-type-id=`${id}` data-type-type =`${type}`) Delete #{type}
                 
 

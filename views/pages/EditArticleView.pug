@@ -1,0 +1,32 @@
+extends ../components/_templateBase
+
+block content
+    
+    -let previousPath
+    
+    //- Forum Managemt
+    -if(title == 'News' && user.role == 'admin')
+        +breadcrumbDisplay([['Home','/home'],['Manage News','/manage_news'],['Edit News']])
+        
+        -previousPath = '/manage_news'
+        
+
+    h2 Edit #{title}
+
+    form#editArticleForm
+        input#hiddenInputEditionArticleId.d-none(value=`${article.id}`)
+        input#hiddenInputEditionArticlePath.d-none(value= `${previousPath}`)
+        .form-group.row
+            label.col-sm-2.col-form-label(for='inputEditionArticleTitle') Title
+            .col-sm-10
+                input#inputEditionArticleTitle.form-control(type='text' value=`${article.title}` maxlength="150"  placeholder='Title' required='required')
+        -if (title == 'News')
+            .form-group.row
+                label.col-sm-2.col-form-label(for='inputEditionArticleDescription') Description <br/> 
+                    p.text-muted (max: 5000 characters)
+                .col-sm-10
+                    textarea#inputEditionArticleDescription.form-control(type='text' rows="20" maxlength="5000" placeholder='Description (max: 5000 characters)' required='required')
+                        |#{article.description}
+        .form-group.row
+            .col-sm-10
+                button.btn.btn-primary Edit #{title}
