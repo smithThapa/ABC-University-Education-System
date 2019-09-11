@@ -1,4 +1,15 @@
 extends ../components/_templateBase
+
+block append head
+    link(rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css")
+    link(rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css")
+    
+
+block append scripts
+    script(src='https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js')
+    script(src='https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js')
+    script(src='/js/databaseDesignJQuerry.js')
+           
            
 block content
     +breadcrumbDisplay([['Home','/home'],['Forums','/forums'],['Topics']])
@@ -10,13 +21,22 @@ block content
     small.text-muted.mt-0= `Author: ${forum.user.firstName} ${forum.user.lastName}. Created on: ${creationDateForum}`
     p #{forum.description}
     
-    h2 Topics
+    h2.mt-0 Topics
     
     -if(topics.length<1)
         h4.font-weight-bold.text-dark.mt-0.ml-4 No topics in this forum.
-    each topic in topics
         
-        //- -const creationDate = topics.createdAt.format();
-        -const creationDateTopic = moment(topic.createdAt).format('dddd DD MMM YYYY HH:mm');
-        
-        +cardDisplayItems(topic.title, topic.description, `${topic.user.firstName} ${topic.user.lastName}`, creationDateTopic, `/forums/${forum.slug}/topics/${topic.slug}/comments`, 'Topic', `Number of Comments: ${topic.comments.length}`)
+    -else     
+        table.table#dataTable.table.table-borderless.table-sm
+            thead
+                tr
+                    th.text-right.px-5 Sort
+            tbody 
+                each topic in topics
+                    tr
+                        td
+                    
+                            //- -const creationDate = topics.createdAt.format();
+                            -const creationDateTopic = moment(topic.createdAt).format('dddd DD MMM YYYY HH:mm');
+                            
+                            +cardDisplayItems(topic.title, topic.description, `${topic.user.firstName} ${topic.user.lastName}`, creationDateTopic, `/forums/${forum.slug}/topics/${topic.slug}/comments`, 'Topic', `Number of Comments: ${topic.comments.length}`)

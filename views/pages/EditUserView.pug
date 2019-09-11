@@ -26,11 +26,12 @@ block content
                 input#inputEditPhoneNumber.form-control(type='tel' value=`${currentUser.phoneNumber}` pattern="[0-9]{10}" minlength="10"  maxlength="10"  placeholder='Phone Number' required='required')
         .form-group.row
             label.col-sm-2.col-form-label(for='inputEditUserRole') Role 
-            .col-sm-10
+            .col-sm-10                
                 select#inputEditUserRole.form-control(required='required')
+                    -const currentRole = currentUser.role == 'team-maintenance' ? 'Team Maintenance' : currentUser.role.charAt(0).toUpperCase() + currentUser.role.slice(1).toLowerCase();
                     -const roleArray = ['Student', 'Staff', 'Admin', 'Team Maintenance']
                     each role in roleArray
-                        -if (role == currentUser.role)
+                        -if (role == currentRole)
                             option(selected = true)= role
                         -else
                             option= role

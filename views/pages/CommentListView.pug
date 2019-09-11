@@ -1,5 +1,15 @@
 extends ../components/_templateBase
 
+block append head
+    link(rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css")
+    link(rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css")
+    
+
+block append scripts
+    script(src='https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js')
+    script(src='https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js')
+    script(src='/js/databaseDesignJQuerry.js')
+
 mixin openComment(id, title, description)
     .modal.fade(tabindex='-1' role='dialog' aria-labelledby='deleteModalLabel' aria-hidden='true' id=`deleteModalComment${id}`)
         .modal-dialog(role='document')
@@ -16,7 +26,7 @@ mixin openComment(id, title, description)
                     button.btn.btn-secondary(type='button' data-dismiss='modal') Close
            
 block content
-    +breadcrumbDisplay([['Home','/home'],['Manage Forums','/manage_forums'],['Manage Topics', `/manage_forums/${forum.slug}/manage_topics/${topic.slug}/manage_comments`],['Manage Comments']])
+    +breadcrumbDisplay([['Home','/home'],['Manage Forums','/manage_forums'],['Manage Topics', `/manage_forums/${forum.slug}/manage_topics`],['Manage Comments']])
     
     //- -const creationDate = forum.createdAt.format();
     -const creationDateForum = moment(forum.createdAt).format('dddd DD MMM YYYY HH:mm');
@@ -37,31 +47,41 @@ block content
     -if(comments.length<1)
         h4.font-weight-bold.text-dark.mt-0.ml-4 No comments in this topic to manage.
     - else
-        table.table
+        table.table#dataTable.table.table-striped.table-bordered.table-sm.text-center
             thead
                 tr
-                    th(scope="col") #
-                    th(scope="col") Title
-                    th(scope="col") Author
-                    th(scope="col") Creation date
-                    th.text-center(scope="col") Details
-                    th.text-center(scope="col") Delete
-
-            each comment,index in comments
-                //- modal to delete element
-                +deleteModalTemplate(comment.id, title, comment.title)
-                +openComment(comment.id,comment.title, comment.description)
-                
-                //- -const creationDate = forum.createdAt.format();
-                -const creationDate = moment(comment.createdAt).format('DD/MMM/YYYY');
-                tbody
-                    tr
-                        th(scope='row')= index+1
-                        td= comment.title
-                        td= `${comment.user.firstName} ${comment.user.lastName}`
-                        td= creationDate
-                        td.text-center
-                            a.btn.btn-info.text-white(type='button' data-toggle="modal" data-target=`#deleteModalComment${comment.id}`) Open
-                            //- a.btn.btn-info(href=`/manageForums/${forum.slug}/manageTopics`) Open
-                        td.text-center
-                            a.btn.btn-danger.text-white(type='button' data-toggle="modal" data-target=`#deleteModal${comment.id}`) Delete
+                    //- th #
+                    th Title
+                    th Author
+                    th Creation date
+                    th Details
+                    th Delete
+            
+            tbody
+                each comment in comments
+                    //- modal to delete element
+                    +deleteModalTemplate(comment.id, title, comment.title)
+                    +openComment(comment.id,comment.title, comment.description)
+                    
+                    //- -const creationDate = forum.createdAt.format();
+                    -const creationDate = moment(comment.createdAt).format('DD/MMM/YYYY');
+                    
+                        tr
+                            //- th= index+1
+                            td= comment.title
+                            td= `${comment.user.firstName} ${comment.user.lastName}`
+                            td= creationDate
+                            td
+                                a.btn.btn-info.text-white(type='button' data-toggle="modal" data-target=`#deleteModalComment${comment.id}`) Open
+                                //- a.btn.btn-info(href=`/manageForums/${forum.slug}/manageTopics`) Open
+                            td
+                                a.btn.btn-danger.text-white(type='button' data-toggle="modal" data-target=`#deleteModal${comment.id}`) Delete
+            
+            tfoot
+                tr
+                    //- th #
+                    th Title
+                    th Author
+                    th Creation date
+                    th Details
+                    th Delete

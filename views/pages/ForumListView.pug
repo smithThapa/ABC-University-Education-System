@@ -1,5 +1,15 @@
 extends ../components/_templateBase
 
+block append head
+    link(rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css")
+    link(rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css")
+    
+
+block append scripts
+    script(src='https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js')
+    script(src='https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js')
+    script(src='/js/databaseDesignJQuerry.js')
+
 block content
     +breadcrumbDisplay([['Home','/home'],['Manage Forums']])
 
@@ -11,36 +21,48 @@ block content
         h4.font-weight-bold.text-dark.mt-0.ml-4 No forum to manage.
     - else
 
-        table.table
+        table.table#dataTable.table.table-striped.table-bordered.table-sm.text-center
             thead
                 tr
-                    th(scope="col") #
-                    th(scope="col") Type
-                    th(scope="col") Title
-                    th(scope="col") Author
-                    th(scope="col") Creation date
-                    th(scope="col") # Topics
-                    th.text-center(scope="col") Topic Links
-                    th.text-center(scope="col") Edit
-                    th.text-center(scope="col") Delete
-
-            each forum,index in forums
-                //- modal to delete element
-                +deleteModalTemplate(forum.id, title, forum.title)
-                //- -const creationDate = forum.createdAt.format();
-                -const creationDate = moment(forum.createdAt).format('DD/MMM/YYYY');
-                tbody
-                    tr
-                        th(scope='row')= index+1
-                        td= forum.type
-                        td= forum.title
-                        td= `${forum.user.firstName} ${forum.user.lastName}`
-                        td= creationDate
-                        td.text-center= forum.topics.length
-                        td.text-center
-                            //- a.btn.btn-info(href=`/forums/${forum.slug}/topics`) Open
-                            a.btn.btn-info(href=`/manage_forums/${forum.slug}/manage_topics`) Open
-                        td.text-center
-                            a.btn.btn-success.text-white(href=`/manage_forums/${forum.slug}/edit_forum`) Edit
-                        td.text-center
-                            a.btn.btn-danger.text-white(type='button' data-toggle="modal" data-target=`#deleteModal${forum.id}`) Delete
+                    //- th #
+                    th Type
+                    th Title
+                    th Author
+                    th Creation date
+                    th # Topics
+                    th Topics
+                    th Edit
+                    th Delete
+            
+            tbody
+                each forum in forums
+                    //- modal to delete element
+                    +deleteModalTemplate(forum.id, title, forum.title)
+                    //- -const creationDate = forum.createdAt.format();
+                    -const creationDate = moment(forum.createdAt).format('DD/MMM/YYYY');
+                    
+                        tr
+                            //- th= index+1
+                            td= forum.type
+                            td= forum.title
+                            td #{forum.user.firstName} #{forum.user.lastName}
+                            td= creationDate
+                            td= forum.topics.length
+                            td
+                                //- a.btn.btn-info(href=`/forums/${forum.slug}/topics`) Open
+                                a.btn.btn-info(href=`/manage_forums/${forum.slug}/manage_topics`) Open
+                            td
+                                a.btn.btn-success.text-white(href=`/manage_forums/${forum.slug}/edit_forum`) Edit
+                            td
+                                a.btn.btn-danger.text-white(type='button' data-toggle="modal" data-target=`#deleteModal${forum.id}`) Delete
+            tfoot
+                tr
+                    //- th #
+                    th Type
+                    th Title
+                    th Author
+                    th Creation date
+                    th # Topics
+                    th Topics
+                    th Edit
+                    th Delete
