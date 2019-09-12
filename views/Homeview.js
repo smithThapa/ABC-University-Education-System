@@ -66,10 +66,17 @@ exports.getHomePage = async function(req, res, next) {
       url: 'http://127.0.0.1:8000/api/v1/articles/news?sort=-createdAt&limit=3'
     });
 
+    const announcements = await axios({
+      method: 'GET',
+      url:
+        'http://127.0.0.1:8000/api/v1/articles/announcements?sort=-createdAt&limit=3'
+    });
+
     if (news.data.status === 'success') {
       res.status(200).render('HomeView', {
         title: 'Home',
-        news: news.data.data.data
+        news: news.data.data.data,
+        announcements: announcements.data.data.data
       });
     }
   } catch (err) {

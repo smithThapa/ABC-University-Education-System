@@ -8823,7 +8823,7 @@ var editArticle =
 function () {
   var _ref2 = _asyncToGenerator(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee2(id, data, previousPath) {
+  regeneratorRuntime.mark(function _callee2(id, data, type, previousPath) {
     var res;
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
@@ -8842,8 +8842,9 @@ function () {
 
             // console.log(data);
             if (res.data.status === 'success') {
+              console.log(res.data.data);
               window.scrollTo(0, 0);
-              (0, _alerts.showAlert)('success', "News updated successfully!", '');
+              (0, _alerts.showAlert)('success', "".concat(type, " updated successfully!"), '');
               window.setTimeout(function () {
                 location.assign(previousPath);
               }, 0);
@@ -8867,7 +8868,7 @@ function () {
     }, _callee2, null, [[0, 7]]);
   }));
 
-  return function editArticle(_x5, _x6, _x7) {
+  return function editArticle(_x5, _x6, _x7, _x8) {
     return _ref2.apply(this, arguments);
   };
 }();
@@ -8923,7 +8924,7 @@ function () {
     }, _callee3, null, [[0, 7]]);
   }));
 
-  return function editUser(_x8, _x9) {
+  return function editUser(_x9, _x10) {
     return _ref3.apply(this, arguments);
   };
 }();
@@ -8979,7 +8980,7 @@ function () {
     }, _callee4, null, [[0, 7]]);
   }));
 
-  return function editMe(_x10) {
+  return function editMe(_x11) {
     return _ref4.apply(this, arguments);
   };
 }();
@@ -9035,7 +9036,7 @@ function () {
     }, _callee5, null, [[0, 7]]);
   }));
 
-  return function editMyPassword(_x11) {
+  return function editMyPassword(_x12) {
     return _ref5.apply(this, arguments);
   };
 }();
@@ -9762,12 +9763,13 @@ if (editArticleForm) {
   editArticleForm.addEventListener('submit', function (e) {
     e.preventDefault();
     var elementId = document.getElementById('hiddenInputEditionArticleId').value;
+    var elementType = document.getElementById('hiddenInputEditionArticleType').value;
     var previousPath = document.getElementById('hiddenInputEditionArticlePath').value;
     var article = new Object();
     article.title = document.getElementById('inputEditionArticleTitle').value;
-    article.description = document.getElementById('inputEditionArticleDescription').value;
-    console.log(elementId, article, previousPath);
-    (0, _editElement.editArticle)(elementId, article, previousPath);
+    article.description = document.getElementById('inputEditionArticleDescription').value; // console.log(elementId, article, previousPath);
+
+    (0, _editElement.editArticle)(elementId, article, elementType, previousPath);
   });
 }
 
@@ -9898,7 +9900,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61545" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52954" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

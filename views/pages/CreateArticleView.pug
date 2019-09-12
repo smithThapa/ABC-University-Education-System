@@ -3,16 +3,36 @@ extends ../components/_templateBase
 block content
     
     -let previousPath
+    -let numberOfRows
+    -let numberOfCharacters
     
     -if(title == 'News' && user.role == 'admin')
         +breadcrumbDisplay([['Home','/home'],['Manage News','/manage_news'],['New News']])
         
         -previousPath = '/manage_news'
+        -numberOfCharacters = 5000
+        -numberOfRows = 20
     
     -else if(title == 'News' && user.role == 'staff')
         +breadcrumbDisplay([['Home','/home'],['New News']])
         
         -previousPath = '/news'
+        -numberOfCharacters = 5000
+        -numberOfRows = 20
+        
+    -if(title == 'Announcements' && user.role == 'admin')
+        +breadcrumbDisplay([['Home','/home'],['Manage Announcements','/manage_announcements'],['New Announcement']])
+        
+        -previousPath = '/manage_announcements'
+        -numberOfCharacters = 3000
+        -numberOfRows = 10
+    
+    -else if(title == 'Announcements' && user.role == 'staff')
+        +breadcrumbDisplay([['Home','/home'],['New Announcement']])
+        
+        -previousPath = '/announcements'
+        -numberOfCharacters = 3000
+        -numberOfRows = 10
         
     h2 Create New #{title}
 
@@ -23,12 +43,27 @@ block content
             label.col-sm-2.col-form-label(for='inputCreationArticleTitle') Title
             .col-sm-10
                 input#inputCreationArticleTitle.form-control(type='text' maxlength="150"  placeholder='Title' required='required')
-        -if (title == 'News')
+        .form-group.row
+            label.col-sm-2.col-form-label(for='inputCreationArticleDescription') Description <br/> 
+                p.text-muted (max: #{numberOfCharacters} characters)
+            .col-sm-10
+                textarea#inputCreationArticleDescription.form-control(type='text'  rows=`${numberOfRows}` maxlength=`${numberOfCharacters}` placeholder=`Description (max: ${numberOfCharacters} characters)` required='required')
+        -if(title == 'Announcements')
             .form-group.row
-                label.col-sm-2.col-form-label(for='inputCreationArticleDescription') Description <br/> 
-                    p.text-muted (max: 5000 characters)
-                .col-sm-10
-                    textarea#inputCreationArticleDescription.form-control(type='text'  rows="20" maxlength="5000" placeholder='Description (max: 5000 characters)' required='required')
+                label.col-sm-2.col-form-label(for='inputCheckboxEmail') Email Announcement
+                .col-sm-10#inputCheckboxEmail
+                    .form-check.form-check-inline
+                        input#inlineCheckboxStundet.form-check-input(type='checkbox' value='student')
+                        label.form-check-label(for='inlineCheckboxStundet') Students
+                    .form-check.form-check-inline
+                        input#inlineCheckboxStaff.form-check-input(type='checkbox' value='staff')
+                        label.form-check-label(for='inlineCheckboxStaff') Staffs
+                    .form-check.form-check-inline
+                        input#inlineCheckboxAdmin.form-check-input(type='checkbox' value='admin')
+                        label.form-check-label(for='inlineCheckboxAdmin') Admins
+                    .form-check.form-check-inline
+                        input#inlineCheckboxAll.form-check-input(type='checkbox' value='all')
+                        label.form-check-label(for='inlineCheckboxAll') All
         .form-group.row
             .col-sm-10
                 button.btn.btn-primary New #{title}

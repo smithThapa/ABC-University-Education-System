@@ -127,6 +127,12 @@ router.get(
   authenticationPresenter.restrictTo('staff'),
   newsView.createNews
 );
+router.get(
+  '/create_announcement',
+  authenticationPresenter.protect,
+  authenticationPresenter.restrictTo('staff'),
+  announcementView.createAnnouncement
+);
 
 // //------------------
 // //----Admin---------
@@ -216,8 +222,14 @@ router.all(
 
 // Announcements management
 router.get('/manage_announcements', announcementView.getManageAnnouncementList);
-// router.get( '/manage_announcement/new_announcement', announcementView.createAnnouncement );
-// router.get( '/manage_announcement/:announcementSlug/edit_announcement', announcementView.editAnnouncement );
+router.get(
+  '/manage_announcements/new_announcement',
+  announcementView.createAnnouncement
+);
+router.get(
+  '/manage_announcements/:announcementSlug/edit_announcement',
+  announcementView.editAnnouncement
+);
 
 //------------------
 //----Team-Maintenance---------

@@ -226,6 +226,8 @@ if (editArticleForm) {
 
     const elementId = document.getElementById('hiddenInputEditionArticleId')
       .value;
+    const elementType = document.getElementById('hiddenInputEditionArticleType')
+      .value;
     const previousPath = document.getElementById(
       'hiddenInputEditionArticlePath'
     ).value;
@@ -237,8 +239,8 @@ if (editArticleForm) {
       'inputEditionArticleDescription'
     ).value;
 
-    console.log(elementId, article, previousPath);
-    editArticle(elementId, article, previousPath);
+    // console.log(elementId, article, previousPath);
+    editArticle(elementId, article, elementType, previousPath);
   });
 }
 

@@ -25,7 +25,7 @@ export const editElement = async (data, type, id, previousPath) => {
   }
 };
 
-export const editArticle = async function(id, data, previousPath) {
+export const editArticle = async function(id, data, type, previousPath) {
   try {
     const res = await axios({
       method: 'PATCH',
@@ -35,8 +35,9 @@ export const editArticle = async function(id, data, previousPath) {
     // console.log(data);
 
     if (res.data.status === 'success') {
+      console.log(res.data.data);
       window.scrollTo(0, 0);
-      showAlert('success', `News updated successfully!`, '');
+      showAlert('success', `${type} updated successfully!`, '');
       window.setTimeout(() => {
         location.assign(previousPath);
       }, 0);
