@@ -203,6 +203,22 @@ router.get('/manage_news', newsView.getManageNewsList);
 router.get('/manage_news/new_news', newsView.createNews);
 router.get('/manage_news/:newsSlug/edit_news', newsView.editNews);
 
+router.all(
+  '/manage_announcements',
+  authenticationPresenter.protect,
+  authenticationPresenter.restrictTo('admin')
+);
+router.all(
+  '/manage_announcements/*',
+  authenticationPresenter.protect,
+  authenticationPresenter.restrictTo('admin')
+);
+
+// Announcements management
+router.get('/manage_announcements', announcementView.getManageAnnouncementList);
+// router.get( '/manage_announcement/new_announcement', announcementView.createAnnouncement );
+// router.get( '/manage_announcement/:announcementSlug/edit_announcement', announcementView.editAnnouncement );
+
 //------------------
 //----Team-Maintenance---------
 //------------------

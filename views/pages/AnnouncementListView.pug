@@ -11,14 +11,14 @@ block append scripts
     script(src='/js/databaseDesignJQuerry.js')
 
 block content
-    +breadcrumbDisplay([['Home','/home'],['Manage News']])
+    +breadcrumbDisplay([['Home','/home'],['Manage Announcements']])
 
     .d-flex
-        h2 Manage News
-        a.btn.btn-primary.text-white.mb-auto.ml-auto(href=`/manage_news/new_news`) + Create News
+        h2 Manage Announcements
+        a.btn.btn-primary.text-white.mb-auto.ml-auto(href=`/manage_announcements/new_announcement`) + Create Announcement
 
-    -if(news.length<1)
-        h4.font-weight-bold.text-dark.mt-0.ml-4 No news to manage.
+    -if(announcements.length<1)
+        h4.font-weight-bold.text-dark.mt-0.ml-4 No announcements to manage.
     - else
 
         table.table#dataTable.table.table-striped.table-bordered.table-sm.text-center
@@ -32,21 +32,21 @@ block content
                     th Delete
             
             tbody
-                each newElement in news
+                each announcement in announcements
                     //- modal to delete element
-                    +deleteModalTemplate(newElement.id, title, newElement.title)
+                    +deleteModalTemplate(announcement.id, title, announcement.title)
                     //- -const creationDate = forum.createdAt.format();
-                    -const creationDate = moment(newElement.createdAt).format('DD/MMM/YYYY');
+                    -const creationDate = moment(announcement.createdAt).format('DD/MMM/YYYY');
                     
                         tr
                             //- th= index+1 
-                            td.text-left.pl-3= newElement.title
-                            td #{newElement.user.firstName} #{newElement.user.lastName}
+                            td.text-left.pl-3= announcement.title
+                            td #{announcement.user.firstName} #{announcement.user.lastName}
                             td= creationDate
                             td
-                                a.btn.btn-success.text-white(href=`/manage_news/${newElement.slug}/edit_news`) Edit
+                                a.btn.btn-success.text-white(href=`/manage_announcements/${announcement.slug}/edit_announcements`) Edit
                             td
-                                a.btn.btn-danger.text-white(type='button' data-toggle="modal" data-target=`#deleteModal${newElement.id}`) Delete
+                                a.btn.btn-danger.text-white(type='button' data-toggle="modal" data-target=`#deleteModal${announcement.id}`) Delete
             tfoot
                 tr
                     //- th #

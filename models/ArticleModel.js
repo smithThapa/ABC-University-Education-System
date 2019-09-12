@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
+const moment = require('moment');
 //const User = require('./UserModel');
 
 const articleSchema = new mongoose.Schema(
@@ -17,7 +18,7 @@ const articleSchema = new mongoose.Schema(
     },
     type: {
       type: String,
-      enum: ['News', 'Annoucements'],
+      enum: ['News', 'Announcements'],
       required: true,
       immutable: true
     },
@@ -45,10 +46,15 @@ articleSchema.pre(/^find/, function(next) {
 });
 
 articleSchema.pre('save', function(next) {
-  this.slug = slugify(`${this.title} ${this.type}`, {
-    remove: /[*+~.()'"!:@]/g,
-    lower: true
-  });
+  this.slug = slugify(
+    `${this.title} ${this.type} ${moment(this.createdAt).format(
+      'DD MMM YYYY HH:mm'
+    )}`,
+    {
+      remove: /[*+~.()'"!:@]/g,
+      lower: true
+    }
+  );
   next();
 });
 
