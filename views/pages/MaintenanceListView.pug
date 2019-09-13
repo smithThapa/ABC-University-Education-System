@@ -22,19 +22,21 @@ block content
                     th.text-center(scope="col") Completed
                     th.text-center(scope="col") Rejected
 
+            tbody
+
             each maintenanceRequest,index in maintenanceRequests
 
                 //- -const creationDate = maintenanceRequest.createdAt.format();
                 -const creationDate = moment(maintenanceRequest.createdAt).format('DD/MMM/YYYY');
-                tbody
-                    tr
-                        th(scope='row')= index+1
-                        td= maintenanceRequest.subject
-                        td= maintenanceRequest.description
-                        td= `${maintenanceRequest.user.firstName} ${maintenanceRequest.user.lastName}`
-                        td= creationDate
-                        td.text-center= maintenanceRequest.status
-                        td.text-center
-                            button.btn.btn-success.text-white(id = `success-maintenance-button-${index+1}`) Edit
-                        td.text-center
-                            button.btn.btn-danger.text-white(id = `success-maintenance-button-${index+1}) Delete
+                
+                tr
+                    th(scope='row')= index+1
+                    td= maintenanceRequest.subject
+                    td= maintenanceRequest.description
+                    td= `${maintenanceRequest.user.firstName} ${maintenanceRequest.user.lastName}`
+                    td= creationDate
+                    td.text-center= maintenanceRequest.status
+                    td.text-center
+                        button.btn.btn-success.text-white(id = `success-maintenance-button-${index+1}`) Edit
+                    td.text-center
+                        button.btn.btn-danger.text-white(id = `success-maintenance-button-${index+1}`) Delete
