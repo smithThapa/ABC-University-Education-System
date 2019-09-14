@@ -14,7 +14,7 @@ const userRouter = require('./routes/userRouter');
 const forumRouter = require('./routes/forumRouter');
 const topicRouter = require('./routes/topicRouter');
 const commentRouter = require('./routes/commentRouter');
-// const resourceRouter = require('./routes/resourceRouter');
+const resourceRouter = require('./routes/resourceRouter');
 const articleRouter = require('./routes/articleRouter');
 const errorReportRouter = require('./routes/errorReportRouter');
 const maintainanceRequestRouter = require('./routes/maintenanceRequestRouter');
@@ -64,7 +64,7 @@ app.use('/api/v1/topics', topicRouter);
 app.use('/api/v1/comments', commentRouter);
 app.use('/api/v1/errorReports', errorReportRouter);
 app.use('/api/v1/maintenanceRequests', maintainanceRequestRouter);
-// app.use('/resources', resourceRouter);
+app.use('/resources', resourceRouter);
 
 app.use('/', viewRouter);
 app.all('*', (req, res, next) => {

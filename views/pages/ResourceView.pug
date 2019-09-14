@@ -13,19 +13,29 @@ block content
                         label#file-label(for="file" class="custom-file-label") Choose Stuff
                     input.btn.btn-primary.btn-block( type= "submit" value="Submit")   
                 hr
+                
                 if files
+                    
                     each file in files
-                        .card.mb-3
-                            .card-header
-                            .card-title= file.filename
+                        br
+                        .card
+                            .h5.card-header.bg-info.text-white= file.filename
                             .card-body
+                                .h6.card-title= ""
                                 if file.isImage
                                     img(src=`/resources/image/${file.filename}`, width="250", alt="", class="img-responsive")
+                                .card-subtitle.mb-2
+                                    small.text-muted= `Uploaded by: ${user.firstName} ${user.lastName}`
+                                    br
+                                    br
+                                    small.text-muted= `Upload date: ${file.uploadDate}`
                             .card-footer
-                                a.btn.btn-info( href= `/resources/files/${file.filename}`) Download
+                                a.btn.btn-primary( href= `/resources/files/${file.filename}`) Download
                                 hr
-                                form(action=`/resources/files/del/${file._id}` method="post")
-                                    button.btn.btn-danger(type="submit") Remove   
+                                if userFilesIds.includes(file._id.toString())
+                                    form(action=`/resources/files/del/${file._id}` method="post")
+                                        button.btn.btn-danger(type="submit") Remove   
+                       
                 else
                     No files to show 
 

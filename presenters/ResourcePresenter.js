@@ -3,6 +3,8 @@ const GridFsStorage = require('multer-gridfs-storage');
 const multer = require('multer');
 const crypto = require('crypto');
 const AppError = require('./../utils/AppError');
+const Resource = require('../models/ResourceModel');
+const factory = require('./HandlerFactory');
 
 const DB = process.env.DATABASE.replace(
   '<PASSWORD>',
@@ -51,40 +53,46 @@ const uploadMulter = multer({
 });
 
 exports.resources = (req, res) => {
-  gridfsBucket.find().toArray((err, files) => {
-    // check if files
-    if (!files || files.length === 0) {
-      return res.render('ResourceView', {
-        files: false
-      });
-    }
-    // eslint-disable-next-line array-callback-return
-    files.map(file => {
-      if (
-        file.contentType === 'image/png' ||
-        file.contentType === 'image/jpeg'
-      ) {
-        file.isImage = true;
-      } else {
-        file.isImage = false;
-      }
+  const userFilesIds = [];
+  Resource.find({ userId: req.user.id }, (err, docs) => {
+    docs.forEach(doc => {
+      userFilesIds.push(doc.fileId);
     });
-    return res.render('ResourceView', {
-      files: files
+
+    gridfsBucket.find().toArray((error, files) => {
+      // check if files
+      if (!files || files.length === 0) {
+        return res.render('ResourceView', {
+          files: false
+        });
+      }
+      // eslint-disable-next-line array-callback-return
+      files.map(file => {
+        if (
+          file.contentType === 'image/png' ||
+          file.contentType === 'image/jpeg'
+        ) {
+          file.isImage = true;
+        } else {
+          file.isImage = false;
+        }
+      });
+      return res.render('ResourceView', {
+        files: files,
+        user: req.user,
+        userFilesIds
+      });
     });
   });
 };
 
-// app.post('/upload', upload.single('file'), (req, res) => {
-// res.json({file : req.file})
-//   res.redirect('/api/v1/resources');
-// });
-
 exports.uploadMulterMiddle = uploadMulter.single('file');
 
 exports.upload = (req, res) => {
-  // uploadMulter.single('file');
-  // console.log(req.file);
+  Resource.create({
+    fileId: req.file.id,
+    userId: req.user.id
+  });
   res.redirect('/resources');
 };
 
