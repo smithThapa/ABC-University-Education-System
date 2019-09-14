@@ -1,38 +1,62 @@
 extends ../components/_templateBase
 
-mixin homeCards(type, title, description, createdAt, link, button)
-    - const relativeTime = moment(createdAt).fromNow()
-    .card
-        .h5.card-header.bg-info.text-white= type
-        .card-body
-            h6.card-title= title
-            p.card-text
-                |#{description.substr(0,100)}...
-            p.card-text
-                small.text-muted Last updated #{relativeTime}
-        .card-footer
-            a.btn.btn-primary.align-self-end(href= link)= `Go to this ${button}`
-           
+block append scripts
+    script(src='/js/collapse.js')
+
 block content
     +breadcrumbDisplay([['Home']])
 
     - const role = user.role.charAt(0).toUpperCase() + user.role.slice(1)
-    
-    h2 Welcome #{user.firstName} #{user.lastName} to ABC University - #{role}
-    .container
-        p  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse neque magna, congue eget rutrum non, blandit ut elit. Fusce scelerisque malesuada metus ut facilisis. Etiam efficitur, purus sit amet venenatis ullamcorper, risus libero tempor magna, id euismod urna felis ut orci. Suspendisse finibus ante rutrum facilisis condimentum. Praesent eu eros felis. Mauris gravida dui viverra, pharetra arcu et, congue enim. Sed ipsum felis, ornare sed luctus vel, gravida non orci. Donec rhoncus pulvinar diam, vitae faucibus eros pharetra eu. Curabitur pulvinar dictum sodales. In ac aliquet lectus, at dignissim ipsum.
 
-        - if(news || user.role != 'team-maintenance')
-            
-            .d-flex.mb-4
-                h3 Last News
-                a.ml-auto(href='/news') View all News >
-            
-            .card-deck.mb-4 
-                each element in news 
-                    +homeCards(element.type, element.title, element.description, element.createdAt, `news/${element.slug}`, 'News')
-            
-            
+    h2 Welcome #{user.firstName} #{user.lastName} to ABC University - #{role}
+    .container.d-flex
+        .container
+            p  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse neque magna, congue eget rutrum non, blandit ut elit. Fusce scelerisque malesuada metus ut facilisis. Etiam efficitur, purus sit amet venenatis ullamcorper, risus libero tempor magna, id euismod urna felis ut orci. Suspendisse finibus ante rutrum facilisis condimentum. Praesent eu eros felis. Mauris gravida dui viverra, pharetra arcu et, congue enim. Sed ipsum felis, ornare sed luctus vel, gravida non orci. Donec rhoncus pulvinar diam, vitae faucibus eros pharetra eu. Curabitur pulvinar dictum sodales. In ac aliquet lectus, at dignissim ipsum.
+
+            p  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse neque magna, congue eget rutrum non, blandit ut elit. Fusce scelerisque malesuada metus ut facilisis. Etiam efficitur, purus sit amet venenatis ullamcorper, risus libero tempor magna, id euismod urna felis ut orci. Suspendisse finibus ante rutrum facilisis condimentum. Praesent eu eros felis. Mauris gravida dui viverra, pharetra arcu et, congue enim. Sed ipsum felis, ornare sed luctus vel, gravida non orci. Donec rhoncus pulvinar diam, vitae faucibus eros pharetra eu. Curabitur pulvinar dictum sodales. In ac aliquet lectus, at dignissim ipsum.
+
+        -if (announcements && user.role != 'team-maintenance')
+
+            .ml-auto(style='width:35%;')
+                .d-flex
+                    h4(style='color: #006972;') Announcements
+                    a.ml-auto(href='/announcements') View all >
+                                        
+                #accordion
+                    each announcement,index in announcements
+                        -const announcementDate = moment(announcement.createdAt).format("DD MMM").toUpperCase()
+                        .card
+                            .card-header.bg-info.text-white(id=`heading${index}`)                               
+                                h5.mb-0
+                                    button.btn.text-white.d-flex(data-toggle='collapse' data-target=`#collapse${index}` aria-expanded='false' aria-controls=`collapse${index}`)
+                                        |#{announcementDate}
+                                        .ml-4 #{announcement.title.substr(0,25)}...
+
+                            .collapse(id=`collapse${index}` aria-labelledby=`heading${index}` data-parent='#accordion')
+                                .card-body
+                                    |#{announcement.description.substr(0,100)}...
+
+    - if(news && user.role != 'team-maintenance')
+
+        .d-flex.mb-4
+            h3(style='color: #006972;') Last News
+            a.ml-auto(href='/news') View all News >
+
+        .card-deck.mb-4 
+            each element in news
+                -const relativeTime = moment(element.createdAt).fromNow()
+                .card
+                    .h5.card-header.bg-info.text-white= element.type
+                    .card-body
+                        h6.card-title= element.title
+                        p.card-text
+                            |#{element.description.substr(0,100)}...
+                        p.card-text
+                            small.text-muted Last updated #{relativeTime}
+                    .card-footer
+                        a.btn.btn-primary.align-self-end(href=`news/${element.slug}`)= `Go to this News`
+
+
 
 
 
