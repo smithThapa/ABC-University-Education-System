@@ -1,7 +1,7 @@
 //create cards
-mixin cardDisplayItems(type, title, author, date, link,  button, description)
+mixin cardDisplayItems(header, title, author, date, link,  button, description)
     .card
-        .h5.card-header.bg-info.text-white= type
+        .h5.card-header.bg-info.text-white= header
         .card-body
             .h6.card-title= title 
             .card-subtitle.mb-2

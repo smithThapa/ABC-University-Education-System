@@ -7,16 +7,23 @@ exports.getNews = async function(req, res, next) {
     //add authentitcation to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
+    const stats = await axios({
+      method: 'GET',
+      url: `http://127.0.0.1:8000/api/v1/articles/stats`
+    });
+
     //get api
     const objs = await axios({
       method: 'GET',
-      url: 'http://127.0.0.1:8000/api/v1/articles/news'
+      url: `http://127.0.0.1:8000/api/v1/articles/news?sort=-createdAt`
     });
+    // console.log(objs.data.data.data[0].createdAt);
 
     if (objs.data.status === 'success') {
       res.status(200).render('NewsView', {
         title: 'News',
-        news: objs.data.data.data
+        news: objs.data.data.data,
+        records: stats.data.data[1].typeTotal
       });
     }
   } catch (err) {

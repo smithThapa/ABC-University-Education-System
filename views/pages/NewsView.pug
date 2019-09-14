@@ -20,13 +20,31 @@ block content
         table.table#dataTableNews.table.table-borderless.table-sm
             thead
                 tr
-                    th.text-right.px-5 Sort By Date
+                    th
+            //-         th.text-right.px-5 Sort By Date
             tbody
-                each newElement in news
+                -const rows = parseInt((records/3)+1)
+                -let currentRow = 1
+                -let countDown = 0
+                -let i = 0
+
+                while currentRow < rows + 1
+
                     tr
                         td
-                            p.d-none= newElement.createdAt
-                            //- -const creationDate = forum.createdAt.format();
-                            -const creationDate = moment(newElement.createdAt).format('dddd DD MMM YYYY HH:mm');
+                            .card-deck
 
-                            +cardDisplayItems(newElement.type, `${newElement.title}`, `${newElement.user.firstName} ${newElement.user.lastName}`, creationDate, `/news/${newElement.slug}`, 'New')
+                                -for(let iterator = 0; iterator < 3; iterator++)
+
+                                    -for(; i<countDown+3; i++)
+
+                                        //- each newElement in news 
+                                        -if( i > records-1) 
+                                            .card.border-0              
+
+                                        -else
+                                            -const creationDate = moment(news[i].createdAt).format('dddd DD MMM YYYY HH:mm')
+
+                                            +cardDisplayItems(news[i].type, `${news[i].title}`, `${news[i].user.firstName} ${news[i].user.lastName}`, creationDate, `/news/${news[i].slug}`, 'New')
+                    -currentRow++
+                    -countDown += 3

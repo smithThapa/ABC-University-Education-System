@@ -75,6 +75,29 @@ exports.getAllNews = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.getArticleStats = catchAsync(async (req, res, next) => {
+  const stats = await Article.aggregate([
+    // {
+    //   $match: { type: 'news' }
+    // },
+    {
+      $group: {
+        _id: '$type',
+        typeTotal: { $sum: 1 }
+      }
+    }
+    // ,
+    // {
+    //   $sort: { avgPrice: 1 }
+    // }
+  ]);
+
+  res.status(200).json({
+    status: 'success',
+    data: stats
+  });
+});
+
 exports.getAllArticles = factory.getAll(Article);
 exports.getArticle = factory.getOne(Article);
 exports.createArticle = factory.createOne(Article);
