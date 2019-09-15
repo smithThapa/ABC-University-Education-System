@@ -127,7 +127,11 @@ export const createComment = async (
   }
 };
 
-export const createArticle = async function(data, previousPath) {
+export const createArticle = async function(
+  data,
+  previousPath,
+  arrayRoleEmails
+) {
   try {
     const res = await axios({
       method: 'POST',
@@ -136,7 +140,12 @@ export const createArticle = async function(data, previousPath) {
     });
 
     if (res.data.status === 'success') {
-      window.scrollTo(0, 0);
+      //
+      if (arrayRoleEmails.length > 0)
+        // await new Email(newUser, resetURL).sendWelcome();
+
+        // site
+        window.scrollTo(0, 0);
       showAlert(
         'success',
         `Created ${data.type} Sucessfully!`,

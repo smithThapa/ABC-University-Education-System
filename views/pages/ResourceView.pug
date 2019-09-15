@@ -1,4 +1,7 @@
 extends ../components/_templateBase
+
+block append scripts
+    script(src='/js/resource.js')
            
 block content
     +breadcrumbDisplay([['Home','/home'],['Resources']])
@@ -25,19 +28,20 @@ block content
                                 if file.isImage
                                     img(src=`/resources/image/${file.filename}`, width="250", alt="", class="img-responsive")
                                 .card-subtitle.mb-2
-                                    small.text-muted= `Uploaded by: ${user.firstName} ${user.lastName}`
+                                    small.text-muted= `Uploaded by: ${file.user.firstName} ${file.user.lastName}`
                                     br
-                                    br
-                                    small.text-muted= `Upload date: ${file.uploadDate}`
+                                    -const updateDate = moment(file.uploadDate).format('dddd DD MMM YYYY HH:mm')
+                                    small.text-muted= `Upload date: ${updateDate}`
                             .card-footer
                                 a.btn.btn-primary( href= `/resources/files/${file.filename}`) Download
                                 hr
-                                if userFilesIds.includes(file._id.toString())
+                                //- if userFilesIds.includes(file._id.toString())
+                                -if (user._id == file.user.id)
                                     form(action=`/resources/files/del/${file._id}` method="post")
                                         button.btn.btn-danger(type="submit") Remove   
                        
                 else
-                    No files to show 
+                    |No files to show 
 
-    script(src='/js/resource.js')
+    
 

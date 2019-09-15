@@ -5,7 +5,8 @@ $(document).ready(function() {
     ordering: false,
     lengthMenu: [3, 6, 9],
     info: false,
-    lengthChange: false
+    lengthChange: false,
+    searching: false
   });
   $('#dataTableAnnouncements').DataTable({
     order: [[0, 'desc']],

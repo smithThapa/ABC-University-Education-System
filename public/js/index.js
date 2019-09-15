@@ -128,8 +128,19 @@ if (createArticleForm) {
       'inputCreationArticleDescription'
     ).value;
 
-    // console.log(article, previousPath);
-    createArticle(article, previousPath);
+    let arrayRoleEmails = [];
+    
+    if(article.type == 'Announcements')
+      // const checkbox = document.getElementById('inputCheckboxEmail');
+      const checkboxs = document.querySelectorAll('.form-check-input');
+      let arrayRoleEmails = [];
+
+      checkboxs.forEach(e => {
+        if (e.checked) arrayRoleEmails.push(e.value);
+      });
+
+    // console.log(arrayEmails, checkboxs, article, previousPath);
+    createArticle(article, previousPath, arrayRoleEmails);
   });
 }
 

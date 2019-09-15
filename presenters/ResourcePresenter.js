@@ -2,9 +2,10 @@ const mongoose = require('mongoose');
 const GridFsStorage = require('multer-gridfs-storage');
 const multer = require('multer');
 const crypto = require('crypto');
+const catchAsync = require('./../utils/CatchAsync');
 const AppError = require('./../utils/AppError');
 const Resource = require('../models/ResourceModel');
-const factory = require('./HandlerFactory');
+// const factory = require('./HandlerFactory');
 
 const DB = process.env.DATABASE.replace(
   '<PASSWORD>',
@@ -52,39 +53,120 @@ const uploadMulter = multer({
   storage
 });
 
-exports.resources = (req, res) => {
-  const userFilesIds = [];
-  Resource.find({ userId: req.user.id }, (err, docs) => {
-    docs.forEach(doc => {
-      userFilesIds.push(doc.fileId);
-    });
+exports.resources = catchAsync(async (req, res, next) => {
+  // const userFilesIds = [];
+  // const docs = await Resource.find({ userId: req.user.id });
 
-    gridfsBucket.find().toArray((error, files) => {
-      // check if files
-      if (!files || files.length === 0) {
-        return res.render('ResourceView', {
-          files: false
-        });
-      }
-      // eslint-disable-next-line array-callback-return
-      files.map(file => {
-        if (
-          file.contentType === 'image/png' ||
-          file.contentType === 'image/jpeg'
-        ) {
-          file.isImage = true;
-        } else {
-          file.isImage = false;
-        }
-      });
-      return res.render('ResourceView', {
-        files: files,
-        user: req.user,
-        userFilesIds
-      });
+  // if (docs) {
+  //   docs.forEach(doc => {
+  //     userFilesIds.push(doc.fileId);
+  //   });
+  // }
+
+  const files = await gridfsBucket.find().toArray();
+  // check if files
+  if (
+    (!files || files.length === 0) &&
+    req._parsedOriginalUrl.pathname.startsWith('/manage_resources')
+  ) {
+    return res.render('ResourceListView', {
+      files: false
     });
+  }
+  if (!files || files.length === 0) {
+    return res.render('ResourceView', {
+      files: false
+    });
+  }
+
+  await Promise.all(
+    files.map(async file => {
+      if (
+        file.contentType === 'image/png' ||
+        file.contentType === 'image/jpeg'
+      ) {
+        file.isImage = true;
+      } else {
+        file.isImage = false;
+      }
+
+      const resource = await Resource.findOne({ fileId: file._id });
+      if (resource) {
+        file.user = resource.userId;
+      }
+    })
+  );
+
+  if (req._parsedOriginalUrl.pathname === '/manage_resources') {
+    return res.render('ResourceListView', {
+      files: files,
+      user: req.user
+      // userFilesIds
+    });
+  }
+  return res.render('ResourceView', {
+    files: files,
+    user: req.user
+    // userFilesIds
   });
-};
+
+  // Resource.find({ userId: req.user.id }, (err, docs) => {
+  //   docs.forEach(doc => {
+  //     userFilesIds.push(doc.fileId);
+  //   });
+
+  //   gridfsBucket
+  //     .find()
+  //     .toArray((error, files) => {
+  //       // check if files
+  //       if (
+  //         (!files || files.length === 0) &&
+  //         req._parsedOriginalUrl.pathname.startsWith('/manage_resources')
+  //       ) {
+  //         return res.render('ResourceListView', {
+  //           files: false
+  //         });
+  //       }
+  //       if (!files || files.length === 0) {
+  //         return res.render('ResourceView', {
+  //           files: false
+  //         });
+  //       }
+  //       // eslint-disable-next-line array-callback-return
+  //       files.map(file => {
+  //         if (
+  //           file.contentType === 'image/png' ||
+  //           file.contentType === 'image/jpeg'
+  //         ) {
+  //           file.isImage = true;
+  //         } else {
+  //           file.isImage = false;
+  //         }
+
+  //         Resource.where({ fileId: file._id }).findOne((error2, resource) => {
+  //           if (resource) console.log('hola');
+  //         });
+
+  //         // file.user = resource.userId;
+  //       });
+  //     })
+  //     .exec((error, files) => {
+  //       if (req._parsedOriginalUrl.pathname === '/manage_resources') {
+  //         return res.render('ResourceListView', {
+  //           files: files,
+  //           user: req.user,
+  //           userFilesIds
+  //         });
+  //       }
+  //       console.log(files);
+  //       return res.render('ResourceView', {
+  //         files: files,
+  //         user: req.user,
+  //         userFilesIds
+  //       });
+  //     });
+  // });
+});
 
 exports.uploadMulterMiddle = uploadMulter.single('file');
 
@@ -93,7 +175,11 @@ exports.upload = (req, res) => {
     fileId: req.file.id,
     userId: req.user.id
   });
-  res.redirect('/resources');
+
+  // console.log(req);
+  if (req.baseUrl.startsWith('/manage_resources'))
+    res.redirect('/manage_resources');
+  else res.redirect('/resources');
 };
 
 exports.files = (req, res) => {
@@ -109,22 +195,20 @@ exports.files = (req, res) => {
   });
 };
 
-exports.getFile = (req, res) => {
-  gridfsBucket
+exports.getFile = catchAsync(async (req, res, next) => {
+  const files = await gridfsBucket
     .find({
       filename: req.params.filename
     })
-    .toArray((err, files) => {
-      // check if files
-      if (!files || files.length === 0) {
-        return res.status(404).json({
-          err: 'no files exist'
-        });
-      }
-
-      gridfsBucket.openDownloadStreamByName(req.params.filename).pipe(res);
+    .toArray();
+  // check if files
+  if (!files || files.length === 0) {
+    return res.status(404).json({
+      err: 'no files exist'
     });
-};
+  }
+  gridfsBucket.openDownloadStreamByName(req.params.filename).pipe(res);
+});
 
 exports.getImage = (req, res) => {
   // console.log('id', req.params.id)
@@ -142,12 +226,19 @@ exports.getImage = (req, res) => {
     });
 };
 
-exports.deleteFile = (req, res) => {
+exports.deleteFile = catchAsync(async (req, res, next) => {
   const id = mongoose.Types.ObjectId(req.params.id);
   // eslint-disable-next-line no-unused-vars
-  gridfsBucket.delete(id, (err, data) => {
+  await gridfsBucket.delete(id, (err, data) => {
     if (err) return res.status(404).json({ err: err.message });
   });
 
-  res.redirect('/resources');
-};
+  //delete file from resources
+  await Resource.findOneAndDelete({ fileId: id }, (err, data) => {
+    if (err) return res.status(404).json({ err: err.message });
+  });
+
+  if (req.baseUrl.startsWith('/manage_resources'))
+    res.redirect('/manage_resources');
+  else res.redirect('/resources');
+});

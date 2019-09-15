@@ -231,6 +231,14 @@ router.get(
   announcementView.editAnnouncement
 );
 
+//resources
+router.use(
+  '/manage_resources',
+  authenticationPresenter.protect,
+  authenticationPresenter.restrictTo('admin'),
+  resourceRouter
+);
+
 //------------------
 //----Team-Maintenance---------
 //------------------

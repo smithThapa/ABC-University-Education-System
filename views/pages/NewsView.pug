@@ -40,11 +40,18 @@ block content
 
                                         //- each newElement in news 
                                         -if( i > records-1) 
-                                            .card.border-0              
-
+                                            .card.border-0(style='background-color:#fafafb;')              
                                         -else
-                                            -const creationDate = moment(news[i].createdAt).format('dddd DD MMM YYYY HH:mm')
+                                            -const creationDate = moment(news[i].createdAt).format('DD MMM YYYY HH:mm')
+                                            .card
+                                                .h5.card-header.bg-info.text-white= news[i].type
+                                                .card-body
+                                                    .h6.card-title= news[i].title
+                                                    .card-subtitle.mb-2
+                                                        small.text-muted= `${news[i].user.firstName} ${news[i].user.lastName} | Created At: ${creationDate}`
+                                                .card-footer
+                                                     a.btn.btn-primary(href=`/news/${news[i].slug}`)= `Go to New`
 
-                                            +cardDisplayItems(news[i].type, `${news[i].title}`, `${news[i].user.firstName} ${news[i].user.lastName}`, creationDate, `/news/${news[i].slug}`, 'New')
+
                     -currentRow++
                     -countDown += 3

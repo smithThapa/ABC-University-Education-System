@@ -67,4 +67,11 @@ module.exports = class Email {
   async sendPasswordReset() {
     await this.send('passwordReset', 'Your new password reset token');
   }
+
+  // async sendAnnouncement() {
+  //   await this.send(
+  //     'emailAnnouncement',
+  //     'New Announcement from ABC University'
+  //   );
+  // }
 };
