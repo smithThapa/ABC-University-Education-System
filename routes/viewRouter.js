@@ -1,6 +1,5 @@
 const express = require('express');
 const authenticationPresenter = require('./../presenters/AuthenticationPresenter');
-// const viewPresenter = require('./../presenters/ViewPresenter');
 
 const resourceRouter = require('./resourceRouter');
 

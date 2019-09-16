@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { showAlert } from './alerts';
+// import Email from './../../utils/Email';
 
 export const createUser = async data => {
   try {
@@ -140,12 +141,37 @@ export const createArticle = async function(
     });
 
     if (res.data.status === 'success') {
-      //
-      if (arrayRoleEmails.length > 0)
-        // await new Email(newUser, resetURL).sendWelcome();
+      //roles to send email
+      if (arrayRoleEmails.length > 0) {
+        let queryRoleString;
+        //is user select allocate all roles
+        if (arrayRoleEmails.includes('all')) {
+          queryRoleString = 'role=student&role=staff&role=admin';
+        } else {
+          queryRoleString = arrayRoleEmails.join('&role=');
+          queryRoleString = 'role=' + queryRoleString;
+        }
 
-        // site
-        window.scrollTo(0, 0);
+        //get all stundet with the roles
+        const users = await axios({
+          method: 'GET',
+          url: `http://127.0.0.1:8000/api/v1/users?${queryRoleString}`
+        });
+
+        if (users.data.status === 'success') {
+          const announcementURL = `http://127.0.0.1:8000/announcements`;
+
+          users.data.data.data.forEach(async elementUser => {
+            console.log(elementUser);
+            await new Email(elementUser, announcementURL).sendAnnouncement(
+              data
+            );
+          });
+        }
+      }
+
+      // site
+      window.scrollTo(0, 0);
       showAlert(
         'success',
         `Created ${data.type} Sucessfully!`,
@@ -158,6 +184,6 @@ export const createArticle = async function(
   } catch (err) {
     // console.log(err.response.data);
     window.scrollTo(0, 0);
-    showAlert('danger', 'User was not created', err.response.data.message);
+    showAlert('danger', 'Article was not created', err.response.data.message);
   }
 };
