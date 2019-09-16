@@ -8694,7 +8694,7 @@ var createArticle =
 function () {
   var _ref5 = _asyncToGenerator(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee5(data, previousPath) {
+  regeneratorRuntime.mark(function _callee5(data, previousPath, arrayRoleEmails) {
     var res;
     return regeneratorRuntime.wrap(function _callee5$(_context5) {
       while (1) {
@@ -8705,13 +8705,17 @@ function () {
             return (0, _axios.default)({
               method: 'POST',
               url: 'http://127.0.0.1:8000/api/v1/articles',
-              data: data
+              data: {
+                data: data,
+                arrayRoleEmails: arrayRoleEmails
+              }
             });
 
           case 3:
             res = _context5.sent;
 
             if (res.data.status === 'success') {
+              // site
               window.scrollTo(0, 0);
               (0, _alerts.showAlert)('success', "Created ".concat(data.type, " Sucessfully!"), "".concat(data.type, " is accessible to all users"));
               window.setTimeout(function () {
@@ -8727,7 +8731,7 @@ function () {
             _context5.t0 = _context5["catch"](0);
             // console.log(err.response.data);
             window.scrollTo(0, 0);
-            (0, _alerts.showAlert)('danger', 'User was not created', _context5.t0.response.data.message);
+            (0, _alerts.showAlert)('danger', 'Article was not created', _context5.t0.response.data.message);
 
           case 11:
           case "end":
@@ -8737,7 +8741,7 @@ function () {
     }, _callee5, null, [[0, 7]]);
   }));
 
-  return function createArticle(_x13, _x14) {
+  return function createArticle(_x13, _x14, _x15) {
     return _ref5.apply(this, arguments);
   };
 }();
@@ -9678,14 +9682,19 @@ if (createArticleForm) {
     var article = new Object();
     article.type = document.getElementById('hiddenInputCreateArticleType').value;
     article.title = document.getElementById('inputCreationArticleTitle').value;
-    article.description = document.getElementById('inputCreationArticleDescription').value; // const checkbox = document.getElementById('inputCheckboxEmail');
+    article.description = document.getElementById('inputCreationArticleDescription').value;
+    var arrayRoleEmails = [];
+    var checkboxs;
 
-    var checkboxs = document.querySelectorAll('.form-check-input');
-    var arrayEmails = [];
-    checkboxs.forEach(function (e) {
-      if (e.checked) arrayEmails.push(e.value);
-    });
-    console.log(arrayEmails, checkboxs, article, previousPath); // createArticle(article, previousPath);
+    if (article.type == 'Announcements') {
+      checkboxs = document.querySelectorAll('.form-check-input');
+      checkboxs.forEach(function (e) {
+        if (e.checked) arrayRoleEmails.push(e.value);
+      });
+    } // console.log(arrayEmails, checkboxs, article, previousPath);
+
+
+    (0, _createElement.createArticle)(article, previousPath, arrayRoleEmails);
   });
 }
 
@@ -9905,7 +9914,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52237" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64813" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

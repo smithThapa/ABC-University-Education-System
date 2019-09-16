@@ -136,16 +136,12 @@ export const createArticle = async function(
     const res = await axios({
       method: 'POST',
       url: 'http://127.0.0.1:8000/api/v1/articles',
-      data
+      data: { data, arrayRoleEmails }
     });
 
     if (res.data.status === 'success') {
-      //
-      if (arrayRoleEmails.length > 0)
-        // await new Email(newUser, resetURL).sendWelcome();
-
-        // site
-        window.scrollTo(0, 0);
+      // site
+      window.scrollTo(0, 0);
       showAlert(
         'success',
         `Created ${data.type} Sucessfully!`,
@@ -158,6 +154,6 @@ export const createArticle = async function(
   } catch (err) {
     // console.log(err.response.data);
     window.scrollTo(0, 0);
-    showAlert('danger', 'User was not created', err.response.data.message);
+    showAlert('danger', 'Article was not created', err.response.data.message);
   }
 };

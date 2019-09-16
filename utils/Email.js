@@ -60,6 +60,32 @@ module.exports = class Email {
     await this.newTransport().sendMail(mailOptions);
   }
 
+  async sendWithBody(template, subject, description) {
+    // render html on a pug templare
+    const html = pug.renderFile(
+      `${__dirname}/../views/emails/${template}.pug`,
+      {
+        firstName: this.firstName,
+        lastName: this.lastName,
+        url: this.url,
+        subject,
+        description
+      }
+    );
+
+    //DEfine email mailOptions
+    const mailOptions = {
+      from: this.from,
+      to: this.to,
+      subject,
+      html,
+      text: htmlToText.fromString(html)
+    };
+
+    // create transport and email
+    await this.newTransport().sendMail(mailOptions);
+  }
+
   async sendWelcome() {
     await this.send('welcome', 'Welcome to the ABC University');
   }
@@ -68,10 +94,11 @@ module.exports = class Email {
     await this.send('passwordReset', 'Your new password reset token');
   }
 
-  // async sendAnnouncement() {
-  //   await this.send(
-  //     'emailAnnouncement',
-  //     'New Announcement from ABC University'
-  //   );
-  // }
+  async sendAnnouncement(data) {
+    await this.sendWithBody(
+      'announcementNotification',
+      `New Announcement from ABC University: ${data.title}`,
+      data.description
+    );
+  }
 };

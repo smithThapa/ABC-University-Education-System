@@ -27,5 +27,9 @@ nav.navbar.navbar-expand.navbar-dark.static-top
                 a.dropdown-item(href='/my_details/me') My Details
                 //- a.dropdown-item(href='#') Activity Log
                 .dropdown-divider
-                a#logoutBtn.dropdown-item(style='cursor: pointer;') Logout
+                if user.testUser
+                    a#logoutAsBtn.dropdown-item(style='cursor: pointer;') Logout As
+                else
+                    a#logoutBtn.dropdown-item(style='cursor: pointer;') Logout
+                
                 //- (href='#' data-toggle='modal' data-target='#logoutModal') Logout
