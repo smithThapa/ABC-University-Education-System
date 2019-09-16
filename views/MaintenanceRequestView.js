@@ -1,7 +1,8 @@
 const axios = require('axios');
+const AppError = require('./../utils/AppError');
 
 exports.getMaintenancePage = (req, res) => {
-  res.status(200).render('MainRequestView', {
+  res.status(200).render('MaintenanceRequestView', {
     title: 'Maintenance Request'
   });
 };
@@ -17,10 +18,8 @@ exports.getManageMaintenanceRequestsList = async function(req, res, next) {
       url: 'http://127.0.0.1:8000/api/v1/maintenanceRequests'
     });
 
-    console.log(objs.data);
-
     if (objs.data.status === 'success') {
-      res.status(200).render('MaintenanceListView', {
+      res.status(200).render('MaintenanceRequestListView', {
         title: 'Maintenance Requests List',
         maintenanceRequests: objs.data.data.data
       });

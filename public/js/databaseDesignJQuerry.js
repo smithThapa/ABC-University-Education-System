@@ -1,5 +1,6 @@
 $(document).ready(function() {
   $('#dataTable').DataTable();
+  $('#dataResources').DataTable({ order: [[0, 'desc']] });
   $('#dataTableNews').DataTable({
     order: [[0, 'desc']],
     ordering: false,

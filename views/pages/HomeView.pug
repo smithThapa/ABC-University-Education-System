@@ -6,7 +6,10 @@ block append scripts
 block content
     +breadcrumbDisplay([['Home']])
 
-    - const role = user.role.charAt(0).toUpperCase() + user.role.slice(1)
+    - let role = user.role.charAt(0).toUpperCase() + user.role.slice(1)
+    
+    -if(role == 'Team-maintenance')
+        -role = 'Team Maintenance'
 
     h2 Welcome #{user.firstName} #{user.lastName} to ABC University - #{role}
     .container.d-flex

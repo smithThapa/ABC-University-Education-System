@@ -1,5 +1,5 @@
-const axios = require('axios');
-const Article = require('../models/ArticleModel');
+const Article = require('./../models/ArticleModel');
+const User = require('./../models/UserModel');
 const catchAsync = require('./../utils/CatchAsync');
 const AppError = require('./../utils/AppError');
 const factory = require('./HandlerFactory');
@@ -111,40 +111,43 @@ exports.createArticle = catchAsync(async (req, res, next) => {
     const { arrayRoleEmails } = req.body;
 
     if (arrayRoleEmails.length > 0) {
-      let queryRoleString;
+      let queryRole;
       //is user select allocate all roles
       if (arrayRoleEmails.includes('all')) {
-        queryRoleString = 'role=student&role=staff&role=admin';
+        queryRole = {
+          $and: [
+            {
+              $or: [{ role: 'student' }, { role: 'staff' }, { role: 'admin' }]
+            },
+            { testUser: { $ne: true } }
+          ]
+        };
       } else {
-        queryRoleString = arrayRoleEmails.join('&role=');
-        queryRoleString = `role=${queryRoleString}`;
+        const roles = [];
+        arrayRoleEmails.forEach(element => {
+          roles.push({ role: element });
+        });
+        queryRole = {
+          $and: [{ $or: roles }, { testUser: { $ne: true } }]
+        };
       }
 
-      //add authentitcation to axios
-      axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
+      const users = await User.find(queryRole);
 
-      //get all stundet with the roles
-      const users = await axios({
-        method: 'GET',
-        url: `http://127.0.0.1:8000/api/v1/users?${queryRoleString}`
-      });
-
-      if (users.data.status === 'success') {
+      // if (users.data.status === 'success') {
+      if (users) {
         const announcementURL = `${req.protocol}://${req.get(
           'host'
         )}/announcements`;
 
-        if (
-          process.env.NODE_ENV.trim() === 'development' &&
-          users.data.data.data.length > 2
-        ) {
-          users.data.data.data.slice(0, 2).forEach(async elementUser => {
+        if (process.env.NODE_ENV.trim() === 'development' && users.length > 2) {
+          users.slice(0, 2).forEach(async elementUser => {
             await new Email(elementUser, announcementURL).sendAnnouncement(
               data
             );
           });
         } else {
-          users.data.data.data.forEach(async elementUser => {
+          users.forEach(async elementUser => {
             await new Email(elementUser, announcementURL).sendAnnouncement(
               data
             );

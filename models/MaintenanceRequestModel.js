@@ -7,13 +7,15 @@ const mainRequestSchema = mongoose.Schema({
     required: true
   },
   description: {
-    type: String
+    type: String,
+    required: true
   },
   status: {
     type: String,
-    enum: ['Completed', 'Pending', 'Unsuccessful'],
+    enum: ['Completed', 'Pending', 'Rejected'],
     default: 'Pending'
   },
+  resolvedMessage: { type: String, select: true },
   createdAt: {
     type: Date,
     required: true,
@@ -21,8 +23,7 @@ const mainRequestSchema = mongoose.Schema({
   },
   resolvedAt: {
     type: Date,
-    required: true,
-    default: Date.now()
+    required: true
   },
   user: {
     type: mongoose.Schema.ObjectId,
@@ -34,7 +35,7 @@ const mainRequestSchema = mongoose.Schema({
 mainRequestSchema.pre(/^find/, function(next) {
   this.populate({
     path: 'user',
-    select: 'firstName lastName role'
+    select: 'firstName lastName role email'
   });
   next();
 });

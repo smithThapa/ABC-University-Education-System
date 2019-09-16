@@ -43,7 +43,21 @@ mixin deleteModalTemplate(id, type, title)
                         -type = 'Article' 
                     button.btn.btn-danger.deleteModalBtn(type='button' data-type-id=`${id}` data-type-type =`${type}`) Delete #{type}
                 
-
+mixin deleteModalFileTemplate(id, filename, type)
+    .modal.fade(tabindex='-1' role='dialog' aria-labelledby='deleteModalFileLabel' aria-hidden='true' id=`deleteModalFile${id}`)
+        .modal-dialog(role='document')
+            .modal-content
+                .modal-header
+                    h3#deleteModalFileLabel.modal-title Delete Resource
+                    button.close(type='button' data-dismiss='modal' aria-label='Close')
+                        span(aria-hidden='true') &times;
+                .modal-body
+                    h5.text-center
+                        | If you delete this <b> Resource: #{filename} </b>, it will be erased from the system.                  
+                .modal-footer
+                    button.btn.btn-secondary(type='button' data-dismiss='modal') Cancel
+                    form(action=`/${type}/files/del/${id}` method="post")
+                        button.btn.btn-danger(type="submit") Delete 
 
 doctype html
 html

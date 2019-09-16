@@ -60,7 +60,7 @@ module.exports = class Email {
     await this.newTransport().sendMail(mailOptions);
   }
 
-  async sendWithBody(template, subject, description) {
+  async sendWithBody(template, subject, data) {
     // render html on a pug templare
     const html = pug.renderFile(
       `${__dirname}/../views/emails/${template}.pug`,
@@ -69,7 +69,7 @@ module.exports = class Email {
         lastName: this.lastName,
         url: this.url,
         subject,
-        description
+        data
       }
     );
 
@@ -99,6 +99,14 @@ module.exports = class Email {
       'announcementNotification',
       `New Announcement from ABC University: ${data.title}`,
       data.description
+    );
+  }
+
+  async sendMaintenanceResolution(data) {
+    await this.sendWithBody(
+      'maintenanceResolutionEmail',
+      `Your Request has been ${data.status}: ${data.subject}`,
+      data
     );
   }
 };

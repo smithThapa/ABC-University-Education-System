@@ -22,7 +22,17 @@ router
 
 router
   .route('/:id')
-  .get(maintenanceRequestPresenter.getMaintenanceRequest)
-  .delete(maintenanceRequestPresenter.deleteMaintenanceRequest);
+  .get(
+    authenticationPresenter.restrictTo('team-maintenance'),
+    maintenanceRequestPresenter.getMaintenanceRequest
+  )
+  .patch(
+    authenticationPresenter.restrictTo('team-maintenance'),
+    maintenanceRequestPresenter.updateMaintenanceRequest
+  )
+  .delete(
+    authenticationPresenter.restrictTo('team-maintenance'),
+    maintenanceRequestPresenter.deleteMaintenanceRequest
+  );
 
 module.exports = router;

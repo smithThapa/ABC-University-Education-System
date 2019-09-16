@@ -41,6 +41,12 @@ const userSchema = new mongoose.Schema(
       required: true,
       mength: 10
     },
+    createdAt: {
+      type: Date,
+      required: true,
+      default: Date.now(),
+      immutable: true
+    },
     password: {
       type: String,
       // required: [true, 'Please provide a password'],

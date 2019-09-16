@@ -1,0 +1,96 @@
+extends ../components/_templateBase
+
+block append head
+    link(rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css")
+    link(rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css")
+    
+
+block append scripts
+    script(src='https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js')
+    script(src='https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js')
+    script(src='/js/databaseDesignJQuerry.js')
+    script(src='/js/tooltip.js')
+    
+mixin changeStatusModalTemplate(id, status)
+    .modal.fade(tabindex='-1' role='dialog' aria-labelledby='changeStatusModalLabel' aria-hidden='true' id=`changeStatusModal${status}${id}`)
+        .modal-dialog(role='document')
+            .modal-content
+                .modal-header
+                    h3#changeStatusModalLabel.modal-title #{status} Maintenance Request
+                    button.close(type='button' data-dismiss='modal' aria-label='Close')
+                        span(aria-hidden='true') &times;
+                .modal-body
+                    form
+                        .form-group.row
+                            label.col-sm-3.col-form-label(for=`inputReasonMaintenance${status}${id}`) <b> Reason </b><br/>(Max. 1000 words)
+                            .col-sm-9
+                                textarea.form-control(id=`inputReasonMaintenance${status}${id}` type='text' rows='5' placeholder='Reason (Max. 1000 words)' maxlength="1000" required)
+                .modal-footer
+                    button.btn.btn-secondary(type='button' data-dismiss='modal') Cancel
+                    -const button = status == 'Completed' ? 'btn-success' : 'btn-danger'                    
+                    button.btn.text-white.completeMaintenanceRequestBtn(class=`${button}` data-request-id=`${id}` data-request-status=`${status}`) #{status}
+
+block content
+    +breadcrumbDisplay([['Home','/home'],['Manage Maintenance Requests']])
+
+    .d-flex
+        h2 Manage Maintenance Requests
+
+    -if(maintenanceRequests.length<1)
+        h4.font-weight-bold.text-dark.mt-0.ml-4 No maintenance requests to process.
+    - else
+
+        table.table#dataTable.table.table-striped.table-bordered.table-sm.text-center
+            thead
+                tr
+                    //- th(scope="col") #
+                    th Subject
+                    //- th Description
+                    th Author
+                    th Creation date
+                    th Resolved date
+                    th Status
+                    th Completed
+                    th Rejected
+
+            tbody
+
+                each maintenanceRequest,index in maintenanceRequests
+                
+                    if maintenanceRequest.status == 'Pending'
+                        +changeStatusModalTemplate(maintenanceRequest._id, 'Completed')
+                        +changeStatusModalTemplate(maintenanceRequest._id, 'Rejected')
+
+                    //- -const creationDate = maintenanceRequest.createdAt.format();
+                    -const creationDate = moment(maintenanceRequest.createdAt).format('DD/MMM/YYYY HH:mm');
+                    -const resolvedDate = maintenanceRequest.resolvedAt ? moment(maintenanceRequest.resolvedAt).format('DD/MMM/YYYY HH:mm') : ''
+                    
+                    tr
+                        //- th(scope='row')= index+1
+                        td
+                            a.btn(type='button' data-toggle="tooltip" data-html="true" data-placement="bottom" title=`<u>Description</u>: ${maintenanceRequest.description}`) #{maintenanceRequest.subject}
+                        //- td= maintenanceRequest.description
+                        td= `${maintenanceRequest.user.firstName} ${maintenanceRequest.user.lastName}`
+                        td= creationDate
+                        td= resolvedDate
+                        td= maintenanceRequest.status
+                        if maintenanceRequest.status == 'Pending'
+                            td
+                                button.btn.btn-success.text-white.completeMaintenanceRequestBtn(type='button' data-toggle="modal" data-target=`#changeStatusModalCompleted${ maintenanceRequest._id}`) Complete
+                            td
+                                button.btn.btn-danger.text-white.completeMaintenanceRequestBtn(type='button' data-toggle="modal" data-target=`#changeStatusModalRejected${ maintenanceRequest._id}`) Reject
+                        else
+                            td
+                            td
+                        
+            tfoot
+                tr
+                    //- th #
+                    th Subject
+                    //- th Description
+                    th Author
+                    th Creation date
+                    th Resolved date
+                    th Status
+                    th Completed
+                    th Rejected

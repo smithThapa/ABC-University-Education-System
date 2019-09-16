@@ -58,12 +58,13 @@ block content
                     .form-check.form-check-inline
                         input#inlineCheckboxStaff.form-check-input(type='checkbox' value='staff')
                         label.form-check-label(for='inlineCheckboxStaff') Staffs
-                    .form-check.form-check-inline
-                        input#inlineCheckboxAdmin.form-check-input(type='checkbox' value='admin')
-                        label.form-check-label(for='inlineCheckboxAdmin') Admins
-                    .form-check.form-check-inline
-                        input#inlineCheckboxAll.form-check-input(type='checkbox' value='all')
-                        label.form-check-label(for='inlineCheckboxAll') All
+                    if user.role == 'admin'
+                        .form-check.form-check-inline
+                            input#inlineCheckboxAdmin.form-check-input(type='checkbox' value='admin')
+                            label.form-check-label(for='inlineCheckboxAdmin') Admins
+                        .form-check.form-check-inline
+                            input#inlineCheckboxAll.form-check-input(type='checkbox' value='all')
+                            label.form-check-label(for='inlineCheckboxAll') All
         .form-group.row
             .col-sm-10
                 button.btn.btn-primary New #{title}

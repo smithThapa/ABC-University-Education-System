@@ -2,9 +2,11 @@ const mongoose = require('mongoose');
 const GridFsStorage = require('multer-gridfs-storage');
 const multer = require('multer');
 const crypto = require('crypto');
+
 const catchAsync = require('./../utils/CatchAsync');
 const AppError = require('./../utils/AppError');
 const Resource = require('../models/ResourceModel');
+
 // const factory = require('./HandlerFactory');
 
 const DB = process.env.DATABASE.replace(
@@ -171,15 +173,19 @@ exports.resources = catchAsync(async (req, res, next) => {
 exports.uploadMulterMiddle = uploadMulter.single('file');
 
 exports.upload = (req, res) => {
-  Resource.create({
-    fileId: req.file.id,
-    userId: req.user.id
-  });
+  try {
+    Resource.create({
+      fileId: req.file.id,
+      userId: req.user.id
+    });
 
-  // console.log(req);
-  if (req.baseUrl.startsWith('/manage_resources'))
-    res.redirect('/manage_resources');
-  else res.redirect('/resources');
+    // console.log(req);
+    if (req.baseUrl.startsWith('/manage_resources'))
+      res.redirect('/manage_resources');
+    else res.redirect('/resources');
+  } catch (err) {
+    console.log(err.message);
+  }
 };
 
 exports.files = (req, res) => {

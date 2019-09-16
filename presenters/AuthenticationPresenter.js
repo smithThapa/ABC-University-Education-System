@@ -16,7 +16,7 @@ const signToken = id => {
 //create token
 const createSendToken = (user, statusCode, res) => {
   const token = signToken(user._id); //sign token of a user
-  console.log("TOKEN:", token);
+  // console.log('TOKEN:', token);
 
   //create cookie
   const cookieOptions = {
@@ -26,12 +26,9 @@ const createSendToken = (user, statusCode, res) => {
     httpOnly: true
   };
 
-  if(user.role == 'team-maintenance'){
+  if (user.role === 'team-maintenance') {
     res.cookie('oldJwt', token, cookieOptions);
   }
-
-  
-  
 
   // if (process.env.NODE_ENV.trim() === 'production') cookieOptions.secure = true;
   if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
@@ -97,9 +94,7 @@ exports.login = catchAsync(async (req, res, next) => {
 //log out user by destructing token
 exports.logout = (req, res) => {
   res.cookie('jwt', 'loggedout', {
-    expires: new Date(
-      Date.now() + 10*1000
-    ),
+    expires: new Date(Date.now() + 10 * 1000),
     httpOnly: true
   });
   res.status(200).json({ status: 'success' });
@@ -107,12 +102,16 @@ exports.logout = (req, res) => {
 
 exports.logoutAs = (req, res) => {
   res.cookie('jwt', req.cookies.oldJwt, {
-    expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000), httpOnly: true
+    expires: new Date(
+      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+    ),
+    httpOnly: true
   });
   res.cookie('oldJwt', 'loggedout', {
-    expires: new Date(Date.now() + 1* 1000), httpOnly: true
+    expires: new Date(Date.now() + 10 * 1000),
+    httpOnly: true
   });
-  res.status(200).json({status: 'success'});
+  res.status(200).json({ status: 'success' });
 };
 
 exports.protect = catchAsync(async (req, res, next) => {

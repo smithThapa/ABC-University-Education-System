@@ -29,6 +29,7 @@ block content
                     th Email
                     th Role
                     th Major
+                    th Date
                     th Active
                     th Edit
                     th Delete
@@ -49,6 +50,7 @@ block content
                             td= currentUser.email
                             td= role
                             td= currentUser.major
+                            td= currentUser.createdAt
                             td= active
                             td
                                 a.btn.btn-success.text-white(href=`/manage_users/${currentUser.id}/edit_user`) Edit
@@ -61,6 +63,7 @@ block content
                     th Email
                     th Role
                     th Major
+                    th Date
                     th Active
                     th Edit
                     th Delete                    

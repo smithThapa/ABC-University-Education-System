@@ -16,13 +16,16 @@ import {
   editElement
 } from './editElement';
 import { deleteElement } from './deleteElement';
-import { submitMaintenanceRequest } from './maintenanceRequest';
+import {
+  submitMaintenanceRequest,
+  changeMaintenanceStatus
+} from './maintenanceRequest';
 import { forgotPassword, resetPassword } from './passwordManagement';
 
 // variable
 const loginForm = document.getElementById('login-form');
 const logoutBtn = document.getElementById('logoutBtn');
-const logoutAsBtn = document.getElementById('logoutAsBtn')
+const logoutAsBtn = document.getElementById('logoutAsBtn');
 const fileInput = document.getElementById('fileInput');
 
 const resetPasswordForm = document.getElementById('resetPasswordForm');
@@ -39,7 +42,11 @@ const editUserForm = document.getElementById('editUserForm');
 const editMeForm = document.getElementById('editMeForm');
 
 const deleteElementBtnList = document.querySelectorAll('.deleteModalBtn');
+
 const maintenanceForm = document.getElementById('maintenance-form');
+const completeMaintenanceRequestBtnList = document.querySelectorAll(
+  '.completeMaintenanceRequestBtn'
+);
 
 if (maintenanceForm) {
   maintenanceForm.addEventListener('submit', e => {
@@ -69,7 +76,7 @@ if (logoutBtn) {
   logoutBtn.addEventListener('click', logout);
 }
 
-if(logoutAsBtn){
+if (logoutAsBtn) {
   logoutAsBtn.addEventListener('click', logoutAs);
 }
 
@@ -382,6 +389,21 @@ if (deleteElementBtnList) {
       const { typeId, typeType } = e.target.dataset;
       // console.log(typeId, typeType.toLowerCase());
       deleteElement(typeId, typeType.toLowerCase());
+    });
+  });
+}
+
+if (completeMaintenanceRequestBtnList) {
+  completeMaintenanceRequestBtnList.forEach(function(btn) {
+    btn.addEventListener('click', e => {
+      const { requestId, requestStatus } = e.target.dataset;
+      const resolvedMessage = document.getElementById(
+        `inputReasonMaintenance${requestStatus}${requestId}`
+      ).value;
+
+      // console.log(requestId, requestStatus, resolvedMessage);
+      if (resolvedMessage != '' && resolvedMessage.trim() != '')
+        changeMaintenanceStatus(requestId, requestStatus, resolvedMessage);
     });
   });
 }
