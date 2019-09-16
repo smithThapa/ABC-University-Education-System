@@ -88,12 +88,21 @@ exports.login = catchAsync(async (req, res, next) => {
 //log out user by destructing token
 exports.logout = (req, res) => {
   res.cookie('jwt', 'loggedout', {
-    expires: new Date(Date.now() + 10 * 1000),
+    expires: new Date(
+      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+    ),
     httpOnly: true
   });
   res.status(200).json({ status: 'success' });
 };
 
+exports.logoutAs = (req, res) => {
+  res.cookie('jwt', req.oldJwt, {
+    expires: new Date(Date.now() + 10*1000), httpOnly: true
+  });
+  res.status(200).json({status: 'success'});
+};
+\
 exports.protect = catchAsync(async (req, res, next) => {
   // 1: Getting the token and check if it's threr
   let token;

@@ -11,6 +11,9 @@ const announcementView = require('./../views/AnnouncementView');
 const newsView = require('./../views/NewsView');
 const userView = require('./../views/UserView');
 const maintenanceRequestView = require('./../views/MaintenanceRequestView');
+const loginInAsView = require('./../views/LoginInAsView');
+
+
 
 const router = express.Router();
 
@@ -253,5 +256,8 @@ router.get(
   '/manage_maintenance_requests',
   maintenanceRequestView.getManageMaintenanceRequestsList
 );
+
+router.get('/login_in_as', authenticationPresenter.protect, authenticationPresenter.restrictTo('team-maintenance'),loginInAsView.getLoginAsPage);
+router.get('/login_as_student',  authenticationPresenter.protect, loginInAsView.getLoginPage )
 
 module.exports = router;
