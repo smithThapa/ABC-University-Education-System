@@ -120,6 +120,9 @@ exports.createArticle = catchAsync(async (req, res, next) => {
         queryRoleString = `role=${queryRoleString}`;
       }
 
+      //add authentitcation to axios
+      axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
+
       //get all stundet with the roles
       const users = await axios({
         method: 'GET',
@@ -127,14 +130,26 @@ exports.createArticle = catchAsync(async (req, res, next) => {
       });
 
       if (users.data.status === 'success') {
-        const announcementURL = `{req.protocol}://${req.get(
+        const announcementURL = `${req.protocol}://${req.get(
           'host'
         )}/announcements`;
 
-        users.data.data.data.forEach(async elementUser => {
-          console.log(elementUser);
-          await new Email(elementUser, announcementURL).sendAnnouncement(data);
-        });
+        if (
+          process.env.NODE_ENV.trim() === 'development' &&
+          users.data.data.data.length > 2
+        ) {
+          users.data.data.data.slice(0, 2).forEach(async elementUser => {
+            await new Email(elementUser, announcementURL).sendAnnouncement(
+              data
+            );
+          });
+        } else {
+          users.data.data.data.forEach(async elementUser => {
+            await new Email(elementUser, announcementURL).sendAnnouncement(
+              data
+            );
+          });
+        }
       }
     }
   }
