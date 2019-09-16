@@ -1,5 +1,5 @@
 import '@babel/polyfill';
-import { login, logout } from './login';
+import { login, logout, logoutAs } from './login';
 import { showAlert } from './alerts';
 import {
   createUser,
@@ -22,6 +22,7 @@ import { forgotPassword, resetPassword } from './passwordManagement';
 // variable
 const loginForm = document.getElementById('login-form');
 const logoutBtn = document.getElementById('logoutBtn');
+const logoutAsBtn = document.getElementById('logoutAsBtn')
 const fileInput = document.getElementById('fileInput');
 
 const resetPasswordForm = document.getElementById('resetPasswordForm');
@@ -66,6 +67,10 @@ if (loginForm) {
 
 if (logoutBtn) {
   logoutBtn.addEventListener('click', logout);
+}
+
+if(logoutAsBtn){
+  logoutAsBtn.addEventListener('click', logoutAs);
 }
 
 if (createElementForm) {

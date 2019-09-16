@@ -8315,7 +8315,7 @@ exports.showAlert = showAlert;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.logout = exports.login = void 0;
+exports.logoutAs = exports.logout = exports.login = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
 
@@ -8439,6 +8439,57 @@ function () {
 }();
 
 exports.logout = logout;
+
+var logoutAs =
+/*#__PURE__*/
+function () {
+  var _ref3 = _asyncToGenerator(
+  /*#__PURE__*/
+  regeneratorRuntime.mark(function _callee3() {
+    var res;
+    return regeneratorRuntime.wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            _context3.prev = 0;
+            _context3.next = 3;
+            return (0, _axios.default)({
+              method: 'GET',
+              url: 'http://127.0.0.1:8000/api/v1/users/logoutas'
+            });
+
+          case 3:
+            res = _context3.sent;
+
+            if (res.data.status === 'success') {
+              (0, _alerts.showAlert)('info', 'Sucessfully log out!', 'Thank you for using ABC University Education System');
+              window.setTimeout(function () {
+                location.assign('/login_in_as');
+              }, 1000);
+            }
+
+            _context3.next = 10;
+            break;
+
+          case 7:
+            _context3.prev = 7;
+            _context3.t0 = _context3["catch"](0);
+            (0, _alerts.showAlert)('error', 'Error loggin out! Try again!');
+
+          case 10:
+          case "end":
+            return _context3.stop();
+        }
+      }
+    }, _callee3, null, [[0, 7]]);
+  }));
+
+  return function logoutAs() {
+    return _ref3.apply(this, arguments);
+  };
+}();
+
+exports.logoutAs = logoutAs;
 },{"axios":"../../node_modules/axios/index.js","./alerts":"alerts.js"}],"createElement.js":[function(require,module,exports) {
 "use strict";
 
@@ -9593,6 +9644,7 @@ var _passwordManagement = require("./passwordManagement");
 // variable
 var loginForm = document.getElementById('login-form');
 var logoutBtn = document.getElementById('logoutBtn');
+var logoutAsBtn = document.getElementById('logoutAsBtn');
 var fileInput = document.getElementById('fileInput');
 var resetPasswordForm = document.getElementById('resetPasswordForm');
 var forgotPasswordForm = document.getElementById('forgotPasswordForm');
@@ -9633,6 +9685,10 @@ if (loginForm) {
 
 if (logoutBtn) {
   logoutBtn.addEventListener('click', _login.logout);
+}
+
+if (logoutAsBtn) {
+  logoutAsBtn.addEventListener('click', _login.logoutAs);
 }
 
 if (createElementForm) {
@@ -9914,7 +9970,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64813" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58781" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

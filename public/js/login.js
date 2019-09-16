@@ -56,3 +56,24 @@ export const logout = async () => {
     showAlert('error', 'Error loggin out! Try again!');
   }
 };
+
+export const logoutAs = async () => {
+  try {
+    const res = await axios({
+      method: 'GET',
+      url: 'http://127.0.0.1:8000/api/v1/users/logoutas'
+    });
+    if (res.data.status === 'success') {
+      showAlert(
+        'info',
+        'Sucessfully log out!',
+        'Thank you for using ABC University Education System'
+      );
+      window.setTimeout(() => {
+        location.assign('/login_in_as');
+      }, 1000);
+    }
+  } catch (err) {
+    showAlert('error', 'Error loggin out! Try again!');
+  }
+};

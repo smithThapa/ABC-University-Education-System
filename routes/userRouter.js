@@ -8,6 +8,7 @@ const router = express.Router();
 router.post('/signup', authenticationPresenter.signup); // This router will not be used
 router.post('/login', authenticationPresenter.login);
 router.get('/logout', authenticationPresenter.logout);
+router.get('/logoutas', authenticationPresenter.logoutAs)
 
 //forget password and reset password
 router.post('/forgotPassword', authenticationPresenter.forgotPassword);
