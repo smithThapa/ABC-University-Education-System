@@ -1,12 +1,63 @@
 extends ../components/_templateBase
 
+
+block append head
+    link(rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css")
+    link(rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css")
+    
+
 block append scripts
+    script(src='https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js')
+    script(src='https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js')
+    script(src='/js/databaseDesignJQuerry.js')
     script(src='/js/resource.js')
-           
+
 block content
     +breadcrumbDisplay([['Home','/home'],['Resources']])
     h2 Resources
-    .container
+    .row
+        form.col-6(action="/resources/upload" method="post" enctype="multipart/form-data")
+            .form-row.mb-1
+                .custom-file.col-9.mr-4
+                    input.custom-file-input#file(type="file" name="file")
+                    label#file-label(for="file" class="custom-file-label") Choose Stuff
+                input.btn.btn-primary.col( type= "submit" value="Submit")   
+
+
+    if files
+    
+        table.table#dataTable.table.table-borderless.table-sm
+            thead
+                tr
+                    th.text-right.px-5 Sort By Date
+            tbody
+                each file in files
+                    tr
+                        td
+                            p.d-none #{file.uploadDate}
+                            .card
+                                .h5.card-header.bg-info.text-white= file.filename
+                                .card-body
+                                    //- .h6.card-title= ""
+                                    if file.isImage
+                                        img(src=`/resources/image/${file.filename}`, width="250", alt="", class="img-responsive")
+                                    .card-subtitle.my-2
+                                        small.text-muted= `Uploaded by: ${file.user.firstName} ${file.user.lastName}`
+                                        br
+                                        -const updateDate = moment(file.uploadDate).format('dddd DD MMM YYYY HH:mm')
+                                        small.text-muted= `Upload date: ${updateDate}`
+                                .card-footer
+                                    a.btn.btn-primary( href= `/resources/files/${file.filename}`) Download
+                                    hr
+                                    //- if userFilesIds.includes(file._id.toString())
+                                    -if (user._id == file.user.id)
+                                        form(action=`/resources/files/del/${file._id}` method="post")
+                                            button.btn.btn-danger(type="submit") Remove   
+
+    else
+        |No files to show 
+
+    //- .container
         .row
             .col-md-6.m-auto
                 h1.my-4 Resources
@@ -16,9 +67,9 @@ block content
                         label#file-label(for="file" class="custom-file-label") Choose Stuff
                     input.btn.btn-primary.btn-block( type= "submit" value="Submit")   
                 hr
-                
+
                 if files
-                    
+
                     each file in files
                         br
                         .card
@@ -39,9 +90,9 @@ block content
                                 -if (user._id == file.user.id)
                                     form(action=`/resources/files/del/${file._id}` method="post")
                                         button.btn.btn-danger(type="submit") Remove   
-                       
+
                 else
                     |No files to show 
 
-    
+
 
