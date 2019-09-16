@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { showAlert } from './alerts';
-// import Email from './../../utils/Email';
 
 export const createUser = async data => {
   try {
@@ -137,39 +136,10 @@ export const createArticle = async function(
     const res = await axios({
       method: 'POST',
       url: 'http://127.0.0.1:8000/api/v1/articles',
-      data
+      data: { data, arrayRoleEmails }
     });
 
     if (res.data.status === 'success') {
-      //roles to send email
-      if (arrayRoleEmails.length > 0) {
-        let queryRoleString;
-        //is user select allocate all roles
-        if (arrayRoleEmails.includes('all')) {
-          queryRoleString = 'role=student&role=staff&role=admin';
-        } else {
-          queryRoleString = arrayRoleEmails.join('&role=');
-          queryRoleString = 'role=' + queryRoleString;
-        }
-
-        //get all stundet with the roles
-        const users = await axios({
-          method: 'GET',
-          url: `http://127.0.0.1:8000/api/v1/users?${queryRoleString}`
-        });
-
-        if (users.data.status === 'success') {
-          const announcementURL = `http://127.0.0.1:8000/announcements`;
-
-          users.data.data.data.forEach(async elementUser => {
-            console.log(elementUser);
-            await new Email(elementUser, announcementURL).sendAnnouncement(
-              data
-            );
-          });
-        }
-      }
-
       // site
       window.scrollTo(0, 0);
       showAlert(
