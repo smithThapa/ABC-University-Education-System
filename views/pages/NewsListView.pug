@@ -9,6 +9,7 @@ block append scripts
     script(src='https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js')
     script(src='https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js')
     script(src='/js/databaseDesignJQuerry.js')
+    script(src='/js/tooltip.js')
 
 block content
     +breadcrumbDisplay([['Home','/home'],['Manage News']])
@@ -40,7 +41,8 @@ block content
                     
                         tr
                             //- th= index+1 
-                            td.text-left.pl-3= newElement.title
+                            td.text-left.pl-3
+                                a.btn(type='button' data-toggle="tooltip" data-html="true" data-placement="right" title=`<u>Description</u>: ${newElement.description.substring(0,150)}...`) #{newElement.title}
                             td #{newElement.user.firstName} #{newElement.user.lastName}
                             td= creationDate
                             td

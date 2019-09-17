@@ -9,6 +9,7 @@ block append scripts
     script(src='https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js')
     script(src='https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js')
     script(src='/js/databaseDesignJQuerry.js')
+    script(src='/js/tooltip.js')
 
 mixin openComment(id, title, description)
     .modal.fade(tabindex='-1' role='dialog' aria-labelledby='deleteModalLabel' aria-hidden='true' id=`deleteModalComment${id}`)
@@ -68,7 +69,8 @@ block content
                     
                         tr
                             //- th= index+1
-                            td= comment.title
+                            td
+                                a.btn(type='button' data-toggle="tooltip" data-html="true" data-placement="bottom" title=`<u>Description</u>: ${comment.description.substring(0,150)}...`) #{comment.title}
                             td= `${comment.user.firstName} ${comment.user.lastName}`
                             td= creationDate
                             td

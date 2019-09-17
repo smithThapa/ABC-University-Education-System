@@ -10,7 +10,7 @@ block append scripts
     script(src='https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js')
     script(src='/js/databaseDesignJQuerry.js')
     script(src='/js/tooltip.js')
-    
+
 mixin changeStatusModalTemplate(id, status)
     .modal.fade(tabindex='-1' role='dialog' aria-labelledby='changeStatusModalLabel' aria-hidden='true' id=`changeStatusModal${status}${id}`)
         .modal-dialog(role='document')
@@ -33,14 +33,14 @@ mixin changeStatusModalTemplate(id, status)
 block content
     +breadcrumbDisplay([['Home','/home'],['Manage Maintenance Requests']])
 
-    .d-flex
-        h2 Manage Maintenance Requests
+    
+    h2 Manage Maintenance Requests
 
     -if(maintenanceRequests.length<1)
         h4.font-weight-bold.text-dark.mt-0.ml-4 No maintenance requests to process.
     - else
 
-        table.table#dataTable.table.table-striped.table-bordered.table-sm.text-center
+        table#dataTable.table.table-striped.table-bordered.table-sm.text-center
             thead
                 tr
                     //- th(scope="col") #
@@ -48,23 +48,28 @@ block content
                     //- th Description
                     th Author
                     th Creation date
-                    th Resolved date
                     th Status
                     th Completed
                     th Rejected
 
             tbody
 
-                each maintenanceRequest,index in maintenanceRequests
-                
+                each maintenanceRequest in maintenanceRequests
+
                     if maintenanceRequest.status == 'Pending'
                         +changeStatusModalTemplate(maintenanceRequest._id, 'Completed')
                         +changeStatusModalTemplate(maintenanceRequest._id, 'Rejected')
 
                     //- -const creationDate = maintenanceRequest.createdAt.format();
                     -const creationDate = moment(maintenanceRequest.createdAt).format('DD/MMM/YYYY HH:mm');
-                    -const resolvedDate = maintenanceRequest.resolvedAt ? moment(maintenanceRequest.resolvedAt).format('DD/MMM/YYYY HH:mm') : ''
+                    -const resolvedDate = maintenanceRequest.resolvedAt ? moment(maintenanceRequest.resolvedAt).format('DD/MMM/YYYY') : ''
                     
+                    -let tableRowDesign = '';
+                    if maintenanceRequest.status == 'Completed' 
+                        -tableRowDesign = 'bg-success text-white' 
+                    else if maintenanceRequest.status == 'Rejected'
+                        -tableRowDesign = 'bg-danger text-white'
+
                     tr
                         //- th(scope='row')= index+1
                         td
@@ -72,17 +77,20 @@ block content
                         //- td= maintenanceRequest.description
                         td= `${maintenanceRequest.user.firstName} ${maintenanceRequest.user.lastName}`
                         td= creationDate
-                        td= resolvedDate
-                        td= maintenanceRequest.status
+                        td(class=`${tableRowDesign}`)= maintenanceRequest.status
                         if maintenanceRequest.status == 'Pending'
                             td
                                 button.btn.btn-success.text-white.completeMaintenanceRequestBtn(type='button' data-toggle="modal" data-target=`#changeStatusModalCompleted${ maintenanceRequest._id}`) Complete
                             td
                                 button.btn.btn-danger.text-white.completeMaintenanceRequestBtn(type='button' data-toggle="modal" data-target=`#changeStatusModalRejected${ maintenanceRequest._id}`) Reject
                         else
-                            td
-                            td
-                        
+                            -const textDesign = maintenanceRequest.status == 'Completed' ? 'text-success' : 'text-danger'
+                            td.border-right-0.text-right(class=`${textDesign}`)  #{maintenanceRequest.status}
+                            td.text-left(class=`${textDesign}`) on #{resolvedDate}
+                            //- -const textDesign = maintenanceRequest.status == 'Completed' ? 'text-success' : 'text-danger'
+                            //- td(colspan="2") 
+                            //-     p(class=`${textDesign}`) #{maintenanceRequest.status} on #{resolvedDate}
+
             tfoot
                 tr
                     //- th #
@@ -90,7 +98,6 @@ block content
                     //- th Description
                     th Author
                     th Creation date
-                    th Resolved date
                     th Status
                     th Completed
                     th Rejected

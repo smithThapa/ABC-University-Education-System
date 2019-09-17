@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const validator = require('validator');
 //const User = require('./UserModel');
 
 const mainRequestSchema = mongoose.Schema({
@@ -23,7 +24,12 @@ const mainRequestSchema = mongoose.Schema({
   },
   resolvedAt: {
     type: Date,
-    required: true
+    validate: {
+      validator: function(el) {
+        return el > this.createdAt;
+      },
+      message: "Request can't be resolved before its creation"
+    }
   },
   user: {
     type: mongoose.Schema.ObjectId,
