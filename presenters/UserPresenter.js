@@ -2,6 +2,7 @@ const User = require('./../models/UserModel');
 const catchAsync = require('./../utils/CatchAsync');
 const AppError = require('./../utils/AppError');
 const factory = require('./HandlerFactory');
+const Email = require('./../utils/Email');
 
 const filterObj = (obj, ...allowedFields) => {
   const newObj = {};
@@ -98,3 +99,56 @@ exports.updateUser = catchAsync(async (req, res, next) => {
   });
 });
 exports.deleteUser = factory.deleteOne(User);
+
+exports.sendNotificationUser = catchAsync(async (req, res, next) => {
+  const { type } = req.params;
+
+  if (type === 'passwordChange') {
+    //Users who have not changed their password in the last 2 months
+    let users = await User.find({
+      passwordChangedAt: {
+        $not: { $gt: new Date(new Date() - 1000 * 60 * 60 * 24 * 30 * 2) }
+      }
+    });
+
+    if (users) {
+      const homeURL = `${req.protocol}://${req.get('host')}/`;
+
+      if (process.env.NODE_ENV.trim() === 'development' && users.length > 2) {
+        users = users.slice(0, 2);
+      }
+
+      users.forEach(async elementUser => {
+        await new Email(elementUser, homeURL).sendNotificationChangePassword();
+      });
+    }
+  }
+
+  if (type === 'emailNotificationMaintenance') {
+    // Get all users to email
+    let users = await User.find();
+
+    const { data } = req.body;
+
+    if (users) {
+      const homeURL = `${req.protocol}://${req.get('host')}/`;
+
+      if (process.env.NODE_ENV.trim() === 'development' && users.length > 2) {
+        users = users.slice(0, 2);
+      }
+
+      users.forEach(async elementUser => {
+        await new Email(elementUser, homeURL).sendNotificationEmailNotification(
+          data
+        );
+      });
+    }
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      type
+    }
+  });
+});

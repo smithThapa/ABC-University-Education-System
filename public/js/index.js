@@ -20,6 +20,7 @@ import {
 } from './editElement';
 import { deleteElement } from './deleteElement';
 import { forgotPassword, resetPassword } from './passwordManagement';
+import { sendNotification } from './sendNotification';
 
 // variable
 const loginForm = document.getElementById('login-form');
@@ -48,6 +49,13 @@ const editMaintenanceRequestBtnList = document.querySelectorAll(
 );
 
 const deleteElementBtnList = document.querySelectorAll('.deleteModalBtn');
+
+const sendNotificationChangePasswordBtn = document.getElementById(
+  'sendNotificationChangePasswordBtn'
+);
+const sendNotificationFromMaintenanceForm = document.getElementById(
+  'sendNotificationFromMaintenanceForm'
+);
 
 if (createMaintenanceRequestForm) {
   createMaintenanceRequestForm.addEventListener('submit', e => {
@@ -423,5 +431,29 @@ if (editMaintenanceRequestBtnList) {
       if (resolvedMessage != '' && resolvedMessage.trim() != '')
         editMaintenanceRequest(requestId, requestStatus, resolvedMessage);
     });
+  });
+}
+
+if (sendNotificationChangePasswordBtn) {
+  sendNotificationChangePasswordBtn.addEventListener('click', e => {
+    const { elementType } = e.target.dataset;
+    sendNotification(elementType, {});
+  });
+}
+
+if (sendNotificationFromMaintenanceForm) {
+  sendNotificationFromMaintenanceForm.addEventListener('submit', e => {
+    e.preventDefault();
+
+    const notification = new Object();
+
+    notification.subject = document.getElementById(
+      'inputNoticationSubject'
+    ).value;
+    notification.description = document.getElementById(
+      'inputNoticationDescription'
+    ).value;
+
+    sendNotification('emailNotificationMaintenance', notification);
   });
 }

@@ -1,0 +1,27 @@
+extends ../components/_templateBase
+
+block content
+    +breadcrumbDisplay([['Home','/home'],['Send Notifications']])
+
+    h2 Send Notifications
+
+    h3 Change Password
+    div
+        p.text-muted Notifies all users who have not changed theire password in the last 2 months. 
+        button.btn.btn-primary#sendNotificationChangePasswordBtn(data-element-type="passwordChange") Email Change Password Notification
+    
+    h3 Email Notification
+    form#sendNotificationFromMaintenanceForm
+        .form-group.row
+            label.col-sm-2.col-form-label(for='inputNoticationSubject') Subject
+            .col-sm-10
+                input#inputNoticationSubject.form-control(type='text' maxlength="150"  placeholder='Subject' required='required')
+        .form-group.row
+            label.col-sm-2.col-form-label(for='inputNoticationDescription') Description <br/> 
+                p.text-muted (max: 1500 characters)
+            .col-sm-10
+                textarea#inputNoticationDescription.form-control(type='text'  rows="5" maxlength="1500" placeholder=`Description (max: 1500 characters)` required='required')
+        .form-group.row
+            .col-sm-10
+                button.btn.btn-primary Email Notification
+

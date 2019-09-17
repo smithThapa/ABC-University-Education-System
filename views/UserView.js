@@ -76,3 +76,9 @@ exports.getMyDetails = async function(req, res, next) {
     title: 'User'
   });
 };
+
+exports.getSendNotificationPage = function(req, res) {
+  res.status(200).render('SendNotificationPage', {
+    title: 'Send Notifications'
+  });
+};

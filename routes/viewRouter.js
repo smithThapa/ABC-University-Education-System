@@ -275,4 +275,11 @@ router.get(
   errorReportView.getErrorReportsPage
 );
 
+router.get(
+  '/send_notifications',
+  authenticationPresenter.protect,
+  authenticationPresenter.restrictTo('team-maintenance'),
+  userView.getSendNotificationPage
+);
+
 module.exports = router;

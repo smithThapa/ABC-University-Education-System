@@ -132,7 +132,7 @@ exports.createArticle = catchAsync(async (req, res, next) => {
         };
       }
 
-      const users = await User.find(queryRole);
+      let users = await User.find(queryRole);
 
       // if (users.data.status === 'success') {
       if (users) {
@@ -141,18 +141,12 @@ exports.createArticle = catchAsync(async (req, res, next) => {
         )}/announcements`;
 
         if (process.env.NODE_ENV.trim() === 'development' && users.length > 2) {
-          users.slice(0, 2).forEach(async elementUser => {
-            await new Email(elementUser, announcementURL).sendAnnouncement(
-              data
-            );
-          });
-        } else {
-          users.forEach(async elementUser => {
-            await new Email(elementUser, announcementURL).sendAnnouncement(
-              data
-            );
-          });
+          users = users.slice(0, 2);
         }
+
+        users.forEach(async elementUser => {
+          await new Email(elementUser, announcementURL).sendAnnouncement(data);
+        });
       }
     }
   }

@@ -8,7 +8,7 @@ const router = express.Router();
 router.post('/signup', authenticationPresenter.signup); // This router will not be used
 router.post('/login', authenticationPresenter.login);
 router.get('/logout', authenticationPresenter.logout);
-router.get('/logoutas', authenticationPresenter.logoutAs)
+router.get('/logoutas', authenticationPresenter.logoutAs);
 
 //forget password and reset password
 router.post('/forgotPassword', authenticationPresenter.forgotPassword);
@@ -24,17 +24,31 @@ router.patch('/updateMe', userPresenter.updateMe);
 router.delete('/deleteMe', userPresenter.deleteMe);
 
 //all by admin
-router.use(authenticationPresenter.restrictTo('admin'));
+router.post(
+  '/createUser',
+  authenticationPresenter.restrictTo('admin'),
+  authenticationPresenter.createUser
+);
 
-router.post('/createUser', authenticationPresenter.createUser);
-
-router.route('/').get(userPresenter.getAllUsers);
+router
+  .route('/')
+  .get(authenticationPresenter.restrictTo('admin'), userPresenter.getAllUsers);
 //.post(userPresenter.createNewUsers);
 
 router
   .route('/:id')
-  .get(userPresenter.getUser)
-  .patch(userPresenter.updateUser)
-  .delete(userPresenter.deleteUser);
+  .get(authenticationPresenter.restrictTo('admin'), userPresenter.getUser)
+  .patch(authenticationPresenter.restrictTo('admin'), userPresenter.updateUser)
+  .delete(
+    authenticationPresenter.restrictTo('admin'),
+    userPresenter.deleteUser
+  );
+
+router.post(
+  '/notifyUsers/:type',
+  authenticationPresenter.protect,
+  authenticationPresenter.restrictTo('admin', 'team-maintenance'),
+  userPresenter.sendNotificationUser
+);
 
 module.exports = router;

@@ -7,7 +7,7 @@ const htmlToText = require('html-to-text');
 module.exports = class Email {
   constructor(user, url) {
     this.to = user.email;
-    this.fistName = user.firstName;
+    this.firstName = user.firstName;
     this.lastName = user.lastName;
     this.url = url;
     this.from = `ABC Univeristy Edication System <${process.env.EMAIL_FROM}>`;
@@ -100,6 +100,17 @@ module.exports = class Email {
       `New Announcement from ABC University: ${data.title}`,
       data.description
     );
+  }
+
+  async sendNotificationChangePassword() {
+    await this.send(
+      'changePassword',
+      'You have not changed your password in more than 2 months'
+    );
+  }
+
+  async sendNotificationEmailNotification(data) {
+    await this.sendWithBody('emailNotification', data.subject, data);
   }
 
   async sendMaintenanceResolution(data) {
