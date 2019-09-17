@@ -6,24 +6,32 @@ const errorReportSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  body: {
-    type: String
+  description: {
+    type: String,
+    required: true
   },
   createdAt: {
     type: Date,
     required: true,
-    default: Date.now()
+    default: Date.now(),
+    immutable: true
   },
-  author: {
+  status: {
+    type: String,
+    enum: ['Completed', 'Pending', 'Rejected'],
+    default: 'Pending'
+  },
+  user: {
     type: mongoose.Schema.ObjectId,
     ref: 'User',
     required: [true, 'error report must belong to a user']
   }
 });
+
 errorReportSchema.pre(/^find/, function(next) {
   this.populate({
-    path: 'author',
-    select: 'firstName lastName'
+    path: 'user',
+    select: 'firstName lastName role'
   });
   next();
 });

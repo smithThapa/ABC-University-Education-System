@@ -141,7 +141,7 @@
   width: 100px;
 }
 
-#maintenance-form {
+#createMaintenanceRequestForm {
   display: flex;
   align-items: center;
   flex-direction: column;

@@ -28,7 +28,7 @@ mixin changeStatusModalTemplate(id, status)
                 .modal-footer
                     button.btn.btn-secondary(type='button' data-dismiss='modal') Cancel
                     -const button = status == 'Completed' ? 'btn-success' : 'btn-danger'                    
-                    button.btn.text-white.completeMaintenanceRequestBtn(class=`${button}` data-request-id=`${id}` data-request-status=`${status}`) #{status}
+                    button.btn.text-white.editMaintenanceRequestBtn(class=`${button}` data-request-id=`${id}` data-request-status=`${status}`) #{status}
 
 block content
     +breadcrumbDisplay([['Home','/home'],['Manage Maintenance Requests']])
@@ -80,9 +80,9 @@ block content
                         td(class=`${tableRowDesign}`)= maintenanceRequest.status
                         if maintenanceRequest.status == 'Pending'
                             td
-                                button.btn.btn-success.text-white.completeMaintenanceRequestBtn(type='button' data-toggle="modal" data-target=`#changeStatusModalCompleted${ maintenanceRequest._id}`) Complete
+                                button.btn.btn-success.text-white(type='button' data-toggle="modal" data-target=`#changeStatusModalCompleted${ maintenanceRequest._id}`) Complete
                             td
-                                button.btn.btn-danger.text-white.completeMaintenanceRequestBtn(type='button' data-toggle="modal" data-target=`#changeStatusModalRejected${ maintenanceRequest._id}`) Reject
+                                button.btn.btn-danger.text-white(type='button' data-toggle="modal" data-target=`#changeStatusModalRejected${ maintenanceRequest._id}`) Reject
                         else
                             -const textDesign = maintenanceRequest.status == 'Completed' ? 'text-success' : 'text-danger'
                             td.border-right-0.text-right(class=`${textDesign}`)  #{maintenanceRequest.status}

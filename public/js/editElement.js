@@ -121,3 +121,27 @@ export const editMyPassword = async function(data) {
     showAlert('error', err.response.data.message);
   }
 };
+
+export const editMaintenanceRequest = async (id, status, resolvedMessage) => {
+  try {
+    const res = await axios({
+      method: 'PATCH',
+      url: `http://127.0.0.1:8000/api/v1/maintenanceRequests/${id}`,
+      data: {
+        status,
+        resolvedAt: Date.now(),
+        resolvedMessage
+      }
+    });
+
+    if (res.data.status === 'success') {
+      window.scrollTo(0, 0);
+      showAlert('success', `Maintenance Request has been ${status}`, '');
+      window.setTimeout(() => {
+        location.assign('/manage_maintenance_requests');
+      }, 1000);
+    }
+  } catch (err) {
+    showAlert('danger', 'Maintenance Request is not submitted.');
+  }
+};

@@ -1,0 +1,75 @@
+extends ../components/_templateBase
+
+block append head
+    link(rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css")
+    link(rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css")
+    
+
+block append scripts
+    script(src='https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js')
+    script(src='https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js')
+    script(src='/js/databaseDesignJQuerry.js')
+    script(src='/js/tooltip.js')
+
+block content
+    +breadcrumbDisplay([['Home','/home'],['Error Reports']])
+
+    
+    h2 Error Reports
+    
+    h3 Create New Error Report
+    
+    form#createErrorReportForm
+        .form-group.row
+            label.col-sm-2.col-form-label(for='inputCreationErrorReportSubject') Subject
+            .col-sm-10
+                input#inputCreationErrorReportSubject.form-control(type='text' maxlength="150"  placeholder='Subject' required='required')
+        .form-group.row
+            label.col-sm-2.col-form-label(for='inputCreationErrorReportDescription') Description <br/> 
+                p.text-muted (max: 1500 characters)
+            .col-sm-10
+                textarea#inputCreationErrorReportDescription.form-control(type='text'  rows="5" maxlength="1500" placeholder=`Description (max: 1500 characters)` required='required')
+        .form-group
+            .col-sm-10.row.pt-3
+                button.btn.btn-primary New Error Report
+                
+    h3 List of Error Reports
+
+    -if(errorReports.length<1)
+        h4.font-weight-bold.text-dark.mt-0.ml-4 No error reports to process.
+    - else
+
+        table#dataTable.table.table-striped.table-bordered.table-sm.text-center
+            thead
+                tr
+                    //- th(scope="col") #
+                    th Subject
+                    //- th Description
+                    th Author
+                    th Creation date
+                    th Status
+
+            tbody
+
+                each errorReport in errorReports
+
+                    //- -const creationDate = maintenanceRequest.createdAt.format();
+                    -const creationDate = moment(errorReport.createdAt).format('DD/MMM/YYYY HH:mm');
+
+                    tr
+                        //- th(scope='row')= index+1
+                        td
+                            a.btn(type='button' data-toggle="tooltip" data-html="true" data-placement="bottom" title=`<u>Description</u>: ${errorReport.description}`) #{errorReport.subject}
+                        //- td= maintenanceRequest.description
+                        td= `${errorReport.user.firstName} ${errorReport.user.lastName}`
+                        td= creationDate
+                        td= errorReport.status
+
+            tfoot
+                tr
+                    //- th #
+                    th Subject
+                    //- th Description
+                    th Author
+                    th Creation date
+                    th Status

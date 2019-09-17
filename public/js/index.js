@@ -6,20 +6,19 @@ import {
   createForum,
   createTopic,
   createComment,
-  createArticle
+  createArticle,
+  createMaintenanceRequest,
+  createErrorReport
 } from './createElement';
 import {
   editUser,
   editMe,
   editMyPassword,
   editArticle,
-  editElement
+  editElement,
+  editMaintenanceRequest
 } from './editElement';
 import { deleteElement } from './deleteElement';
-import {
-  submitMaintenanceRequest,
-  changeMaintenanceStatus
-} from './maintenanceRequest';
 import { forgotPassword, resetPassword } from './passwordManagement';
 
 // variable
@@ -35,25 +34,27 @@ const editMyPasswordForm = document.getElementById('editMyPasswordForm');
 const createElementForm = document.getElementById('createElementForm');
 const createArticleForm = document.getElementById('createArticleForm');
 const createUserForm = document.getElementById('createUserForm');
+const createMaintenanceRequestForm = document.getElementById(
+  'createMaintenanceRequestForm'
+);
+const createErrorReportForm = document.getElementById('createErrorReportForm');
 
 const editElementForm = document.getElementById('editElementForm');
 const editArticleForm = document.getElementById('editArticleForm');
 const editUserForm = document.getElementById('editUserForm');
 const editMeForm = document.getElementById('editMeForm');
+const editMaintenanceRequestBtnList = document.querySelectorAll(
+  '.editMaintenanceRequestBtn'
+);
 
 const deleteElementBtnList = document.querySelectorAll('.deleteModalBtn');
 
-const maintenanceForm = document.getElementById('maintenance-form');
-const completeMaintenanceRequestBtnList = document.querySelectorAll(
-  '.completeMaintenanceRequestBtn'
-);
-
-if (maintenanceForm) {
-  maintenanceForm.addEventListener('submit', e => {
+if (createMaintenanceRequestForm) {
+  createMaintenanceRequestForm.addEventListener('submit', e => {
     e.preventDefault();
     const subject = document.getElementById('inputSubject').value;
     const description = document.getElementById('inputDescription').value;
-    submitMaintenanceRequest(subject, description);
+    createMaintenanceRequest(subject, description);
   });
 }
 
@@ -196,6 +197,23 @@ if (createUserForm) {
     newUser.major = document.getElementById('inputCreationUserMajor').value;
     newUser.resetURL = '/my_details/reset_password';
     createUser(newUser);
+  });
+}
+
+if (createErrorReportForm) {
+  createErrorReportForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const errorReport = new Object();
+
+    errorReport.subject = document.getElementById(
+      'inputCreationErrorReportSubject'
+    ).value;
+    errorReport.description = document.getElementById(
+      'inputCreationErrorReportDescription'
+    ).value;
+
+    createErrorReport(errorReport);
   });
 }
 
@@ -393,8 +411,8 @@ if (deleteElementBtnList) {
   });
 }
 
-if (completeMaintenanceRequestBtnList) {
-  completeMaintenanceRequestBtnList.forEach(function(btn) {
+if (editMaintenanceRequestBtnList) {
+  editMaintenanceRequestBtnList.forEach(function(btn) {
     btn.addEventListener('click', e => {
       const { requestId, requestStatus } = e.target.dataset;
       const resolvedMessage = document.getElementById(
@@ -403,7 +421,7 @@ if (completeMaintenanceRequestBtnList) {
 
       // console.log(requestId, requestStatus, resolvedMessage);
       if (resolvedMessage != '' && resolvedMessage.trim() != '')
-        changeMaintenanceStatus(requestId, requestStatus, resolvedMessage);
+        editMaintenanceRequest(requestId, requestStatus, resolvedMessage);
     });
   });
 }

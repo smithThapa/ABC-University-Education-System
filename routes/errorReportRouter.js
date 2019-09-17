@@ -7,13 +7,15 @@ const router = express.Router({
   mergeParams: true
 });
 
-router.use(authenticationPresenter.protect);
-router.use(authenticationPresenter.restrictTo('admin', 'team-maintenance'));
+router.use(
+  authenticationPresenter.protect,
+  authenticationPresenter.restrictTo('team-maintenance')
+);
 
 router
   .route('/')
   .get(errorReportPresenter.getAllErrorReports)
-  .post(errorReportPresenter.createErrorReport);
+  .post(errorReportPresenter.setUserId, errorReportPresenter.createErrorReport);
 
 router
   .route('/:id')

@@ -12,8 +12,7 @@ const newsView = require('./../views/NewsView');
 const userView = require('./../views/UserView');
 const maintenanceRequestView = require('./../views/MaintenanceRequestView');
 const loginInAsView = require('./../views/LoginInAsView');
-
-
+const errorReportView = require('./../views/ErrorReportView');
 
 const router = express.Router();
 
@@ -257,7 +256,23 @@ router.get(
   maintenanceRequestView.getManageMaintenanceRequestsList
 );
 
-router.get('/login_in_as', authenticationPresenter.protect, authenticationPresenter.restrictTo('team-maintenance'),loginInAsView.getLoginAsPage);
-router.get('/login_as_student',  authenticationPresenter.protect, loginInAsView.getLoginPage )
+router.get(
+  '/login_in_as',
+  authenticationPresenter.protect,
+  authenticationPresenter.restrictTo('team-maintenance'),
+  loginInAsView.getLoginAsPage
+);
+router.get(
+  '/login_as_student',
+  authenticationPresenter.protect,
+  loginInAsView.getLoginPage
+);
+
+router.get(
+  '/error_reports',
+  authenticationPresenter.protect,
+  authenticationPresenter.restrictTo('team-maintenance'),
+  errorReportView.getErrorReportsPage
+);
 
 module.exports = router;
