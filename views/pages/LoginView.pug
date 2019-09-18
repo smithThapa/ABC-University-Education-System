@@ -8,10 +8,17 @@ block noBarsContent
             h3.mt-4 University Login
         .card-body
             form#login-form
-                .form-group
-                    .form-label-group
-                        input#inputEmail.form-control(type='email' placeholder='Email address' required='required' autofocus='autofocus')
-                        label(for='inputEmail') Email Address
+                if confirmLogInAs
+                    .form-group
+                        .form-label-group
+                            input#inputEmail.form-control(type='email' placeholder='Email address' required='required' autofocus='autofocus' value= emailAddress readonly)
+                            label(for='inputEmail') Email Address for test user
+                else
+                    .form-group
+                        .form-label-group
+                            input#inputEmail.form-control(type='email' placeholder='Email address' required='required' autofocus='autofocus')
+                            label(for='inputEmail') Email Address
+
                 .form-group
                     .form-label-group
                         input#inputPassword.form-control(type='password' placeholder='Password' required='required', minlength='8')

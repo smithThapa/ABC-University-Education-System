@@ -273,7 +273,19 @@ router.get(
 router.get(
   '/login_as_student',
   authenticationPresenter.protect,
-  loginInAsView.getLoginPage
+  loginInAsView.getLoginStudentPage
+);
+
+router.get(
+  '/login_as_staff',
+  authenticationPresenter.protect,
+  loginInAsView.getLoginStaffPage
+);
+
+router.get(
+  '/login_as_admin',
+  authenticationPresenter.protect,
+  loginInAsView.getLoginAdminPage
 );
 
 router.get(
