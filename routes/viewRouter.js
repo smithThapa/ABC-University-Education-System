@@ -13,6 +13,7 @@ const userView = require('./../views/UserView');
 const maintenanceRequestView = require('./../views/MaintenanceRequestView');
 const loginInAsView = require('./../views/LoginInAsView');
 const errorReportView = require('./../views/ErrorReportView');
+const statisticsView = require('./../views/StatisticsView');
 
 const router = express.Router();
 
@@ -238,6 +239,13 @@ router.use(
   authenticationPresenter.protect,
   authenticationPresenter.restrictTo('admin'),
   resourceRouter
+);
+
+router.get(
+  '/statistics',
+  authenticationPresenter.protect,
+  authenticationPresenter.restrictTo('admin'),
+  statisticsView.getStatisticsView
 );
 
 //------------------

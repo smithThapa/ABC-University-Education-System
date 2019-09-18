@@ -1,0 +1,50 @@
+extends ../components/_templateBase
+
+block append scripts
+    script(src='/js/collapse.js')
+
+block content
+    +breadcrumbDisplay([['Home','/home'],['Statistics']])
+
+    h2.mt-0 System Statistics
+
+    #accordion
+        .card
+            .card-header.bg-info.text-white(id=`forumStatsCard`)                               
+                h5.mb-0
+                    button.btn.text-white.d-flex(data-toggle='collapse' data-target=`#collapseForum` aria-expanded='false' aria-controls=`collapseForum`)
+                        |Forum Statistics
+
+            .collapse(id=`collapseForum` aria-labelledby='forumStatsCard' data-parent='#accordion')
+                .card-body
+                    .card-subtitle.mb-2
+                        table.table.table-striped.text-center.table-sm.table-statistics.table-bordered
+                            thead
+                                tr
+                                    th(scope='col') #
+                                    each month in forumStatistics
+                                        th(scope='col')= `${month[0] == 'Total' ? '' : 'Last'} ${month[0].replace('0', '')}`
+
+                            tbody
+                                -for(let i=0; i<forumStatistics[0][1].length; i++)
+                                    tr.font-weight-bold
+                                        td.text-left #{forumStatistics[0][1][i]._id} Forums
+                                        -for(let j=0; j<forumStatistics.length; j++)
+                                            td= forumStatistics[j][1][i].numForums
+                                    tr
+                                        td.text-left Number Of Topics in #{forumStatistics[0][1][i]._id}
+                                        -for(let j=0; j<forumStatistics.length; j++)
+                                            td= forumStatistics[j][1][i].totalNumTopics
+                                
+                                tr.font-weight-bold.table-success(style='font-size:1.2em;')
+                                    td.text-left Total Forums
+                                    -for(let i=0;i<forumStatistics.length;i++)
+                                        td #{forumStatistics[i][2][0].totalNumForums}
+
+                                tr.table-success(style='font-size:1.2em;')
+                                    td.text-left Total Number of Topics in Forums
+                                    -for(let i=0;i<forumStatistics.length;i++)
+                                            td #{forumStatistics[i][2][0].totalNumTopicsAllForums}
+
+
+

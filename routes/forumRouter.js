@@ -26,6 +26,8 @@ router
     forumPresenter.createForum
   );
 
+router.route('/forumStats').get(forumPresenter.getForumStats);
+
 router
   .route('/:id')
   .get(forumPresenter.getForum)

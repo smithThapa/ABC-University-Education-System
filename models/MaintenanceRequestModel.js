@@ -22,13 +22,13 @@ const mainRequestSchema = mongoose.Schema({
     default: Date.now()
   },
   resolvedAt: {
-    type: Date,
-    validate: {
-      validator: function(el) {
-        return el > this.createdAt;
-      },
-      message: "Request can't be resolved before its creation"
-    }
+    type: Date
+    // validate: {
+    //   validator: function(el) {
+    //     return el > this.createdAt;
+    //   },
+    //   message: "Request can't be resolved before its creation"
+    // }
   },
   user: {
     type: mongoose.Schema.ObjectId,
