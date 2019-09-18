@@ -27,9 +27,10 @@ block content
         +breadcrumbDisplay([['Home','/home'],['Manage Forums','/manage_forums'], ['Manage Topics', `${previousPath}`],['Edit Topic']])
         
         -const creationDateForum = moment(forum.createdAt).format('dddd DD MMM YYYY HH:mm');
+        -const authorForum = forum.user.firstName ? `${forum.user.firstName} ${forum.user.lastName}` : 'ABC University'
         
         h2 Forum: #{forum.title} - #{forum.type}
-        small.text-muted.mt-0= `Author: ${forum.user.firstName} ${forum.user.lastName}. Created on: ${creationDateForum}`
+        small.text-muted.mt-0= `Author: ${authorForum}. Created on: ${creationDateForum}`
         p #{forum.description}
         
     -if (title == 'Comment')
@@ -44,13 +45,16 @@ block content
         //- -const creationDate = forum.createdAt.format();
         -const creationDateForum = moment(forum.createdAt).format('dddd DD MMM YYYY HH:mm');
         -const creationDateTopic = moment(topic.createdAt).format('dddd DD MMM YYYY HH:mm');
+        
+        -const authorForum = forum.user.firstName ? `${forum.user.firstName} ${forum.user.lastName}` : 'ABC University'
+        -const authorTopic = topic.user.firstName ? `${topic.user.firstName} ${topic.user.lastName}` : 'ABC University'
 
         h2 Forum: #{forum.title} - #{forum.type}
-        small.text-muted.mt-0= `Author: ${forum.user.firstName} ${forum.user.lastName}. Created on: ${creationDateForum}`
+        small.text-muted.mt-0= `Author: ${authorForum}. Created on: ${creationDateForum}`
         p #{forum.description}
 
         h3 Topic: #{topic.title}
-        small.text-muted.mt-0= `Author: ${topic.user.firstName} ${topic.user.lastName}. Created on: ${creationDateTopic}`
+        small.text-muted.mt-0= `Author: ${authorTopic}. Created on: ${creationDateTopic}`
         p #{topic.description}
         
         -forumId = forum.id

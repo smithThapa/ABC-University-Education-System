@@ -30,7 +30,15 @@ block content
                             tbody
                                 -for(let i=0; i<userStatistics[userStatistics.length-1][1].length; i++)
                                     tr.font-weight-bold
-                                        td.text-left #{userStatistics[userStatistics.length-1][1][i]._id} Role
+                                    
+                                        //- Change the role structure
+                                        -let role = userStatistics[userStatistics.length-1][1][i]._id
+                                        -if(role == 'team-maintenance')
+                                            -role = 'Team Maintenance'
+                                        -else
+                                            -role = role.charAt(0).toUpperCase() + role.slice(1)
+                                            
+                                        td.text-left #{role} Role
                                         -for(let j=0; j<userStatistics.length; j++)
                                             -if(userStatistics[j][1][i])
                                                 td= userStatistics[j][1][i].numUsers
@@ -113,6 +121,7 @@ block content
                             tbody
                                 -for(let i=0; i<topicStatistics[topicStatistics.length-1][1].length; i++)
                                     tr.font-weight-bold
+                                    
                                         td.text-left #{topicStatistics[topicStatistics.length-1][1][i]._id} Topics
                                         -for(let j=0; j<topicStatistics.length; j++)
                                             -if(topicStatistics[j][1][i])

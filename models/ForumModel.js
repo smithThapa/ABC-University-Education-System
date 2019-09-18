@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
+const Topic = require('./TopicModel');
+const Comment = require('./CommentModel');
 // const User = require('./UserModel');
 
 const forumSchema = mongoose.Schema(
@@ -56,14 +58,6 @@ forumSchema.virtual('topics', {
   localField: '_id'
 });
 
-// forumSchema.pre(/^find/, function(next) {
-//   this.populate({
-//     path: 'topics',
-//     select: 'title -_id -forum'
-//   });
-//   next();
-// });
-
 forumSchema.pre('save', function(next) {
   this.slug = slugify(`${this.type} ${this.title} forum`, {
     remove: null,
@@ -71,10 +65,17 @@ forumSchema.pre('save', function(next) {
   });
   next();
 });
-// forumSchema.pre(/^find/, function(next) {
-//   this.slug = slugify(`${this.type} ${this.title} forum`, { lower: true });
-//   next();
-// });
+
+//Remove all comments in the topics
+forumSchema.pre('remove', async function(next) {
+  const topics = await Topic.find({ forum: this._id });
+
+  await Topic.remove({ forum: this._id });
+  topics.map(async topic => {
+    await Comment.remove({ topic: topic._id });
+  });
+  next();
+});
 
 const Forum = mongoose.model('Forum', forumSchema);
 

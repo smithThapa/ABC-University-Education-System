@@ -156,9 +156,30 @@ exports.sendNotificationUser = catchAsync(async (req, res, next) => {
 exports.getUserStats = catchAsync(async (req, res, next) => {
   const baseArrayAggregate = [
     {
+      $lookup: {
+        from: 'comments',
+        localField: '_id',
+        foreignField: 'user',
+        as: 'comments_array'
+      }
+    },
+    {
+      $project: {
+        role: 1,
+        numComments: {
+          $cond: {
+            if: { $isArray: '$comments_array' },
+            then: { $size: '$comments_array' },
+            else: '0'
+          }
+        }
+      }
+    },
+    {
       $group: {
         _id: '$role',
-        numUsers: { $sum: 1 }
+        numUsers: { $sum: 1 },
+        totalNumComments: { $sum: '$numComments' }
       }
     }
   ];
@@ -167,7 +188,8 @@ exports.getUserStats = catchAsync(async (req, res, next) => {
     {
       $group: {
         _id: 'User',
-        totalNumUsers: { $sum: '$numUsers' }
+        totalNumUsers: { $sum: '$numUsers' },
+        totalNumCommentsAllUsers: { $sum: '$totalNumComments' }
       }
     }
   ];

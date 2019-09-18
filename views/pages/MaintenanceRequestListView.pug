@@ -75,7 +75,10 @@ block content
                         td
                             a.btn(type='button' data-toggle="tooltip" data-html="true" data-placement="bottom" title=`<u>Description</u>: ${maintenanceRequest.description}`) #{maintenanceRequest.subject}
                         //- td= maintenanceRequest.description
-                        td= `${maintenanceRequest.user.firstName} ${maintenanceRequest.user.lastName}`
+                        if maintenanceRequest.user.firstName
+                            td= `${maintenanceRequest.user.firstName} ${maintenanceRequest.user.lastName}`
+                        else
+                            td ABC University
                         td= creationDate
                         td(class=`${tableRowDesign}`)= maintenanceRequest.status
                         if maintenanceRequest.status == 'Pending'

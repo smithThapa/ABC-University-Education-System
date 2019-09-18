@@ -61,7 +61,10 @@ block content
                         td
                             a.btn(type='button' data-toggle="tooltip" data-html="true" data-placement="bottom" title=`<u>Description</u>: ${errorReport.description}`) #{errorReport.subject}
                         //- td= maintenanceRequest.description
-                        td= `${errorReport.user.firstName} ${errorReport.user.lastName}`
+                        if errorReport.user.firstName
+                            td= `${errorReport.user.firstName} ${errorReport.user.lastName}`
+                        else
+                            td ABC University
                         td= creationDate
                         td= errorReport.status
 

@@ -48,7 +48,10 @@ block content
                                                 .card-body
                                                     .h6.card-title= news[i].title
                                                     .card-subtitle.mb-2
-                                                        small.text-muted= `${news[i].user.firstName} ${news[i].user.lastName} | Created At: ${creationDate}`
+                                                        
+                                                        -const author = news[i].user.firstName ? `${news[i].user.firstName} ${news[i].user.lastName}` : 'ABC University'
+                                                        
+                                                        small.text-muted= `${author} | Created At: ${creationDate}`
                                                 .card-footer
                                                      a.btn.btn-primary(href=`/news/${news[i].slug}`)= `Go to New`
 

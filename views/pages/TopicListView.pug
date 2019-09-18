@@ -16,9 +16,10 @@ block content
     
     //- -const creationDate = forum.createdAt.format();
     -const creationDate = moment(forum.createdAt).format('dddd DD MMM YYYY HH:mm'); 
+    -const authorForum = forum.user.firstName ? `${forum.user.firstName} ${forum.user.lastName}` : 'ABC University'
         
     a.text-decoration-none.h2(href='/manage_forums') Forum: #{forum.title} - #{forum.type}
-    small.text-muted.mt-0= `Author: ${forum.user.firstName} ${forum.user.lastName}. Created on: ${creationDate}`
+    small.text-muted.mt-0= `Author: ${authorForum}. Created on: ${creationDate}`
     p #{forum.description}
     
     .d-flex.mt-0
@@ -51,7 +52,10 @@ block content
                             //- th= index+1
                             td
                                 a.btn(type='button' data-toggle="tooltip" data-html="true" data-placement="bottom" title=`<u>Description</u>: ${topic.description.substring(0,150)}...`) #{topic.title}
-                            td= `${topic.user.firstName} ${topic.user.lastName}`
+                            if topic.user.firstName
+                                td= `${topic.user.firstName} ${topic.user.lastName}`
+                            else
+                                td ABC University
                             td= creationDate
                             td= topic.comments.length
                             td

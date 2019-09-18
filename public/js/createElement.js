@@ -88,6 +88,7 @@ export const createTopic = async (
   } catch (err) {
     // console.log(err.response.data);
     window.scrollTo(0, 0);
+    console.log(err);
     showAlert('danger', 'Topic was not created', err.response.data.message);
   }
 };

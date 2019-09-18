@@ -30,7 +30,8 @@ block content
                             p.d-none #{forum.type}
                             //- -const creationDate = forum.createdAt.format();
                             -const creationDate = moment(forum.createdAt).format('dddd DD MMM YYYY HH:mm');
+                            -const author = forum.user.firstName ? `${forum.user.firstName} ${forum.user.lastName}` : 'ABC University'
                             
-                            +cardDisplayItems(forum.type, `${forum.title} | Number of topics: ${forum.topics.length}`, `${forum.user.firstName} ${forum.user.lastName}`, creationDate, `/forums/${forum.slug}/topics`, 'Forum')
+                            +cardDisplayItems(forum.type, `${forum.title} | Number of topics: ${forum.topics.length}`, `${author}`, creationDate, `/forums/${forum.slug}/topics`, 'Forum')
 
     

@@ -64,8 +64,10 @@ block content
                         tr
                             //- th= index+1
                             td.text-left.pl-3= file.filename
-                            td #{file.user.firstName} #{file.user.lastName}
-                            //- td #{file.user.firstName} #{file.user.lastName}
+                            if file.user.firstName
+                                td #{file.user.firstName} #{file.user.lastName}
+                            else
+                                td ABC University
                             td= updateDate
                             td
                                 a.btn.btn-info.text-white(href=`/manage_resources/files/${file.filename}`) Download

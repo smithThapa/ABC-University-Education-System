@@ -45,7 +45,10 @@ block content
                             //- th= index+1
                             td= forum.type
                             td= forum.title
-                            td #{forum.user.firstName} #{forum.user.lastName}
+                            if forum.user.firstName
+                                td #{forum.user.firstName} #{forum.user.lastName}
+                            else
+                                td ABC University
                             td= creationDate
                             td= forum.topics.length
                             td

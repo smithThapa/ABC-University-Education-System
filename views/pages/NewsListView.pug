@@ -43,7 +43,10 @@ block content
                             //- th= index+1 
                             td.text-left.pl-3
                                 a.btn(type='button' data-toggle="tooltip" data-html="true" data-placement="right" title=`<u>Description</u>: ${newElement.description.substring(0,150)}...`) #{newElement.title}
-                            td #{newElement.user.firstName} #{newElement.user.lastName}
+                            if newElement.user.firstName
+                                td #{newElement.user.firstName} #{newElement.user.lastName}
+                            else
+                                td ABC University
                             td= creationDate
                             td
                                 a.btn.btn-success.text-white(href=`/manage_news/${newElement.slug}/edit_news`) Edit

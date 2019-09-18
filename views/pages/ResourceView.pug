@@ -50,7 +50,10 @@ block content
                                     if file.isImage
                                         img(src=`/resources/image/${file.filename}`, width="250", alt="", class="img-responsive")
                                     .card-subtitle.my-2
-                                        small.text-muted= `Uploaded by: ${file.user.firstName} ${file.user.lastName}`
+                                    
+                                        -const author = file.user.firstName ? `${file.user.firstName} ${file.user.lastName}` : 'ABC University'
+                                        
+                                        small.text-muted= `Uploaded by: ${author}`
                                         br
                                         -const updateDate = moment(file.uploadDate).format('dddd DD MMM YYYY HH:mm')
                                         small.text-muted= `Upload date: ${updateDate}`

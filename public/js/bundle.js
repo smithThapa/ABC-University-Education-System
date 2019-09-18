@@ -8605,7 +8605,7 @@ function () {
               }
             }
 
-            _context3.next = 11;
+            _context3.next = 12;
             break;
 
           case 7:
@@ -8613,9 +8613,10 @@ function () {
             _context3.t0 = _context3["catch"](0);
             // console.log(err.response.data);
             window.scrollTo(0, 0);
+            console.log(_context3.t0);
             (0, _alerts.showAlert)('danger', 'Topic was not created', _context3.t0.response.data.message);
 
-          case 11:
+          case 12:
           case "end":
             return _context3.stop();
         }
@@ -10131,7 +10132,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53627" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62682" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -16,9 +16,10 @@ block content
     
     //- -const creationDate = forum.createdAt.format();
     -const creationDateForum = moment(forum.createdAt).format('dddd DD MMM YYYY HH:mm');
+    -const authorForum = forum.user.firstName ? `${forum.user.firstName} ${forum.user.lastName}` : 'ABC University'
     
     a.text-decoration-none.h2(href='/forums') Forum: #{forum.title} - #{forum.type}
-    small.text-muted.mt-0= `Author: ${forum.user.firstName} ${forum.user.lastName}. Created on: ${creationDateForum}`
+    small.text-muted.mt-0= `Author: ${authorForum}. Created on: ${creationDateForum}`
     p #{forum.description}
     
     h2.mt-0 Topics
@@ -39,5 +40,6 @@ block content
                             p.d-none #{topic.title}
                             //- -const creationDate = topics.createdAt.format();
                             -const creationDateTopic = moment(topic.createdAt).format('dddd DD MMM YYYY HH:mm');
+                            -const authorTopic = topic.user.firstName ? `${topic.user.firstName} ${topic.user.lastName}` : 'ABC University'
                             
-                            +cardDisplayItems(topic.title, topic.description, `${topic.user.firstName} ${topic.user.lastName}`, creationDateTopic, `/forums/${forum.slug}/topics/${topic.slug}/comments`, 'Topic', `Number of Comments: ${topic.comments.length}`)
+                            +cardDisplayItems(topic.title, topic.description, `${authorTopic}`, creationDateTopic, `/forums/${forum.slug}/topics/${topic.slug}/comments`, 'Topic', `Number of Comments: ${topic.comments.length}`)

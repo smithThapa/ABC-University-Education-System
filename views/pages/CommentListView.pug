@@ -71,7 +71,10 @@ block content
                             //- th= index+1
                             td
                                 a.btn(type='button' data-toggle="tooltip" data-html="true" data-placement="bottom" title=`<u>Description</u>: ${comment.description.substring(0,150)}...`) #{comment.title}
-                            td= `${comment.user.firstName} ${comment.user.lastName}`
+                            if comment.user.firstName
+                                td= `${comment.user.firstName} ${comment.user.lastName}`
+                            else
+                                td ABC University
                             td= creationDate
                             td
                                 a.btn.btn-info.text-white(type='button' data-toggle="modal" data-target=`#deleteModalComment${comment.id}`) Open

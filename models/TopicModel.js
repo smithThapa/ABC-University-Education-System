@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const slugify = require('slugify');
 // const User = require('./UserModel');
 const Forum = require('./ForumModel');
+const Comment = require('./CommentModel');
 
 const topicSchema = mongoose.Schema(
   {
@@ -58,12 +59,18 @@ topicSchema.virtual('comments', {
 });
 
 topicSchema.pre('save', async function(next) {
-  const forum = await Forum.findById(this.forum);
+  // const forum = await Forum.findById(this.forum);
 
-  this.slug = slugify(`${this.title} ${forum.type} topic`, {
+  this.slug = slugify(`${this.title} ${this.forum} topic`, {
     remove: null,
     lower: true
   });
+  next();
+});
+
+//Remove all comments in the topics
+topicSchema.pre('remove', async function(next) {
+  await Comment.remove({ topic: this._id });
   next();
 });
 
