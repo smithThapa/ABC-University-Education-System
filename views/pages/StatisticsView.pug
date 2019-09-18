@@ -8,7 +8,49 @@ block content
 
     h2.mt-0 System Statistics
 
+    h3 Statistics Tables
     #accordion
+        //-User Statistics
+        .card
+            .card-header.bg-info.text-white(id=`userStatsCard`)                               
+                h5.mb-0
+                    button.btn.text-white.d-flex(data-toggle='collapse' data-target=`#collapseUser` aria-expanded='false' aria-controls=`collapseUser`)
+                        |User Statistics
+
+            .collapse(id=`collapseUser` aria-labelledby='userStatsCard' data-parent='#accordion')
+                .card-body
+                    .card-subtitle.mb-2
+                        table.table.table-striped.text-center.table-sm.table-statistics.table-bordered
+                            thead
+                                tr
+                                    th(scope='col') User
+                                    each month in userStatistics
+                                        th(scope='col')= `${month[0] == 'Total' ? '' : 'Last'} ${month[0].replace('0', '')}`
+
+                            tbody
+                                -for(let i=0; i<userStatistics[userStatistics.length-1][1].length; i++)
+                                    tr.font-weight-bold
+                                        td.text-left #{userStatistics[userStatistics.length-1][1][i]._id} Role
+                                        -for(let j=0; j<userStatistics.length; j++)
+                                            -if(userStatistics[j][1][i])
+                                                td= userStatistics[j][1][i].numUsers
+                                            -else
+                                                td 0
+                                    //- tr
+                                    //-     td.text-left Number Of Topics in #{userStatistics[0][1][i]._id}
+                                    //-     -for(let j=0; j<userStatistics.length; j++)
+                                    //-         td= userStatistics[j][1][i].totalNumTopics
+                                
+                                tr.font-weight-bold.table-success(style='font-size:1.2em;')
+                                    td.text-left Total Forums
+                                    -for(let i=0;i<userStatistics.length;i++)
+                                        td #{userStatistics[i][2][0].totalNumUsers}
+
+                                //- tr.table-success(style='font-size:1.2em;')
+                                //-     td.text-left Total Number of Topics in Forums
+                                //-     -for(let i=0;i<userStatistics.length;i++)
+                                //-             td #{userStatistics[i][2][0].totalNumTopicsAllForums}
+        //-Forum Statistics
         .card
             .card-header.bg-info.text-white(id=`forumStatsCard`)                               
                 h5.mb-0
@@ -21,20 +63,26 @@ block content
                         table.table.table-striped.text-center.table-sm.table-statistics.table-bordered
                             thead
                                 tr
-                                    th(scope='col') #
+                                    th(scope='col') Forum
                                     each month in forumStatistics
                                         th(scope='col')= `${month[0] == 'Total' ? '' : 'Last'} ${month[0].replace('0', '')}`
 
                             tbody
-                                -for(let i=0; i<forumStatistics[0][1].length; i++)
+                                -for(let i=0; i<forumStatistics[forumStatistics.length-1][1].length; i++)
                                     tr.font-weight-bold
-                                        td.text-left #{forumStatistics[0][1][i]._id} Forums
+                                        td.text-left #{forumStatistics[forumStatistics.length-1][1][i]._id} Forums
                                         -for(let j=0; j<forumStatistics.length; j++)
-                                            td= forumStatistics[j][1][i].numForums
+                                            -if(forumStatistics[j][1][i])
+                                                td= forumStatistics[j][1][i].numForums
+                                            -else
+                                                td 0
                                     tr
-                                        td.text-left Number Of Topics in #{forumStatistics[0][1][i]._id}
+                                        td.text-left Number Of Topics in #{forumStatistics[forumStatistics.length-1][1][i]._id}
                                         -for(let j=0; j<forumStatistics.length; j++)
-                                            td= forumStatistics[j][1][i].totalNumTopics
+                                            -if(forumStatistics[j][1][i])
+                                                td= forumStatistics[j][1][i].totalNumTopics
+                                            -else
+                                                td 0
                                 
                                 tr.font-weight-bold.table-success(style='font-size:1.2em;')
                                     td.text-left Total Forums
@@ -45,6 +93,49 @@ block content
                                     td.text-left Total Number of Topics in Forums
                                     -for(let i=0;i<forumStatistics.length;i++)
                                             td #{forumStatistics[i][2][0].totalNumTopicsAllForums}
+        //- Topic Statistics                              
+        .card
+            .card-header.bg-info.text-white(id=`topicStatsCard`)                               
+                h5.mb-0
+                    button.btn.text-white.d-flex(data-toggle='collapse' data-target=`#collapseTopic` aria-expanded='false' aria-controls=`collapsetopic`)
+                        |Topic Statistics
+
+            .collapse(id=`collapseTopic` aria-labelledby='topicStatsCard' data-parent='#accordion')
+                .card-body
+                    .card-subtitle.mb-2
+                        table.table.table-striped.text-center.table-sm.table-statistics.table-bordered
+                            thead
+                                tr
+                                    th(scope='col') Topics
+                                    each month in topicStatistics
+                                        th(scope='col')= `${month[0] == 'Total' ? '' : 'Last'} ${month[0].replace('0', '')}`
+
+                            tbody
+                                -for(let i=0; i<topicStatistics[topicStatistics.length-1][1].length; i++)
+                                    tr.font-weight-bold
+                                        td.text-left #{topicStatistics[topicStatistics.length-1][1][i]._id} Topics
+                                        -for(let j=0; j<topicStatistics.length; j++)
+                                            -if(topicStatistics[j][1][i])
+                                                td= topicStatistics[j][1][i].numTopics
+                                            -else  
+                                                td 0
+                                    tr
+                                        td.text-left Number Of Comments in #{topicStatistics[topicStatistics.length-1][1][i]._id}
+                                        -for(let j=0; j<topicStatistics.length; j++)
+                                            -if(topicStatistics[j][1][i])
+                                                td= topicStatistics[j][1][i].totalNumComments
+                                            -else  
+                                                td 0
+                                
+                                tr.font-weight-bold.table-success(style='font-size:1.2em;')
+                                    td.text-left Total Topics
+                                    -for(let i=0;i<topicStatistics.length;i++)
+                                        td #{topicStatistics[i][2][0].totalNumTopics}
+
+                                tr.table-success(style='font-size:1.2em;')
+                                    td.text-left Total Number of Comments in Topics
+                                    -for(let i=0;i<topicStatistics.length;i++)
+                                            td #{topicStatistics[i][2][0].totalNumCommentsAllTopics}
 
 
 

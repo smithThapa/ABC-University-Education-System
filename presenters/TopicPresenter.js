@@ -40,3 +40,66 @@ exports.getTopic = factory.getOne(Topic, { path: 'comments' });
 exports.createTopic = factory.createOne(Topic);
 exports.updateTopic = factory.updateOne(Topic);
 exports.deleteTopic = factory.deleteOne(Topic);
+
+exports.getTopicStats = catchAsync(async (req, res, next) => {
+  const baseArrayAggregate = [
+    {
+      $lookup: {
+        from: 'comments',
+        localField: '_id',
+        foreignField: 'topic',
+        as: 'comments_array'
+      }
+    },
+    {
+      $lookup: {
+        from: 'forums',
+        localField: 'forum',
+        foreignField: '_id',
+        as: 'forum_array'
+      }
+    },
+    {
+      $project: {
+        forumElement: { $arrayElemAt: ['$forum_array', 0] },
+        forumType: '$forumElement.type',
+        numComments: {
+          $cond: {
+            if: { $isArray: '$comments_array' },
+            then: { $size: '$comments_array' },
+            else: '0'
+          }
+        }
+      }
+    },
+    {
+      $group: {
+        _id: '$forumElement.type',
+        numTopics: { $sum: 1 },
+        totalNumComments: { $sum: '$numComments' }
+      }
+    }
+  ];
+  const totalBaseArrayAggregate = [
+    {
+      $group: {
+        _id: 'Topic',
+        totalNumTopics: { $sum: '$numTopics' },
+        totalNumCommentsAllTopics: { $sum: '$totalNumComments' }
+      }
+    }
+  ];
+
+  const statsTopicList = await factory.getAggregationStats(
+    Topic,
+    baseArrayAggregate,
+    totalBaseArrayAggregate
+  );
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      data: statsTopicList
+    }
+  });
+});

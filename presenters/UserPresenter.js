@@ -152,3 +152,36 @@ exports.sendNotificationUser = catchAsync(async (req, res, next) => {
     }
   });
 });
+
+exports.getUserStats = catchAsync(async (req, res, next) => {
+  const baseArrayAggregate = [
+    {
+      $group: {
+        _id: '$role',
+        numUsers: { $sum: 1 }
+      }
+    }
+  ];
+
+  const totalBaseArrayAggregate = [
+    {
+      $group: {
+        _id: 'User',
+        totalNumUsers: { $sum: '$numUsers' }
+      }
+    }
+  ];
+
+  const statsUserList = await factory.getAggregationStats(
+    User,
+    baseArrayAggregate,
+    totalBaseArrayAggregate
+  );
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      data: statsUserList
+    }
+  });
+});

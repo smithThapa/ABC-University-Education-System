@@ -1,3 +1,5 @@
+const moment = require('moment');
+
 const catchAsync = require('./../utils/CatchAsync');
 const AppError = require('./../utils/AppError');
 const APIFeatures = require('./../utils/ApiFeatures');
@@ -22,6 +24,7 @@ exports.updateOne = Model =>
 
     // eslint-disable-next-line no-restricted-syntax
     for (const key in req.body) {
+      // eslint-disable-next-line no-prototype-builtins
       if (req.body.hasOwnProperty(key)) {
         if (key !== 'user') doc[key] = req.body[key];
       }
@@ -86,32 +89,6 @@ exports.getOne = (Model, popOptions, selectAttributes) =>
       }
     });
   });
-// exports.getOneBySlug = (Model, popOptions, selectAttributes) =>
-//   catchAsync(async (req, res, next) => {
-//     let query = Model.find({ slug: req.params.id });
-
-//     if (popOptions) {
-//       query = query.populate(popOptions);
-//     }
-
-//     if (selectAttributes) {
-//       query = query.select(selectAttributes);
-//     }
-
-//     const doc = await query;
-
-//     if (!doc) {
-//       return next(new AppError('No document found with that ID', 404));
-//     }
-
-//     res.status(200).json({
-//       status: 'success',
-//       data: {
-//         data: doc
-//       }
-//     });
-//   });
-
 exports.getAll = (Model, popOptions) =>
   catchAsync(async (req, res, next) => {
     // to allow for nested get review on tours
@@ -156,41 +133,67 @@ exports.getAll = (Model, popOptions) =>
     });
   });
 
-// exports.getAllBySlug = (Model, popOptions) =>
-//   catchAsync(async (req, res, next) => {
-//     // const tour = await Tour.findOne({ slug: req.params.slug });
-//     // to allow for nested get review on tours
-//     let filter = {};
-//     if (req.params.forumId) {
-//       filter = {
-//         slug: req.params.fourmId
-//       };
-//     }
-//     if (req.params.topicId) {
-//       filter = {
-//         slug: req.params.topicId
-//       };
-//     }
+exports.getAggregationStats = async function(
+  Model,
+  baseArrayAggregate,
+  totalBaseArrayAggregate
+) {
+  const arraList = [];
 
-//     //Execute query
-//     const features = new APIFeatures(Model.find(filter), req.query)
-//       .filter()
-//       .sort()
-//       .limitFields()
-//       .pagination();
+  const arrayMonths = [1, 2, 3, 6, 12];
+  const sortBaseArrayAggregate = [{ $sort: { _id: 1 } }];
 
-//     if (popOptions) {
-//       features.query = features.query.populate(popOptions);
-//     }
-//     const doc = await features.query;
-//     //const doc = await features.query.explain();
+  await Promise.all(
+    arrayMonths.map(async month => {
+      const dateQuery = moment()
+        .startOf('month')
+        .subtract(month - 1, 'months')
+        .format();
 
-//     //Send responce
-//     res.status(200).json({
-//       status: 'success',
-//       results: doc.length,
-//       data: {
-//         data: doc
-//       }
-//     });
-//   });
+      const queryMatchArray = [
+        {
+          $match: {
+            createdAt: {
+              $gt: new Date(dateQuery)
+            }
+          }
+        }
+      ];
+
+      const statsMonth = await Model.aggregate(
+        queryMatchArray
+          .concat(baseArrayAggregate)
+          .concat(sortBaseArrayAggregate)
+      );
+
+      const statsTotalMonth = await Model.aggregate(
+        queryMatchArray
+          .concat(baseArrayAggregate)
+          .concat(totalBaseArrayAggregate)
+          .concat(sortBaseArrayAggregate)
+      );
+
+      arraList.push([
+        `${month.toString().length === 1 ? `0${month}` : month} Months`,
+        statsMonth,
+        statsTotalMonth
+      ]);
+    })
+  );
+
+  const stats = await Model.aggregate(
+    baseArrayAggregate.concat(sortBaseArrayAggregate)
+  );
+
+  const statsTotal = await Model.aggregate(
+    baseArrayAggregate
+      .concat(totalBaseArrayAggregate)
+      .concat(sortBaseArrayAggregate)
+  );
+
+  arraList.push(['Total', stats, statsTotal]);
+
+  arraList.sort();
+
+  return arraList;
+};

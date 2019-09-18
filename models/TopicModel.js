@@ -12,9 +12,6 @@ const topicSchema = mongoose.Schema(
     description: {
       type: String
     },
-    body: {
-      type: String
-    },
     createdAt: {
       type: Date,
       required: true,

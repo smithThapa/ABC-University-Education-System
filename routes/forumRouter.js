@@ -26,7 +26,11 @@ router
     forumPresenter.createForum
   );
 
-router.route('/forumStats').get(forumPresenter.getForumStats);
+router.get(
+  '/forumStats',
+  authenticationPresenter.restrictTo('admin'),
+  forumPresenter.getForumStats
+);
 
 router
   .route('/:id')

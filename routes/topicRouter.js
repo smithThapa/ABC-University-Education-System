@@ -26,6 +26,12 @@ router
     topicPresenter.createTopic
   );
 
+router.get(
+  '/topicStats',
+  authenticationPresenter.restrictTo('admin'),
+  topicPresenter.getTopicStats
+);
+
 router
   .route('/:id')
   .get(topicPresenter.getTopic)

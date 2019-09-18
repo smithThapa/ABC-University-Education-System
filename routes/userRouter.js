@@ -35,6 +35,12 @@ router
   .get(authenticationPresenter.restrictTo('admin'), userPresenter.getAllUsers);
 //.post(userPresenter.createNewUsers);
 
+router.get(
+  '/userStats',
+  authenticationPresenter.restrictTo('admin'),
+  userPresenter.getUserStats
+);
+
 router
   .route('/:id')
   .get(authenticationPresenter.restrictTo('admin'), userPresenter.getUser)
