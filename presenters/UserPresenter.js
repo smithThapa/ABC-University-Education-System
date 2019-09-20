@@ -156,30 +156,61 @@ exports.sendNotificationUser = catchAsync(async (req, res, next) => {
 exports.getUserStats = catchAsync(async (req, res, next) => {
   const baseArrayAggregate = [
     {
-      $lookup: {
-        from: 'comments',
-        localField: '_id',
-        foreignField: 'user',
-        as: 'comments_array'
-      }
-    },
-    {
       $project: {
         role: 1,
-        numComments: {
-          $cond: {
-            if: { $isArray: '$comments_array' },
-            then: { $size: '$comments_array' },
-            else: '0'
-          }
-        }
+        major: 1
       }
     },
+
     {
       $group: {
         _id: '$role',
         numUsers: { $sum: 1 },
-        totalNumComments: { $sum: '$numComments' }
+        numAccounting: {
+          $sum: {
+            $cond: {
+              if: { $eq: ['$major', 'Accounting'] },
+              then: 1,
+              else: 0
+            }
+          }
+        },
+        numBusiness: {
+          $sum: {
+            $cond: {
+              if: { $eq: ['$major', 'Business'] },
+              then: 1,
+              else: 0
+            }
+          }
+        },
+        numInformationTechnology: {
+          $sum: {
+            $cond: {
+              if: { $eq: ['$major', 'Information Technology'] },
+              then: 1,
+              else: 0
+            }
+          }
+        },
+        numProjectManagement: {
+          $sum: {
+            $cond: {
+              if: { $eq: ['$major', 'Project Management'] },
+              then: 1,
+              else: 0
+            }
+          }
+        },
+        numNOTAMAJOR: {
+          $sum: {
+            $cond: {
+              if: { $eq: ['$major', 'NOT A MAJOR'] },
+              then: 1,
+              else: 0
+            }
+          }
+        }
       }
     }
   ];
@@ -189,7 +220,11 @@ exports.getUserStats = catchAsync(async (req, res, next) => {
       $group: {
         _id: 'User',
         totalNumUsers: { $sum: '$numUsers' },
-        totalNumCommentsAllUsers: { $sum: '$totalNumComments' }
+        totalNumAccounting: { $sum: '$numAccounting' },
+        totalNumBusiness: { $sum: '$numBusiness' },
+        totalNumInformationTechnology: { $sum: '$numInformationTechnology' },
+        totalNumProjectManagement: { $sum: '$numProjectManagement' },
+        totalNumNOTAMAJOR: { $sum: '$numNOTAMAJOR' }
       }
     }
   ];

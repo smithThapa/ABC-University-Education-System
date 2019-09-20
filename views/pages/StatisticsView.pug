@@ -2,11 +2,30 @@ extends ../components/_templateBase
 
 block append scripts
     script(src='/js/collapse.js')
+    
+mixin cardStatisticStyle(type, totalThisMonth, totalLastMonth, total, link)
+    .card
+        .h4.card-header.bg-info.text-white= type
+        .card-body
+            .h5.font-weight-bold #{totalThisMonth} New #{type}!
+            p.card-text Number of #{type} created last month: <b>#{totalLastMonth - totalThisMonth}</b>
+            p.card-text Total #{type}: <b>#{total}</b>
+            p.card-text
+                -const totalDivision = (totalLastMonth - totalThisMonth) > 0 ? totalLastMonth - totalThisMonth : 1
+                    small.text-muted It has been created a <b>#{(((2*totalThisMonth - totalLastMonth)/totalDivision) * 100).toFixed(0) + '%'}</b> more than last month.
+        if link
+            .card-footer
+                a.btn.btn-primary(href=`${link}`) Manage #{type}
 
 block content
     +breadcrumbDisplay([['Home','/home'],['Statistics']])
 
     h2.mt-0 System Statistics
+    //-cards to show the most relevant data
+    .card-deck
+        +cardStatisticStyle('Forums', forumStatistics[0][2][0].totalNumForums, forumStatistics[1][2][0].totalNumForums, forumStatistics[forumStatistics.length-1][2][0].totalNumForums, '/manage_forums')
+        +cardStatisticStyle('Topics', topicStatistics[0][2][0].totalNumTopics, topicStatistics[1][2][0].totalNumTopics, topicStatistics[topicStatistics.length-1][2][0].totalNumTopics)
+
 
     h3 Statistics Tables
     #accordion
@@ -14,7 +33,7 @@ block content
         .card
             .card-header.bg-info.text-white(id=`userStatsCard`)                               
                 h5.mb-0
-                    button.btn.text-white.d-flex(data-toggle='collapse' data-target=`#collapseUser` aria-expanded='false' aria-controls=`collapseUser`)
+                    button.btn.text-white.d-flex.font-weight-bold(data-toggle='collapse' data-target=`#collapseUser` aria-expanded='false' aria-controls=`collapseUser`)
                         |User Statistics
 
             .collapse(id=`collapseUser` aria-labelledby='userStatsCard' data-parent='#accordion')
@@ -27,42 +46,55 @@ block content
                                     each month in userStatistics
                                         th(scope='col')= `${month[0] == 'Total' ? '' : 'Last'} ${month[0].replace('0', '')}`
 
-                            tbody
-                                -for(let i=0; i<userStatistics[userStatistics.length-1][1].length; i++)
-                                    tr.font-weight-bold
-                                    
+                            tbody                               
+                                -const totalElementMonthsList = userStatistics[userStatistics.length-1][1];
+                                //-array with majors
+                                -const majorArray = ['Accounting', 'Business', 'Information Technology', 'Project Management', 'NOT A MAJOR'];
+
+                                -for(let i=0; i<totalElementMonthsList.length; i++)
+                                    tr.font-weight-bold.table-warning
+
                                         //- Change the role structure
-                                        -let role = userStatistics[userStatistics.length-1][1][i]._id
+                                        -let role = totalElementMonthsList[i]._id
+
                                         -if(role == 'team-maintenance')
                                             -role = 'Team Maintenance'
                                         -else
                                             -role = role.charAt(0).toUpperCase() + role.slice(1)
-                                            
+
                                         td.text-left #{role} Role
                                         -for(let j=0; j<userStatistics.length; j++)
-                                            -if(userStatistics[j][1][i])
-                                                td= userStatistics[j][1][i].numUsers
-                                            -else
-                                                td 0
-                                    //- tr
-                                    //-     td.text-left Number Of Topics in #{userStatistics[0][1][i]._id}
-                                    //-     -for(let j=0; j<userStatistics.length; j++)
-                                    //-         td= userStatistics[j][1][i].totalNumTopics
-                                
+                                            td= userStatistics[j][1][i].numUsers
+
+
+                                    //- add the majors in the table
+                                    -for(let k=0; k<majorArray.length; k++)
+                                        tr
+                                            td.text-left= majorArray[k] != 'NOT A MAJOR' ? `${majorArray[k]} Major` : majorArray[k]
+
+                                            -const majorStringNoSpaces = majorArray[k].split(' ').join('')
+                                            -for(let j=0; j<userStatistics.length; j++)
+                                                td= userStatistics[j][1][i][`num${majorStringNoSpaces}`]
+
                                 tr.font-weight-bold.table-success(style='font-size:1.2em;')
                                     td.text-left Total Forums
                                     -for(let i=0;i<userStatistics.length;i++)
                                         td #{userStatistics[i][2][0].totalNumUsers}
 
-                                //- tr.table-success(style='font-size:1.2em;')
-                                //-     td.text-left Total Number of Topics in Forums
-                                //-     -for(let i=0;i<userStatistics.length;i++)
-                                //-             td #{userStatistics[i][2][0].totalNumTopicsAllForums}
+                                //-add summarise of all majors
+                                -for(let i=0; i<majorArray.length; i++)
+                                    tr.table-success(style='font-size:1.2em;')
+                                        td.text-left= majorArray[i] != 'NOT A MAJOR' ? `${majorArray[i]} Major` : majorArray[i]
+
+                                        -const majorStringNoSpaces = majorArray[i].split(' ').join('')
+                                        -for(let j=0;j<userStatistics.length;j++)
+                                            td= userStatistics[j][2][0][`totalNum${majorStringNoSpaces}`]
+
         //-Forum Statistics
         .card
             .card-header.bg-info.text-white(id=`forumStatsCard`)                               
                 h5.mb-0
-                    button.btn.text-white.d-flex(data-toggle='collapse' data-target=`#collapseForum` aria-expanded='false' aria-controls=`collapseForum`)
+                    button.btn.text-white.d-flex.font-weight-bold(data-toggle='collapse' data-target=`#collapseForum` aria-expanded='false' aria-controls=`collapseForum`)
                         |Forum Statistics
 
             .collapse(id=`collapseForum` aria-labelledby='forumStatsCard' data-parent='#accordion')
@@ -80,18 +112,12 @@ block content
                                     tr.font-weight-bold
                                         td.text-left #{forumStatistics[forumStatistics.length-1][1][i]._id} Forums
                                         -for(let j=0; j<forumStatistics.length; j++)
-                                            -if(forumStatistics[j][1][i])
-                                                td= forumStatistics[j][1][i].numForums
-                                            -else
-                                                td 0
+                                            td= forumStatistics[j][1][i].numForums
                                     tr
                                         td.text-left Number Of Topics in #{forumStatistics[forumStatistics.length-1][1][i]._id}
                                         -for(let j=0; j<forumStatistics.length; j++)
-                                            -if(forumStatistics[j][1][i])
-                                                td= forumStatistics[j][1][i].totalNumTopics
-                                            -else
-                                                td 0
-                                
+                                            td= forumStatistics[j][1][i].totalNumTopics
+
                                 tr.font-weight-bold.table-success(style='font-size:1.2em;')
                                     td.text-left Total Forums
                                     -for(let i=0;i<forumStatistics.length;i++)
@@ -100,12 +126,12 @@ block content
                                 tr.table-success(style='font-size:1.2em;')
                                     td.text-left Total Number of Topics in Forums
                                     -for(let i=0;i<forumStatistics.length;i++)
-                                            td #{forumStatistics[i][2][0].totalNumTopicsAllForums}
+                                        td #{forumStatistics[i][2][0].totalNumTopicsAllForums}
         //- Topic Statistics                              
         .card
             .card-header.bg-info.text-white(id=`topicStatsCard`)                               
                 h5.mb-0
-                    button.btn.text-white.d-flex(data-toggle='collapse' data-target=`#collapseTopic` aria-expanded='false' aria-controls=`collapsetopic`)
+                    button.btn.text-white.d-flex.font-weight-bold(data-toggle='collapse' data-target=`#collapseTopic` aria-expanded='false' aria-controls=`collapsetopic`)
                         |Topic Statistics
 
             .collapse(id=`collapseTopic` aria-labelledby='topicStatsCard' data-parent='#accordion')
@@ -121,21 +147,17 @@ block content
                             tbody
                                 -for(let i=0; i<topicStatistics[topicStatistics.length-1][1].length; i++)
                                     tr.font-weight-bold
-                                    
+
                                         td.text-left #{topicStatistics[topicStatistics.length-1][1][i]._id} Topics
                                         -for(let j=0; j<topicStatistics.length; j++)
-                                            -if(topicStatistics[j][1][i])
-                                                td= topicStatistics[j][1][i].numTopics
-                                            -else  
-                                                td 0
+                                            td= topicStatistics[j][1][i].numTopics
+
                                     tr
                                         td.text-left Number Of Comments in #{topicStatistics[topicStatistics.length-1][1][i]._id}
                                         -for(let j=0; j<topicStatistics.length; j++)
-                                            -if(topicStatistics[j][1][i])
-                                                td= topicStatistics[j][1][i].totalNumComments
-                                            -else  
-                                                td 0
-                                
+                                            td= topicStatistics[j][1][i].totalNumComments
+
+
                                 tr.font-weight-bold.table-success(style='font-size:1.2em;')
                                     td.text-left Total Topics
                                     -for(let i=0;i<topicStatistics.length;i++)
@@ -144,7 +166,38 @@ block content
                                 tr.table-success(style='font-size:1.2em;')
                                     td.text-left Total Number of Comments in Topics
                                     -for(let i=0;i<topicStatistics.length;i++)
-                                            td #{topicStatistics[i][2][0].totalNumCommentsAllTopics}
+                                        td #{topicStatistics[i][2][0].totalNumCommentsAllTopics}
+
+        //-Article statistics
+        .card
+            .card-header.bg-info.text-white(id=`articleStatsCard`)                               
+                h5.mb-0
+                    button.btn.text-white.d-flex.font-weight-bold(data-toggle='collapse' data-target=`#collapseArticle` aria-expanded='false' aria-controls=`collapseArticle`)
+                        |Announcements & News Statistics
+
+            .collapse(id=`collapseArticle` aria-labelledby='articleStatsCard' data-parent='#accordion')
+                .card-body
+                    .card-subtitle.mb-2
+                        table.table.table-striped.text-center.table-sm.table-statistics.table-bordered
+                            thead
+                                tr
+                                    th(scope='col') Announcements & News
+                                    each month in articleStatistics
+                                        th(scope='col')= `${month[0] == 'Total' ? '' : 'Last'} ${month[0].replace('0', '')}`
+
+                            tbody
+                                -for(let i=0; i<articleStatistics[articleStatistics.length-1][1].length; i++)
+                                    tr.font-weight-bold
+
+                                        td.text-left #{articleStatistics[articleStatistics.length-1][1][i]._id}
+                                        -for(let j=0; j<articleStatistics.length; j++)
+                                            td= articleStatistics[j][1][i].numArticle
+
+                                tr.font-weight-bold.table-success(style='font-size:1.2em;')
+                                    td.text-left Total Announcements & News
+                                    -for(let i=0;i<articleStatistics.length;i++)
+                                        td #{articleStatistics[i][2][0].totalNumArticle}
+
 
 
 

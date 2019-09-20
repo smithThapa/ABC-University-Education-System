@@ -4,6 +4,76 @@ const catchAsync = require('./../utils/CatchAsync');
 const AppError = require('./../utils/AppError');
 const APIFeatures = require('./../utils/ApiFeatures');
 
+const standardAggregationArray = array => {
+  //get last element in the array
+  const lastElement = array[array.length - 1];
+
+  //full data
+  const dataToIterateAsObjects = lastElement[1];
+
+  //convert objects into id values
+  const arrayIdValues = [];
+  dataToIterateAsObjects.forEach(element => {
+    arrayIdValues.push(element._id);
+  });
+
+  //get all the attributes
+  const allAttributes = Object.getOwnPropertyNames(dataToIterateAsObjects[0]);
+
+  const newArray = [];
+
+  //for loop through all elements in the array but no the last one
+  for (let i = 0; i < array.length - 1; i++) {
+    const subArrayEachMonth = [];
+
+    //complete element before
+
+    let start = 0;
+    // for loop for rthe mon elements
+    for (let j = 0; j < array[i][1].length; j++) {
+      //for loop to compare with the attributes
+      for (let k = start; k < arrayIdValues.length; k++) {
+        if (array[i][1][j]._id === arrayIdValues[k]) {
+          subArrayEachMonth[k] = array[i][1][j];
+          // console.log(subArrayEachMonth[k]);
+          start = k + 1;
+          break;
+        } else {
+          subArrayEachMonth[k] = { _id: arrayIdValues[k] };
+          //add extra fields as zero
+          for (let m = 1; m < allAttributes.length; m++) {
+            subArrayEachMonth[k][allAttributes[m]] = 0;
+          }
+        }
+      }
+    }
+
+    //add last element
+    if (subArrayEachMonth !== arrayIdValues.length) {
+      //check how many element after
+      for (let i = subArrayEachMonth.length; i < arrayIdValues.length; i++) {
+        const element = { _id: arrayIdValues[i] };
+        //add extra fields as zero
+        for (let m = 1; m < allAttributes.length; m++) {
+          element[allAttributes[m]] = 0;
+        }
+        //add element
+        subArrayEachMonth.push(element);
+      }
+    }
+
+    newArray.push(subArrayEachMonth);
+  }
+
+  const finalArray = array;
+  // chanege the original array witht eh new values
+  for (let i = 0; i < array.length - 1; i++) {
+    finalArray[i][1] = newArray[i];
+  }
+
+  return finalArray;
+};
+
 exports.deleteOne = Model =>
   catchAsync(async (req, res, next) => {
     const doc = await Model.findById(req.params.id);
@@ -140,7 +210,7 @@ exports.getAggregationStats = async function(
   baseArrayAggregate,
   totalBaseArrayAggregate
 ) {
-  const arraList = [];
+  const arrayList = [];
 
   const arrayMonths = [1, 2, 3, 6, 12];
   const sortBaseArrayAggregate = [{ $sort: { _id: 1 } }];
@@ -175,7 +245,7 @@ exports.getAggregationStats = async function(
           .concat(sortBaseArrayAggregate)
       );
 
-      arraList.push([
+      arrayList.push([
         `${month.toString().length === 1 ? `0${month}` : month} Months`,
         statsMonth,
         statsTotalMonth
@@ -193,9 +263,9 @@ exports.getAggregationStats = async function(
       .concat(sortBaseArrayAggregate)
   );
 
-  arraList.push(['Total', stats, statsTotal]);
+  arrayList.push(['Total', stats, statsTotal]);
 
-  arraList.sort();
+  arrayList.sort();
 
-  return arraList;
+  return standardAggregationArray(arrayList);
 };

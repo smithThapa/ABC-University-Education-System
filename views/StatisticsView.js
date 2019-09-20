@@ -21,14 +21,24 @@ exports.getStatisticsView = async function(req, res, next) {
       method: 'GET',
       url: 'http://127.0.0.1:8000/api/v1/topics/topicStats'
     });
-    // console.log(forumStatistics.data.data.data[0]);
 
-    if (forumStatistics.data.status === 'success') {
+    const articleStatistics = await axios({
+      method: 'GET',
+      url: 'http://127.0.0.1:8000/api/v1/articles/articleStats'
+    });
+
+    if (
+      userStatistics.data.status === 'success' &&
+      topicStatistics.data.status === 'success' &&
+      forumStatistics.data.status === 'success' &&
+      articleStatistics.data.status === 'success'
+    ) {
       res.status(200).render('StatisticsView', {
         title: 'Statistics',
         userStatistics: userStatistics.data.data.data,
         forumStatistics: forumStatistics.data.data.data,
-        topicStatistics: topicStatistics.data.data.data
+        topicStatistics: topicStatistics.data.data.data,
+        articleStatistics: articleStatistics.data.data.data
       });
     }
   } catch (err) {

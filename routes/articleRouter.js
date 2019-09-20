@@ -27,6 +27,13 @@ router.route('/news').get(articlePresenter.getAllNews);
 router.route('/announcements').get(articlePresenter.getAllAnnouncements);
 
 router
+  .route('/articleStats')
+  .get(
+    authenticationPresenter.restrictTo('admin'),
+    articlePresenter.getArticleStats
+  );
+
+router
   .route('/:id')
   .get(articlePresenter.getArticle)
   .patch(

@@ -161,3 +161,41 @@ exports.createArticle = catchAsync(async (req, res, next) => {
 });
 exports.updateArticle = factory.updateOne(Article);
 exports.deleteArticle = factory.deleteOne(Article);
+
+exports.getArticleStats = catchAsync(async (req, res, next) => {
+  const baseArrayAggregate = [
+    {
+      $project: {
+        type: 1
+      }
+    },
+    {
+      $group: {
+        _id: '$type',
+        numArticle: { $sum: 1 }
+      }
+    }
+  ];
+
+  const totalBaseArrayAggregate = [
+    {
+      $group: {
+        _id: 'Article',
+        totalNumArticle: { $sum: '$numArticle' }
+      }
+    }
+  ];
+
+  const statsArticleList = await factory.getAggregationStats(
+    Article,
+    baseArrayAggregate,
+    totalBaseArrayAggregate
+  );
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      data: statsArticleList
+    }
+  });
+});

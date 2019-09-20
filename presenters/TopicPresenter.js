@@ -74,7 +74,7 @@ exports.getTopicStats = catchAsync(async (req, res, next) => {
     },
     {
       $group: {
-        _id: '$forumElement.type',
+        _id: { $ifNull: ['$forumElement.type', 'No type'] },
         numTopics: { $sum: 1 },
         totalNumComments: { $sum: '$numComments' }
       }
