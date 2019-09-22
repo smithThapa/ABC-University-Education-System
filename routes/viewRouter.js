@@ -2,6 +2,7 @@ const express = require('express');
 const authenticationPresenter = require('./../presenters/AuthenticationPresenter');
 
 const resourceRouter = require('./resourceRouter');
+const resourcePresenter = require('./../presenters/ResourcePresenter');
 
 const homeView = require('./../views/HomeView');
 const forumView = require('./../views/ForumView');
@@ -249,12 +250,20 @@ router.get(
   statisticsView.getStatisticsView
 );
 
-// router.get(
-//   '/report_generation',
-//   authenticationPresenter.protect,
-//   authenticationPresenter.restrictTo('admin'),
-//   reportGenerationView.getReportGenerationView
-// );
+//API stats
+router.get(
+  '/api/v1/resources/resourceStats',
+  authenticationPresenter.protect,
+  authenticationPresenter.restrictTo('admin'),
+  resourcePresenter.getResourceStats
+);
+
+router.get(
+  '/report_generation',
+  authenticationPresenter.protect,
+  authenticationPresenter.restrictTo('admin'),
+  reportGenerationView.getReportGenerationView
+);
 
 //------------------
 //----Team-Maintenance---------

@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const GridFsStorage = require('multer-gridfs-storage');
 const multer = require('multer');
 const crypto = require('crypto');
+const moment = require('moment');
 
 const catchAsync = require('./../utils/CatchAsync');
 const AppError = require('./../utils/AppError');
@@ -247,4 +248,54 @@ exports.deleteFile = catchAsync(async (req, res, next) => {
   if (req.baseUrl.startsWith('/manage_resources'))
     res.redirect('/manage_resources');
   else res.redirect('/resources');
+});
+
+// Accepts the array and key
+const groupBy = (array, key) => {
+  // Return the end result
+  return array.reduce((result, currentValue) => {
+    // If an array already present for key, push it to the array. Else create an array and push the object
+    (result[currentValue[key]] = result[currentValue[key]] || []).push(
+      currentValue
+    );
+    // Return the current iteration `result` value, this will be taken as next iteration `result` value and accumulate
+    return result;
+  }, {}); // empty object is the initial value for result object
+};
+
+exports.getResourceStats = catchAsync(async (req, res, next) => {
+  const month = 1;
+
+  const dateQuery = moment()
+    .startOf('month')
+    .subtract(month - 1, 'months')
+    .format();
+
+  //get list with query
+  const statsResourceList = await gridfsBucket
+    .find({
+      uploadDate: { $gt: new Date(dateQuery) }
+    })
+    .toArray();
+
+  // group by the type
+  const resourceStatsGroup = groupBy(statsResourceList, 'contentType');
+
+  //get stats of the array by _id and the total number of resource
+  let monthArray = [];
+  for (let key in resourceStatsGroup) {
+    //push object
+    const objectType = {
+      _id: key,
+      numResources: resourceStatsGroup[key].length
+    };
+    monthArray.push(objectType);
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      data: monthArray
+    }
+  });
 });

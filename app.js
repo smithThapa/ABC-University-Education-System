@@ -64,7 +64,6 @@ app.use('/api/v1/topics', topicRouter);
 app.use('/api/v1/comments', commentRouter);
 app.use('/api/v1/errorReports', errorReportRouter);
 app.use('/api/v1/maintenanceRequests', maintainanceRequestRouter);
-// app.use('/resources', resourceRouter);
 
 app.use('/', viewRouter);
 app.all('*', (req, res, next) => {
