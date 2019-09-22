@@ -14,6 +14,7 @@ const maintenanceRequestView = require('./../views/MaintenanceRequestView');
 const loginInAsView = require('./../views/LoginInAsView');
 const errorReportView = require('./../views/ErrorReportView');
 const statisticsView = require('./../views/StatisticsView');
+const reportGenerationView = require('./../views/ReportGenerationView');
 
 const router = express.Router();
 
@@ -247,6 +248,13 @@ router.get(
   authenticationPresenter.restrictTo('admin'),
   statisticsView.getStatisticsView
 );
+
+// router.get(
+//   '/report_generation',
+//   authenticationPresenter.protect,
+//   authenticationPresenter.restrictTo('admin'),
+//   reportGenerationView.getReportGenerationView
+// );
 
 //------------------
 //----Team-Maintenance---------
