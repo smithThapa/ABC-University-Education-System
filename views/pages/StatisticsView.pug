@@ -3,19 +3,20 @@ extends ../components/_templateBase
 block append scripts
     script(src='/js/collapse.js')
     
-mixin cardStatisticStyle(type, totalThisMonth, totalLastMonth, total, link)
-    .card
-        .h4.card-header.bg-info.text-white= type
-        .card-body
+mixin cardStatisticStyle(design, type, totalThisMonth, totalLastMonth, total, link)
+    .card.text-white(class=`bg-${design}`)
+        //- .h4.card-header= type
+        .card-body.mb-0
             .h5.font-weight-bold #{totalThisMonth} New #{type}!
-            p.card-text Number of #{type} created last month: <b>#{totalLastMonth - totalThisMonth}</b>
+            //- p.card-text Number of #{type} created last month: <b>#{totalLastMonth - totalThisMonth}</b>
             p.card-text Total #{type}: <b>#{total}</b>
             p.card-text
                 -const totalDivision = (totalLastMonth - totalThisMonth) > 0 ? totalLastMonth - totalThisMonth : 1
-                    small.text-muted It has been created a <b>#{(((2*totalThisMonth - totalLastMonth)/totalDivision) * 100).toFixed(0) + '%'}</b> more than last month.
-        if link
-            .card-footer
-                a.btn.btn-primary(href=`${link}`) Manage #{type}
+                -const percentageCalculation = (((2*totalThisMonth - totalLastMonth)/totalDivision) * 100).toFixed(0)
+                -const differenceDescription = percentageCalculation > 0 ? `${percentageCalculation}% more` : `${percentageCalculation*-1} less`
+                small.text-light It has been created a <b>#{differenceDescription}</b> than last month.
+        .card-footer
+            a.btn.bg-light(class=`btn-outline-${design}` href=`${link}`) Manage #{type}
 
 block content
     +breadcrumbDisplay([['Home','/home'],['Statistics']])
@@ -23,8 +24,14 @@ block content
     h2.mt-0 System Statistics
     //-cards to show the most relevant data
     .card-deck
-        +cardStatisticStyle('Forums', forumStatistics[0][2][0].totalNumForums, forumStatistics[1][2][0].totalNumForums, forumStatistics[forumStatistics.length-1][2][0].totalNumForums, '/manage_forums')
-        +cardStatisticStyle('Topics', topicStatistics[0][2][0].totalNumTopics, topicStatistics[1][2][0].totalNumTopics, topicStatistics[topicStatistics.length-1][2][0].totalNumTopics)
+        +cardStatisticStyle('success', 'Users', userStatistics[0][2][0].totalNumUsers, userStatistics[1][2][0].totalNumUsers, userStatistics[userStatistics.length-1][2][0].totalNumUsers, '/manage_users')
+        +cardStatisticStyle('primary', 'Forums', forumStatistics[0][2][0].totalNumForums, forumStatistics[1][2][0].totalNumForums, forumStatistics[forumStatistics.length-1][2][0].totalNumForums, '/manage_forums')
+        +cardStatisticStyle('warning', 'Topics', topicStatistics[0][2][0].totalNumTopics, topicStatistics[1][2][0].totalNumTopics, topicStatistics[topicStatistics.length-1][2][0].totalNumTopics, '/manage_forums')
+    .card-deck
+        +cardStatisticStyle('secondary', 'Comments', topicStatistics[0][2][0].totalNumCommentsAllTopics, topicStatistics[1][2][0].totalNumCommentsAllTopics, topicStatistics[topicStatistics.length-1][2][0].totalNumCommentsAllTopics, '/manage_forums')
+        +cardStatisticStyle('danger', 'Announcements', articleStatistics[0][1][0].numArticle, articleStatistics[1][1][0].numArticle, articleStatistics[articleStatistics.length-1][1][0].numArticle, '/manage_announcements')
+        +cardStatisticStyle('info', 'News', articleStatistics[0][1][1].numArticle, articleStatistics[1][1][1].numArticle, articleStatistics[articleStatistics.length-1][1][1].numArticle, '/manage_news')
+        
 
 
     h3 Statistics Tables

@@ -9,22 +9,6 @@ block append scripts
     script(src='https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js')
     script(src='https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js')
     script(src='/js/databaseDesignJQuerry.js')
-    script(src='/js/tooltip.js')
-
-mixin openComment(id, title, description)
-    .modal.fade(tabindex='-1' role='dialog' aria-labelledby='deleteModalLabel' aria-hidden='true' id=`deleteModalComment${id}`)
-        .modal-dialog(role='document')
-            .modal-content
-                .modal-header
-                    h3#deleteModalLabel.modal-title Comment: #{title}
-                    button.close(type='button' data-dismiss='modal' aria-label='Close')
-                        span(aria-hidden='true') &times;
-                .modal-body
-                    h5.text-center
-                        | #{description}
-                    
-                .modal-footer
-                    button.btn.btn-secondary(type='button' data-dismiss='modal') Close
            
 block content
     +breadcrumbDisplay([['Home','/home'],['Manage Forums','/manage_forums'],['Manage Topics', `/manage_forums/${forum.slug}/manage_topics`],['Manage Comments']])
@@ -62,22 +46,22 @@ block content
                 each comment in comments
                     //- modal to delete element
                     +deleteModalTemplate(comment.id, title, comment.title)
-                    +openComment(comment.id,comment.title, comment.description)
+                    +displayDescriptionModal(comment.id, title, comment.title, comment.description)
                     
                     //- -const creationDate = forum.createdAt.format();
                     -const creationDate = moment(comment.createdAt).format('DD/MMM/YYYY HH:mm');
                     
                         tr
                             //- th= index+1
-                            td
-                                a.btn(type='button' data-toggle="tooltip" data-html="true" data-placement="bottom" title=`<u>Description</u>: ${comment.description.substring(0,150)}...`) #{comment.title}
+                            td 
+                                a.btn(type="button" data-toggle="modal" data-target=`#displayDescriptionModal${comment.id}`) #{comment.title}
                             if comment.user.firstName
                                 td= `${comment.user.firstName} ${comment.user.lastName}`
                             else
                                 td ABC University
                             td= creationDate
                             td
-                                a.btn.btn-info.text-white(type='button' data-toggle="modal" data-target=`#deleteModalComment${comment.id}`) Open
+                                a.btn.btn-info.text-white(type='button' data-toggle="modal" data-target=`#displayDescriptionModal${comment.id}`) Open
                                 //- a.btn.btn-info(href=`/manageForums/${forum.slug}/manageTopics`) Open
                             td
                                 a.btn.btn-danger.text-white(type='button' data-toggle="modal" data-target=`#deleteModal${comment.id}`) Delete

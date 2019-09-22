@@ -77,7 +77,7 @@ exports.getAllNews = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getArticleStats = catchAsync(async (req, res, next) => {
+exports.getArticleType = catchAsync(async (req, res, next) => {
   const stats = await Article.aggregate([
     // {
     //   $match: { type: 'news' }

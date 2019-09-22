@@ -21,7 +21,7 @@ router
     articlePresenter.createArticle
   );
 
-router.route('/stats').get(articlePresenter.getArticleStats);
+router.route('/stats').get(articlePresenter.getArticleType);
 
 router.route('/news').get(articlePresenter.getAllNews);
 router.route('/announcements').get(articlePresenter.getAllAnnouncements);

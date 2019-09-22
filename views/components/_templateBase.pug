@@ -59,6 +59,18 @@ mixin deleteModalFileTemplate(id, filename, type)
                     form(action=`/${type}/files/del/${id}` method="post")
                         button.btn.btn-danger(type="submit") Delete 
 
+mixin displayDescriptionModal(id, type, title, description)
+    .modal.fade(id=`displayDescriptionModal${id}` tabindex='-1' role='dialog' aria-labelledby='displayDescriptionModallLabel' aria-hidden='true')
+        .modal-dialog(role='document')
+            .modal-content
+                .modal-header
+                    h3#displayDescriptionModallLabel.modal-title.font-weight-bold #{type} - #{title}
+                    button.close(type='button' data-dismiss='modal' aria-label='Close')
+                    span(aria-hidden='true') &times;
+                .modal-body <b><u>Description:</u></b> #{description}
+                .modal-footer
+                    button.btn.btn-secondary(type='button' data-dismiss='modal') Close
+
 doctype html
 html
     head

@@ -43,6 +43,7 @@ block content
                     
                     -const active = currentUser.active ? 'Yes' : 'No'
                     -const role = currentUser.role == 'team-maintenance' ? 'Team Maintenance' : currentUser.role.charAt(0).toUpperCase() + currentUser.role.slice(1).toLowerCase();
+                    -const creationDate = moment(currentUser.createdAt).format('DD/MMM/YYYY');
                     
                         tr
                             //- th= index+1
@@ -50,7 +51,7 @@ block content
                             td= currentUser.email
                             td= role
                             td= currentUser.major
-                            td= currentUser.createdAt
+                            td= creationDate
                             td= active
                             td
                                 a.btn.btn-success.text-white(href=`/manage_users/${currentUser.id}/edit_user`) Edit

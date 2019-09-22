@@ -9,7 +9,6 @@ block append scripts
     script(src='https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js')
     script(src='https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js')
     script(src='/js/databaseDesignJQuerry.js')
-    script(src='/js/tooltip.js')
            
 block content
     +breadcrumbDisplay([['Home','/home'],['Manage Forums','/manage_forums'],['Manage Topics']])
@@ -45,13 +44,15 @@ block content
                 each topic in topics
                     //- modal to delete element
                     +deleteModalTemplate(topic.id, title, topic.title)
+                    //- modal to display the description
+                    +displayDescriptionModal(topic.id, title, topic.title, topic.description)
                     //- -const creationDate = forum.createdAt.format();
                     -const creationDate = moment(topic.createdAt).format('DD/MMM/YYYY HH:mm');
                     
                         tr
                             //- th= index+1
                             td
-                                a.btn(type='button' data-toggle="tooltip" data-html="true" data-placement="bottom" title=`<u>Description</u>: ${topic.description.substring(0,150)}...`) #{topic.title}
+                                a.btn(type="button" data-toggle="modal" data-target=`#displayDescriptionModal${topic.id}`) #{topic.title}
                             if topic.user.firstName
                                 td= `${topic.user.firstName} ${topic.user.lastName}`
                             else

@@ -9,7 +9,6 @@ block append scripts
     script(src='https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js')
     script(src='https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js')
     script(src='/js/databaseDesignJQuerry.js')
-    script(src='/js/tooltip.js')
 
 block content
     +breadcrumbDisplay([['Home','/home'],['Manage Announcements']])
@@ -36,13 +35,15 @@ block content
                 each announcement in announcements
                     //- modal to delete element
                     +deleteModalTemplate(announcement.id, title, announcement.title)
+                    //- modal to display the description
+                    +displayDescriptionModal(announcement.id, title, announcement.title, announcement.description)
                     //- -const creationDate = forum.createdAt.format();
                     -const creationDate = moment(announcement.createdAt).format('DD/MMM/YYYY HH:mm');
                     
                         tr
                             //- th= index+1 
                             td.text-left.pl-3
-                                a.btn(type='button' data-toggle="tooltip" data-html="true" data-placement="right" title=`<u>Description</u>: ${announcement.description.substring(0,150)}...`) #{announcement.title}
+                                a(type="button" data-toggle="modal" data-target=`#displayDescriptionModal${announcement.id}`) #{announcement.title}
                             if announcement.user.firstName
                                 td #{announcement.user.firstName} #{announcement.user.lastName}
                             else

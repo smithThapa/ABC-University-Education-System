@@ -9,7 +9,6 @@ block append scripts
     script(src='https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js')
     script(src='https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js')
     script(src='/js/databaseDesignJQuerry.js')
-    script(src='/js/tooltip.js')
 
 mixin changeStatusModalTemplate(id, status)
     .modal.fade(tabindex='-1' role='dialog' aria-labelledby='changeStatusModalLabel' aria-hidden='true' id=`changeStatusModal${status}${id}`)
@@ -55,6 +54,9 @@ block content
             tbody
 
                 each maintenanceRequest in maintenanceRequests
+                
+                    //- modal to display the description
+                    +displayDescriptionModal(maintenanceRequest.id, title, maintenanceRequest.subject, maintenanceRequest.description)
 
                     if maintenanceRequest.status == 'Pending'
                         +changeStatusModalTemplate(maintenanceRequest._id, 'Completed')
@@ -72,8 +74,8 @@ block content
 
                     tr
                         //- th(scope='row')= index+1
-                        td
-                            a.btn(type='button' data-toggle="tooltip" data-html="true" data-placement="bottom" title=`<u>Description</u>: ${maintenanceRequest.description}`) #{maintenanceRequest.subject}
+                        td.text-left.pl-3
+                            a(type="button" data-toggle="modal" data-target=`#displayDescriptionModal${maintenanceRequest.id}`) #{maintenanceRequest.subject}
                         //- td= maintenanceRequest.description
                         if maintenanceRequest.user.firstName
                             td= `${maintenanceRequest.user.firstName} ${maintenanceRequest.user.lastName}`

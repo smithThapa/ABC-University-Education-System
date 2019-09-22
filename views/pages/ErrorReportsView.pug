@@ -52,14 +52,16 @@ block content
             tbody
 
                 each errorReport in errorReports
+                
+                    +displayDescriptionModal(errorReport.id, title, errorReport.subject, errorReport.description)
 
-                    //- -const creationDate = maintenanceRequest.createdAt.format();
+
                     -const creationDate = moment(errorReport.createdAt).format('DD/MMM/YYYY HH:mm');
 
                     tr
                         //- th(scope='row')= index+1
-                        td
-                            a.btn(type='button' data-toggle="tooltip" data-html="true" data-placement="bottom" title=`<u>Description</u>: ${errorReport.description}`) #{errorReport.subject}
+                        td.text-left.pl-3
+                            a(type="button" data-toggle="modal" data-target=`#displayDescriptionModal${errorReport.id}`) #{errorReport.subject}
                         //- td= maintenanceRequest.description
                         if errorReport.user.firstName
                             td= `${errorReport.user.firstName} ${errorReport.user.lastName}`
