@@ -9759,7 +9759,7 @@ var _passwordManagement = require("./passwordManagement");
 var _sendNotification = require("./sendNotification");
 
 // variable
-var loginForm = document.getElementById('login-form');
+var loginBtn = document.getElementById('submitLogin');
 var logoutBtn = document.getElementById('logoutBtn');
 var logoutAsBtn = document.getElementById('logoutAsBtn');
 var fileInput = document.getElementById('fileInput');
@@ -9796,8 +9796,8 @@ if (fileInput) {
   };
 }
 
-if (loginForm) {
-  loginForm.addEventListener('submit', function (e) {
+if (loginBtn) {
+  loginBtn.addEventListener('click', function (e) {
     e.preventDefault();
     var email = document.getElementById('inputEmail').value;
     var password = document.getElementById('inputPassword').value;

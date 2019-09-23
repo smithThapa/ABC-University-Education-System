@@ -27,18 +27,25 @@ exports.getStatisticsView = async function(req, res, next) {
       url: 'http://127.0.0.1:8000/api/v1/articles/articleStats'
     });
 
+    const resourceStatistics = await axios({
+      method: 'GET',
+      url: 'http://127.0.0.1:8000/api/v1/resources/resourceStats'
+    });
+
     if (
       userStatistics.data.status === 'success' &&
       topicStatistics.data.status === 'success' &&
       forumStatistics.data.status === 'success' &&
-      articleStatistics.data.status === 'success'
+      articleStatistics.data.status === 'success' &&
+      resourceStatistics.data.status === 'success'
     ) {
       res.status(200).render('StatisticsView', {
         title: 'Statistics',
         userStatistics: userStatistics.data.data.data,
         forumStatistics: forumStatistics.data.data.data,
         topicStatistics: topicStatistics.data.data.data,
-        articleStatistics: articleStatistics.data.data.data
+        articleStatistics: articleStatistics.data.data.data,
+        resourceStatistics: resourceStatistics.data.data.data
       });
     }
   } catch (err) {

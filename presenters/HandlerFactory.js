@@ -74,6 +74,10 @@ const standardAggregationArray = array => {
   return finalArray;
 };
 
+exports.standardAggregationArrayExports = array => {
+  return standardAggregationArray(array);
+};
+
 exports.deleteOne = Model =>
   catchAsync(async (req, res, next) => {
     const doc = await Model.findById(req.params.id);

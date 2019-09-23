@@ -1,30 +1,36 @@
 const puppeteer = require('puppeteer');
 
-const AppError = require('./../utils/AppError');
-
-const compile = async function(template, data) {};
-
-exports.getReportGenerationView = async function(req, res, next) {
+exports.getResourceStatsByTableId = async function(req, res, next) {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
 
-  //   await page.goto('http://127.0.0.1:8000/statistics', {
-  //     waitUntil: 'networkidle0'
-  //   });
+  await page.goto('http://127.0.0.1:8000/');
 
-  //   const cookies = [
-  //     {
-  //       name: 'jwt',
-  //       value: req.cookies.jwt,
-  //       httpOnly: true,
-  //       expires:
-  //         Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
-  //     }
-  //   ];
-  //   await page.setCookie(...cookies);
-  //   //   page.setExtraHTTPHeaders({ jwt: `${req.cookies.jwt}` });
+  await page.type('#inputEmail', process.env.PDF_USER);
+  await page.type('#inputPassword', process.env.PDF_PASSWORD);
 
-  const buffer = await page.pdf({ format: 'A4' });
+  await Promise.all([
+    await page.click('#submitLogin'),
+    page.waitForNavigation({ waitUntil: 'networkidle0' })
+  ]);
+
+  const page2 = await browser.newPage();
+
+  await page2.goto('http://127.0.0.1:8000/statistics', {
+    waitUntil: 'networkidle0'
+  });
+
+  const table = await page2.$eval(`#${req.params.tableId}`, e => {
+    return e.innerHTML;
+  });
+  // console.log(table);
+
+  page2.setContent(table);
+  page2.addStyleTag({
+    path: 'public/css/sb-admin.css'
+  });
+
+  const buffer = await page2.pdf({ format: 'A4' });
 
   res.type('application/pdf');
   res.send(buffer);

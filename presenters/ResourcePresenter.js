@@ -8,7 +8,7 @@ const catchAsync = require('./../utils/CatchAsync');
 const AppError = require('./../utils/AppError');
 const Resource = require('../models/ResourceModel');
 
-// const factory = require('./HandlerFactory');
+const factory = require('./HandlerFactory');
 
 const DB = process.env.DATABASE.replace(
   '<PASSWORD>',
@@ -264,38 +264,88 @@ const groupBy = (array, key) => {
 };
 
 exports.getResourceStats = catchAsync(async (req, res, next) => {
-  const month = 1;
+  const arrayList = [];
 
-  const dateQuery = moment()
-    .startOf('month')
-    .subtract(month - 1, 'months')
-    .format();
+  const arrayMonths = [1, 2, 3, 6, 12];
 
-  //get list with query
-  const statsResourceList = await gridfsBucket
-    .find({
-      uploadDate: { $gt: new Date(dateQuery) }
+  await Promise.all(
+    arrayMonths.map(async month => {
+      const dateQuery = moment()
+        .startOf('month')
+        .subtract(month - 1, 'months')
+        .format();
+
+      //get list with query
+      const statsResourceList = await gridfsBucket
+        .find({
+          uploadDate: { $gt: new Date(dateQuery) }
+        })
+        .toArray();
+
+      // group by the type
+      const resourceStatsGroup = groupBy(statsResourceList, 'contentType');
+
+      //get stats of the array by _id and the total number of resource
+      const monthArray = [];
+      // eslint-disable-next-line no-restricted-syntax
+      for (const key in resourceStatsGroup) {
+        if (resourceStatsGroup.hasOwnProperty(key)) {
+          //push object
+          const objectType = {
+            _id: key,
+            numResources: resourceStatsGroup[key].length
+          };
+          monthArray.push(objectType);
+        }
+      }
+
+      const baseMonthArray = [
+        `${month.toString().length === 1 ? `0${month}` : month} Months`,
+        monthArray,
+        [{ _id: 'Resources', totalNumResources: statsResourceList.length }]
+      ];
+
+      arrayList.push(baseMonthArray);
     })
-    .toArray();
+  );
+
+  arrayList.sort();
+
+  // get total values of all
+  //get list with query
+  const statsResourceList = await gridfsBucket.find().toArray();
 
   // group by the type
   const resourceStatsGroup = groupBy(statsResourceList, 'contentType');
 
   //get stats of the array by _id and the total number of resource
-  let monthArray = [];
-  for (let key in resourceStatsGroup) {
-    //push object
-    const objectType = {
-      _id: key,
-      numResources: resourceStatsGroup[key].length
-    };
-    monthArray.push(objectType);
+  const arrayTotal = [];
+  // eslint-disable-next-line no-restricted-syntax
+  for (const key in resourceStatsGroup) {
+    if (resourceStatsGroup.hasOwnProperty(key)) {
+      //push object
+      const objectType = {
+        _id: key,
+        numResources: resourceStatsGroup[key].length
+      };
+      arrayTotal.push(objectType);
+    }
   }
+
+  const totalMonthArray = [
+    `Total`,
+    arrayTotal,
+    [{ _id: 'Resources', totalNumResources: statsResourceList.length }]
+  ];
+
+  arrayList.push(totalMonthArray);
+
+  const statsArrayStandard = factory.standardAggregationArrayExports(arrayList);
 
   res.status(200).json({
     status: 'success',
     data: {
-      data: monthArray
+      data: statsArrayStandard
     }
   });
 });

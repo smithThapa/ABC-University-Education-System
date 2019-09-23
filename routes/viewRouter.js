@@ -250,19 +250,19 @@ router.get(
   statisticsView.getStatisticsView
 );
 
+router.get(
+  '/statistics/:tableId',
+  authenticationPresenter.protect,
+  authenticationPresenter.restrictTo('admin'),
+  reportGenerationView.getResourceStatsByTableId
+);
+
 //API stats
 router.get(
   '/api/v1/resources/resourceStats',
   authenticationPresenter.protect,
   authenticationPresenter.restrictTo('admin'),
   resourcePresenter.getResourceStats
-);
-
-router.get(
-  '/report_generation',
-  authenticationPresenter.protect,
-  authenticationPresenter.restrictTo('admin'),
-  reportGenerationView.getReportGenerationView
 );
 
 //------------------

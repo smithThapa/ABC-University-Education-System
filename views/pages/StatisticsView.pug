@@ -27,24 +27,25 @@ block content
         +cardStatisticStyle('success', 'Users', userStatistics[0][2][0].totalNumUsers, userStatistics[1][2][0].totalNumUsers, userStatistics[userStatistics.length-1][2][0].totalNumUsers, '/manage_users')
         +cardStatisticStyle('primary', 'Forums', forumStatistics[0][2][0].totalNumForums, forumStatistics[1][2][0].totalNumForums, forumStatistics[forumStatistics.length-1][2][0].totalNumForums, '/manage_forums')
         +cardStatisticStyle('warning', 'Topics', topicStatistics[0][2][0].totalNumTopics, topicStatistics[1][2][0].totalNumTopics, topicStatistics[topicStatistics.length-1][2][0].totalNumTopics, '/manage_forums')
-    .card-deck
         +cardStatisticStyle('secondary', 'Comments', topicStatistics[0][2][0].totalNumCommentsAllTopics, topicStatistics[1][2][0].totalNumCommentsAllTopics, topicStatistics[topicStatistics.length-1][2][0].totalNumCommentsAllTopics, '/manage_forums')
+    .card-deck
         +cardStatisticStyle('danger', 'Announcements', articleStatistics[0][1][0].numArticle, articleStatistics[1][1][0].numArticle, articleStatistics[articleStatistics.length-1][1][0].numArticle, '/manage_announcements')
         +cardStatisticStyle('info', 'News', articleStatistics[0][1][1].numArticle, articleStatistics[1][1][1].numArticle, articleStatistics[articleStatistics.length-1][1][1].numArticle, '/manage_news')
-        
-
+        +cardStatisticStyle('dark', 'Resources', resourceStatistics[0][2][0].totalNumResources, resourceStatistics [1][2][0].totalNumResources, resourceStatistics[resourceStatistics.length-1][2][0].totalNumResources, '/manage_resources')
+        .card.bg-transparent.border-0     
 
     h3 Statistics Tables
     #accordion
         //-User Statistics
         .card
-            .card-header.bg-info.text-white(id=`userStatsCard`)                               
+            .card-header.bg-info.text-white.d-flex(id=`userStatsCard`)                               
                 h5.mb-0
                     button.btn.text-white.d-flex.font-weight-bold(data-toggle='collapse' data-target=`#collapseUser` aria-expanded='false' aria-controls=`collapseUser`)
                         |User Statistics
+                a.btn.btn-light.ml-auto.reportGenerationBtn(href="/statistics/user-statistics-table") Generate User Report
 
             .collapse(id=`collapseUser` aria-labelledby='userStatsCard' data-parent='#accordion')
-                .card-body
+                .card-body#user-statistics-table
                     .card-subtitle.mb-2
                         table.table.table-striped.text-center.table-sm.table-statistics.table-bordered
                             thead
@@ -99,13 +100,14 @@ block content
 
         //-Forum Statistics
         .card
-            .card-header.bg-info.text-white(id=`forumStatsCard`)                               
+            .card-header.bg-info.text-.d-flex(id=`forumStatsCard`)                               
                 h5.mb-0
                     button.btn.text-white.d-flex.font-weight-bold(data-toggle='collapse' data-target=`#collapseForum` aria-expanded='false' aria-controls=`collapseForum`)
                         |Forum Statistics
+                a.btn.btn-light.ml-auto.reportGenerationBtn(href="/statistics/forum-statistics-table") Generate Forum Report
 
             .collapse(id=`collapseForum` aria-labelledby='forumStatsCard' data-parent='#accordion')
-                .card-body
+                .card-body#forum-statistics-table
                     .card-subtitle.mb-2
                         table.table.table-striped.text-center.table-sm.table-statistics.table-bordered
                             thead
@@ -136,13 +138,14 @@ block content
                                         td #{forumStatistics[i][2][0].totalNumTopicsAllForums}
         //- Topic Statistics                              
         .card
-            .card-header.bg-info.text-white(id=`topicStatsCard`)                               
+            .card-header.bg-info.text-white.d-flex(id=`topicStatsCard`)                               
                 h5.mb-0
                     button.btn.text-white.d-flex.font-weight-bold(data-toggle='collapse' data-target=`#collapseTopic` aria-expanded='false' aria-controls=`collapsetopic`)
                         |Topic Statistics
+                a.btn.btn-light.ml-auto.reportGenerationBtn(href="/statistics/topic-statistics-table") Generate Topic Report
 
             .collapse(id=`collapseTopic` aria-labelledby='topicStatsCard' data-parent='#accordion')
-                .card-body
+                .card-body#topic-statistics-table
                     .card-subtitle.mb-2
                         table.table.table-striped.text-center.table-sm.table-statistics.table-bordered
                             thead
@@ -177,13 +180,14 @@ block content
 
         //-Article statistics
         .card
-            .card-header.bg-info.text-white(id=`articleStatsCard`)                               
+            .card-header.bg-info.text-white.d-flex(id=`articleStatsCard`)                               
                 h5.mb-0
                     button.btn.text-white.d-flex.font-weight-bold(data-toggle='collapse' data-target=`#collapseArticle` aria-expanded='false' aria-controls=`collapseArticle`)
                         |Announcements & News Statistics
+                a.btn.btn-light.ml-auto.reportGenerationBtn(href="/statistics/article-statistics-table") Generate Article Report
 
             .collapse(id=`collapseArticle` aria-labelledby='articleStatsCard' data-parent='#accordion')
-                .card-body
+                .card-body#article-statistics-table
                     .card-subtitle.mb-2
                         table.table.table-striped.text-center.table-sm.table-statistics.table-bordered
                             thead
@@ -204,6 +208,37 @@ block content
                                     td.text-left Total Announcements & News
                                     -for(let i=0;i<articleStatistics.length;i++)
                                         td #{articleStatistics[i][2][0].totalNumArticle}
+        
+        //-Resources statistics
+        .card
+            .card-header.bg-info.text-white.d-flex(id=`resourceStatsCard`)                               
+                h5.mb-0
+                    button.btn.text-white.d-flex.font-weight-bold(data-toggle='collapse' data-target=`#collapseResource` aria-expanded='false' aria-controls=`collapseResource`)
+                        |Resources Statistics
+                a.btn.btn-light.ml-auto.reportGenerationBtn(href="/statistics/resource-statistics-table") Generate Resource Report
+
+            .collapse(id=`collapseResource` aria-labelledby='resourceStatsCard' data-parent='#accordion')
+                .card-body#resource-statistics-table
+                    .card-subtitle.mb-2
+                        table.table.table-striped.text-center.table-sm.table-statistics.table-bordered
+                            thead
+                                tr
+                                    th(scope='col') Resources
+                                    each month in resourceStatistics
+                                        th(scope='col')= `${month[0] == 'Total' ? '' : 'Last'} ${month[0].replace('0', '')}`
+
+                            tbody
+                                -for(let i=0; i<resourceStatistics[resourceStatistics.length-1][1].length; i++)
+                                    tr.font-weight-bold
+
+                                        td.text-left #{resourceStatistics[resourceStatistics.length-1][1][i]._id} resources
+                                        -for(let j=0; j<resourceStatistics.length; j++)
+                                            td= resourceStatistics[j][1][i].numResources
+
+                                tr.font-weight-bold.table-success(style='font-size:1.2em;')
+                                    td.text-left Total resources
+                                    -for(let i=0;i<resourceStatistics.length;i++)
+                                        td #{resourceStatistics[i][2][0].totalNumResources}
 
 
 
