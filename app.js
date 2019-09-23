@@ -5,6 +5,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const rateLimit = require('express-rate-limit');
 const xss = require('xss-clean');
 const cookieParser = require('cookie-parser');
+const favicon = require('serve-favicon');
 
 const globalErrorHandler = require('./utils/GlobalErrorHandler');
 const AppError = require('./utils/AppError');
@@ -56,6 +57,9 @@ app.use(mongoSanitize());
 
 // data sanitization -- aganings XSS
 app.use(xss());
+
+//set favicon
+app.use(favicon(`${__dirname}/public/img/favicon.ico`));
 
 app.use('/api/v1/articles', articleRouter);
 app.use('/api/v1/users', userRouter);

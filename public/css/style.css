@@ -166,3 +166,8 @@
 .reportGenerationBtn {
   width: 215px;
 }
+
+.row > .col-sm > .reportGenerationBtn {
+  font-size: 0.6em;
+  width: 80%;
+}

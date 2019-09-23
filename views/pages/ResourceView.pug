@@ -58,7 +58,7 @@ block content
                                         -const updateDate = moment(file.uploadDate).format('dddd DD MMM YYYY HH:mm')
                                         small.text-muted= `Upload date: ${updateDate}`
                                 .card-footer
-                                    a.btn.btn-primary( href= `/resources/files/${file.filename}`) Download
+                                    a.btn.btn-primary( href= `/resources/files/${file.filename}` target="_blank") Download
                                     hr
                                     //- if userFilesIds.includes(file._id.toString())
                                     -if (user._id == file.user.id)

@@ -33,6 +33,7 @@ mixin sidebarMenu(link, text, icon)
                         .dropdown-divider
                         h6.dropdown-header System tools:
                         a.dropdown-item(href='/statistics') Statistics
+                        a.dropdown-item(href='/report_generation') Report Generation
             - if (user.role == 'staff')
                 //- Staff Menu  
                 li.nav-item.dropdown.no-arrow

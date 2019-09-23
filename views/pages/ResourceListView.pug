@@ -70,7 +70,7 @@ block content
                                 td ABC University
                             td= updateDate
                             td
-                                a.btn.btn-info.text-white(href=`/manage_resources/files/${file.filename}`) Download
+                                a.btn.btn-info.text-white(href=`/manage_resources/files/${file.filename}` target='_blank') Download
                             td
                                 a.btn.btn-danger.text-white(type='button' data-toggle="modal" data-target=`#deleteModalFile${file._id}`) Delete
             tfoot

@@ -4,19 +4,19 @@ block append scripts
     script(src='/js/collapse.js')
     
 mixin cardStatisticStyle(design, type, totalThisMonth, totalLastMonth, total, link)
-    .card.text-white(class=`bg-${design}`)
+    .card.text-white(class=`bg-${design}` id=`${type.toLowerCase()}-statistics-card`)
         //- .h4.card-header= type
         .card-body.mb-0
-            .h5.font-weight-bold #{totalThisMonth} New #{type}!
+            .h5.font-weight-bold #{totalThisMonth} New #{type}s!
             //- p.card-text Number of #{type} created last month: <b>#{totalLastMonth - totalThisMonth}</b>
-            p.card-text Total #{type}: <b>#{total}</b>
+            p.card-text Total #{type}s: <b>#{total}</b>
             p.card-text
                 -const totalDivision = (totalLastMonth - totalThisMonth) > 0 ? totalLastMonth - totalThisMonth : 1
                 -const percentageCalculation = (((2*totalThisMonth - totalLastMonth)/totalDivision) * 100).toFixed(0)
                 -const differenceDescription = percentageCalculation > 0 ? `${percentageCalculation}% more` : `${percentageCalculation*-1} less`
                 small.text-light It has been created a <b>#{differenceDescription}</b> than last month.
         .card-footer
-            a.btn.bg-light(class=`btn-outline-${design}` href=`${link}`) Manage #{type}
+            a.btn.bg-light(class=`btn-outline-${design}` href=`${link}`) Manage #{type}s
 
 block content
     +breadcrumbDisplay([['Home','/home'],['Statistics']])
@@ -24,14 +24,14 @@ block content
     h2.mt-0 System Statistics
     //-cards to show the most relevant data
     .card-deck
-        +cardStatisticStyle('success', 'Users', userStatistics[0][2][0].totalNumUsers, userStatistics[1][2][0].totalNumUsers, userStatistics[userStatistics.length-1][2][0].totalNumUsers, '/manage_users')
-        +cardStatisticStyle('primary', 'Forums', forumStatistics[0][2][0].totalNumForums, forumStatistics[1][2][0].totalNumForums, forumStatistics[forumStatistics.length-1][2][0].totalNumForums, '/manage_forums')
-        +cardStatisticStyle('warning', 'Topics', topicStatistics[0][2][0].totalNumTopics, topicStatistics[1][2][0].totalNumTopics, topicStatistics[topicStatistics.length-1][2][0].totalNumTopics, '/manage_forums')
-        +cardStatisticStyle('secondary', 'Comments', topicStatistics[0][2][0].totalNumCommentsAllTopics, topicStatistics[1][2][0].totalNumCommentsAllTopics, topicStatistics[topicStatistics.length-1][2][0].totalNumCommentsAllTopics, '/manage_forums')
+        +cardStatisticStyle('success', 'User', userStatistics[0][2][0].totalNumUsers, userStatistics[1][2][0].totalNumUsers, userStatistics[userStatistics.length-1][2][0].totalNumUsers, '/manage_users')
+        +cardStatisticStyle('primary', 'Forum', forumStatistics[0][2][0].totalNumForums, forumStatistics[1][2][0].totalNumForums, forumStatistics[forumStatistics.length-1][2][0].totalNumForums, '/manage_forums')
+        +cardStatisticStyle('warning', 'Topic', topicStatistics[0][2][0].totalNumTopics, topicStatistics[1][2][0].totalNumTopics, topicStatistics[topicStatistics.length-1][2][0].totalNumTopics, '/manage_forums')
+        +cardStatisticStyle('secondary', 'Comment', topicStatistics[0][2][0].totalNumCommentsAllTopics, topicStatistics[1][2][0].totalNumCommentsAllTopics, topicStatistics[topicStatistics.length-1][2][0].totalNumCommentsAllTopics, '/manage_forums')
     .card-deck
-        +cardStatisticStyle('danger', 'Announcements', articleStatistics[0][1][0].numArticle, articleStatistics[1][1][0].numArticle, articleStatistics[articleStatistics.length-1][1][0].numArticle, '/manage_announcements')
-        +cardStatisticStyle('info', 'News', articleStatistics[0][1][1].numArticle, articleStatistics[1][1][1].numArticle, articleStatistics[articleStatistics.length-1][1][1].numArticle, '/manage_news')
-        +cardStatisticStyle('dark', 'Resources', resourceStatistics[0][2][0].totalNumResources, resourceStatistics [1][2][0].totalNumResources, resourceStatistics[resourceStatistics.length-1][2][0].totalNumResources, '/manage_resources')
+        +cardStatisticStyle('danger', 'Announcement', articleStatistics[0][1][0].numArticle, articleStatistics[1][1][0].numArticle, articleStatistics[articleStatistics.length-1][1][0].numArticle, '/manage_announcements')
+        +cardStatisticStyle('info', 'New', articleStatistics[0][1][1].numArticle, articleStatistics[1][1][1].numArticle, articleStatistics[articleStatistics.length-1][1][1].numArticle, '/manage_news')
+        +cardStatisticStyle('dark', 'Resource', resourceStatistics[0][2][0].totalNumResources, resourceStatistics [1][2][0].totalNumResources, resourceStatistics[resourceStatistics.length-1][2][0].totalNumResources, '/manage_resources')
         .card.bg-transparent.border-0     
 
     h3 Statistics Tables
@@ -42,7 +42,7 @@ block content
                 h5.mb-0
                     button.btn.text-white.d-flex.font-weight-bold(data-toggle='collapse' data-target=`#collapseUser` aria-expanded='false' aria-controls=`collapseUser`)
                         |User Statistics
-                a.btn.btn-light.ml-auto.reportGenerationBtn(href="/statistics/user-statistics-table") Generate User Report
+                a.btn.btn-light.ml-auto.reportGenerationBtn(href="/statistics/user-statistics" target="_blank") Generate User Report
 
             .collapse(id=`collapseUser` aria-labelledby='userStatsCard' data-parent='#accordion')
                 .card-body#user-statistics-table
@@ -78,7 +78,7 @@ block content
                                     //- add the majors in the table
                                     -for(let k=0; k<majorArray.length; k++)
                                         tr
-                                            td.text-left= majorArray[k] != 'NOT A MAJOR' ? `${majorArray[k]} Major` : majorArray[k]
+                                            td.text-left.pl-4= majorArray[k] != 'NOT A MAJOR' ? `${majorArray[k]} Major` : majorArray[k]
 
                                             -const majorStringNoSpaces = majorArray[k].split(' ').join('')
                                             -for(let j=0; j<userStatistics.length; j++)
@@ -92,7 +92,7 @@ block content
                                 //-add summarise of all majors
                                 -for(let i=0; i<majorArray.length; i++)
                                     tr.table-success(style='font-size:1.2em;')
-                                        td.text-left= majorArray[i] != 'NOT A MAJOR' ? `${majorArray[i]} Major` : majorArray[i]
+                                        td.text-left.pl-4= majorArray[i] != 'NOT A MAJOR' ? `${majorArray[i]} Major` : majorArray[i]
 
                                         -const majorStringNoSpaces = majorArray[i].split(' ').join('')
                                         -for(let j=0;j<userStatistics.length;j++)
@@ -104,7 +104,7 @@ block content
                 h5.mb-0
                     button.btn.text-white.d-flex.font-weight-bold(data-toggle='collapse' data-target=`#collapseForum` aria-expanded='false' aria-controls=`collapseForum`)
                         |Forum Statistics
-                a.btn.btn-light.ml-auto.reportGenerationBtn(href="/statistics/forum-statistics-table") Generate Forum Report
+                a.btn.btn-light.ml-auto.reportGenerationBtn(href="/statistics/forum-statistics" target="_blank") Generate Forum Report
 
             .collapse(id=`collapseForum` aria-labelledby='forumStatsCard' data-parent='#accordion')
                 .card-body#forum-statistics-table
@@ -123,7 +123,7 @@ block content
                                         -for(let j=0; j<forumStatistics.length; j++)
                                             td= forumStatistics[j][1][i].numForums
                                     tr
-                                        td.text-left Number Of Topics in #{forumStatistics[forumStatistics.length-1][1][i]._id}
+                                        td.text-left.pl-4 Number Of Topics in #{forumStatistics[forumStatistics.length-1][1][i]._id}
                                         -for(let j=0; j<forumStatistics.length; j++)
                                             td= forumStatistics[j][1][i].totalNumTopics
 
@@ -133,7 +133,7 @@ block content
                                         td #{forumStatistics[i][2][0].totalNumForums}
 
                                 tr.table-success(style='font-size:1.2em;')
-                                    td.text-left Total Number of Topics in Forums
+                                    td.text-left.pl-4 Total Number of Topics in Forums
                                     -for(let i=0;i<forumStatistics.length;i++)
                                         td #{forumStatistics[i][2][0].totalNumTopicsAllForums}
         //- Topic Statistics                              
@@ -142,7 +142,7 @@ block content
                 h5.mb-0
                     button.btn.text-white.d-flex.font-weight-bold(data-toggle='collapse' data-target=`#collapseTopic` aria-expanded='false' aria-controls=`collapsetopic`)
                         |Topic Statistics
-                a.btn.btn-light.ml-auto.reportGenerationBtn(href="/statistics/topic-statistics-table") Generate Topic Report
+                a.btn.btn-light.ml-auto.reportGenerationBtn(href="/statistics/topic-statistics" target="_blank") Generate Topic Report
 
             .collapse(id=`collapseTopic` aria-labelledby='topicStatsCard' data-parent='#accordion')
                 .card-body#topic-statistics-table
@@ -163,7 +163,7 @@ block content
                                             td= topicStatistics[j][1][i].numTopics
 
                                     tr
-                                        td.text-left Number Of Comments in #{topicStatistics[topicStatistics.length-1][1][i]._id}
+                                        td.text-left.pl-4 Number Of Comments in #{topicStatistics[topicStatistics.length-1][1][i]._id}
                                         -for(let j=0; j<topicStatistics.length; j++)
                                             td= topicStatistics[j][1][i].totalNumComments
 
@@ -174,7 +174,7 @@ block content
                                         td #{topicStatistics[i][2][0].totalNumTopics}
 
                                 tr.table-success(style='font-size:1.2em;')
-                                    td.text-left Total Number of Comments in Topics
+                                    td.text-left.pl-4 Total Number of Comments in Topics
                                     -for(let i=0;i<topicStatistics.length;i++)
                                         td #{topicStatistics[i][2][0].totalNumCommentsAllTopics}
 
@@ -184,7 +184,7 @@ block content
                 h5.mb-0
                     button.btn.text-white.d-flex.font-weight-bold(data-toggle='collapse' data-target=`#collapseArticle` aria-expanded='false' aria-controls=`collapseArticle`)
                         |Announcements & News Statistics
-                a.btn.btn-light.ml-auto.reportGenerationBtn(href="/statistics/article-statistics-table") Generate Article Report
+                a.btn.btn-light.ml-auto.reportGenerationBtn(href="/statistics/article-statistics" target="_blank") Generate Article Report
 
             .collapse(id=`collapseArticle` aria-labelledby='articleStatsCard' data-parent='#accordion')
                 .card-body#article-statistics-table
@@ -215,7 +215,7 @@ block content
                 h5.mb-0
                     button.btn.text-white.d-flex.font-weight-bold(data-toggle='collapse' data-target=`#collapseResource` aria-expanded='false' aria-controls=`collapseResource`)
                         |Resources Statistics
-                a.btn.btn-light.ml-auto.reportGenerationBtn(href="/statistics/resource-statistics-table") Generate Resource Report
+                a.btn.btn-light.ml-auto.reportGenerationBtn(href="/statistics/resource-statistics" target="_blank") Generate Resource Report
 
             .collapse(id=`collapseResource` aria-labelledby='resourceStatsCard' data-parent='#accordion')
                 .card-body#resource-statistics-table
