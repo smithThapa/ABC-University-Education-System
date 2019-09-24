@@ -76,7 +76,7 @@ exports.getResourceStatsByTableId = async function(req, res, next) {
   });
 
   const buffer = await statsPage.pdf({
-    path: `${req.params.tableId}`,
+    // path: `${req.params.tableId}`,
     format: 'A4',
     margin: {
       top: '2.54cm',
