@@ -21,6 +21,7 @@ import {
 import { deleteElement } from './deleteElement';
 import { forgotPassword, resetPassword } from './passwordManagement';
 import { sendNotification } from './sendNotification';
+import { reportGeneration } from './reportGeneration';
 
 // variable
 const loginBtn = document.getElementById('submitLogin');
@@ -57,6 +58,16 @@ const sendNotificationChangePasswordBtn = document.getElementById(
 const sendNotificationFromMaintenanceForm = document.getElementById(
   'sendNotificationFromMaintenanceForm'
 );
+
+const userStatisticsBtn = document.getElementById('userStatisticsBtn');
+
+if (userStatisticsBtn) {
+  userStatisticsBtn.addEventListener('click', e => {
+    const userStatisticsTableHTML = document.documentElement.innerHTML;
+    console.log(userStatisticsTableHTML);
+    reportGeneration(userStatisticsTableHTML);
+  });
+}
 
 if (createMaintenanceRequestForm) {
   createMaintenanceRequestForm.addEventListener('submit', e => {

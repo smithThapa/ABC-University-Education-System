@@ -12,7 +12,7 @@ export const resetPassword = async function(password, confirmPassword, token) {
       }
     });
 
-    console.log('hello');
+    // console.log('hello');
 
     if (res.data.status === 'success') {
       window.scrollTo(0, 0);

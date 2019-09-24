@@ -42,7 +42,7 @@ block content
                 h5.mb-0
                     button.btn.text-white.d-flex.font-weight-bold(data-toggle='collapse' data-target=`#collapseUser` aria-expanded='false' aria-controls=`collapseUser`)
                         |User Statistics
-                a.btn.btn-light.ml-auto.reportGenerationBtn(href="/statistics/user-statistics" target="_blank") Generate User Report
+                a.btn.btn-light.ml-auto.reportGenerationBtn#userStatisticsBtn(href="/statistics/user-statistics" target="_blank") Generate User Report
 
             .collapse(id=`collapseUser` aria-labelledby='userStatsCard' data-parent='#accordion')
                 .card-body#user-statistics-table

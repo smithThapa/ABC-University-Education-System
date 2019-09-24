@@ -271,6 +271,13 @@ router.get(
   reportGenerationView.getResourceStatsByTableId
 );
 
+router.post(
+  '/report_generation/html',
+  authenticationPresenter.protect,
+  authenticationPresenter.restrictTo('admin'),
+  reportGenerationView.getResourceStatsByHTML
+);
+
 //API stats
 router.get(
   '/api/v1/resources/resourceStats',
