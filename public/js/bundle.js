@@ -9528,7 +9528,12 @@ function () {
 
           case 3:
             res = _context.sent;
-            console.log(res);
+            // await axios({
+            //   method: 'GET',
+            //   url: 'http://127.0.0.1:8000/report_generation/html-pdf'
+            // })
+            window.open('/report_generation/html-pdf'); // })')
+
             _context.next = 11;
             break;
 
@@ -9852,7 +9857,7 @@ var userStatisticsBtn = document.getElementById('userStatisticsBtn');
 
 if (userStatisticsBtn) {
   userStatisticsBtn.addEventListener('click', function (e) {
-    var userStatisticsTableHTML = document.documentElement.innerHTML;
+    var userStatisticsTableHTML = document.getElementById('user-statistics-table').innerHTML;
     console.log(userStatisticsTableHTML);
     (0, _reportGeneration.reportGeneration)(userStatisticsTableHTML);
   });
@@ -10209,7 +10214,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62756" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62659" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

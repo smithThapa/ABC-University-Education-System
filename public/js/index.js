@@ -63,7 +63,7 @@ const userStatisticsBtn = document.getElementById('userStatisticsBtn');
 
 if (userStatisticsBtn) {
   userStatisticsBtn.addEventListener('click', e => {
-    const userStatisticsTableHTML = document.documentElement.innerHTML;
+    const userStatisticsTableHTML = document.getElementById('user-statistics-table').innerHTML;
     console.log(userStatisticsTableHTML);
     reportGeneration(userStatisticsTableHTML);
   });

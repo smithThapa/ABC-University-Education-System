@@ -250,12 +250,12 @@ router.get(
   statisticsView.getStatisticsView
 );
 
-router.get(
-  '/statistics/:tableId',
-  authenticationPresenter.protect,
-  authenticationPresenter.restrictTo('admin'),
-  reportGenerationView.getResourceStatsByTableId
-);
+// router.get(
+//   '/statistics/:tableId',
+//   authenticationPresenter.protect,
+//   authenticationPresenter.restrictTo('admin'),
+//   reportGenerationView.getResourceStatsByTableId
+// );
 
 router.get(
   '/report_generation',
@@ -264,19 +264,26 @@ router.get(
   reportGenerationView.getResourceGenerationView
 );
 
-router.get(
-  '/report_generation/:tableId',
-  authenticationPresenter.protect,
-  authenticationPresenter.restrictTo('admin'),
-  reportGenerationView.getResourceStatsByTableId
-);
-
 router.post(
   '/report_generation/html',
   authenticationPresenter.protect,
   authenticationPresenter.restrictTo('admin'),
   reportGenerationView.getResourceStatsByHTML
 );
+
+router.get(
+  '/report_generation/html-pdf',
+  authenticationPresenter.protect,
+  authenticationPresenter.restrictTo('admin'),
+  reportGenerationView.getResourceHtml
+);
+
+// router.get(
+//   '/report_generation/:tableId',
+//   authenticationPresenter.protect,
+//   authenticationPresenter.restrictTo('admin'),
+//   reportGenerationView.getResourceStatsByTableId
+// );
 
 //API stats
 router.get(
