@@ -9510,7 +9510,7 @@ var reportGeneration =
 function () {
   var _ref = _asyncToGenerator(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee(html) {
+  regeneratorRuntime.mark(function _callee(text, html) {
     var res;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
@@ -9520,7 +9520,7 @@ function () {
             _context.next = 3;
             return (0, _axios.default)({
               method: 'POST',
-              url: "http://127.0.0.1:8000/report_generation/html",
+              url: "http://127.0.0.1:8000/report_generation/sendHtml",
               data: {
                 html: html
               }
@@ -9528,11 +9528,10 @@ function () {
 
           case 3:
             res = _context.sent;
-            // await axios({
-            //   method: 'GET',
-            //   url: 'http://127.0.0.1:8000/report_generation/html-pdf'
-            // })
-            window.open('/report_generation/html-pdf'); // })')
+
+            if (res.data.status == 'success') {
+              window.open("/report_generation/".concat(text));
+            }
 
             _context.next = 11;
             break;
@@ -9552,7 +9551,7 @@ function () {
     }, _callee, null, [[0, 7]]);
   }));
 
-  return function reportGeneration(_x) {
+  return function reportGeneration(_x, _x2) {
     return _ref.apply(this, arguments);
   };
 }();
@@ -9853,13 +9852,27 @@ var editMaintenanceRequestBtnList = document.querySelectorAll('.editMaintenanceR
 var deleteElementBtnList = document.querySelectorAll('.deleteModalBtn');
 var sendNotificationChangePasswordBtn = document.getElementById('sendNotificationChangePasswordBtn');
 var sendNotificationFromMaintenanceForm = document.getElementById('sendNotificationFromMaintenanceForm');
-var userStatisticsBtn = document.getElementById('userStatisticsBtn');
+var userStatisticsBtnList = document.querySelectorAll('.reportGenerationBtn');
 
-if (userStatisticsBtn) {
-  userStatisticsBtn.addEventListener('click', function (e) {
-    var userStatisticsTableHTML = document.getElementById('user-statistics-table').innerHTML;
-    console.log(userStatisticsTableHTML);
-    (0, _reportGeneration.reportGeneration)(userStatisticsTableHTML);
+if (userStatisticsBtnList) {
+  userStatisticsBtnList.forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      //get the stadistic variable to generate
+      var reportId = e.target.dataset.reportId; //empty variable to add card(s)
+
+      var cardHTML; //check if the id is artticle to add both cards
+
+      if (reportId == 'article-statistics') {
+        cardHTML = '<div class="card-deck">' + document.getElementById("announcement-statistics-card").outerHTML + document.getElementById("new-statistics-card").outerHTML + '</div>';
+      } else {
+        //get card
+        cardHTML = document.getElementById("".concat(reportId, "-card")).outerHTML;
+      } // html table
+
+
+      var tableHTML = document.getElementById("".concat(reportId, "-table")).innerHTML;
+      (0, _reportGeneration.reportGeneration)(reportId, cardHTML + '<br/><h3>Table</h3><br/>' + tableHTML);
+    });
   });
 }
 
@@ -10214,7 +10227,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62659" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55307" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

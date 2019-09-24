@@ -59,13 +59,36 @@ const sendNotificationFromMaintenanceForm = document.getElementById(
   'sendNotificationFromMaintenanceForm'
 );
 
-const userStatisticsBtn = document.getElementById('userStatisticsBtn');
+const userStatisticsBtnList = document.querySelectorAll('.reportGenerationBtn');
 
-if (userStatisticsBtn) {
-  userStatisticsBtn.addEventListener('click', e => {
-    const userStatisticsTableHTML = document.getElementById('user-statistics-table').innerHTML;
-    console.log(userStatisticsTableHTML);
-    reportGeneration(userStatisticsTableHTML);
+if (userStatisticsBtnList) {
+  userStatisticsBtnList.forEach(function(btn) {
+    btn.addEventListener('click', e => {
+      //get the stadistic variable to generate
+      const { reportId } = e.target.dataset;
+
+      //empty variable to add card(s)
+      let cardHTML;
+
+      //check if the id is artticle to add both cards
+      if (reportId == 'article-statistics') {
+        cardHTML =
+          '<div class="card-deck">' +
+          document.getElementById(`announcement-statistics-card`).outerHTML +
+          document.getElementById(`new-statistics-card`).outerHTML +
+          '</div>';
+      } else {
+        //get card
+        cardHTML = document.getElementById(`${reportId}-card`).outerHTML;
+      }
+
+      // html table
+      const tableHTML = document.getElementById(`${reportId}-table`).innerHTML;
+      reportGeneration(
+        reportId,
+        cardHTML + '<br/><h3>Table</h3><br/>' + tableHTML
+      );
+    });
   });
 }
 

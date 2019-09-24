@@ -1,107 +1,11 @@
 const puppeteer = require('puppeteer');
 const moment = require('moment');
-const DomParser = require('dom-parser');
-
-const parser = new DomParser();
-
-exports.getResourceGenerationView = function(req, res) {
-  res
-    .status(200)
-    .render('ReportGenerationView', { title: 'Report Generation' });
-};
-
-// exports.getResourceStatsByTableId = async function(req, res, next) {
-//   const browser = await puppeteer.launch();
-//   const loginPage = await browser.newPage();
-
-//   await loginPage.goto('http://127.0.0.1:8000/');
-
-//   await loginPage.type('#inputEmail', process.env.PDF_USER);
-//   await loginPage.type('#inputPassword', process.env.PDF_PASSWORD);
-
-//   await Promise.all([
-//     await loginPage.click('#submitLogin'),
-//     loginPage.waitForNavigation({ waitUntil: 'networkidle0' })
-//   ]);
-
-//   const statsPage = await browser.newPage();
-
-//   await statsPage.goto('http://127.0.0.1:8000/statistics', {
-//     waitUntil: 'networkidle0'
-//   });
-
-//   const tableStats = await statsPage.$eval(
-//     `#${req.params.tableId}-table`,
-//     e => {
-//       return e.innerHTML;
-//     }
-//   );
-
-//   let cardStats = '<div class="card-deck"><div class="card">';
-//   if (req.params.tableId !== 'article-statistics') {
-//     cardStats += await statsPage.$eval(`#${req.params.tableId}-card`, e => {
-//       return e.innerHTML;
-//     });
-//     cardStats += '</div><div class="card bg-transparent border-0"></div>';
-//     cardStats += '<div class="card bg-transparent border-0"></div>';
-
-//     cardStats += '</div>';
-//   } else {
-//     cardStats += await statsPage.$eval(`#announcement-statistics-card`, e => {
-//       return e.innerHTML;
-//     });
-
-//     cardStats += '</div> <div class="card">';
-
-//     cardStats += await statsPage.$eval(`#new-statistics-card`, e => {
-//       return e.innerHTML;
-//     });
-
-//     cardStats += '</div><div class="card bg-transparent border-0"></div>';
-
-//     cardStats += '</div>';
-//   }
-//   // console.log(cardStats);
-
-//   //get title
-//   let titleIn = req.params.tableId.split('-')[0];
-//   titleIn = titleIn.charAt(0).toUpperCase() + titleIn.slice(1);
-
-//   const creationDate = moment().format('DD/MMM/YYYY HH:mm');
-
-//   const content = `<div class="d-flex"><h2>${titleIn}s Statistics - Table</h2><h3 class="ml-auto">Created on ${creationDate}</h3></div><br/>${cardStats}<br/><br/>${tableStats}`;
-
-//   statsPage.setContent(content);
-
-//   // statsPage.setContent(table);
-//   statsPage.addStyleTag({
-//     path: 'public/css/sb-admin.css'
-//   });
-
-//   const buffer = await statsPage.pdf({
-//     // path: `${req.params.tableId}`,
-//     format: 'A4',
-//     margin: {
-//       top: '2.54cm',
-//       bottom: '2.54cm',
-//       left: '2.54cm',
-//       right: '2.54cm'
-//     },
-//     displayHeaderFooter: true
-//   });
-
-//   res.type('application/pdf');
-//   res.send(buffer);
-//   browser.close();
-// };
 
 let responseHtml = '';
 
-exports.getResourceStatsByHTML = async function(req, res, next) {
-  responseHtml = req.body.html;
-  res.status(200).send('all good');
-};
+//Function to parse a string to html
 
+// eslint-disable-next-line no-extend-native
 String.prototype.deentitize = function() {
   let ret = this.replace(/&gt;/g, '>');
   ret = ret.replace(/&lt;/g, '<');
@@ -111,20 +15,42 @@ String.prototype.deentitize = function() {
   return ret;
 };
 
+exports.getResourceStatsByHTML = async function(req, res, next) {
+  responseHtml = req.body.html;
+  res.status(200).json({
+    status: 'success',
+    data: null
+  });
+};
+
 exports.getResourceHtml = async function(req, res, next) {
   const browser = await puppeteer.launch();
   const htmlPage = await browser.newPage();
-  // const parsedHTML = parser.parseFromString(responseHtml, 'text/html');
-  // console.log('PARSEDDDDD:', parsedHTML);
 
-  htmlPage.setContent(responseHtml.deentitize());
+  //get title
+  let titleIn = req.params.textReport.split('-')[0];
+  titleIn = titleIn.charAt(0).toUpperCase() + titleIn.slice(1); //set first letter as capital
 
-  htmlPage.addStyleTag({
+  //check if the title is article to convert to announcements and news
+  if (titleIn === 'Article') {
+    titleIn = 'Announcements & New';
+  }
+
+  //get moment date
+  const creationDate = moment().format('DD/MMM/YYYY HH:mm');
+
+  //get the table stats from the html
+  const tableStats = responseHtml.deentitize();
+
+  const content = `<div class="d-flex"><h2>${titleIn}s Statistics</h2><h3 class="ml-auto">Created on ${creationDate}</h3></div><br/>${tableStats}`;
+
+  await htmlPage.setContent(content);
+
+  await htmlPage.addStyleTag({
     path: 'public/css/sb-admin.css'
   });
 
   const buffer = await htmlPage.pdf({
-    // path: `${req.params.tableId}`,
     format: 'A4',
     margin: {
       top: '2.54cm',
@@ -137,4 +63,5 @@ exports.getResourceHtml = async function(req, res, next) {
 
   res.type('application/pdf');
   res.send(buffer);
+  browser.close();
 };

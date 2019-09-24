@@ -38,12 +38,11 @@ block content
     #accordion
         //-User Statistics
         .card
-            .card-header.bg-info.text-white.d-flex(id=`userStatsCard`)                               
+            .card-header.bg-info.d-flex(id=`userStatsCard`)                               
                 h5.mb-0
                     button.btn.text-white.d-flex.font-weight-bold(data-toggle='collapse' data-target=`#collapseUser` aria-expanded='false' aria-controls=`collapseUser`)
                         |User Statistics
-                a.btn.btn-light.ml-auto#userStatisticsBtn  Generate User Report
-                //- a.btn.btn-light.ml-auto.reportGenerationBtn#userStatisticsBtn(href="/statistics/user-statistics" target="_blank") Generate User Report
+                a.btn.btn-light.ml-auto.reportGenerationBtn(data-report-id='user-statistics') Generate User Report
 
             .collapse(id=`collapseUser` aria-labelledby='userStatsCard' data-parent='#accordion')
                 .card-body#user-statistics-table
@@ -101,11 +100,11 @@ block content
 
         //-Forum Statistics
         .card
-            .card-header.bg-info.text-.d-flex(id=`forumStatsCard`)                               
+            .card-header.bg-info.d-flex(id=`forumStatsCard`)                               
                 h5.mb-0
                     button.btn.text-white.d-flex.font-weight-bold(data-toggle='collapse' data-target=`#collapseForum` aria-expanded='false' aria-controls=`collapseForum`)
                         |Forum Statistics
-                a.btn.btn-light.ml-auto.reportGenerationBtn(href="/statistics/forum-statistics" target="_blank") Generate Forum Report
+                a.btn.btn-light.ml-auto.reportGenerationBtn(data-report-id='forum-statistics') Generate Forum Report
 
             .collapse(id=`collapseForum` aria-labelledby='forumStatsCard' data-parent='#accordion')
                 .card-body#forum-statistics-table
@@ -139,11 +138,11 @@ block content
                                         td #{forumStatistics[i][2][0].totalNumTopicsAllForums}
         //- Topic Statistics                              
         .card
-            .card-header.bg-info.text-white.d-flex(id=`topicStatsCard`)                               
+            .card-header.bg-info.d-flex(id=`topicStatsCard`)                               
                 h5.mb-0
                     button.btn.text-white.d-flex.font-weight-bold(data-toggle='collapse' data-target=`#collapseTopic` aria-expanded='false' aria-controls=`collapsetopic`)
                         |Topic Statistics
-                a.btn.btn-light.ml-auto.reportGenerationBtn(href="/statistics/topic-statistics" target="_blank") Generate Topic Report
+                a.btn.btn-light.ml-auto.reportGenerationBtn(data-report-id='topic-statistics') Generate Topic Report
 
             .collapse(id=`collapseTopic` aria-labelledby='topicStatsCard' data-parent='#accordion')
                 .card-body#topic-statistics-table
@@ -181,11 +180,11 @@ block content
 
         //-Article statistics
         .card
-            .card-header.bg-info.text-white.d-flex(id=`articleStatsCard`)                               
+            .card-header.bg-info.d-flex(id=`articleStatsCard`)                               
                 h5.mb-0
                     button.btn.text-white.d-flex.font-weight-bold(data-toggle='collapse' data-target=`#collapseArticle` aria-expanded='false' aria-controls=`collapseArticle`)
                         |Announcements & News Statistics
-                a.btn.btn-light.ml-auto.reportGenerationBtn(href="/statistics/article-statistics" target="_blank") Generate Article Report
+                a.btn.btn-light.ml-auto.reportGenerationBtn(data-report-id='article-statistics') Generate Article Report
 
             .collapse(id=`collapseArticle` aria-labelledby='articleStatsCard' data-parent='#accordion')
                 .card-body#article-statistics-table
@@ -212,11 +211,11 @@ block content
         
         //-Resources statistics
         .card
-            .card-header.bg-info.text-white.d-flex(id=`resourceStatsCard`)                               
+            .card-header.bg-info.d-flex(id=`resourceStatsCard`)                               
                 h5.mb-0
                     button.btn.text-white.d-flex.font-weight-bold(data-toggle='collapse' data-target=`#collapseResource` aria-expanded='false' aria-controls=`collapseResource`)
                         |Resources Statistics
-                a.btn.btn-light.ml-auto.reportGenerationBtn(href="/statistics/resource-statistics" target="_blank") Generate Resource Report
+                a.btn.btn-light.ml-auto.reportGenerationBtn(data-report-id='resource-statistics') Generate Resource Report
 
             .collapse(id=`collapseResource` aria-labelledby='resourceStatsCard' data-parent='#accordion')
                 .card-body#resource-statistics-table

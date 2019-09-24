@@ -1,26 +1,18 @@
 import axios from 'axios';
 import { showAlert } from './alerts';
 
-export const reportGeneration = async function(html) {
-
+export const reportGeneration = async function(text, html) {
   try {
     const res = await axios({
       method: 'POST',
-      url: `http://127.0.0.1:8000/report_generation/html`,
+      url: `http://127.0.0.1:8000/report_generation/sendHtml`,
       data: {
         html
       }
     });
-
-    // await axios({
-    //   method: 'GET',
-    //   url: 'http://127.0.0.1:8000/report_generation/html-pdf'
-    // })
-    window.open('/report_generation/html-pdf');
-    // })')
-
-
-    
+    if (res.data.status == 'success') {
+      window.open(`/report_generation/${text}`);
+    }
   } catch (err) {
     // console.log(err.response.data);
     window.scrollTo(0, 0);

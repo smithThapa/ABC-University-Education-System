@@ -250,29 +250,15 @@ router.get(
   statisticsView.getStatisticsView
 );
 
-// router.get(
-//   '/statistics/:tableId',
-//   authenticationPresenter.protect,
-//   authenticationPresenter.restrictTo('admin'),
-//   reportGenerationView.getResourceStatsByTableId
-// );
-
-router.get(
-  '/report_generation',
-  authenticationPresenter.protect,
-  authenticationPresenter.restrictTo('admin'),
-  reportGenerationView.getResourceGenerationView
-);
-
 router.post(
-  '/report_generation/html',
+  '/report_generation/sendHtml',
   authenticationPresenter.protect,
   authenticationPresenter.restrictTo('admin'),
   reportGenerationView.getResourceStatsByHTML
 );
 
 router.get(
-  '/report_generation/html-pdf',
+  '/report_generation/:textReport',
   authenticationPresenter.protect,
   authenticationPresenter.restrictTo('admin'),
   reportGenerationView.getResourceHtml
