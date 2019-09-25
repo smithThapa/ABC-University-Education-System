@@ -1,21 +1,25 @@
+// require Node.js modules into the schema
 const mongoose = require('mongoose');
 const slugify = require('slugify');
 const Topic = require('./TopicModel');
 const Comment = require('./CommentModel');
-// const User = require('./UserModel');
 
+// Mongoose schema to store into the db
 const forumSchema = mongoose.Schema(
   {
+    //title variable of the forum
     title: {
       type: String,
       required: true
     },
+    //creation date of the object
     createdAt: {
       type: Date,
       required: true,
       default: Date.now(),
       immutable: true
     },
+    //foru type in an enum to restrict values
     type: {
       type: String,
       required: true,
@@ -28,7 +32,9 @@ const forumSchema = mongoose.Schema(
       ],
       default: 'Other'
     },
+    //slug value for the front-end
     slug: String,
+    //user who created the forum
     user: {
       type: mongoose.Schema.ObjectId,
       ref: 'User',
@@ -42,8 +48,10 @@ const forumSchema = mongoose.Schema(
   }
 );
 
+//unique record of within type and title
 forumSchema.index({ type: 1, title: 1 }, { unique: true });
 
+//populate the forum with the user who created with its names and role
 forumSchema.pre(/^find/, function(next) {
   this.populate({
     path: 'user',
@@ -52,12 +60,14 @@ forumSchema.pre(/^find/, function(next) {
   next();
 });
 
+//createa  virtual atribute for the topics associated with the dorum
 forumSchema.virtual('topics', {
   ref: 'Topic',
   foreignField: 'forum',
   localField: '_id'
 });
 
+//add slug with the type and title to the object every time is saved
 forumSchema.pre('save', function(next) {
   this.slug = slugify(`${this.type} ${this.title} forum`, {
     remove: null,
@@ -66,17 +76,22 @@ forumSchema.pre('save', function(next) {
   next();
 });
 
-//Remove all comments in the topics
+//Remove all comments in the topics in cascaded
 forumSchema.pre('remove', async function(next) {
+  //get topic by id
   const topics = await Topic.find({ forum: this._id });
 
+  //remove the all topic
   await Topic.remove({ forum: this._id });
   topics.map(async topic => {
+    //iterate in the topic to remove the commentes with topic id
     await Comment.remove({ topic: topic._id });
   });
   next();
 });
 
+//create sceham object to store in the collection
 const Forum = mongoose.model('Forum', forumSchema);
 
+//export the model
 module.exports = Forum;

@@ -1,8 +1,10 @@
 import axios from 'axios';
 import { showAlert } from './alerts';
 
+//method to reset paswird
 export const resetPassword = async function(password, confirmPassword, token) {
   try {
+    //get response from API to reset password
     const res = await axios({
       method: 'PATCH',
       url: `http://127.0.0.1:8000/api/v1/users/resetPassword/${token}`,
@@ -12,15 +14,16 @@ export const resetPassword = async function(password, confirmPassword, token) {
       }
     });
 
-    // console.log('hello');
-
+    //successfully response
     if (res.data.status === 'success') {
+      //move top
       window.scrollTo(0, 0);
       showAlert(
         'success',
         'Your have successfully reset your password!',
         'Now you can access all features of ABC University'
       );
+      //go to home
       window.setTimeout(() => {
         location.assign('/home');
       }, 0);
@@ -32,8 +35,10 @@ export const resetPassword = async function(password, confirmPassword, token) {
   }
 };
 
+//forgot password method
 export const forgotPassword = async function(email, resetURL) {
   try {
+    //get response from API to forget password
     const res = await axios({
       method: 'POST',
       url: 'http://127.0.0.1:8000/api/v1/users/forgotPassword',
@@ -43,13 +48,16 @@ export const forgotPassword = async function(email, resetURL) {
       }
     });
 
+    //successful response
     if (res.data.status === 'success') {
+      //move top
       window.scrollTo(0, 0);
       showAlert(
         'success',
         'Your request to your new password is success!',
         'An email has been send you to reset your password within 24 hours.'
       );
+      //return login
       window.setTimeout(() => {
         location.assign('/');
       }, 0);

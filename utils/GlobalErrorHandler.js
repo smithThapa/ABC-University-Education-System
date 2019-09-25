@@ -5,7 +5,7 @@ const User = require('./../models/UserModel');
 
 const userIsLogged = async function(err, req, res) {
   let currentUser;
-  if (req.cookies.jwt) {
+  if (req.cookies.jwt && req.cookies.jwt !== 'loggedout') {
     // 1: Verification signToken
     const decoded = await promisify(jwt.verify)(
       req.cookies.jwt,

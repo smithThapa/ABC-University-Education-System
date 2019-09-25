@@ -22,17 +22,30 @@ block content
     +breadcrumbDisplay([['Home','/home'],['Statistics']])
 
     h2.mt-0 System Statistics
-    //-cards to show the most relevant data
-    .card-deck
-        +cardStatisticStyle('success', 'User', userStatistics[0][2][0].totalNumUsers, userStatistics[1][2][0].totalNumUsers, userStatistics[userStatistics.length-1][2][0].totalNumUsers, '/manage_users')
-        +cardStatisticStyle('primary', 'Forum', forumStatistics[0][2][0].totalNumForums, forumStatistics[1][2][0].totalNumForums, forumStatistics[forumStatistics.length-1][2][0].totalNumForums, '/manage_forums')
-        +cardStatisticStyle('warning', 'Topic', topicStatistics[0][2][0].totalNumTopics, topicStatistics[1][2][0].totalNumTopics, topicStatistics[topicStatistics.length-1][2][0].totalNumTopics, '/manage_forums')
-        +cardStatisticStyle('secondary', 'Comment', topicStatistics[0][2][0].totalNumCommentsAllTopics, topicStatistics[1][2][0].totalNumCommentsAllTopics, topicStatistics[topicStatistics.length-1][2][0].totalNumCommentsAllTopics, '/manage_forums')
-    .card-deck
-        +cardStatisticStyle('danger', 'Announcement', articleStatistics[0][1][0].numArticle, articleStatistics[1][1][0].numArticle, articleStatistics[articleStatistics.length-1][1][0].numArticle, '/manage_announcements')
-        +cardStatisticStyle('info', 'New', articleStatistics[0][1][1].numArticle, articleStatistics[1][1][1].numArticle, articleStatistics[articleStatistics.length-1][1][1].numArticle, '/manage_news')
-        +cardStatisticStyle('dark', 'Resource', resourceStatistics[0][2][0].totalNumResources, resourceStatistics [1][2][0].totalNumResources, resourceStatistics[resourceStatistics.length-1][2][0].totalNumResources, '/manage_resources')
-        .card.bg-transparent.border-0     
+    .d-flex.justify-content-between
+        div
+            //-cards to show the most relevant data
+            .card-deck
+                +cardStatisticStyle('success', 'User', userStatistics[0][2][0].totalNumUsers, userStatistics[1][2][0].totalNumUsers, userStatistics[userStatistics.length-1][2][0].totalNumUsers, '/manage_users')
+                +cardStatisticStyle('primary', 'Forum', forumStatistics[0][2][0].totalNumForums, forumStatistics[1][2][0].totalNumForums, forumStatistics[forumStatistics.length-1][2][0].totalNumForums, '/manage_forums')
+                +cardStatisticStyle('warning', 'Topic', topicStatistics[0][2][0].totalNumTopics, topicStatistics[1][2][0].totalNumTopics, topicStatistics[topicStatistics.length-1][2][0].totalNumTopics, '/manage_forums')
+            <br/>
+            .card-deck
+                +cardStatisticStyle('secondary', 'Comment', topicStatistics[0][2][0].totalNumCommentsAllTopics, topicStatistics[1][2][0].totalNumCommentsAllTopics, topicStatistics[topicStatistics.length-1][2][0].totalNumCommentsAllTopics, '/manage_forums')
+                +cardStatisticStyle('danger', 'Announcement', articleStatistics[0][1][0].numArticle, articleStatistics[1][1][0].numArticle, articleStatistics[articleStatistics.length-1][1][0].numArticle, '/manage_announcements')
+                +cardStatisticStyle('info', 'New', articleStatistics[0][1][1].numArticle, articleStatistics[1][1][1].numArticle, articleStatistics[articleStatistics.length-1][1][1].numArticle, '/manage_news')
+            <br/>
+            .card-deck
+                +cardStatisticStyle('dark', 'Resource', resourceStatistics[0][2][0].totalNumResources, resourceStatistics [1][2][0].totalNumResources, resourceStatistics[resourceStatistics.length-1][2][0].totalNumResources, '/manage_resources')
+                .card.bg-transparent.border-0
+                .card.bg-transparent.border-0
+        .ml-auto.text-center.text-white(style='width:35%;') 
+            h3.mb-4(style='color:#006972;') Report Generation
+            a.btn.btn-success.reportGenerationBtn.mb-4(data-report-id='user-statistics') Generate Users Report
+            a.btn.btn-info.reportGenerationBtn.mb-4(data-report-id='forum-statistics') Generate Forums Report
+            a.btn.btn-warning.reportGenerationBtn.mb-4(data-report-id='topic-statistics') Generate Topics Report
+            a.btn.btn-danger.reportGenerationBtn.mb-4(data-report-id='article-statistics') Generate Announcements<br/>& News Report
+            a.btn.btn-dark.reportGenerationBtn(data-report-id='resource-statistics') Generate Resources Report
 
     h3 Statistics Tables
     #accordion
@@ -42,7 +55,7 @@ block content
                 h5.mb-0
                     button.btn.text-white.d-flex.font-weight-bold(data-toggle='collapse' data-target=`#collapseUser` aria-expanded='false' aria-controls=`collapseUser`)
                         |User Statistics
-                a.btn.btn-light.ml-auto.reportGenerationBtn(data-report-id='user-statistics') Generate User Report
+                a.btn.btn-light.ml-auto.reportGenerationBtn(data-report-id='user-statistics') Generate Users Report
 
             .collapse(id=`collapseUser` aria-labelledby='userStatsCard' data-parent='#accordion')
                 .card-body#user-statistics-table
@@ -104,7 +117,7 @@ block content
                 h5.mb-0
                     button.btn.text-white.d-flex.font-weight-bold(data-toggle='collapse' data-target=`#collapseForum` aria-expanded='false' aria-controls=`collapseForum`)
                         |Forum Statistics
-                a.btn.btn-light.ml-auto.reportGenerationBtn(data-report-id='forum-statistics') Generate Forum Report
+                a.btn.btn-light.ml-auto.reportGenerationBtn(data-report-id='forum-statistics') Generate Forums Report
 
             .collapse(id=`collapseForum` aria-labelledby='forumStatsCard' data-parent='#accordion')
                 .card-body#forum-statistics-table
@@ -142,7 +155,7 @@ block content
                 h5.mb-0
                     button.btn.text-white.d-flex.font-weight-bold(data-toggle='collapse' data-target=`#collapseTopic` aria-expanded='false' aria-controls=`collapsetopic`)
                         |Topic Statistics
-                a.btn.btn-light.ml-auto.reportGenerationBtn(data-report-id='topic-statistics') Generate Topic Report
+                a.btn.btn-light.ml-auto.reportGenerationBtn(data-report-id='topic-statistics') Generate Topics Report
 
             .collapse(id=`collapseTopic` aria-labelledby='topicStatsCard' data-parent='#accordion')
                 .card-body#topic-statistics-table
@@ -184,7 +197,7 @@ block content
                 h5.mb-0
                     button.btn.text-white.d-flex.font-weight-bold(data-toggle='collapse' data-target=`#collapseArticle` aria-expanded='false' aria-controls=`collapseArticle`)
                         |Announcements & News Statistics
-                a.btn.btn-light.ml-auto.reportGenerationBtn(data-report-id='article-statistics') Generate Article Report
+                a.btn.btn-light.ml-auto.reportGenerationBtn(data-report-id='article-statistics') Generate Announcements<br/>& News Report
 
             .collapse(id=`collapseArticle` aria-labelledby='articleStatsCard' data-parent='#accordion')
                 .card-body#article-statistics-table
@@ -215,7 +228,7 @@ block content
                 h5.mb-0
                     button.btn.text-white.d-flex.font-weight-bold(data-toggle='collapse' data-target=`#collapseResource` aria-expanded='false' aria-controls=`collapseResource`)
                         |Resources Statistics
-                a.btn.btn-light.ml-auto.reportGenerationBtn(data-report-id='resource-statistics') Generate Resource Report
+                a.btn.btn-light.ml-auto.reportGenerationBtn(data-report-id='resource-statistics') Generate Resources Report
 
             .collapse(id=`collapseResource` aria-labelledby='resourceStatsCard' data-parent='#accordion')
                 .card-body#resource-statistics-table

@@ -1,14 +1,19 @@
+//models to use
 const User = require('./../models/UserModel');
+//factory methods to manage models
+const factory = require('./HandlerFactory');
+//utils of the application
 const catchAsync = require('./../utils/CatchAsync');
 const AppError = require('./../utils/AppError');
-const factory = require('./HandlerFactory');
 const Email = require('./../utils/Email');
 
+//filter object method with the filed
 const filterObj = (obj, ...allowedFields) => {
   const newObj = {};
   Object.keys(obj).forEach(el => {
     if (allowedFields.includes(el)) newObj[el] = obj[el];
   });
+  //return new obecjt
   return newObj;
 };
 
@@ -18,6 +23,7 @@ exports.getMe = (req, res, next) => {
   next();
 };
 
+//funtion to update personal account (not password)
 exports.updateMe = catchAsync(async (req, res, next) => {
   //1 crfeate error if user post password
   if (req.body.password || req.body.passwordConfirm) {
@@ -38,11 +44,13 @@ exports.updateMe = catchAsync(async (req, res, next) => {
     'phoneNumber'
   );
 
+  //update the4 user by id and attributes
   const updatedUser = await User.findByIdAndUpdate(req.user.id, filteredBody, {
     new: true,
     runValidators: true
   });
 
+  //response
   res.status(200).json({
     status: 'success',
     data: {
@@ -51,19 +59,25 @@ exports.updateMe = catchAsync(async (req, res, next) => {
   });
 });
 
+//delete personal accoutn fucntion
 exports.deleteMe = catchAsync(async (req, res, next) => {
+  //set accoputn as inactive
   await User.findByIdAndUpdate(req.user.id, { active: false });
 
+  //response
   res.status(204).json({
     statu: 'sucess',
     data: null
   });
 });
 
-// These functional are only accessible to administrators
-exports.getUser = factory.getOne(User, null, '+active');
-exports.getAllUsers = factory.getAll(User, '+active');
+//get user by id
+exports.getUser = factory.getOne(User);
+//get all users
+exports.getAllUsers = factory.getAll(User);
+//update user by admin
 exports.updateUser = catchAsync(async (req, res, next) => {
+  //do not allow update pasword
   if (req.body.password || req.body.passwordConfirm) {
     return next(
       new AppError('Administrator cannot update other user password.', 400)
@@ -82,15 +96,18 @@ exports.updateUser = catchAsync(async (req, res, next) => {
     'testUser'
   );
 
+  //update user with no validation
   const user = await User.findByIdAndUpdate(req.params.id, filteredBody, {
     new: true,
     runValidators: true
   }).select('+active');
 
+  //user not updated
   if (!user) {
     return next(new AppError('No user found with that ID', 404));
   }
 
+  //response
   res.status(200).json({
     status: 'success',
     data: {
@@ -98,11 +115,15 @@ exports.updateUser = catchAsync(async (req, res, next) => {
     }
   });
 });
+//delete user by id
 exports.deleteUser = factory.deleteOne(User);
 
+//send notification user for team-maintenace
 exports.sendNotificationUser = catchAsync(async (req, res, next) => {
+  //check type notification
   const { type } = req.params;
 
+  //if it is to change password
   if (type === 'passwordChange') {
     //Users who have not changed their password in the last 2 months
     let users = await User.find({
@@ -111,13 +132,14 @@ exports.sendNotificationUser = catchAsync(async (req, res, next) => {
       }
     });
 
+    //if there is users to change password
     if (users) {
       const homeURL = `${req.protocol}://${req.get('host')}/`;
 
       if (process.env.NODE_ENV.trim() === 'development' && users.length > 2) {
         users = users.slice(0, 2);
       }
-
+      //emaill all users
       users.forEach(async elementUser => {
         await new Email(elementUser, homeURL).sendNotificationChangePassword();
       });
@@ -229,7 +251,7 @@ exports.getUserStats = catchAsync(async (req, res, next) => {
     }
   ];
 
-  const statsUserList = await factory.getAggregationStats(
+  const statsUserList = await factory.getAggregationStatsArray(
     User,
     baseArrayAggregate,
     totalBaseArrayAggregate

@@ -1,31 +1,37 @@
+//require modules to use int the schema
 const mongoose = require('mongoose');
 const slugify = require('slugify');
-// const User = require('./UserModel');
-const Forum = require('./ForumModel');
 const Comment = require('./CommentModel');
 
+//create topic mongoose schema
 const topicSchema = mongoose.Schema(
   {
+    //add title attribute of the topic
     title: {
       type: String,
       required: true
     },
+    //description of the topic
     description: {
       type: String
     },
+    //creation date of the object
     createdAt: {
       type: Date,
       required: true,
       default: Date.now(),
       immutable: true
     },
+    //slug of the object to display in the front-end
     slug: String,
+    //user who created the topic
     user: {
       type: mongoose.Schema.ObjectId,
       ref: 'User',
       required: [true, 'topic must belong to a user'],
       immutable: true
     },
+    //forum which the topic belongs
     forum: {
       type: mongoose.Schema.ObjectId,
       ref: 'Forum',
@@ -33,14 +39,17 @@ const topicSchema = mongoose.Schema(
       immutable: true
     }
   },
+  //allow convertion for virtual attributes
   {
     toJSON: { virtuals: true },
     toObject: { virtuals: true }
   }
 );
 
+//add unique topic with the title and fourm
 topicSchema.index({ title: 1, forum: 1 }, { unique: true });
 
+//populate the topic each time it is found with the user names and role and forum data
 topicSchema.pre(/^find/, function(next) {
   this.populate({
     path: 'user',
@@ -52,15 +61,15 @@ topicSchema.pre(/^find/, function(next) {
   next();
 });
 
+//create virtual attribute of the comments in the topic
 topicSchema.virtual('comments', {
   ref: 'Comment',
   foreignField: 'topic',
   localField: '_id'
 });
 
+//create unique slug with the title and fourm id
 topicSchema.pre('save', async function(next) {
-  // const forum = await Forum.findById(this.forum);
-
   this.slug = slugify(`${this.title} ${this.forum} topic`, {
     remove: null,
     lower: true
@@ -68,18 +77,14 @@ topicSchema.pre('save', async function(next) {
   next();
 });
 
-//Remove all comments in the topics
+//Remove all comments in the topics as cascade
 topicSchema.pre('remove', async function(next) {
   await Comment.remove({ topic: this._id });
   next();
 });
 
-// topicSchema.pre('save', function(next) {
-//   if (this.isNew) return next();
-
-//   if (this.isModified('user') || this.isModified('forum')) return next();
-// });x
-
+//create collection in the db from the schema
 const Topic = mongoose.model('Topic', topicSchema);
 
+//export the model to manage the data in the collection
 module.exports = Topic;

@@ -1,23 +1,32 @@
+//Model to implement the
 const Article = require('./../models/ArticleModel');
 const User = require('./../models/UserModel');
+//Factory to manage models
+const factory = require('./HandlerFactory');
+//utilities in the system
 const catchAsync = require('./../utils/CatchAsync');
 const AppError = require('./../utils/AppError');
-const factory = require('./HandlerFactory');
 const APIFeatures = require('./../utils/ApiFeatures');
 const Email = require('./../utils/Email');
 
+//set the user id for store the user in the model
 exports.setUserId = (req, res, next) => {
   //Allows nested routes
   if (!req.body.user) req.body.user = req.user.id;
   next();
 };
 
+//get an article by its unique slug
 exports.getArticleSlug = catchAsync(async (req, res, next) => {
+  //get the article by query by slugs
   const article = await Article.findOne({ slug: req.params.slug });
+
+  //return error when there is not article
   if (!article) {
     return next(new AppError('No Forum found with that name', 404));
   }
 
+  //successful respond with the whole article
   res.status(200).json({
     status: 'success',
     data: {
@@ -26,10 +35,9 @@ exports.getArticleSlug = catchAsync(async (req, res, next) => {
   });
 });
 
+//function to get all article that their type is Announcements
 exports.getAllAnnouncements = catchAsync(async (req, res, next) => {
-  // to allow for nested get review on tours
-
-  //Execute query
+  //Execute query by allowing query option from the url, type = announcement
   const features = new APIFeatures(
     Article.find({ type: 'Announcements' }),
     req.query
@@ -39,81 +47,84 @@ exports.getAllAnnouncements = catchAsync(async (req, res, next) => {
     .limitFields()
     .pagination();
 
-  const doc = await features.query;
-
-  //const doc = await features.query.explain();
+  //get announcements from the query
+  const announcements = await features.query;
 
   //Send responce
   res.status(200).json({
     status: 'success',
-    results: doc.length,
+    results: announcements.length,
     data: {
-      data: doc
+      data: announcements
     }
   });
 });
 
+//get all article which their type is 'news'
 exports.getAllNews = catchAsync(async (req, res, next) => {
-  // to allow for nested get review on tours
-
-  //Execute query
+  //Execute query with type = news and allow url query
   const features = new APIFeatures(Article.find({ type: 'News' }), req.query)
     .filter()
     .sort()
     .limitFields()
     .pagination();
 
-  const doc = await features.query;
-
-  //const doc = await features.query.explain();
+  //get the news from the query
+  const news = await features.query;
 
   //Send responce
   res.status(200).json({
     status: 'success',
-    results: doc.length,
+    results: news.length,
     data: {
-      data: doc
+      data: news
     }
   });
 });
 
+//Get number of article by type
 exports.getArticleType = catchAsync(async (req, res, next) => {
-  const stats = await Article.aggregate([
-    // {
-    //   $match: { type: 'news' }
-    // },
+  //aggregare the article by grouping its ypes and cound the number
+  const articleTypeNumbers = await Article.aggregate([
     {
       $group: {
         _id: '$type',
         typeTotal: { $sum: 1 }
       }
     }
-    // ,
-    // {
-    //   $sort: { avgPrice: 1 }
-    // }
   ]);
 
+  //respos with json object
   res.status(200).json({
     status: 'success',
-    data: stats
+    data: articleTypeNumbers
   });
 });
 
+//get all articles
 exports.getAllArticles = factory.getAll(Article);
+//get article by its id
 exports.getArticle = factory.getOne(Article);
+//create an article
 exports.createArticle = catchAsync(async (req, res, next) => {
+  //set the user
   req.body.data.user = req.body.user;
 
+  //create the article with the body of the data
   const data = await Article.create(req.body.data);
 
+  //if the type is annoucnement
   if (data.type === 'Announcements') {
+    //get all roles that the user selected
     const { arrayRoleEmails } = req.body;
 
+    //check if ther is 1 or more roles to send email
     if (arrayRoleEmails.length > 0) {
+      //attribute to query by role
       let queryRole;
       //is user select allocate all roles
       if (arrayRoleEmails.includes('all')) {
+        //all roles, except team-maintenance
         queryRole = {
           $and: [
             {
@@ -122,36 +133,43 @@ exports.createArticle = catchAsync(async (req, res, next) => {
             { testUser: { $ne: true } }
           ]
         };
+        //when all is not selected
       } else {
+        //array with the roles selected
         const roles = [];
+        //inser the roles selecte into the array
         arrayRoleEmails.forEach(element => {
           roles.push({ role: element });
         });
+        //query stateme with the role selected
         queryRole = {
           $and: [{ $or: roles }, { testUser: { $ne: true } }]
         };
       }
 
+      //get users by the query above with the selected roles by the user
       let users = await User.find(queryRole);
 
-      // if (users.data.status === 'success') {
+      //if there is more tha  1 users found
       if (users) {
+        //rul to access announcements
         const announcementURL = `${req.protocol}://${req.get(
           'host'
         )}/announcements`;
 
+        //case development wo send only two email
         if (process.env.NODE_ENV.trim() === 'development' && users.length > 2) {
           users = users.slice(0, 2);
         }
-
+        //iterate through all users foudn with those rols to send the email
         users.forEach(async elementUser => {
           await new Email(elementUser, announcementURL).sendAnnouncement(data);
         });
       }
     }
   }
-  // console.log(req.body);
 
+  //respounse with the object
   res.status(201).json({
     status: 'success',
     data: {
@@ -159,10 +177,15 @@ exports.createArticle = catchAsync(async (req, res, next) => {
     }
   });
 });
+
+//update the article by id
 exports.updateArticle = factory.updateOne(Article);
+//delete the article by id
 exports.deleteArticle = factory.deleteOne(Article);
 
+//get statistics of the article
 exports.getArticleStats = catchAsync(async (req, res, next) => {
+  //array to aggergate by each required month, grouping by type
   const baseArrayAggregate = [
     {
       $project: {
@@ -177,6 +200,7 @@ exports.getArticleStats = catchAsync(async (req, res, next) => {
     }
   ];
 
+  //total number of the articles
   const totalBaseArrayAggregate = [
     {
       $group: {
@@ -186,12 +210,14 @@ exports.getArticleStats = catchAsync(async (req, res, next) => {
     }
   ];
 
-  const statsArticleList = await factory.getAggregationStats(
+  //get an array with the statistics from the factory method
+  const statsArticleList = await factory.getAggregationStatsArray(
     Article,
     baseArrayAggregate,
     totalBaseArrayAggregate
   );
 
+  //send statistics
   res.status(200).json({
     status: 'success',
     data: {

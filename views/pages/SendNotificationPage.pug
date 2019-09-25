@@ -5,10 +5,11 @@ block content
 
     h2 Send Notifications
 
-    h3 Change Password
-    div
-        p.text-muted Notifies all users who have not changed theire password in the last 2 months. 
-        button.btn.btn-primary#sendNotificationChangePasswordBtn(data-element-type="passwordChange") Email Change Password Notification
+    if user.role == 'team-maintenance'
+        h3 Change Password
+        div
+            p.text-muted Notifies all users who have not changed their passwords in the last 2 months. 
+            button.btn.btn-primary#sendNotificationChangePasswordBtn(data-element-type="passwordChange") Email Change Password Notification
     
     h3 Email Notification
     form#sendNotificationFromMaintenanceForm

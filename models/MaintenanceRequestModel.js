@@ -1,35 +1,37 @@
+//require Node.js modules to use in the schema
 const mongoose = require('mongoose');
-//const User = require('./UserModel');
 
+//create a mongoose schema object
 const mainRequestSchema = mongoose.Schema({
+  //subject attribute in the object with title
   subject: {
     type: String,
     required: true
   },
+  //description attribute in the object with the content
   description: {
     type: String,
     required: true
   },
+  //status of the maintenance request
   status: {
     type: String,
     enum: ['Completed', 'Pending', 'Rejected'],
     default: 'Pending'
   },
+  //resolved message to the user who created
   resolvedMessage: { type: String, select: true },
+  //when the object was created
   createdAt: {
     type: Date,
     required: true,
     default: Date.now()
   },
+  //when the maintenance request was resolved
   resolvedAt: {
     type: Date
-    // validate: {
-    //   validator: function(el) {
-    //     return el > this.createdAt;
-    //   },
-    //   message: "Request can't be resolved before its creation"
-    // }
   },
+  //user who created the request
   user: {
     type: mongoose.Schema.ObjectId,
     ref: 'User',
@@ -37,6 +39,7 @@ const mainRequestSchema = mongoose.Schema({
   }
 });
 
+//populate the users with their names and roles
 mainRequestSchema.pre(/^find/, function(next) {
   this.populate({
     path: 'user',
@@ -45,6 +48,8 @@ mainRequestSchema.pre(/^find/, function(next) {
   next();
 });
 
-const mainRequest = mongoose.model('mainRequest', mainRequestSchema);
+//add shcema in the mongodb
+const MainRequest = mongoose.model('MainRequest', mainRequestSchema);
 
-module.exports = mainRequest;
+//export the model to manage the collection data
+module.exports = MainRequest;

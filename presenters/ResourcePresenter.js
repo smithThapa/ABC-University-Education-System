@@ -1,15 +1,19 @@
+/* eslint-disable no-unused-vars */
+//Node.js modules to user
 const mongoose = require('mongoose');
 const GridFsStorage = require('multer-gridfs-storage');
 const multer = require('multer');
 const crypto = require('crypto');
 const moment = require('moment');
-
+//models to users
+const Resource = require('../models/ResourceModel');
+//factory to manage the module
+const factory = require('./HandlerFactory');
+//util of the application
 const catchAsync = require('./../utils/CatchAsync');
 const AppError = require('./../utils/AppError');
-const Resource = require('../models/ResourceModel');
 
-const factory = require('./HandlerFactory');
-
+//get DB connection
 const DB = process.env.DATABASE.replace(
   '<PASSWORD>',
   process.env.DATABASE_PASSWORD
@@ -19,12 +23,10 @@ const DB = process.env.DATABASE.replace(
 const connection = mongoose.connection.on('error', err => {
   return new AppError(err.message, 404);
 });
-// mongoose.createConnection(DB, {
-//   useNewUrlParser: true
-// });
 
 // init gridfsBucket
 let gridfsBucket;
+//connect to the datase and assign gridfsBucket to upload collections
 connection.once('open', () => {
   // init stream
   gridfsBucket = new mongoose.mongo.GridFSBucket(connection.db, {
@@ -52,22 +54,16 @@ const storage = new GridFsStorage({
   }
 });
 
+//middleware to store the files with multre
 const uploadMulter = multer({
   storage
 });
 
 exports.resources = catchAsync(async (req, res, next) => {
-  // const userFilesIds = [];
-  // const docs = await Resource.find({ userId: req.user.id });
-
-  // if (docs) {
-  //   docs.forEach(doc => {
-  //     userFilesIds.push(doc.fileId);
-  //   });
-  // }
-
+  //get all resources
   const files = await gridfsBucket.find().toArray();
-  // check if files
+
+  // check if files and the url com from the manage_resources
   if (
     (!files || files.length === 0) &&
     req._parsedOriginalUrl.pathname.startsWith('/manage_resources')
@@ -75,15 +71,18 @@ exports.resources = catchAsync(async (req, res, next) => {
     return res.render('ResourceListView', {
       files: false
     });
-  }
+  } //if the request comes from the rsoirce url
   if (!files || files.length === 0) {
     return res.render('ResourceView', {
       files: false
     });
   }
 
+  //wait all the files
   await Promise.all(
+    //iterate thorugh all files
     files.map(async file => {
+      //f the file iks an image, asign the attribute to image
       if (
         file.contentType === 'image/png' ||
         file.contentType === 'image/jpeg'
@@ -93,6 +92,7 @@ exports.resources = catchAsync(async (req, res, next) => {
         file.isImage = false;
       }
 
+      //get the file from the resource model and asign the user in the file object
       const resource = await Resource.findOne({ fileId: file._id });
       if (resource) {
         file.user = resource.userId;
@@ -100,87 +100,34 @@ exports.resources = catchAsync(async (req, res, next) => {
     })
   );
 
+  //response to manage_resources url
   if (req._parsedOriginalUrl.pathname === '/manage_resources') {
     return res.render('ResourceListView', {
       files: files,
       user: req.user
-      // userFilesIds
     });
   }
+  //response to resources url
   return res.render('ResourceView', {
     files: files,
     user: req.user
     // userFilesIds
   });
-
-  // Resource.find({ userId: req.user.id }, (err, docs) => {
-  //   docs.forEach(doc => {
-  //     userFilesIds.push(doc.fileId);
-  //   });
-
-  //   gridfsBucket
-  //     .find()
-  //     .toArray((error, files) => {
-  //       // check if files
-  //       if (
-  //         (!files || files.length === 0) &&
-  //         req._parsedOriginalUrl.pathname.startsWith('/manage_resources')
-  //       ) {
-  //         return res.render('ResourceListView', {
-  //           files: false
-  //         });
-  //       }
-  //       if (!files || files.length === 0) {
-  //         return res.render('ResourceView', {
-  //           files: false
-  //         });
-  //       }
-  //       // eslint-disable-next-line array-callback-return
-  //       files.map(file => {
-  //         if (
-  //           file.contentType === 'image/png' ||
-  //           file.contentType === 'image/jpeg'
-  //         ) {
-  //           file.isImage = true;
-  //         } else {
-  //           file.isImage = false;
-  //         }
-
-  //         Resource.where({ fileId: file._id }).findOne((error2, resource) => {
-  //           if (resource) console.log('hola');
-  //         });
-
-  //         // file.user = resource.userId;
-  //       });
-  //     })
-  //     .exec((error, files) => {
-  //       if (req._parsedOriginalUrl.pathname === '/manage_resources') {
-  //         return res.render('ResourceListView', {
-  //           files: files,
-  //           user: req.user,
-  //           userFilesIds
-  //         });
-  //       }
-  //       console.log(files);
-  //       return res.render('ResourceView', {
-  //         files: files,
-  //         user: req.user,
-  //         userFilesIds
-  //       });
-  //     });
-  // });
 });
 
+//upload the file with multer middleare
 exports.uploadMulterMiddle = uploadMulter.single('file');
 
+//function to upload the file
 exports.upload = (req, res) => {
   try {
+    //create the respoorce record in the database to connect file and user
     Resource.create({
       fileId: req.file.id,
       userId: req.user.id
     });
 
-    // console.log(req);
+    //is the url to retrun the the right one
     if (req.baseUrl.startsWith('/manage_resources'))
       res.redirect('/manage_resources');
     else res.redirect('/resources');
@@ -189,6 +136,7 @@ exports.upload = (req, res) => {
   }
 };
 
+//get the file from the gridfsBucket
 exports.files = (req, res) => {
   gridfsBucket.find().toArray((err, files) => {
     // check if files
@@ -197,12 +145,14 @@ exports.files = (req, res) => {
         err: 'no files exist'
       });
     }
-
+    //response as json
     return res.json(files);
   });
 };
 
+//get file
 exports.getFile = catchAsync(async (req, res, next) => {
+  //query by the filename
   const files = await gridfsBucket
     .find({
       filename: req.params.filename
@@ -214,11 +164,13 @@ exports.getFile = catchAsync(async (req, res, next) => {
       err: 'no files exist'
     });
   }
+  //open stream to download
   gridfsBucket.openDownloadStreamByName(req.params.filename).pipe(res);
 });
 
+//case the file is object
 exports.getImage = (req, res) => {
-  // console.log('id', req.params.id)
+  //query files
   gridfsBucket
     .find({
       filename: req.params.filename
@@ -229,28 +181,32 @@ exports.getImage = (req, res) => {
           err: 'no files exist'
         });
       }
+      //open stream to download
       gridfsBucket.openDownloadStreamByName(req.params.filename).pipe(res);
     });
 };
 
+//delete the dile
 exports.deleteFile = catchAsync(async (req, res, next) => {
+  //get the id
   const id = mongoose.Types.ObjectId(req.params.id);
   // eslint-disable-next-line no-unused-vars
   await gridfsBucket.delete(id, (err, data) => {
     if (err) return res.status(404).json({ err: err.message });
   });
 
-  //delete file from resources
+  //delete file from resources (reduce wrong data)
   await Resource.findOneAndDelete({ fileId: id }, (err, data) => {
     if (err) return res.status(404).json({ err: err.message });
   });
 
+  //redirect user to the right url
   if (req.baseUrl.startsWith('/manage_resources'))
     res.redirect('/manage_resources');
   else res.redirect('/resources');
 });
 
-// Accepts the array and key
+// Accepts the array and key to group the array by the keys
 const groupBy = (array, key) => {
   // Return the end result
   return array.reduce((result, currentValue) => {
@@ -263,13 +219,19 @@ const groupBy = (array, key) => {
   }, {}); // empty object is the initial value for result object
 };
 
+//get resource stats
 exports.getResourceStats = catchAsync(async (req, res, next) => {
+  //empty array to return
   const arrayList = [];
 
+  //months to query
   const arrayMonths = [1, 2, 3, 6, 12];
 
+  //await all months first
   await Promise.all(
+    //iterate over all motnhs
     arrayMonths.map(async month => {
+      //get the data of the first date of the month to query
       const dateQuery = moment()
         .startOf('month')
         .subtract(month - 1, 'months')
@@ -282,13 +244,14 @@ exports.getResourceStats = catchAsync(async (req, res, next) => {
         })
         .toArray();
 
-      // group by the type
+      // group by the type the array
       const resourceStatsGroup = groupBy(statsResourceList, 'contentType');
 
       //get stats of the array by _id and the total number of resource
       const monthArray = [];
       // eslint-disable-next-line no-restricted-syntax
       for (const key in resourceStatsGroup) {
+        // eslint-disable-next-line no-prototype-builtins
         if (resourceStatsGroup.hasOwnProperty(key)) {
           //push object
           const objectType = {
@@ -299,16 +262,18 @@ exports.getResourceStats = catchAsync(async (req, res, next) => {
         }
       }
 
+      //array of each month
       const baseMonthArray = [
         `${month.toString().length === 1 ? `0${month}` : month} Months`,
         monthArray,
         [{ _id: 'Resources', totalNumResources: statsResourceList.length }]
       ];
-
+      //ad the array to the array to return
       arrayList.push(baseMonthArray);
     })
   );
 
+  //sort array before add total
   arrayList.sort();
 
   // get total values of all
@@ -322,6 +287,7 @@ exports.getResourceStats = catchAsync(async (req, res, next) => {
   const arrayTotal = [];
   // eslint-disable-next-line no-restricted-syntax
   for (const key in resourceStatsGroup) {
+    // eslint-disable-next-line no-prototype-builtins
     if (resourceStatsGroup.hasOwnProperty(key)) {
       //push object
       const objectType = {
@@ -332,16 +298,20 @@ exports.getResourceStats = catchAsync(async (req, res, next) => {
     }
   }
 
+  //total array with all values
   const totalMonthArray = [
     `Total`,
     arrayTotal,
     [{ _id: 'Resources', totalNumResources: statsResourceList.length }]
   ];
 
+  //psuh the total to the end of the arra
   arrayList.push(totalMonthArray);
 
+  //standar the array to avoid missing data
   const statsArrayStandard = factory.standardAggregationArrayExports(arrayList);
 
+  //response
   res.status(200).json({
     status: 'success',
     data: {

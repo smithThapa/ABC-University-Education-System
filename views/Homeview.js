@@ -9,10 +9,11 @@ const AppError = require('./../utils/AppError');
 exports.getLoginPage = async function(req, res, next) {
   if (res.locals.user) {
     res.redirect('/home');
+  } else {
+    res.status(200).render('LoginView', {
+      title: 'Login'
+    });
   }
-  res.status(200).render('LoginView', {
-    title: 'Login'
-  });
 };
 
 exports.getHomePage = async function(req, res, next) {

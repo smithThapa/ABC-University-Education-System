@@ -8296,15 +8296,18 @@ var hideAlert = function hideAlert() {
   if (el) {
     el.parentElement.removeChild(el);
   }
-}; //typer either 'sucess' or 'fail'
-
+};
 
 exports.hideAlert = hideAlert;
 
 var showAlert = function showAlert(type, strongMsg, msg) {
-  hideAlert();
-  var markup = "\n  <div class=\"alert alert-".concat(type, " alert-dismissible fade show text-center\" role=\"alert\">\n    <strong>").concat(strongMsg, "</strong> ").concat(msg, "\n    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">\n      <span aria-hidden=\"true\">&times;</span>\n    </button>\n  </div>");
-  document.querySelector('body').insertAdjacentHTML('afterbegin', markup);
+  //hide all alers
+  hideAlert(); //make up html with the alert
+
+  var markup = "\n  <div class=\"alert alert-".concat(type, " alert-dismissible fade show text-center\" role=\"alert\">\n    <strong>").concat(strongMsg, "</strong> ").concat(msg, "\n    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">\n      <span aria-hidden=\"true\">&times;</span>\n    </button>\n  </div>"); //insert html
+
+  document.querySelector('body').insertAdjacentHTML('afterbegin', markup); //set timeout to hide alert
+
   window.setTimeout(hideAlert, 5000);
 };
 
@@ -8315,7 +8318,7 @@ exports.showAlert = showAlert;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.logout = exports.login = void 0;
+exports.logoutAs = exports.logout = exports.login = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
 
@@ -8351,41 +8354,41 @@ function () {
 
           case 3:
             res = _context.sent;
+            console.log(res.data.status); //successful response
 
-            // console.log(res.data);
-            if (res.data.status == 'success') {
-              if (res.data.status === 'success') {
-                (0, _alerts.showAlert)('success', 'Logged in successfully!', 'Now you can access to all available features of ABC University');
-                window.setTimeout(function () {
-                  location.assign('/home');
-                }, 1000);
-              } // window.setTimeout(() => {
-              //   location.assign('/home');
-              // }, 1500);
+            if (res.data.status === 'success') {
+              //move top
+              window.scrollTo(0, 0);
+              (0, _alerts.showAlert)('success', 'Logged in successfully!', 'Now you can access to all available features of ABC University'); //move to home
 
+              window.setTimeout(function () {
+                location.assign('/home');
+              }, 1000);
             }
 
-            _context.next = 10;
+            _context.next = 12;
             break;
 
-          case 7:
-            _context.prev = 7;
+          case 8:
+            _context.prev = 8;
             _context.t0 = _context["catch"](0);
             // console.log(err.response.data);
+            window.scrollTo(0, 0);
             (0, _alerts.showAlert)('danger', 'Logged in failed!', _context.t0.response.data.message);
 
-          case 10:
+          case 12:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 7]]);
+    }, _callee, null, [[0, 8]]);
   }));
 
   return function login(_x, _x2) {
     return _ref.apply(this, arguments);
   };
-}();
+}(); //log out method to exit the app
+
 
 exports.login = login;
 
@@ -8410,22 +8413,27 @@ function () {
           case 3:
             res = _context2.sent;
 
+            //successful response
             if (res.data.status === 'success') {
-              (0, _alerts.showAlert)('info', 'Sucessfully log out!', 'Thank you for using ABC University Education System');
+              //move topic
+              window.scrollTo(0, 0);
+              (0, _alerts.showAlert)('info', 'Sucessfully log out!', 'Thank you for using ABC University Education System'); //return login page
+
               window.setTimeout(function () {
                 location.assign('/');
               }, 1000);
             }
 
-            _context2.next = 10;
+            _context2.next = 11;
             break;
 
           case 7:
             _context2.prev = 7;
             _context2.t0 = _context2["catch"](0);
-            (0, _alerts.showAlert)('error', 'Error loggin out! Try again!');
+            window.scrollTo(0, 0);
+            (0, _alerts.showAlert)('error', 'Error loggin out! Try again!', _context2.t0.response.data.message);
 
-          case 10:
+          case 11:
           case "end":
             return _context2.stop();
         }
@@ -8436,9 +8444,66 @@ function () {
   return function logout() {
     return _ref2.apply(this, arguments);
   };
-}();
+}(); //log out method to exit the app
+
 
 exports.logout = logout;
+
+var logoutAs =
+/*#__PURE__*/
+function () {
+  var _ref3 = _asyncToGenerator(
+  /*#__PURE__*/
+  regeneratorRuntime.mark(function _callee3() {
+    var res;
+    return regeneratorRuntime.wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            _context3.prev = 0;
+            _context3.next = 3;
+            return (0, _axios.default)({
+              method: 'GET',
+              url: 'http://127.0.0.1:8000/api/v1/users/logoutas'
+            });
+
+          case 3:
+            res = _context3.sent;
+
+            //successful response
+            if (res.data.status === 'success') {
+              //move topic
+              window.scrollTo(0, 0);
+              (0, _alerts.showAlert)('info', 'Sucessfully log out!', 'Thank you for using ABC University Education System'); //return login page
+
+              window.setTimeout(function () {
+                location.assign('/');
+              }, 1000);
+            }
+
+            _context3.next = 11;
+            break;
+
+          case 7:
+            _context3.prev = 7;
+            _context3.t0 = _context3["catch"](0);
+            window.scrollTo(0, 0);
+            (0, _alerts.showAlert)('error', 'Error loggin out! Try again!', _context3.t0.response.data.message);
+
+          case 11:
+          case "end":
+            return _context3.stop();
+        }
+      }
+    }, _callee3, null, [[0, 7]]);
+  }));
+
+  return function logoutAs() {
+    return _ref3.apply(this, arguments);
+  };
+}();
+
+exports.logoutAs = logoutAs;
 },{"axios":"../../node_modules/axios/index.js","./alerts":"alerts.js"}],"createElement.js":[function(require,module,exports) {
 "use strict";
 
@@ -8457,6 +8522,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//methods to create user
 var createUser =
 /*#__PURE__*/
 function () {
@@ -8479,9 +8545,13 @@ function () {
           case 3:
             res = _context.sent;
 
+            //successful response
             if (res.data.status === 'success') {
-              window.scrollTo(0, 0);
-              (0, _alerts.showAlert)('success', 'Created User Sucessfully!', 'An activation email has been send to the new user to active its account within 24 hours.');
+              //mode window to top
+              window.scrollTo(0, 0); //show alert
+
+              (0, _alerts.showAlert)('success', 'Created User Sucessfully!', 'An activation email has been send to the new user to active its account within 24 hours.'); //return to the previous page
+
               window.setTimeout(function () {
                 location.assign('/manage_users');
               }, 0);
@@ -8493,7 +8563,7 @@ function () {
           case 7:
             _context.prev = 7;
             _context.t0 = _context["catch"](0);
-            // console.log(err.response.data);
+            //error
             window.scrollTo(0, 0);
             (0, _alerts.showAlert)('danger', 'User was not created', _context.t0.response.data.message);
 
@@ -8508,7 +8578,8 @@ function () {
   return function createUser(_x) {
     return _ref.apply(this, arguments);
   };
-}();
+}(); //create forum
+
 
 exports.createUser = createUser;
 
@@ -8537,9 +8608,12 @@ function () {
           case 3:
             res = _context2.sent;
 
+            //successful response
             if (res.data.status === 'success') {
+              //move to top
               window.scrollTo(0, 0);
-              (0, _alerts.showAlert)('success', 'Created Forum Sucessfully!', 'This forum new is visible to all users');
+              (0, _alerts.showAlert)('success', 'Created Forum Sucessfully!', 'This forum new is visible to all users'); //return previos page
+
               window.setTimeout(function () {
                 location.assign(previousPath);
               }, 0);
@@ -8566,7 +8640,8 @@ function () {
   return function createForum(_x2, _x3, _x4) {
     return _ref2.apply(this, arguments);
   };
-}();
+}(); //create topic function
+
 
 exports.createForum = createForum;
 
@@ -8595,28 +8670,28 @@ function () {
           case 3:
             res = _context3.sent;
 
+            //successful rsponse
             if (res.data.status == 'success') {
-              if (res.data.status === 'success') {
-                window.setTimeout(function () {
-                  location.assign(previousPath);
-                }, 0);
-                window.scrollTo(0, 0);
-                (0, _alerts.showAlert)('success', 'Created Topic Sucessfully!', 'This topic new is visible to all users');
-              }
+              //move top
+              window.scrollTo(0, 0);
+              (0, _alerts.showAlert)('success', 'Created Topic Sucessfully!', 'This topic new is visible to all users'); //return previos path
+
+              window.setTimeout(function () {
+                location.assign(previousPath);
+              }, 0);
             }
 
-            _context3.next = 12;
+            _context3.next = 11;
             break;
 
           case 7:
             _context3.prev = 7;
             _context3.t0 = _context3["catch"](0);
-            // console.log(err.response.data);
-            window.scrollTo(0, 0);
-            console.log(_context3.t0);
+            window.scrollTo(0, 0); // console.log(err);
+
             (0, _alerts.showAlert)('danger', 'Topic was not created', _context3.t0.response.data.message);
 
-          case 12:
+          case 11:
           case "end":
             return _context3.stop();
         }
@@ -8627,7 +8702,8 @@ function () {
   return function createTopic(_x5, _x6, _x7, _x8) {
     return _ref3.apply(this, arguments);
   };
-}();
+}(); //create comment
+
 
 exports.createTopic = createTopic;
 
@@ -8657,9 +8733,12 @@ function () {
           case 3:
             res = _context4.sent;
 
+            //successful response
             if (res.data.status === 'success') {
+              //go top
               window.scrollTo(0, 0);
-              (0, _alerts.showAlert)('success', 'Created commnet Sucessfully!', 'Thank you for comment into this topic');
+              (0, _alerts.showAlert)('success', 'Created commnet Sucessfully!', 'Thank you for comment into this topic'); //return previos path
+
               window.setTimeout(function () {
                 location.assign(previousPath);
               }, 0);
@@ -8686,7 +8765,8 @@ function () {
   return function createComment(_x9, _x10, _x11, _x12) {
     return _ref4.apply(this, arguments);
   };
-}();
+}(); //create article
+
 
 exports.createComment = createComment;
 
@@ -8715,10 +8795,12 @@ function () {
           case 3:
             res = _context5.sent;
 
+            //successful response
             if (res.data.status === 'success') {
-              // site
+              //move top site
               window.scrollTo(0, 0);
-              (0, _alerts.showAlert)('success', "Created ".concat(data.type, " Sucessfully!"), "".concat(data.type, " is accessible to all users"));
+              (0, _alerts.showAlert)('success', "Created ".concat(data.type, " Sucessfully!"), "".concat(data.type, " is accessible to all users")); //retun previos path
+
               window.setTimeout(function () {
                 location.assign(previousPath);
               }, 0);
@@ -8745,7 +8827,8 @@ function () {
   return function createArticle(_x13, _x14, _x15) {
     return _ref5.apply(this, arguments);
   };
-}();
+}(); //create maintenanceRequests
+
 
 exports.createArticle = createArticle;
 
@@ -8774,23 +8857,27 @@ function () {
           case 3:
             res = _context6.sent;
 
+            //successful response
             if (res.data.status === 'success') {
+              //move top
               window.scrollTo(0, 0);
-              (0, _alerts.showAlert)('success', 'Maintenance Request is submitted', 'Request will be processed by the maintenance staff in the next 2-3 working days');
+              (0, _alerts.showAlert)('success', 'Maintenance Request is submitted', 'Request will be processed by the maintenance staff in the next 2-3 working days'); //retunr previos path
+
               window.setTimeout(function () {
                 location.assign('/home');
               }, 1000);
             }
 
-            _context6.next = 10;
+            _context6.next = 11;
             break;
 
           case 7:
             _context6.prev = 7;
             _context6.t0 = _context6["catch"](0);
+            window.scrollTo(0, 0);
             (0, _alerts.showAlert)('danger', 'Maintenance Request is not submitted!', _context6.t0.message);
 
-          case 10:
+          case 11:
           case "end":
             return _context6.stop();
         }
@@ -8801,7 +8888,8 @@ function () {
   return function createMaintenanceRequest(_x16, _x17) {
     return _ref6.apply(this, arguments);
   };
-}();
+}(); //method to create error report
+
 
 exports.createMaintenanceRequest = createMaintenanceRequest;
 
@@ -8827,23 +8915,27 @@ function () {
           case 3:
             res = _context7.sent;
 
+            //if successful response
             if (res.data.status === 'success') {
+              //move top
               window.scrollTo(0, 0);
-              (0, _alerts.showAlert)('success', 'Error Report is submitted!', 'This Error report will be processed by the system development team soon.');
+              (0, _alerts.showAlert)('success', 'Error Report is submitted!', 'This Error report will be processed by the system development team soon.'); //return previous page
+
               window.setTimeout(function () {
                 location.assign('/error_reports');
               }, 1000);
             }
 
-            _context7.next = 10;
+            _context7.next = 11;
             break;
 
           case 7:
             _context7.prev = 7;
             _context7.t0 = _context7["catch"](0);
+            window.scrollTo(0, 0);
             (0, _alerts.showAlert)('danger', 'Error Report is not submitted!', _context7.t0.message);
 
-          case 10:
+          case 11:
           case "end":
             return _context7.stop();
         }
@@ -8875,7 +8967,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//type is either password or data
+//edit method general to edit forum, topic
 var editElement =
 /*#__PURE__*/
 function () {
@@ -8898,26 +8990,28 @@ function () {
           case 3:
             res = _context.sent;
 
-            // console.log(data);
+            //successful response
             if (res.data.status === 'success') {
+              //move top
               window.scrollTo(0, 0);
-              (0, _alerts.showAlert)('success', "".concat(type, " updated successfully!"), '');
+              (0, _alerts.showAlert)('success', "".concat(type, " updated successfully!"), ''); //retunr previos path
+
               window.setTimeout(function () {
                 location.assign(previousPath);
               }, 0);
             }
 
-            _context.next = 12;
+            _context.next = 11;
             break;
 
           case 7:
             _context.prev = 7;
             _context.t0 = _context["catch"](0);
-            window.scrollTo(0, 0);
-            console.log(_context.t0);
+            window.scrollTo(0, 0); // console.log(err);
+
             (0, _alerts.showAlert)('error', _context.t0.response.data.message);
 
-          case 12:
+          case 11:
           case "end":
             return _context.stop();
         }
@@ -8928,7 +9022,8 @@ function () {
   return function editElement(_x, _x2, _x3, _x4) {
     return _ref.apply(this, arguments);
   };
-}();
+}(); //edit article mthod
+
 
 exports.editElement = editElement;
 
@@ -8954,27 +9049,28 @@ function () {
           case 3:
             res = _context2.sent;
 
-            // console.log(data);
+            //successful response
             if (res.data.status === 'success') {
-              console.log(res.data.data);
+              //move top
               window.scrollTo(0, 0);
-              (0, _alerts.showAlert)('success', "".concat(type, " updated successfully!"), '');
+              (0, _alerts.showAlert)('success', "".concat(type, " updated successfully!"), ''); //return previos path
+
               window.setTimeout(function () {
                 location.assign(previousPath);
               }, 0);
             }
 
-            _context2.next = 12;
+            _context2.next = 11;
             break;
 
           case 7:
             _context2.prev = 7;
             _context2.t0 = _context2["catch"](0);
-            window.scrollTo(0, 0);
-            console.log(_context2.t0);
+            window.scrollTo(0, 0); // console.log(err);
+
             (0, _alerts.showAlert)('error', _context2.t0.response.data.message);
 
-          case 12:
+          case 11:
           case "end":
             return _context2.stop();
         }
@@ -8985,7 +9081,8 @@ function () {
   return function editArticle(_x5, _x6, _x7, _x8) {
     return _ref2.apply(this, arguments);
   };
-}();
+}(); //edit user method by admin
+
 
 exports.editArticle = editArticle;
 
@@ -9011,26 +9108,28 @@ function () {
           case 3:
             res = _context3.sent;
 
-            // console.log(data);
+            //successful response
             if (res.data.status === 'success') {
+              //move top
               window.scrollTo(0, 0);
-              (0, _alerts.showAlert)('success', "User updated successfully!", '');
+              (0, _alerts.showAlert)('success', "User updated successfully!", ''); //return previos path
+
               window.setTimeout(function () {
                 location.assign('/manage_users');
               }, 0);
             }
 
-            _context3.next = 12;
+            _context3.next = 11;
             break;
 
           case 7:
             _context3.prev = 7;
             _context3.t0 = _context3["catch"](0);
-            window.scrollTo(0, 0);
-            console.log(_context3.t0);
+            window.scrollTo(0, 0); // console.log(err);
+
             (0, _alerts.showAlert)('error', _context3.t0.response.data.message);
 
-          case 12:
+          case 11:
           case "end":
             return _context3.stop();
         }
@@ -9041,7 +9140,8 @@ function () {
   return function editUser(_x9, _x10) {
     return _ref3.apply(this, arguments);
   };
-}();
+}(); //edit personal detail user (no password)
+
 
 exports.editUser = editUser;
 
@@ -9067,26 +9167,28 @@ function () {
           case 3:
             res = _context4.sent;
 
-            // console.log(data);
+            //successful response
             if (res.data.status === 'success') {
+              //move top
               window.scrollTo(0, 0);
-              (0, _alerts.showAlert)('success', "Your User Details has been successfully Updated!", 'Thank you for sharing your details with us');
+              (0, _alerts.showAlert)('success', "Your User Details has been successfully Updated!", 'Thank you for sharing your details with us'); //return previos path
+
               window.setTimeout(function () {
                 location.assign('/my_details/me');
               }, 0);
             }
 
-            _context4.next = 12;
+            _context4.next = 11;
             break;
 
           case 7:
             _context4.prev = 7;
             _context4.t0 = _context4["catch"](0);
-            window.scrollTo(0, 0);
-            console.log(_context4.t0);
+            window.scrollTo(0, 0); // console.log(err);
+
             (0, _alerts.showAlert)('error', _context4.t0.response.data.message);
 
-          case 12:
+          case 11:
           case "end":
             return _context4.stop();
         }
@@ -9097,7 +9199,8 @@ function () {
   return function editMe(_x11) {
     return _ref4.apply(this, arguments);
   };
-}();
+}(); //edit personal passowrd
+
 
 exports.editMe = editMe;
 
@@ -9123,26 +9226,28 @@ function () {
           case 3:
             res = _context5.sent;
 
-            // console.log(data);
+            //successful response
             if (res.data.status === 'success') {
+              //move top
               window.scrollTo(0, 0);
-              (0, _alerts.showAlert)('success', "Your Password has been updated!", '');
+              (0, _alerts.showAlert)('success', "Your Password has been updated!", ''); //retun to my details
+
               window.setTimeout(function () {
                 location.assign('/my_details/me');
               }, 0);
             }
 
-            _context5.next = 12;
+            _context5.next = 11;
             break;
 
           case 7:
             _context5.prev = 7;
             _context5.t0 = _context5["catch"](0);
-            window.scrollTo(0, 0);
-            console.log(_context5.t0);
+            window.scrollTo(0, 0); // console.log(err);
+
             (0, _alerts.showAlert)('error', _context5.t0.response.data.message);
 
-          case 12:
+          case 11:
           case "end":
             return _context5.stop();
         }
@@ -9153,7 +9258,8 @@ function () {
   return function editMyPassword(_x12) {
     return _ref5.apply(this, arguments);
   };
-}();
+}(); //edit maintenance Requests method
+
 
 exports.editMyPassword = editMyPassword;
 
@@ -9183,23 +9289,27 @@ function () {
           case 3:
             res = _context6.sent;
 
+            //successfully response
             if (res.data.status === 'success') {
+              //move top
               window.scrollTo(0, 0);
-              (0, _alerts.showAlert)('success', "Maintenance Request has been ".concat(status), '');
+              (0, _alerts.showAlert)('success', "Maintenance Request has been ".concat(status), ''); //move precious page
+
               window.setTimeout(function () {
                 location.assign('/manage_maintenance_requests');
               }, 1000);
             }
 
-            _context6.next = 10;
+            _context6.next = 11;
             break;
 
           case 7:
             _context6.prev = 7;
             _context6.t0 = _context6["catch"](0);
+            window.scrollTo(0, 0);
             (0, _alerts.showAlert)('danger', 'Maintenance Request is not submitted.');
 
-          case 10:
+          case 11:
           case "end":
             return _context6.stop();
         }
@@ -9231,46 +9341,53 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//delete methods to all the types
 var deleteElement =
 /*#__PURE__*/
 function () {
   var _ref = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee(id, type) {
-    var modal, res;
+    var res;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
             _context.prev = 0;
-            modal = document.getElementById("deleteModal".concat(id));
-            _context.next = 4;
+            _context.next = 3;
             return (0, _axios.default)({
               method: 'DELETE',
               url: "http://127.0.0.1:8000/api/v1/".concat(type, "s/").concat(id)
             });
 
-          case 4:
+          case 3:
             res = _context.sent;
-            window.scrollTo(0, 0);
-            (0, _alerts.showAlert)('success', "Deleted ".concat(type, " Sucessfully!"), "This ".concat(type, " will not be accessible in the system"));
-            window.location.reload();
-            _context.next = 15;
+
+            //if successful delete
+            if (response.data.status === 'success') {
+              //move top
+              window.scrollTo(0, 0);
+              (0, _alerts.showAlert)('success', "Deleted ".concat(type, " Sucessfully!"), "This ".concat(type, " will not be accessible in the system")); //reload page
+
+              window.location.reload();
+            }
+
+            _context.next = 11;
             break;
 
-          case 10:
-            _context.prev = 10;
+          case 7:
+            _context.prev = 7;
             _context.t0 = _context["catch"](0);
-            console.log(_context.t0);
+            // console.log(err);
             window.scrollTo(0, 0);
             (0, _alerts.showAlert)('danger', "".concat(type, " was not deleted"), _context.t0.response.data.message);
 
-          case 15:
+          case 11:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 10]]);
+    }, _callee, null, [[0, 7]]);
   }));
 
   return function deleteElement(_x, _x2) {
@@ -9297,6 +9414,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//method to reset paswird
 var resetPassword =
 /*#__PURE__*/
 function () {
@@ -9322,10 +9440,12 @@ function () {
           case 3:
             res = _context.sent;
 
-            // console.log('hello');
+            //successfully response
             if (res.data.status === 'success') {
+              //move top
               window.scrollTo(0, 0);
-              (0, _alerts.showAlert)('success', 'Your have successfully reset your password!', 'Now you can access all features of ABC University');
+              (0, _alerts.showAlert)('success', 'Your have successfully reset your password!', 'Now you can access all features of ABC University'); //go to home
+
               window.setTimeout(function () {
                 location.assign('/home');
               }, 0);
@@ -9352,7 +9472,8 @@ function () {
   return function resetPassword(_x, _x2, _x3) {
     return _ref.apply(this, arguments);
   };
-}();
+}(); //forgot password method
+
 
 exports.resetPassword = resetPassword;
 
@@ -9381,9 +9502,12 @@ function () {
           case 3:
             res = _context2.sent;
 
+            //successful response
             if (res.data.status === 'success') {
+              //move top
               window.scrollTo(0, 0);
-              (0, _alerts.showAlert)('success', 'Your request to your new password is success!', 'An email has been send you to reset your password within 24 hours.');
+              (0, _alerts.showAlert)('success', 'Your request to your new password is success!', 'An email has been send you to reset your password within 24 hours.'); //return login
+
               window.setTimeout(function () {
                 location.assign('/');
               }, 0);
@@ -9431,6 +9555,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//send notification method
 var sendNotification =
 /*#__PURE__*/
 function () {
@@ -9455,25 +9580,29 @@ function () {
           case 3:
             res = _context.sent;
 
+            //successful response
             if (res.data.status === 'success') {
+              //move top
               window.scrollTo(0, 0);
-              (0, _alerts.showAlert)('success', 'Notifications have been successfully sent!', '');
+              (0, _alerts.showAlert)('success', 'Notifications have been successfully sent!', ''); //retun send_notification
+
               window.setTimeout(function () {
+                //return to page
                 location.assign('/send_notifications');
               }, 1000);
             }
 
-            _context.next = 12;
+            _context.next = 11;
             break;
 
           case 7:
             _context.prev = 7;
             _context.t0 = _context["catch"](0);
-            window.scrollTo(0, 0);
-            console.log(_context.t0.message);
+            window.scrollTo(0, 0); // console.log(err.message);
+
             (0, _alerts.showAlert)('danger', 'Notifications could not be sent!', _context.t0.message);
 
-          case 12:
+          case 11:
           case "end":
             return _context.stop();
         }
@@ -9505,6 +9634,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//report generation method
 var reportGeneration =
 /*#__PURE__*/
 function () {
@@ -9529,7 +9659,9 @@ function () {
           case 3:
             res = _context.sent;
 
+            //response successful
             if (res.data.status == 'success') {
+              //open report pdf
               window.open("/report_generation/".concat(text));
             }
 
@@ -9816,8 +9948,6 @@ require("regenerator-runtime/runtime");
 
 var _login = require("./login");
 
-var _alerts = require("./alerts");
-
 var _createElement = require("./createElement");
 
 var _editElement = require("./editElement");
@@ -9830,32 +9960,510 @@ var _sendNotification = require("./sendNotification");
 
 var _reportGeneration = require("./reportGeneration");
 
-// variable
-var loginBtn = document.getElementById('submitLogin');
-var logoutBtn = document.getElementById('logoutBtn');
-var logoutAsBtn = document.getElementById('logoutAsBtn');
-var fileInput = document.getElementById('fileInput');
-var openLoginAsBtnList = document.querySelectorAll('.loginasbutton');
-var resetPasswordForm = document.getElementById('resetPasswordForm');
-var forgotPasswordForm = document.getElementById('forgotPasswordForm');
-var editMyPasswordForm = document.getElementById('editMyPasswordForm');
-var createElementForm = document.getElementById('createElementForm');
-var createArticleForm = document.getElementById('createArticleForm');
-var createUserForm = document.getElementById('createUserForm');
-var createMaintenanceRequestForm = document.getElementById('createMaintenanceRequestForm');
-var createErrorReportForm = document.getElementById('createErrorReportForm');
-var editElementForm = document.getElementById('editElementForm');
-var editArticleForm = document.getElementById('editArticleForm');
-var editUserForm = document.getElementById('editUserForm');
-var editMeForm = document.getElementById('editMeForm');
-var editMaintenanceRequestBtnList = document.querySelectorAll('.editMaintenanceRequestBtn');
-var deleteElementBtnList = document.querySelectorAll('.deleteModalBtn');
-var sendNotificationChangePasswordBtn = document.getElementById('sendNotificationChangePasswordBtn');
-var sendNotificationFromMaintenanceForm = document.getElementById('sendNotificationFromMaintenanceForm');
-var userStatisticsBtnList = document.querySelectorAll('.reportGenerationBtn');
+//----------
+// VARIABLES
+//----------
+//1: user access
+var loginBtn = document.getElementById('submitLogin'); //a
 
-if (userStatisticsBtnList) {
-  userStatisticsBtnList.forEach(function (btn) {
+var logoutBtn = document.getElementById('logoutBtn'); //b
+
+var logoutAsBtn = document.getElementById('logoutAsBtn'); //c
+//2: password related
+
+var resetPasswordForm = document.getElementById('resetPasswordForm'); //a
+
+var forgotPasswordForm = document.getElementById('forgotPasswordForm'); //b
+
+var editMyPasswordForm = document.getElementById('editMyPasswordForm'); //c
+//3: file related
+
+var fileInput = document.getElementById('fileInput'); //a
+//4: create elements
+
+var createElementForm = document.getElementById('createElementForm'); //a
+
+var createArticleForm = document.getElementById('createArticleForm'); //b
+
+var createUserForm = document.getElementById('createUserForm'); //c
+
+var createMaintenanceRequestForm = document.getElementById('createMaintenanceRequestForm'); //d
+
+var createErrorReportForm = document.getElementById('createErrorReportForm'); //e
+//5: edit elements
+
+var editElementForm = document.getElementById('editElementForm'); //a
+
+var editArticleForm = document.getElementById('editArticleForm'); //b
+
+var editUserForm = document.getElementById('editUserForm'); //c
+
+var editMeForm = document.getElementById('editMeForm'); //d
+
+var editMaintenanceRequestBtnList = document.querySelectorAll('.editMaintenanceRequestBtn'); //e
+//6: delete element
+
+var deleteElementBtnList = document.querySelectorAll('.deleteModalBtn'); //a
+//7: send notification
+
+var sendNotificationChangePasswordBtn = document.getElementById('sendNotificationChangePasswordBtn'); //a
+
+var sendNotificationFromMaintenanceForm = document.getElementById('sendNotificationFromMaintenanceForm'); //b
+//8: report generation buttons
+
+var reportGenerationBtnList = document.querySelectorAll('.reportGenerationBtn'); //a
+//1.a: Log in button starts
+
+if (loginBtn) {
+  //add event to click
+  loginBtn.addEventListener('click', function (e) {
+    e.preventDefault(); //email and password insert
+
+    var email = document.getElementById('inputEmail').value;
+    var password = document.getElementById('inputPassword').value; //send values to validate
+
+    (0, _login.login)(email, password);
+  });
+} //1.b: log out button
+
+
+if (logoutBtn) {
+  //add event to click and execute the method to logout
+  logoutBtn.addEventListener('click', _login.logout);
+} //1.c: Log out as from testing user (team-maintenance)
+
+
+if (logoutAsBtn) {
+  //add event to click and execute the method to logout and return to team-maintenance
+  logoutAsBtn.addEventListener('click', _login.logoutAs);
+} //2.a: Reset own passwird form
+
+
+if (resetPasswordForm) {
+  //add event to forum when it is submiteed
+  resetPasswordForm.addEventListener('submit', function (e) {
+    e.preventDefault(); //get the password from the user
+
+    var newPassword = document.getElementById('inputNewPassword').value;
+    var confirmPassword = document.getElementById('inputConfirmPassword').value; //get token from the forum, get from the email
+
+    var token = document.getElementById('hiddenResetToken').value; //method to reset password
+
+    (0, _passwordManagement.resetPassword)(newPassword, confirmPassword, token);
+  });
+} //2.b: forgot forum to request new password
+
+
+if (forgotPasswordForm) {
+  //add event to forum to add email and send new ptoken
+  forgotPasswordForm.addEventListener('submit', function (e) {
+    e.preventDefault(); //get email
+
+    var userEmail = document.getElementById('inputForgotUserEmail').value;
+    var resetURL = '/my_details/reset_password'; //define url
+    //send the forgot password method
+
+    (0, _passwordManagement.forgotPassword)(userEmail, resetURL);
+  });
+} //2.c: edit personal password form
+
+
+if (editMyPasswordForm) {
+  //add event to form when it is submitted
+  editMyPasswordForm.addEventListener('submit', function (e) {
+    e.preventDefault(); //new object to fill up with data
+
+    var userPasswordObj = new Object(); //add old passord, new password and confirm password
+
+    userPasswordObj.passwordCurrent = document.getElementById('inputUpdateCurrentMyPassword').value;
+    userPasswordObj.password = document.getElementById('inputUpdateNewMyPassword').value;
+    userPasswordObj.confirmPassword = document.getElementById('inputUpdateConfirmMyPassword').value; //send obejct to edit the password
+
+    (0, _editElement.editMyPassword)(userPasswordObj);
+  });
+} //3.a: file input to show filename in the input field
+
+
+if (fileInput) {
+  document.getElementById('fileInput').onchange = function () {
+    alert("Selected file: ".concat(this.value));
+  };
+} //4.a: Create element, forum, topic and comment
+
+
+if (createElementForm) {
+  //add event to all forums
+  createElementForm.addEventListener('submit', function (e) {
+    e.preventDefault(); //element type
+
+    var elementType = document.getElementById('hiddenInputCreateType').value; //user role
+
+    var userRole = document.getElementById('hiddenInputCreateUserRole').value; //case type = forum
+
+    if (elementType == 'Forum') {
+      //set element of forum and previos path to redirect
+      var title = document.getElementById('inputCreationTitle').value;
+      var type = document.getElementById('inputCreationType').value;
+      var previousPath = document.getElementById('hiddenInputCreatePath').value; //method to create forum
+
+      (0, _createElement.createForum)(title, type, previousPath);
+    } //case elementType = topic
+
+
+    if (elementType == 'Topic') {
+      //empty forumID
+      var forumId; //topic values
+
+      var _title = document.getElementById('inputCreationTitle').value;
+      var description = document.getElementById('inputCreationDescription').value; //previous path
+
+      var _previousPath = document.getElementById('hiddenInputCreatePath').value; //case role = staff
+
+      if (userRole == 'staff') {
+        //forum id from selection
+        forumId = document.getElementById('inputCreationForum').selectedOptions[0].dataset.forumId; //forums slug to redirect
+
+        var forumSlug = document.getElementById('inputCreationForum').selectedOptions[0].dataset.forumSlug; //change precious path to redirect
+
+        _previousPath += "/".concat(forumSlug, "/topics");
+      } //user has role = admin
+      else if (userRole == 'admin') {
+          //set forum Id by
+          forumId = document.getElementById('hiddenInputCreateForum').value;
+        } //method to create topic
+
+
+      (0, _createElement.createTopic)(_title, description, forumId, _previousPath);
+    } //case elementType= comment
+
+
+    if (elementType == 'Comment') {
+      //get topicId
+      var topicId = document.getElementById('hiddenInputCreateTopic').value; //get comment values
+
+      var _title2 = document.getElementById('inputCreationTitle').value;
+      var _description = document.getElementById('inputCreationDescription').value; //get precious path to redirect
+
+      var _previousPath2 = document.getElementById('hiddenInputCreatePath').value; //create comment method with the values
+
+      (0, _createElement.createComment)(_title2, _description, topicId, _previousPath2);
+    }
+  });
+} //4.b: Create Article
+
+
+if (createArticleForm) {
+  //add event to the form at submittion
+  createArticleForm.addEventListener('submit', function (e) {
+    e.preventDefault(); //get previos path
+
+    var previousPath = document.getElementById('hiddenInputCreateArticlePath').value; //empty object to fill
+
+    var article = new Object(); //add type of article, title and description
+
+    article.type = document.getElementById('hiddenInputCreateArticleType').value;
+    article.title = document.getElementById('inputCreationArticleTitle').value;
+    article.description = document.getElementById('inputCreationArticleDescription').value; //array to the roles to email announcements
+
+    var arrayRoleEmails = [];
+    var checkboxs; //checkbox varaible to check the checkbox in the html
+    //case that it is a announcement type
+
+    if (article.type == 'Announcements') {
+      //get all the checkbox
+      checkboxs = document.querySelectorAll('.form-check-input'); //add the values of checkbox in the array
+
+      checkboxs.forEach(function (e) {
+        if (e.checked) arrayRoleEmails.push(e.value);
+      });
+    } // create the article by the method
+
+
+    (0, _createElement.createArticle)(article, previousPath, arrayRoleEmails);
+  });
+} //4.c: user form creation to add new users by admin
+
+
+if (createUserForm) {
+  //add evenet to the user forum
+  createUserForm.addEventListener('submit', function (e) {
+    e.preventDefault(); //obecjt to fill with user information
+
+    var newUser = new Object(); //get first name
+
+    newUser.firstName = document.getElementById('inputCreationFirstName').value; //more tha one and capital letter in the first letter in each word
+
+    if (newUser.firstName.includes(' ')) {
+      var firstNameArray = newUser.firstName.split(' ');
+      newUser.firstName = '';
+
+      for (var i = 0; i < firstNameArray.length; i++) {
+        var element = firstNameArray[i].charAt(0).toUpperCase() + firstNameArray[i].slice(1).toLowerCase();
+        if (i == firstNameArray.length - 1) newUser.firstName += element;else newUser.firstName += element + ' ';
+      }
+    } //get last name
+
+
+    newUser.lastName = document.getElementById('inputCreationLastName').value; //more tha one and capital letter in the first letter in each word
+
+    if (newUser.lastName.includes(' ')) {
+      var lastNameArray = newUser.lastName.split(' ');
+      newUser.lastName = '';
+
+      for (var _i = 0; _i < lastNameArray.length; _i++) {
+        var _element = lastNameArray[_i].charAt(0).toUpperCase() + lastNameArray[_i].slice(1).toLowerCase();
+
+        if (_i == lastNameArray.length - 1) newUser.lastName += _element;else newUser.lastName += _element + ' ';
+      }
+    } //get email
+
+
+    newUser.email = document.getElementById('inputCreationEmailAddress').value; //get phone number
+
+    newUser.phoneNumber = document.getElementById('inputCreationPhoneNumber').value; //asign role
+
+    newUser.role = document.getElementById('inputCreationUserRole').value.toLowerCase();
+    if (newUser.role == 'team maintenance') newUser.role = 'team-maintenance'; //add major to the object
+
+    newUser.major = document.getElementById('inputCreationUserMajor').value; //url to send
+
+    newUser.resetURL = '/my_details/reset_password'; //method to create user
+
+    (0, _createElement.createUser)(newUser);
+  });
+} //4.d: Create maintenanceRequests
+
+
+if (createMaintenanceRequestForm) {
+  //add event listener to the forum to submit
+  createMaintenanceRequestForm.addEventListener('submit', function (e) {
+    e.preventDefault(); //get the subject and descripto to send in the maintenanceRequests
+
+    var subject = document.getElementById('inputSubject').value;
+    var description = document.getElementById('inputDescription').value; //create the maintenance request
+
+    (0, _createElement.createMaintenanceRequest)(subject, description);
+  });
+} //4.e: create error report
+
+
+if (createErrorReportForm) {
+  //add event to submit an error report
+  createErrorReportForm.addEventListener('submit', function (e) {
+    e.preventDefault(); //obecjt to send
+
+    var errorReport = new Object(); //get values with subject and description to send
+
+    errorReport.subject = document.getElementById('inputCreationErrorReportSubject').value;
+    errorReport.description = document.getElementById('inputCreationErrorReportDescription').value; //create error report by method
+
+    (0, _createElement.createErrorReport)(errorReport);
+  });
+} //5.a: Edit element form for forum, topic and comment
+
+
+if (editElementForm) {
+  //add event to submit forum of edit element
+  editElementForm.addEventListener('submit', function (e) {
+    e.preventDefault(); //get type, id and path of the element
+
+    var elementType = document.getElementById('hiddenInputEditionType').value;
+    var elementId = document.getElementById('hiddenInputEditionId').value;
+    var elementPath = document.getElementById('hiddenInputEditionPath').value; //get inputs
+
+    var inputs = document.querySelectorAll('.inputsEdition'); //create empty object to add the inputs
+
+    var obj = new Object(); //iterate through all inputs
+
+    inputs.forEach(function (element) {
+      //add title, descriptionnd type a
+      if (element.id === 'inputEdition1') obj.title = element.value;
+      if (element.id === 'inputEdition2') obj.description = element.value;
+      if (element.id === 'inputEdition3') obj.type = element.value;
+    }); //edit method
+
+    (0, _editElement.editElement)(obj, elementType.toLowerCase(), elementId, elementPath);
+  });
+} //5.b: edit article
+
+
+if (editArticleForm) {
+  //add event to the edit artcile form
+  editArticleForm.addEventListener('submit', function (e) {
+    e.preventDefault(); //get id, type of article and previous path to send
+
+    var elementId = document.getElementById('hiddenInputEditionArticleId').value;
+    var elementType = document.getElementById('hiddenInputEditionArticleType').value;
+    var previousPath = document.getElementById('hiddenInputEditionArticlePath').value; //create article object to populate
+
+    var article = new Object(); //get title and descripton of the article
+
+    article.title = document.getElementById('inputEditionArticleTitle').value;
+    article.description = document.getElementById('inputEditionArticleDescription').value; // edit the article
+
+    (0, _editElement.editArticle)(elementId, article, elementType, previousPath);
+  });
+} //5.c: edit the user form by the administrator
+
+
+if (editUserForm) {
+  //add event to the user to edit
+  editUserForm.addEventListener('submit', function (e) {
+    e.preventDefault(); //get user id of the user to edit
+
+    var currentUserId = document.getElementById('hiddenInputEditUserId').value; //object to edit
+
+    var editUserObj = new Object(); //get first name
+
+    editUserObj.firstName = document.getElementById('inputEditFirstName').value; //case that threr is more than one word to add capital letter in the first letter of each word
+
+    if (editUserObj.firstName.includes(' ')) {
+      var firstNameArray = editUserObj.firstName.split(' ');
+      editUserObj.firstName = '';
+
+      for (var i = 0; i < firstNameArray.length; i++) {
+        var element = firstNameArray[i].charAt(0).toUpperCase() + firstNameArray[i].slice(1).toLowerCase();
+        if (i == firstNameArray.length - 1) editUserObj.firstName += element;else editUserObj.firstName += element + ' ';
+      }
+    } //add last name
+
+
+    editUserObj.lastName = document.getElementById('inputEditLastName').value; //case that threr is more than one word to add capital letter in the first letter of each word
+
+    if (editUserObj.lastName.includes(' ')) {
+      var lastNameArray = editUserObj.lastName.split(' ');
+      editUserObj.lastName = '';
+
+      for (var _i2 = 0; _i2 < lastNameArray.length; _i2++) {
+        var _element2 = lastNameArray[_i2].charAt(0).toUpperCase() + lastNameArray[_i2].slice(1).toLowerCase();
+
+        if (_i2 == lastNameArray.length - 1) editUserObj.lastName += _element2;else editUserObj.lastName += _element2 + ' ';
+      }
+    } //add email
+
+
+    editUserObj.email = document.getElementById('inputEditEmailAddress').value; //add phoneNumber
+
+    editUserObj.phoneNumber = document.getElementById('inputEditPhoneNumber').value; //add role
+
+    editUserObj.role = document.getElementById('inputEditUserRole').value.toLowerCase();
+    if (editUserObj.role == 'team maintenance') editUserObj.role = 'team-maintenance'; //add major in the university
+
+    editUserObj.major = document.getElementById('inputEditUserMajor').value; //add active status
+
+    editUserObj.active = document.getElementById('inputEditUserActive').value == 'Yes' ? true : false; //edit method to change user status
+
+    (0, _editElement.editUser)(editUserObj, currentUserId);
+  });
+} //5.d:
+
+
+if (editMeForm) {
+  //edit personal form
+  editMeForm.addEventListener('submit', function (e) {
+    e.preventDefault(); //create empty obhect to edit own account
+
+    var currentUser = new Object(); //edit current user first name
+
+    currentUser.firstName = document.getElementById('inputDetailFirstName').value; //case that threr is more than one word to add capital letter in the first letter of each word
+
+    if (currentUser.firstName.includes(' ')) {
+      var firstNameArray = currentUser.firstName.split(' ');
+      currentUser.firstName = '';
+
+      for (var i = 0; i < firstNameArray.length; i++) {
+        var element = firstNameArray[i].charAt(0).toUpperCase() + firstNameArray[i].slice(1).toLowerCase();
+        if (i == firstNameArray.length - 1) currentUser.firstName += element;else currentUser.firstName += element + ' ';
+      }
+    } //edit current user last name
+
+
+    currentUser.lastName = document.getElementById('inputDetailLastName').value; //case that threr is more than one word to add capital letter in the first letter of each word
+
+    if (currentUser.lastName.includes(' ')) {
+      var lastNameArray = currentUser.lastName.split(' ');
+      currentUser.lastName = '';
+
+      for (var _i3 = 0; _i3 < lastNameArray.length; _i3++) {
+        var _element3 = lastNameArray[_i3].charAt(0).toUpperCase() + lastNameArray[_i3].slice(1).toLowerCase();
+
+        if (_i3 == lastNameArray.length - 1) currentUser.lastName += _element3;else currentUser.lastName += _element3 + ' ';
+      }
+    } //edit user email
+
+
+    currentUser.email = document.getElementById('inputDetailEmailAddress').value; //edit mobile phone
+
+    currentUser.phoneNumber = document.getElementById('inputDetailPhoneNumber').value; //edit user information
+
+    (0, _editElement.editMe)(currentUser);
+  });
+} //5.e: edit the maintenance request
+
+
+if (editMaintenanceRequestBtnList) {
+  //add event to all buttons
+  editMaintenanceRequestBtnList.forEach(function (btn) {
+    //event in each button
+    btn.addEventListener('click', function (e) {
+      //get dataset from the request
+      var _e$target$dataset = e.target.dataset,
+          requestId = _e$target$dataset.requestId,
+          requestStatus = _e$target$dataset.requestStatus; //get message to be sent
+
+      var resolvedMessage = document.getElementById("inputReasonMaintenance".concat(requestStatus).concat(requestId)).value; //edit the mainteance request if the message is not empty
+
+      if (resolvedMessage != '' && resolvedMessage.trim() != '') (0, _editElement.editMaintenanceRequest)(requestId, requestStatus, resolvedMessage);
+    });
+  });
+} //6.a: delete element from database
+
+
+if (deleteElementBtnList) {
+  //add function to all buttons to delete
+  deleteElementBtnList.forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      //get dataset element of id and type
+      var _e$target$dataset2 = e.target.dataset,
+          typeId = _e$target$dataset2.typeId,
+          typeType = _e$target$dataset2.typeType; //delete the element
+
+      (0, _deleteElement.deleteElement)(typeId, typeType.toLowerCase());
+    });
+  });
+} //7.a: send notification to users to change password
+
+
+if (sendNotificationChangePasswordBtn) {
+  //add event to buttins to send notification
+  sendNotificationChangePasswordBtn.addEventListener('click', function (e) {
+    //get element type by dataset
+    var elementType = e.target.dataset.elementType; //send notification to users
+
+    (0, _sendNotification.sendNotification)(elementType, {});
+  });
+} //7.b: send any message to all users
+
+
+if (sendNotificationFromMaintenanceForm) {
+  //add event to the forum to send notification
+  sendNotificationFromMaintenanceForm.addEventListener('submit', function (e) {
+    e.preventDefault(); //object to send
+
+    var notification = new Object(); //assign subject and message to notificate
+
+    notification.subject = document.getElementById('inputNoticationSubject').value;
+    notification.description = document.getElementById('inputNoticationDescription').value; //method to send notification
+
+    (0, _sendNotification.sendNotification)('emailNotificationMaintenance', notification);
+  });
+} //8.a: Report generation button list
+
+
+if (reportGenerationBtnList) {
+  //add event to all the button to generate report
+  reportGenerationBtnList.forEach(function (btn) {
+    //evenet
     btn.addEventListener('click', function (e) {
       //get the stadistic variable to generate
       var reportId = e.target.dataset.reportId; //empty variable to add card(s)
@@ -9870,336 +10478,13 @@ if (userStatisticsBtnList) {
       } // html table
 
 
-      var tableHTML = document.getElementById("".concat(reportId, "-table")).innerHTML;
+      var tableHTML = document.getElementById("".concat(reportId, "-table")).innerHTML; //use method to send data
+
       (0, _reportGeneration.reportGeneration)(reportId, cardHTML + '<br/><h3>Table</h3><br/>' + tableHTML);
     });
   });
 }
-
-if (createMaintenanceRequestForm) {
-  createMaintenanceRequestForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var subject = document.getElementById('inputSubject').value;
-    var description = document.getElementById('inputDescription').value;
-    (0, _createElement.createMaintenanceRequest)(subject, description);
-  });
-}
-
-if (fileInput) {
-  document.getElementById('fileInput').onchange = function () {
-    alert("Selected file: ".concat(this.value));
-  };
-}
-
-if (loginBtn) {
-  loginBtn.addEventListener('click', function (e) {
-    e.preventDefault();
-    var email = document.getElementById('inputEmail').value;
-    var password = document.getElementById('inputPassword').value;
-    (0, _login.login)(email, password);
-  });
-}
-
-if (logoutBtn) {
-  logoutBtn.addEventListener('click', _login.logout);
-}
-
-if (logoutAsBtn) {
-  logoutAsBtn.addEventListener('click', _login.logoutAs);
-}
-
-if (createElementForm) {
-  createElementForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var elementType = document.getElementById('hiddenInputCreateType').value;
-    var userRole = document.getElementById('hiddenInputCreateUserRole').value;
-
-    if (elementType == 'Forum') {
-      var title = document.getElementById('inputCreationTitle').value;
-      var type = document.getElementById('inputCreationType').value;
-      var previousPath = document.getElementById('hiddenInputCreatePath').value;
-      (0, _createElement.createForum)(title, type, previousPath);
-    }
-
-    if (elementType == 'Topic') {
-      var forumId;
-      var _title = document.getElementById('inputCreationTitle').value;
-      var description = document.getElementById('inputCreationDescription').value;
-      var _previousPath = document.getElementById('hiddenInputCreatePath').value;
-
-      if (userRole == 'staff') {
-        forumId = document.getElementById('inputCreationForum').selectedOptions[0].dataset.forumId;
-        var forumSlug = document.getElementById('inputCreationForum').selectedOptions[0].dataset.forumSlug;
-        _previousPath += "/".concat(forumSlug, "/topics");
-      } else {
-        forumId = document.getElementById('hiddenInputCreateForum').value;
-      }
-
-      (0, _createElement.createTopic)(_title, description, forumId, _previousPath);
-    }
-
-    if (elementType == 'Comment') {
-      var topicId = document.getElementById('hiddenInputCreateTopic').value;
-      var _title2 = document.getElementById('inputCreationTitle').value;
-      var _description = document.getElementById('inputCreationDescription').value;
-      var _previousPath2 = document.getElementById('hiddenInputCreatePath').value;
-      (0, _createElement.createComment)(_title2, _description, topicId, _previousPath2);
-    }
-  });
-}
-
-if (createArticleForm) {
-  createArticleForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var previousPath = document.getElementById('hiddenInputCreateArticlePath').value;
-    var article = new Object();
-    article.type = document.getElementById('hiddenInputCreateArticleType').value;
-    article.title = document.getElementById('inputCreationArticleTitle').value;
-    article.description = document.getElementById('inputCreationArticleDescription').value;
-    var arrayRoleEmails = [];
-    var checkboxs;
-
-    if (article.type == 'Announcements') {
-      checkboxs = document.querySelectorAll('.form-check-input');
-      checkboxs.forEach(function (e) {
-        if (e.checked) arrayRoleEmails.push(e.value);
-      });
-    } // console.log(arrayEmails, checkboxs, article, previousPath);
-
-
-    (0, _createElement.createArticle)(article, previousPath, arrayRoleEmails);
-  });
-}
-
-if (createUserForm) {
-  createUserForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var newUser = new Object();
-    newUser.firstName = document.getElementById('inputCreationFirstName').value;
-
-    if (newUser.firstName.includes(' ')) {
-      var firstNameArray = newUser.firstName.split(' ');
-      newUser.firstName = '';
-
-      for (var i = 0; i < firstNameArray.length; i++) {
-        var element = firstNameArray[i].charAt(0).toUpperCase() + firstNameArray[i].slice(1).toLowerCase();
-        if (i == firstNameArray.length - 1) newUser.firstName += element;else newUser.firstName += element + ' ';
-      }
-    }
-
-    newUser.lastName = document.getElementById('inputCreationLastName').value;
-
-    if (newUser.lastName.includes(' ')) {
-      var lastNameArray = newUser.lastName.split(' ');
-      newUser.lastName = '';
-
-      for (var _i = 0; _i < lastNameArray.length; _i++) {
-        var _element = lastNameArray[_i].charAt(0).toUpperCase() + lastNameArray[_i].slice(1).toLowerCase();
-
-        if (_i == lastNameArray.length - 1) newUser.lastName += _element;else newUser.lastName += _element + ' ';
-      }
-    }
-
-    newUser.email = document.getElementById('inputCreationEmailAddress').value;
-    newUser.phoneNumber = document.getElementById('inputCreationPhoneNumber').value;
-    newUser.role = document.getElementById('inputCreationUserRole').value.toLowerCase();
-    if (newUser.role == 'team maintenance') newUser.role = 'team-maintenance';
-    newUser.major = document.getElementById('inputCreationUserMajor').value;
-    newUser.resetURL = '/my_details/reset_password';
-    (0, _createElement.createUser)(newUser);
-  });
-}
-
-if (createErrorReportForm) {
-  createErrorReportForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var errorReport = new Object();
-    errorReport.subject = document.getElementById('inputCreationErrorReportSubject').value;
-    errorReport.description = document.getElementById('inputCreationErrorReportDescription').value;
-    (0, _createElement.createErrorReport)(errorReport);
-  });
-}
-
-if (resetPasswordForm) {
-  resetPasswordForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var newPassword = document.getElementById('inputNewPassword').value;
-    var confirmPassword = document.getElementById('inputConfirmPassword').value;
-    var token = document.getElementById('hiddenResetToken').value;
-    (0, _passwordManagement.resetPassword)(newPassword, confirmPassword, token);
-  });
-}
-
-if (forgotPasswordForm) {
-  forgotPasswordForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var userEmail = document.getElementById('inputForgotUserEmail').value;
-    var resetURL = '/my_details/reset_password';
-    (0, _passwordManagement.forgotPassword)(userEmail, resetURL);
-  });
-}
-
-if (editElementForm) {
-  editElementForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var elementType = document.getElementById('hiddenInputEditionType').value;
-    var elementId = document.getElementById('hiddenInputEditionId').value;
-    var elementPath = document.getElementById('hiddenInputEditionPath').value;
-    var inputs = document.querySelectorAll('.inputsEdition');
-    var obj = new Object();
-    inputs.forEach(function (element) {
-      if (element.id === 'inputEdition1') obj.title = element.value;
-      if (element.id === 'inputEdition2') obj.description = element.value;
-      if (element.id === 'inputEdition3') obj.type = element.value;
-    });
-    (0, _editElement.editElement)(obj, elementType.toLowerCase(), elementId, elementPath);
-  });
-}
-
-if (editArticleForm) {
-  editArticleForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var elementId = document.getElementById('hiddenInputEditionArticleId').value;
-    var elementType = document.getElementById('hiddenInputEditionArticleType').value;
-    var previousPath = document.getElementById('hiddenInputEditionArticlePath').value;
-    var article = new Object();
-    article.title = document.getElementById('inputEditionArticleTitle').value;
-    article.description = document.getElementById('inputEditionArticleDescription').value; // console.log(elementId, article, previousPath);
-
-    (0, _editElement.editArticle)(elementId, article, elementType, previousPath);
-  });
-}
-
-if (editUserForm) {
-  editUserForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var currentUserId = document.getElementById('hiddenInputEditUserId').value;
-    var editUserObj = new Object();
-    editUserObj.firstName = document.getElementById('inputEditFirstName').value;
-
-    if (editUserObj.firstName.includes(' ')) {
-      var firstNameArray = editUserObj.firstName.split(' ');
-      editUserObj.firstName = '';
-
-      for (var i = 0; i < firstNameArray.length; i++) {
-        var element = firstNameArray[i].charAt(0).toUpperCase() + firstNameArray[i].slice(1).toLowerCase();
-        if (i == firstNameArray.length - 1) editUserObj.firstName += element;else editUserObj.firstName += element + ' ';
-      }
-    }
-
-    editUserObj.lastName = document.getElementById('inputEditLastName').value;
-
-    if (editUserObj.lastName.includes(' ')) {
-      var lastNameArray = editUserObj.lastName.split(' ');
-      editUserObj.lastName = '';
-
-      for (var _i2 = 0; _i2 < lastNameArray.length; _i2++) {
-        var _element2 = lastNameArray[_i2].charAt(0).toUpperCase() + lastNameArray[_i2].slice(1).toLowerCase();
-
-        if (_i2 == lastNameArray.length - 1) editUserObj.lastName += _element2;else editUserObj.lastName += _element2 + ' ';
-      }
-    }
-
-    editUserObj.email = document.getElementById('inputEditEmailAddress').value;
-    editUserObj.phoneNumber = document.getElementById('inputEditPhoneNumber').value;
-    editUserObj.role = document.getElementById('inputEditUserRole').value.toLowerCase();
-    if (editUserObj.role == 'team maintenance') editUserObj.role = 'team-maintenance';
-    editUserObj.major = document.getElementById('inputEditUserMajor').value;
-    editUserObj.active = document.getElementById('inputEditUserActive').value == 'Yes' ? true : false;
-    console.log(currentUserId, editUserObj);
-    (0, _editElement.editUser)(editUserObj, currentUserId);
-  });
-}
-
-if (editMeForm) {
-  editMeForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var currentUser = new Object();
-    currentUser.firstName = document.getElementById('inputDetailFirstName').value;
-
-    if (currentUser.firstName.includes(' ')) {
-      var firstNameArray = currentUser.firstName.split(' ');
-      currentUser.firstName = '';
-
-      for (var i = 0; i < firstNameArray.length; i++) {
-        var element = firstNameArray[i].charAt(0).toUpperCase() + firstNameArray[i].slice(1).toLowerCase();
-        if (i == firstNameArray.length - 1) currentUser.firstName += element;else currentUser.firstName += element + ' ';
-      }
-    }
-
-    currentUser.lastName = document.getElementById('inputDetailLastName').value;
-
-    if (currentUser.lastName.includes(' ')) {
-      var lastNameArray = currentUser.lastName.split(' ');
-      currentUser.lastName = '';
-
-      for (var _i3 = 0; _i3 < lastNameArray.length; _i3++) {
-        var _element3 = lastNameArray[_i3].charAt(0).toUpperCase() + lastNameArray[_i3].slice(1).toLowerCase();
-
-        if (_i3 == lastNameArray.length - 1) currentUser.lastName += _element3;else currentUser.lastName += _element3 + ' ';
-      }
-    }
-
-    currentUser.email = document.getElementById('inputDetailEmailAddress').value;
-    currentUser.phoneNumber = document.getElementById('inputDetailPhoneNumber').value; // console.log(currentUser);
-
-    (0, _editElement.editMe)(currentUser);
-  });
-}
-
-if (editMyPasswordForm) {
-  editMyPasswordForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var userPasswordObj = new Object();
-    userPasswordObj.passwordCurrent = document.getElementById('inputUpdateCurrentMyPassword').value;
-    userPasswordObj.password = document.getElementById('inputUpdateNewMyPassword').value;
-    userPasswordObj.confirmPassword = document.getElementById('inputUpdateConfirmMyPassword').value;
-    (0, _editElement.editMyPassword)(userPasswordObj);
-  });
-}
-
-if (deleteElementBtnList) {
-  deleteElementBtnList.forEach(function (btn) {
-    btn.addEventListener('click', function (e) {
-      var _e$target$dataset = e.target.dataset,
-          typeId = _e$target$dataset.typeId,
-          typeType = _e$target$dataset.typeType; // console.log(typeId, typeType.toLowerCase());
-
-      (0, _deleteElement.deleteElement)(typeId, typeType.toLowerCase());
-    });
-  });
-}
-
-if (editMaintenanceRequestBtnList) {
-  editMaintenanceRequestBtnList.forEach(function (btn) {
-    btn.addEventListener('click', function (e) {
-      var _e$target$dataset2 = e.target.dataset,
-          requestId = _e$target$dataset2.requestId,
-          requestStatus = _e$target$dataset2.requestStatus;
-      var resolvedMessage = document.getElementById("inputReasonMaintenance".concat(requestStatus).concat(requestId)).value; // console.log(requestId, requestStatus, resolvedMessage);
-
-      if (resolvedMessage != '' && resolvedMessage.trim() != '') (0, _editElement.editMaintenanceRequest)(requestId, requestStatus, resolvedMessage);
-    });
-  });
-}
-
-if (sendNotificationChangePasswordBtn) {
-  sendNotificationChangePasswordBtn.addEventListener('click', function (e) {
-    var elementType = e.target.dataset.elementType;
-    (0, _sendNotification.sendNotification)(elementType, {});
-  });
-}
-
-if (sendNotificationFromMaintenanceForm) {
-  sendNotificationFromMaintenanceForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var notification = new Object();
-    notification.subject = document.getElementById('inputNoticationSubject').value;
-    notification.description = document.getElementById('inputNoticationDescription').value;
-    (0, _sendNotification.sendNotification)('emailNotificationMaintenance', notification);
-  });
-}
-},{"core-js/modules/es6.array.copy-within":"../../node_modules/core-js/modules/es6.array.copy-within.js","core-js/modules/es6.array.fill":"../../node_modules/core-js/modules/es6.array.fill.js","core-js/modules/es6.array.find":"../../node_modules/core-js/modules/es6.array.find.js","core-js/modules/es6.array.find-index":"../../node_modules/core-js/modules/es6.array.find-index.js","core-js/modules/es6.array.from":"../../node_modules/core-js/modules/es6.array.from.js","core-js/modules/es7.array.includes":"../../node_modules/core-js/modules/es7.array.includes.js","core-js/modules/es6.array.iterator":"../../node_modules/core-js/modules/es6.array.iterator.js","core-js/modules/es6.array.of":"../../node_modules/core-js/modules/es6.array.of.js","core-js/modules/es6.array.sort":"../../node_modules/core-js/modules/es6.array.sort.js","core-js/modules/es6.array.species":"../../node_modules/core-js/modules/es6.array.species.js","core-js/modules/es6.date.to-json":"../../node_modules/core-js/modules/es6.date.to-json.js","core-js/modules/es6.date.to-primitive":"../../node_modules/core-js/modules/es6.date.to-primitive.js","core-js/modules/es6.function.has-instance":"../../node_modules/core-js/modules/es6.function.has-instance.js","core-js/modules/es6.function.name":"../../node_modules/core-js/modules/es6.function.name.js","core-js/modules/es6.map":"../../node_modules/core-js/modules/es6.map.js","core-js/modules/es6.math.acosh":"../../node_modules/core-js/modules/es6.math.acosh.js","core-js/modules/es6.math.asinh":"../../node_modules/core-js/modules/es6.math.asinh.js","core-js/modules/es6.math.atanh":"../../node_modules/core-js/modules/es6.math.atanh.js","core-js/modules/es6.math.cbrt":"../../node_modules/core-js/modules/es6.math.cbrt.js","core-js/modules/es6.math.clz32":"../../node_modules/core-js/modules/es6.math.clz32.js","core-js/modules/es6.math.cosh":"../../node_modules/core-js/modules/es6.math.cosh.js","core-js/modules/es6.math.expm1":"../../node_modules/core-js/modules/es6.math.expm1.js","core-js/modules/es6.math.fround":"../../node_modules/core-js/modules/es6.math.fround.js","core-js/modules/es6.math.hypot":"../../node_modules/core-js/modules/es6.math.hypot.js","core-js/modules/es6.math.imul":"../../node_modules/core-js/modules/es6.math.imul.js","core-js/modules/es6.math.log1p":"../../node_modules/core-js/modules/es6.math.log1p.js","core-js/modules/es6.math.log10":"../../node_modules/core-js/modules/es6.math.log10.js","core-js/modules/es6.math.log2":"../../node_modules/core-js/modules/es6.math.log2.js","core-js/modules/es6.math.sign":"../../node_modules/core-js/modules/es6.math.sign.js","core-js/modules/es6.math.sinh":"../../node_modules/core-js/modules/es6.math.sinh.js","core-js/modules/es6.math.tanh":"../../node_modules/core-js/modules/es6.math.tanh.js","core-js/modules/es6.math.trunc":"../../node_modules/core-js/modules/es6.math.trunc.js","core-js/modules/es6.number.constructor":"../../node_modules/core-js/modules/es6.number.constructor.js","core-js/modules/es6.number.epsilon":"../../node_modules/core-js/modules/es6.number.epsilon.js","core-js/modules/es6.number.is-finite":"../../node_modules/core-js/modules/es6.number.is-finite.js","core-js/modules/es6.number.is-integer":"../../node_modules/core-js/modules/es6.number.is-integer.js","core-js/modules/es6.number.is-nan":"../../node_modules/core-js/modules/es6.number.is-nan.js","core-js/modules/es6.number.is-safe-integer":"../../node_modules/core-js/modules/es6.number.is-safe-integer.js","core-js/modules/es6.number.max-safe-integer":"../../node_modules/core-js/modules/es6.number.max-safe-integer.js","core-js/modules/es6.number.min-safe-integer":"../../node_modules/core-js/modules/es6.number.min-safe-integer.js","core-js/modules/es6.number.parse-float":"../../node_modules/core-js/modules/es6.number.parse-float.js","core-js/modules/es6.number.parse-int":"../../node_modules/core-js/modules/es6.number.parse-int.js","core-js/modules/es6.object.assign":"../../node_modules/core-js/modules/es6.object.assign.js","core-js/modules/es7.object.define-getter":"../../node_modules/core-js/modules/es7.object.define-getter.js","core-js/modules/es7.object.define-setter":"../../node_modules/core-js/modules/es7.object.define-setter.js","core-js/modules/es7.object.entries":"../../node_modules/core-js/modules/es7.object.entries.js","core-js/modules/es6.object.freeze":"../../node_modules/core-js/modules/es6.object.freeze.js","core-js/modules/es6.object.get-own-property-descriptor":"../../node_modules/core-js/modules/es6.object.get-own-property-descriptor.js","core-js/modules/es7.object.get-own-property-descriptors":"../../node_modules/core-js/modules/es7.object.get-own-property-descriptors.js","core-js/modules/es6.object.get-own-property-names":"../../node_modules/core-js/modules/es6.object.get-own-property-names.js","core-js/modules/es6.object.get-prototype-of":"../../node_modules/core-js/modules/es6.object.get-prototype-of.js","core-js/modules/es7.object.lookup-getter":"../../node_modules/core-js/modules/es7.object.lookup-getter.js","core-js/modules/es7.object.lookup-setter":"../../node_modules/core-js/modules/es7.object.lookup-setter.js","core-js/modules/es6.object.prevent-extensions":"../../node_modules/core-js/modules/es6.object.prevent-extensions.js","core-js/modules/es6.object.is":"../../node_modules/core-js/modules/es6.object.is.js","core-js/modules/es6.object.is-frozen":"../../node_modules/core-js/modules/es6.object.is-frozen.js","core-js/modules/es6.object.is-sealed":"../../node_modules/core-js/modules/es6.object.is-sealed.js","core-js/modules/es6.object.is-extensible":"../../node_modules/core-js/modules/es6.object.is-extensible.js","core-js/modules/es6.object.keys":"../../node_modules/core-js/modules/es6.object.keys.js","core-js/modules/es6.object.seal":"../../node_modules/core-js/modules/es6.object.seal.js","core-js/modules/es6.object.set-prototype-of":"../../node_modules/core-js/modules/es6.object.set-prototype-of.js","core-js/modules/es7.object.values":"../../node_modules/core-js/modules/es7.object.values.js","core-js/modules/es6.promise":"../../node_modules/core-js/modules/es6.promise.js","core-js/modules/es7.promise.finally":"../../node_modules/core-js/modules/es7.promise.finally.js","core-js/modules/es6.reflect.apply":"../../node_modules/core-js/modules/es6.reflect.apply.js","core-js/modules/es6.reflect.construct":"../../node_modules/core-js/modules/es6.reflect.construct.js","core-js/modules/es6.reflect.define-property":"../../node_modules/core-js/modules/es6.reflect.define-property.js","core-js/modules/es6.reflect.delete-property":"../../node_modules/core-js/modules/es6.reflect.delete-property.js","core-js/modules/es6.reflect.get":"../../node_modules/core-js/modules/es6.reflect.get.js","core-js/modules/es6.reflect.get-own-property-descriptor":"../../node_modules/core-js/modules/es6.reflect.get-own-property-descriptor.js","core-js/modules/es6.reflect.get-prototype-of":"../../node_modules/core-js/modules/es6.reflect.get-prototype-of.js","core-js/modules/es6.reflect.has":"../../node_modules/core-js/modules/es6.reflect.has.js","core-js/modules/es6.reflect.is-extensible":"../../node_modules/core-js/modules/es6.reflect.is-extensible.js","core-js/modules/es6.reflect.own-keys":"../../node_modules/core-js/modules/es6.reflect.own-keys.js","core-js/modules/es6.reflect.prevent-extensions":"../../node_modules/core-js/modules/es6.reflect.prevent-extensions.js","core-js/modules/es6.reflect.set":"../../node_modules/core-js/modules/es6.reflect.set.js","core-js/modules/es6.reflect.set-prototype-of":"../../node_modules/core-js/modules/es6.reflect.set-prototype-of.js","core-js/modules/es6.regexp.constructor":"../../node_modules/core-js/modules/es6.regexp.constructor.js","core-js/modules/es6.regexp.flags":"../../node_modules/core-js/modules/es6.regexp.flags.js","core-js/modules/es6.regexp.match":"../../node_modules/core-js/modules/es6.regexp.match.js","core-js/modules/es6.regexp.replace":"../../node_modules/core-js/modules/es6.regexp.replace.js","core-js/modules/es6.regexp.split":"../../node_modules/core-js/modules/es6.regexp.split.js","core-js/modules/es6.regexp.search":"../../node_modules/core-js/modules/es6.regexp.search.js","core-js/modules/es6.regexp.to-string":"../../node_modules/core-js/modules/es6.regexp.to-string.js","core-js/modules/es6.set":"../../node_modules/core-js/modules/es6.set.js","core-js/modules/es6.symbol":"../../node_modules/core-js/modules/es6.symbol.js","core-js/modules/es7.symbol.async-iterator":"../../node_modules/core-js/modules/es7.symbol.async-iterator.js","core-js/modules/es6.string.anchor":"../../node_modules/core-js/modules/es6.string.anchor.js","core-js/modules/es6.string.big":"../../node_modules/core-js/modules/es6.string.big.js","core-js/modules/es6.string.blink":"../../node_modules/core-js/modules/es6.string.blink.js","core-js/modules/es6.string.bold":"../../node_modules/core-js/modules/es6.string.bold.js","core-js/modules/es6.string.code-point-at":"../../node_modules/core-js/modules/es6.string.code-point-at.js","core-js/modules/es6.string.ends-with":"../../node_modules/core-js/modules/es6.string.ends-with.js","core-js/modules/es6.string.fixed":"../../node_modules/core-js/modules/es6.string.fixed.js","core-js/modules/es6.string.fontcolor":"../../node_modules/core-js/modules/es6.string.fontcolor.js","core-js/modules/es6.string.fontsize":"../../node_modules/core-js/modules/es6.string.fontsize.js","core-js/modules/es6.string.from-code-point":"../../node_modules/core-js/modules/es6.string.from-code-point.js","core-js/modules/es6.string.includes":"../../node_modules/core-js/modules/es6.string.includes.js","core-js/modules/es6.string.italics":"../../node_modules/core-js/modules/es6.string.italics.js","core-js/modules/es6.string.iterator":"../../node_modules/core-js/modules/es6.string.iterator.js","core-js/modules/es6.string.link":"../../node_modules/core-js/modules/es6.string.link.js","core-js/modules/es7.string.pad-start":"../../node_modules/core-js/modules/es7.string.pad-start.js","core-js/modules/es7.string.pad-end":"../../node_modules/core-js/modules/es7.string.pad-end.js","core-js/modules/es6.string.raw":"../../node_modules/core-js/modules/es6.string.raw.js","core-js/modules/es6.string.repeat":"../../node_modules/core-js/modules/es6.string.repeat.js","core-js/modules/es6.string.small":"../../node_modules/core-js/modules/es6.string.small.js","core-js/modules/es6.string.starts-with":"../../node_modules/core-js/modules/es6.string.starts-with.js","core-js/modules/es6.string.strike":"../../node_modules/core-js/modules/es6.string.strike.js","core-js/modules/es6.string.sub":"../../node_modules/core-js/modules/es6.string.sub.js","core-js/modules/es6.string.sup":"../../node_modules/core-js/modules/es6.string.sup.js","core-js/modules/es6.typed.array-buffer":"../../node_modules/core-js/modules/es6.typed.array-buffer.js","core-js/modules/es6.typed.int8-array":"../../node_modules/core-js/modules/es6.typed.int8-array.js","core-js/modules/es6.typed.uint8-array":"../../node_modules/core-js/modules/es6.typed.uint8-array.js","core-js/modules/es6.typed.uint8-clamped-array":"../../node_modules/core-js/modules/es6.typed.uint8-clamped-array.js","core-js/modules/es6.typed.int16-array":"../../node_modules/core-js/modules/es6.typed.int16-array.js","core-js/modules/es6.typed.uint16-array":"../../node_modules/core-js/modules/es6.typed.uint16-array.js","core-js/modules/es6.typed.int32-array":"../../node_modules/core-js/modules/es6.typed.int32-array.js","core-js/modules/es6.typed.uint32-array":"../../node_modules/core-js/modules/es6.typed.uint32-array.js","core-js/modules/es6.typed.float32-array":"../../node_modules/core-js/modules/es6.typed.float32-array.js","core-js/modules/es6.typed.float64-array":"../../node_modules/core-js/modules/es6.typed.float64-array.js","core-js/modules/es6.weak-map":"../../node_modules/core-js/modules/es6.weak-map.js","core-js/modules/es6.weak-set":"../../node_modules/core-js/modules/es6.weak-set.js","core-js/modules/es7.array.flat-map":"../../node_modules/core-js/modules/es7.array.flat-map.js","core-js/modules/web.timers":"../../node_modules/core-js/modules/web.timers.js","core-js/modules/web.immediate":"../../node_modules/core-js/modules/web.immediate.js","core-js/modules/web.dom.iterable":"../../node_modules/core-js/modules/web.dom.iterable.js","regenerator-runtime/runtime":"../../node_modules/regenerator-runtime/runtime.js","./login":"login.js","./alerts":"alerts.js","./createElement":"createElement.js","./editElement":"editElement.js","./deleteElement":"deleteElement.js","./passwordManagement":"passwordManagement.js","./sendNotification":"sendNotification.js","./reportGeneration":"reportGeneration.js"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"core-js/modules/es6.array.copy-within":"../../node_modules/core-js/modules/es6.array.copy-within.js","core-js/modules/es6.array.fill":"../../node_modules/core-js/modules/es6.array.fill.js","core-js/modules/es6.array.find":"../../node_modules/core-js/modules/es6.array.find.js","core-js/modules/es6.array.find-index":"../../node_modules/core-js/modules/es6.array.find-index.js","core-js/modules/es6.array.from":"../../node_modules/core-js/modules/es6.array.from.js","core-js/modules/es7.array.includes":"../../node_modules/core-js/modules/es7.array.includes.js","core-js/modules/es6.array.iterator":"../../node_modules/core-js/modules/es6.array.iterator.js","core-js/modules/es6.array.of":"../../node_modules/core-js/modules/es6.array.of.js","core-js/modules/es6.array.sort":"../../node_modules/core-js/modules/es6.array.sort.js","core-js/modules/es6.array.species":"../../node_modules/core-js/modules/es6.array.species.js","core-js/modules/es6.date.to-json":"../../node_modules/core-js/modules/es6.date.to-json.js","core-js/modules/es6.date.to-primitive":"../../node_modules/core-js/modules/es6.date.to-primitive.js","core-js/modules/es6.function.has-instance":"../../node_modules/core-js/modules/es6.function.has-instance.js","core-js/modules/es6.function.name":"../../node_modules/core-js/modules/es6.function.name.js","core-js/modules/es6.map":"../../node_modules/core-js/modules/es6.map.js","core-js/modules/es6.math.acosh":"../../node_modules/core-js/modules/es6.math.acosh.js","core-js/modules/es6.math.asinh":"../../node_modules/core-js/modules/es6.math.asinh.js","core-js/modules/es6.math.atanh":"../../node_modules/core-js/modules/es6.math.atanh.js","core-js/modules/es6.math.cbrt":"../../node_modules/core-js/modules/es6.math.cbrt.js","core-js/modules/es6.math.clz32":"../../node_modules/core-js/modules/es6.math.clz32.js","core-js/modules/es6.math.cosh":"../../node_modules/core-js/modules/es6.math.cosh.js","core-js/modules/es6.math.expm1":"../../node_modules/core-js/modules/es6.math.expm1.js","core-js/modules/es6.math.fround":"../../node_modules/core-js/modules/es6.math.fround.js","core-js/modules/es6.math.hypot":"../../node_modules/core-js/modules/es6.math.hypot.js","core-js/modules/es6.math.imul":"../../node_modules/core-js/modules/es6.math.imul.js","core-js/modules/es6.math.log1p":"../../node_modules/core-js/modules/es6.math.log1p.js","core-js/modules/es6.math.log10":"../../node_modules/core-js/modules/es6.math.log10.js","core-js/modules/es6.math.log2":"../../node_modules/core-js/modules/es6.math.log2.js","core-js/modules/es6.math.sign":"../../node_modules/core-js/modules/es6.math.sign.js","core-js/modules/es6.math.sinh":"../../node_modules/core-js/modules/es6.math.sinh.js","core-js/modules/es6.math.tanh":"../../node_modules/core-js/modules/es6.math.tanh.js","core-js/modules/es6.math.trunc":"../../node_modules/core-js/modules/es6.math.trunc.js","core-js/modules/es6.number.constructor":"../../node_modules/core-js/modules/es6.number.constructor.js","core-js/modules/es6.number.epsilon":"../../node_modules/core-js/modules/es6.number.epsilon.js","core-js/modules/es6.number.is-finite":"../../node_modules/core-js/modules/es6.number.is-finite.js","core-js/modules/es6.number.is-integer":"../../node_modules/core-js/modules/es6.number.is-integer.js","core-js/modules/es6.number.is-nan":"../../node_modules/core-js/modules/es6.number.is-nan.js","core-js/modules/es6.number.is-safe-integer":"../../node_modules/core-js/modules/es6.number.is-safe-integer.js","core-js/modules/es6.number.max-safe-integer":"../../node_modules/core-js/modules/es6.number.max-safe-integer.js","core-js/modules/es6.number.min-safe-integer":"../../node_modules/core-js/modules/es6.number.min-safe-integer.js","core-js/modules/es6.number.parse-float":"../../node_modules/core-js/modules/es6.number.parse-float.js","core-js/modules/es6.number.parse-int":"../../node_modules/core-js/modules/es6.number.parse-int.js","core-js/modules/es6.object.assign":"../../node_modules/core-js/modules/es6.object.assign.js","core-js/modules/es7.object.define-getter":"../../node_modules/core-js/modules/es7.object.define-getter.js","core-js/modules/es7.object.define-setter":"../../node_modules/core-js/modules/es7.object.define-setter.js","core-js/modules/es7.object.entries":"../../node_modules/core-js/modules/es7.object.entries.js","core-js/modules/es6.object.freeze":"../../node_modules/core-js/modules/es6.object.freeze.js","core-js/modules/es6.object.get-own-property-descriptor":"../../node_modules/core-js/modules/es6.object.get-own-property-descriptor.js","core-js/modules/es7.object.get-own-property-descriptors":"../../node_modules/core-js/modules/es7.object.get-own-property-descriptors.js","core-js/modules/es6.object.get-own-property-names":"../../node_modules/core-js/modules/es6.object.get-own-property-names.js","core-js/modules/es6.object.get-prototype-of":"../../node_modules/core-js/modules/es6.object.get-prototype-of.js","core-js/modules/es7.object.lookup-getter":"../../node_modules/core-js/modules/es7.object.lookup-getter.js","core-js/modules/es7.object.lookup-setter":"../../node_modules/core-js/modules/es7.object.lookup-setter.js","core-js/modules/es6.object.prevent-extensions":"../../node_modules/core-js/modules/es6.object.prevent-extensions.js","core-js/modules/es6.object.is":"../../node_modules/core-js/modules/es6.object.is.js","core-js/modules/es6.object.is-frozen":"../../node_modules/core-js/modules/es6.object.is-frozen.js","core-js/modules/es6.object.is-sealed":"../../node_modules/core-js/modules/es6.object.is-sealed.js","core-js/modules/es6.object.is-extensible":"../../node_modules/core-js/modules/es6.object.is-extensible.js","core-js/modules/es6.object.keys":"../../node_modules/core-js/modules/es6.object.keys.js","core-js/modules/es6.object.seal":"../../node_modules/core-js/modules/es6.object.seal.js","core-js/modules/es6.object.set-prototype-of":"../../node_modules/core-js/modules/es6.object.set-prototype-of.js","core-js/modules/es7.object.values":"../../node_modules/core-js/modules/es7.object.values.js","core-js/modules/es6.promise":"../../node_modules/core-js/modules/es6.promise.js","core-js/modules/es7.promise.finally":"../../node_modules/core-js/modules/es7.promise.finally.js","core-js/modules/es6.reflect.apply":"../../node_modules/core-js/modules/es6.reflect.apply.js","core-js/modules/es6.reflect.construct":"../../node_modules/core-js/modules/es6.reflect.construct.js","core-js/modules/es6.reflect.define-property":"../../node_modules/core-js/modules/es6.reflect.define-property.js","core-js/modules/es6.reflect.delete-property":"../../node_modules/core-js/modules/es6.reflect.delete-property.js","core-js/modules/es6.reflect.get":"../../node_modules/core-js/modules/es6.reflect.get.js","core-js/modules/es6.reflect.get-own-property-descriptor":"../../node_modules/core-js/modules/es6.reflect.get-own-property-descriptor.js","core-js/modules/es6.reflect.get-prototype-of":"../../node_modules/core-js/modules/es6.reflect.get-prototype-of.js","core-js/modules/es6.reflect.has":"../../node_modules/core-js/modules/es6.reflect.has.js","core-js/modules/es6.reflect.is-extensible":"../../node_modules/core-js/modules/es6.reflect.is-extensible.js","core-js/modules/es6.reflect.own-keys":"../../node_modules/core-js/modules/es6.reflect.own-keys.js","core-js/modules/es6.reflect.prevent-extensions":"../../node_modules/core-js/modules/es6.reflect.prevent-extensions.js","core-js/modules/es6.reflect.set":"../../node_modules/core-js/modules/es6.reflect.set.js","core-js/modules/es6.reflect.set-prototype-of":"../../node_modules/core-js/modules/es6.reflect.set-prototype-of.js","core-js/modules/es6.regexp.constructor":"../../node_modules/core-js/modules/es6.regexp.constructor.js","core-js/modules/es6.regexp.flags":"../../node_modules/core-js/modules/es6.regexp.flags.js","core-js/modules/es6.regexp.match":"../../node_modules/core-js/modules/es6.regexp.match.js","core-js/modules/es6.regexp.replace":"../../node_modules/core-js/modules/es6.regexp.replace.js","core-js/modules/es6.regexp.split":"../../node_modules/core-js/modules/es6.regexp.split.js","core-js/modules/es6.regexp.search":"../../node_modules/core-js/modules/es6.regexp.search.js","core-js/modules/es6.regexp.to-string":"../../node_modules/core-js/modules/es6.regexp.to-string.js","core-js/modules/es6.set":"../../node_modules/core-js/modules/es6.set.js","core-js/modules/es6.symbol":"../../node_modules/core-js/modules/es6.symbol.js","core-js/modules/es7.symbol.async-iterator":"../../node_modules/core-js/modules/es7.symbol.async-iterator.js","core-js/modules/es6.string.anchor":"../../node_modules/core-js/modules/es6.string.anchor.js","core-js/modules/es6.string.big":"../../node_modules/core-js/modules/es6.string.big.js","core-js/modules/es6.string.blink":"../../node_modules/core-js/modules/es6.string.blink.js","core-js/modules/es6.string.bold":"../../node_modules/core-js/modules/es6.string.bold.js","core-js/modules/es6.string.code-point-at":"../../node_modules/core-js/modules/es6.string.code-point-at.js","core-js/modules/es6.string.ends-with":"../../node_modules/core-js/modules/es6.string.ends-with.js","core-js/modules/es6.string.fixed":"../../node_modules/core-js/modules/es6.string.fixed.js","core-js/modules/es6.string.fontcolor":"../../node_modules/core-js/modules/es6.string.fontcolor.js","core-js/modules/es6.string.fontsize":"../../node_modules/core-js/modules/es6.string.fontsize.js","core-js/modules/es6.string.from-code-point":"../../node_modules/core-js/modules/es6.string.from-code-point.js","core-js/modules/es6.string.includes":"../../node_modules/core-js/modules/es6.string.includes.js","core-js/modules/es6.string.italics":"../../node_modules/core-js/modules/es6.string.italics.js","core-js/modules/es6.string.iterator":"../../node_modules/core-js/modules/es6.string.iterator.js","core-js/modules/es6.string.link":"../../node_modules/core-js/modules/es6.string.link.js","core-js/modules/es7.string.pad-start":"../../node_modules/core-js/modules/es7.string.pad-start.js","core-js/modules/es7.string.pad-end":"../../node_modules/core-js/modules/es7.string.pad-end.js","core-js/modules/es6.string.raw":"../../node_modules/core-js/modules/es6.string.raw.js","core-js/modules/es6.string.repeat":"../../node_modules/core-js/modules/es6.string.repeat.js","core-js/modules/es6.string.small":"../../node_modules/core-js/modules/es6.string.small.js","core-js/modules/es6.string.starts-with":"../../node_modules/core-js/modules/es6.string.starts-with.js","core-js/modules/es6.string.strike":"../../node_modules/core-js/modules/es6.string.strike.js","core-js/modules/es6.string.sub":"../../node_modules/core-js/modules/es6.string.sub.js","core-js/modules/es6.string.sup":"../../node_modules/core-js/modules/es6.string.sup.js","core-js/modules/es6.typed.array-buffer":"../../node_modules/core-js/modules/es6.typed.array-buffer.js","core-js/modules/es6.typed.int8-array":"../../node_modules/core-js/modules/es6.typed.int8-array.js","core-js/modules/es6.typed.uint8-array":"../../node_modules/core-js/modules/es6.typed.uint8-array.js","core-js/modules/es6.typed.uint8-clamped-array":"../../node_modules/core-js/modules/es6.typed.uint8-clamped-array.js","core-js/modules/es6.typed.int16-array":"../../node_modules/core-js/modules/es6.typed.int16-array.js","core-js/modules/es6.typed.uint16-array":"../../node_modules/core-js/modules/es6.typed.uint16-array.js","core-js/modules/es6.typed.int32-array":"../../node_modules/core-js/modules/es6.typed.int32-array.js","core-js/modules/es6.typed.uint32-array":"../../node_modules/core-js/modules/es6.typed.uint32-array.js","core-js/modules/es6.typed.float32-array":"../../node_modules/core-js/modules/es6.typed.float32-array.js","core-js/modules/es6.typed.float64-array":"../../node_modules/core-js/modules/es6.typed.float64-array.js","core-js/modules/es6.weak-map":"../../node_modules/core-js/modules/es6.weak-map.js","core-js/modules/es6.weak-set":"../../node_modules/core-js/modules/es6.weak-set.js","core-js/modules/es7.array.flat-map":"../../node_modules/core-js/modules/es7.array.flat-map.js","core-js/modules/web.timers":"../../node_modules/core-js/modules/web.timers.js","core-js/modules/web.immediate":"../../node_modules/core-js/modules/web.immediate.js","core-js/modules/web.dom.iterable":"../../node_modules/core-js/modules/web.dom.iterable.js","regenerator-runtime/runtime":"../../node_modules/regenerator-runtime/runtime.js","./login":"login.js","./createElement":"createElement.js","./editElement":"editElement.js","./deleteElement":"deleteElement.js","./passwordManagement":"passwordManagement.js","./sendNotification":"sendNotification.js","./reportGeneration":"reportGeneration.js"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -10227,7 +10512,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55307" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49864" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

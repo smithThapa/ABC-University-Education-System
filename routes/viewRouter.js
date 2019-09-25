@@ -280,6 +280,17 @@ router.get(
 );
 
 //------------------
+//----Admin & Team-Maintenance---------
+//------------------
+
+router.get(
+  '/send_notifications',
+  authenticationPresenter.protect,
+  authenticationPresenter.restrictTo('admin', 'team-maintenance'),
+  userView.getSendNotificationPage
+);
+
+//------------------
 //----Team-Maintenance---------
 //------------------
 
@@ -324,13 +335,6 @@ router.get(
   authenticationPresenter.protect,
   authenticationPresenter.restrictTo('team-maintenance'),
   errorReportView.getErrorReportsPage
-);
-
-router.get(
-  '/send_notifications',
-  authenticationPresenter.protect,
-  authenticationPresenter.restrictTo('team-maintenance'),
-  userView.getSendNotificationPage
 );
 
 module.exports = router;
