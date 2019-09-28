@@ -1,9 +1,11 @@
+//method to the log in as page to team maintenance
 exports.getLoginAsPage = (req, res) => {
   res.status(200).render('LogInAsView', {
     title: 'Login In As'
   });
 };
 
+// get log in as student page to log in as a test user with the student role
 exports.getLoginStudentPage = (req, res) => {
   res.status(200).render('LoginView', {
     title: 'Login',
@@ -12,6 +14,7 @@ exports.getLoginStudentPage = (req, res) => {
   });
 };
 
+// get log in as staff page to log in as a test user with the staff role
 exports.getLoginStaffPage = (req, res) => {
   res.status(200).render('LoginView', {
     title: 'Login',
@@ -20,6 +23,7 @@ exports.getLoginStaffPage = (req, res) => {
   });
 };
 
+// get log in as admin page to log in as a test user with the admin role
 exports.getLoginAdminPage = (req, res) => {
   res.status(200).render('LoginView', {
     title: 'Login',

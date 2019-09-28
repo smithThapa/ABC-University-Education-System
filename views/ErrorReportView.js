@@ -1,21 +1,26 @@
+// Node.js modules
 const axios = require('axios');
+// utilities to use
 const AppError = require('./../utils/AppError');
 
+//get error report page for the team-maintenance members
 exports.getErrorReportsPage = async function(req, res, next) {
   try {
     //add authentitcation to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
-    //get api
-    const objs = await axios({
+    //get error report object from the API
+    const errorReports = await axios({
       method: 'GET',
       url: 'http://127.0.0.1:8000/api/v1/errorReports'
     });
 
-    if (objs.data.status === 'success') {
+    //check if the response is successful
+    if (errorReports.data.status === 'success') {
+      //send all error reports to the pug template
       res.status(200).render('ErrorReportsView', {
         title: 'Error Reports',
-        errorReports: objs.data.data.data
+        errorReports: errorReports.data.data.data
       });
     }
   } catch (err) {

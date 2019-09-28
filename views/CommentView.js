@@ -1,32 +1,39 @@
+// Node.js modules to use
 const axios = require('axios');
+// utilities to implement
 const AppError = require('./../utils/AppError');
 
+// method to get all comment by the topic slug to be display to all users
 exports.getCommentsByTopicSlug = async function(req, res, next) {
   try {
     //add authentitcation to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
+    //get object forum by its slug in the URL
     const objForum = await axios({
       method: 'GET',
       url: `http://127.0.0.1:8000/api/v1/forums/slug/${req.params.forumSlug}`
     });
 
+    //get object topic by its slug
     const objTopic = await axios({
       method: 'GET',
       url: `http://127.0.0.1:8000/api/v1/topics/slug/${req.params.topicSlug}`
     });
 
-    //get api of tours
+    //get all comments in the current topic
     const objComments = await axios({
       method: 'GET',
       url: `http://127.0.0.1:8000/api/v1/topics/${objTopic.data.data.data._id}/comments`
     });
 
+    //check if forum, topic and comments were successfully gotten
     if (
       objForum.data.status === 'success' &&
       objTopic.data.status === 'success' &&
       objComments.data.status === 'success'
     ) {
+      //render the data to the commente page
       res.status(200).render('CommentView', {
         title: 'Comments',
         comments: objComments.data.data.data,
@@ -40,25 +47,30 @@ exports.getCommentsByTopicSlug = async function(req, res, next) {
   }
 };
 
+//cerate method to redirect the user to the creation comment page
 exports.createComment = async function(req, res, next) {
   try {
     //add authentitcation to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
+    //get forum by its slug
     const objForum = await axios({
       method: 'GET',
       url: `http://127.0.0.1:8000/api/v1/forums/slug/${req.params.forumSlug}`
     });
 
+    //get topic by its slug
     const objTopic = await axios({
       method: 'GET',
       url: `http://127.0.0.1:8000/api/v1/topics/slug/${req.params.topicSlug}`
     });
 
+    //check if both, forum and topic were successfully created
     if (
       objForum.data.status === 'success' &&
       objTopic.data.status === 'success'
     ) {
+      //send data to the pug template to create an element
       res.status(200).render('CreateElementView', {
         title: 'Comment',
         topic: objTopic.data.data.data,
@@ -73,32 +85,37 @@ exports.createComment = async function(req, res, next) {
   }
 };
 
+// get the management comment list byt its topic slug to manage the comment by the admin
 exports.getManageCommentsListByTopicSlug = async function(req, res, next) {
   try {
     //add authentitcation to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
+    //get the forum obecjt from the API by its slug
     const objForum = await axios({
       method: 'GET',
       url: `http://127.0.0.1:8000/api/v1/forums/slug/${req.params.forumSlug}`
     });
 
+    //get topic obejct by its slug from API
     const objTopic = await axios({
       method: 'GET',
       url: `http://127.0.0.1:8000/api/v1/topics/slug/${req.params.topicSlug}`
     });
 
-    //get api of tours
+    //get comments by the topic ID from API
     const objComments = await axios({
       method: 'GET',
       url: `http://127.0.0.1:8000/api/v1/topics/${objTopic.data.data.data._id}/comments`
     });
 
+    //check if the data was successfully received
     if (
       objForum.data.status === 'success' &&
       objTopic.data.status === 'success' &&
       objComments.data.status === 'success'
     ) {
+      //send data to the management comment view
       res.status(200).render('CommentListView', {
         title: 'Comment',
         comments: objComments.data.data.data,
@@ -112,32 +129,37 @@ exports.getManageCommentsListByTopicSlug = async function(req, res, next) {
   }
 };
 
+// edit method to get the commnet details and by edited by the user who created
 exports.editComment = async function(req, res, next) {
   try {
     //add authentitcation to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
-    //get api
+    //get forum by its slug from api
     const objForum = await axios({
       method: 'GET',
       url: `http://127.0.0.1:8000/api/v1/forums/slug/${req.params.forumSlug}`
     });
 
+    //get topic by its slug from API
     const objTopic = await axios({
       method: 'GET',
       url: `http://127.0.0.1:8000/api/v1/topics/slug/${req.params.topicSlug}`
     });
 
+    //get the comment by its id through API
     const objComment = await axios({
       method: 'GET',
       url: `http://127.0.0.1:8000/api/v1/comments/${req.params.commentId}`
     });
 
+    //check if all responses were successful
     if (
       objForum.data.status === 'success' &&
       objTopic.data.status === 'success' &&
       objComment.data.status === 'success'
     ) {
+      //send data tp the pug templace to edit the comment
       res.status(200).render('EditElementView', {
         title: 'Comment',
         forum: objForum.data.data.data,

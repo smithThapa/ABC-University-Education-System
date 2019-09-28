@@ -1,22 +1,26 @@
+// Node.js modules
 const axios = require('axios');
+// utilities to to use
 const AppError = require('./../utils/AppError');
 
-//get forums page
+//get foirum view to all users
 exports.getForums = async function(req, res, next) {
   try {
     //add authentitcation to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
-    //get api
-    const objs = await axios({
+    //get forums from the API
+    const forums = await axios({
       method: 'GET',
       url: 'http://127.0.0.1:8000/api/v1/forums'
     });
 
-    if (objs.data.status === 'success') {
+    //check if response is successful
+    if (forums.data.status === 'success') {
+      //send forums to the view page
       res.status(200).render('ForumView', {
         title: 'Forums',
-        forums: objs.data.data.data
+        forums: forums.data.data.data
       });
     }
   } catch (err) {
@@ -25,21 +29,24 @@ exports.getForums = async function(req, res, next) {
   }
 };
 
+//get aall forum to send to the management view to admins
 exports.getManageForumsList = async function(req, res, next) {
   try {
     //add authentitcation to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
-    //get api
-    const objs = await axios({
+    //get forum from the AI
+    const forums = await axios({
       method: 'GET',
       url: 'http://127.0.0.1:8000/api/v1/forums'
     });
 
-    if (objs.data.status === 'success') {
+    //check if response is successful
+    if (forums.data.status === 'success') {
+      //send fourm to the pug templates
       res.status(200).render('ForumListView', {
         title: 'Forum',
-        forums: objs.data.data.data
+        forums: forums.data.data.data
       });
     }
   } catch (err) {
@@ -48,28 +55,33 @@ exports.getManageForumsList = async function(req, res, next) {
   }
 };
 
+// create forum method to create a new forum
 exports.createForum = function(req, res) {
+  //render the pug template to create a forum
   res.status(200).render('CreateElementView', {
     title: 'Forum',
     user: req.user
   });
 };
 
+// edit the forum method
 exports.editForum = async function(req, res, next) {
   try {
     //add authentitcation to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
-    //get api
-    const objs = await axios({
+    //get from form API
+    const forums = await axios({
       method: 'GET',
       url: `http://127.0.0.1:8000/api/v1/forums/slug/${req.params.forumSlug}`
     });
 
-    if (objs.data.status === 'success') {
+    //check if response is successful
+    if (forums.data.status === 'success') {
+      //send forum data to the pug template
       res.status(200).render('EditElementView', {
         title: 'Forum',
-        forum: objs.data.data.data
+        forum: forums.data.data.data
       });
     }
   } catch (err) {
