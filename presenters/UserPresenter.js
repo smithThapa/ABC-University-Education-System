@@ -160,9 +160,7 @@ exports.sendNotificationUser = catchAsync(async (req, res, next) => {
       }
 
       users.forEach(async elementUser => {
-        await new Email(elementUser, homeURL).sendNotificationEmailNotification(
-          data
-        );
+        await new Email(elementUser, homeURL).sendEmailNotification(data);
       });
     }
   }
