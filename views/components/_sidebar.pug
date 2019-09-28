@@ -1,21 +1,26 @@
+//- function to add elements in the sidebar with its texk, link and icon
 mixin sidebarMenu(link, text, icon)
     li.nav-item
         a.nav-link(href= link)
+            //- isert icons
             svg.icon-box_sidebar.mr-2.pb-1
                 use(xlink:href=`/img/icons.svg#icon-${icon}`)
             span= text
 
+//- side bar of the site
 #wrapper
     // Sidebar
     ul.sidebar.navbar-nav
+        //- First element with the dashborad
         li.nav-item.active#dashboard
             a.nav-link(href='/home')
                 svg.icon-box_sidebar.mr-2.pb-1
                     use(xlink:href=`/img/icons.svg#icon-dashboard`)
                 span.font-weight-bold.text-uppercase Dashboards
+        //- menu for not team maintenance members
         -if (user.role != 'team-maintenance')
+            //- Administrator menu
             - if (user.role == 'admin')
-                //- Administrator menu
                 li.nav-item.dropdown.no-arrow
                     a#pagesDropdown.nav-link.dropdown-toggle(href='#' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
                         svg.icon-box_sidebar.mr-2.pb-1
@@ -24,6 +29,7 @@ mixin sidebarMenu(link, text, icon)
                         svg.icon-box_sidebar.ml-3.pb-1
                             use(xlink:href=`/img/icons.svg#icon-arrow-sidebar-down`)
                     .dropdown-menu(aria-labelledby='pagesDropdown')
+                        //- Management elements
                         h6.dropdown-header Management:
                         a.dropdown-item(href='/manage_users') Manage Users
                         a.dropdown-item(href='/manage_forums') Manage Forums
@@ -31,11 +37,12 @@ mixin sidebarMenu(link, text, icon)
                         a.dropdown-item(href='/manage_news') Manage News
                         a.dropdown-item(href='/manage_resources') Manage Resources
                         .dropdown-divider
+                        //- System tools for the admin
                         h6.dropdown-header System tools:
                         a.dropdown-item(href='/send_notifications') Send Notifications
                         a.dropdown-item(href='/statistics') Statistics &<br/>Report Generation
+            //- Staff Menu  
             - if (user.role == 'staff')
-                //- Staff Menu  
                 li.nav-item.dropdown.no-arrow
                     a#pagesDropdown.nav-link.dropdown-toggle(href='#' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
                         svg.icon-box_sidebar.mr-2.pb-1
@@ -44,25 +51,27 @@ mixin sidebarMenu(link, text, icon)
                         svg.icon-box_sidebar.ml-3.pb-1
                             use(xlink:href=`/img/icons.svg#icon-arrow-sidebar-down`)
                     .dropdown-menu(aria-labelledby='pagesDropdown')
+                        //- Creation elemenets
                         h6.dropdown-header Management:
                         a.dropdown-item(href='/create_forum') Create Forum
                         a.dropdown-item(href='/create_topic') Create Topic
                         a.dropdown-item(href='/create_announcement') Create Announcement
                         a.dropdown-item(href='/create_news') Create News
 
+            //- Add four general menu option to all users (no team maintenance)
             +sidebarMenu('/forums','Discussion Forums', 'users')
             +sidebarMenu('/announcements','Announcements', 'paperclip')
             +sidebarMenu('/news','News', 'file-text')
             +sidebarMenu('/resources','Resources', 'folder')
 
+        //- case user is part of the team maintenance
         - else
-         
-            //- team maintenances
             +sidebarMenu('/manage_maintenance_requests','Maintenance Requests List', 'compass')
             +sidebarMenu('/send_notifications','Send Notification', 'inbox')
             +sidebarMenu('/login_in_as','Log in As - Testing', 'users')
             +sidebarMenu('/error_reports','Error Reports', 'alert-triangle')
-
+        
+        //- Account options to all users in the system, to check their details and send a maintenance request   
         .dropdown-divider.mx-2
         +sidebarMenu('/my_details/me','My Details', 'user')
         +sidebarMenu('/maintenance_request','Maintenance Request', 'help-circle')
