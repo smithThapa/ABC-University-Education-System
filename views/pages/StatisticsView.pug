@@ -83,12 +83,12 @@ block content
                                         th(scope='col')= `${month[0] == 'Total' ? '' : 'Last'} ${month[0].replace('0', '')}`
 
                             tbody 
-                                //- get total elemen list                           
+                                //- get total element list                           
                                 -const totalElementMonthsList = userStatistics[userStatistics.length-1][1];
                                 //-array with majors
                                 -const majorArray = ['Accounting', 'Business', 'Information Technology', 'Project Management', 'NOT A MAJOR'];
                                 
-                                //- iterate thorugh last elements
+                                //- iterate through last elements
                                 -for(let i=0; i<totalElementMonthsList.length; i++)
                                     tr.font-weight-bold.table-warning
 
@@ -122,7 +122,7 @@ block content
                                     -for(let i=0;i<userStatistics.length;i++)
                                         td #{userStatistics[i][2][0].totalNumUsers}
 
-                                //-add summarise of all majors total
+                                //-add summarize of all majors total
                                 -for(let i=0; i<majorArray.length; i++)
                                     tr.table-success(style='font-size:1.2em;')
                                         td.text-left.pl-4= majorArray[i] != 'NOT A MAJOR' ? `${majorArray[i]} Major` : majorArray[i]
@@ -155,7 +155,7 @@ block content
                                         th(scope='col')= `${month[0] == 'Total' ? '' : 'Last'} ${month[0].replace('0', '')}`
 
                             tbody
-                                //- iterate thorugh each month
+                                //- iterate through each month
                                 -for(let i=0; i<forumStatistics[forumStatistics.length-1][1].length; i++)
                                     //- forum rows
                                     tr.font-weight-bold
@@ -163,7 +163,7 @@ block content
                                         //- number of forum in each forum
                                         -for(let j=0; j<forumStatistics.length; j++)
                                             td= forumStatistics[j][1][i].numForums
-                                    //- topic by forum tyoe
+                                    //- topic by forum type
                                     tr
                                         td.text-left.pl-4 Number Of Topics in #{forumStatistics[forumStatistics.length-1][1][i]._id}
                                         //- number of topic in each forum by month
@@ -204,7 +204,7 @@ block content
                                         th(scope='col')= `${month[0] == 'Total' ? '' : 'Last'} ${month[0].replace('0', '')}`
 
                             tbody
-                                //- iterate thorugh each month
+                                //- iterate through each month
                                 -for(let i=0; i<topicStatistics[topicStatistics.length-1][1].length; i++)
                                     //- topic rows
                                     tr.font-weight-bold
@@ -212,7 +212,7 @@ block content
                                         //- number of comment in each topic
                                         -for(let j=0; j<topicStatistics.length; j++)
                                             td= topicStatistics[j][1][i].numTopics
-                                    //- topic by forum tyoe
+                                    //- topic by forum type
                                     tr
                                         td.text-left.pl-4 Number Of Comments in #{topicStatistics[topicStatistics.length-1][1][i]._id}
                                         //- number of comment in each topic by month
@@ -252,12 +252,12 @@ block content
                                         th(scope='col')= `${month[0] == 'Total' ? '' : 'Last'} ${month[0].replace('0', '')}`
 
                             tbody
-                                //- iterate thorugh each month
+                                //- iterate through each month
                                 -for(let i=0; i<articleStatistics[articleStatistics.length-1][1].length; i++)
                                     //- article rows
                                     tr.font-weight-bold
                                         td.text-left #{articleStatistics[articleStatistics.length-1][1][i]._id}
-                                        //- number of artciles by type
+                                        //- number of articles by type
                                         -for(let j=0; j<articleStatistics.length; j++)
                                             td= articleStatistics[j][1][i].numArticle
                                 //- total number of article row

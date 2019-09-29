@@ -36,7 +36,7 @@ block content
             .col-sm-10
                 -const role = user.role == 'team-maintenance' ? 'Team Maintenance' : user.role.charAt(0).toUpperCase() + user.role.slice(1).toLowerCase();
                 input#inputDetailUserRole.form-control(type='text' value=`${role}` placeholder='Role' required='required' readonly)
-        //- block inout with user major
+        //- block input with user major
         .form-group.row
             label.col-sm-2.col-form-label(for='inputDetailUserMajor') Major 
             .col-sm-10

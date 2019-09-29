@@ -6,7 +6,7 @@ const AppError = require('./../utils/AppError');
 //get announcements page to all users
 exports.getAnnouncementView = async function(req, res, next) {
   try {
-    //add authentitcation to axios
+    //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
     //get stats of numbers of announcements and news from API
@@ -21,7 +21,7 @@ exports.getAnnouncementView = async function(req, res, next) {
       url: 'http://127.0.0.1:8000/api/v1/articles/announcements?sort=-createdAt'
     });
 
-    //if both axios respunces were successful
+    //if both axios responses were successful
     if (
       announcements.data.status === 'success' &&
       stats.data.status === 'success'
@@ -43,7 +43,7 @@ exports.getAnnouncementView = async function(req, res, next) {
 //get all announcements to send to the management view
 exports.getManageAnnouncementList = async function(req, res, next) {
   try {
-    //add authentitcation to axios
+    //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
     //get announcements from the API
@@ -52,7 +52,7 @@ exports.getManageAnnouncementList = async function(req, res, next) {
       url: 'http://127.0.0.1:8000/api/v1/articles/announcements'
     });
 
-    //chck if axios responce was successful
+    //check if axios response was successful
     if (announcements.data.status === 'success') {
       //render data to the pug template
       res.status(200).render('AnnouncementListView', {
@@ -78,7 +78,7 @@ exports.createAnnouncement = function(req, res, next) {
 // edit method to send the user to the edit page with the current data of the announcement
 exports.editAnnouncement = async function(req, res, next) {
   try {
-    //add authentitcation to axios
+    //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
     //get announcement by its slug from API
@@ -89,7 +89,7 @@ exports.editAnnouncement = async function(req, res, next) {
 
     //check if the response was successful
     if (announcement.data.status === 'success') {
-      //sned the announcement data to the pug template
+      //send the announcement data to the pug template
       res.status(200).render('EditArticleView', {
         title: 'Announcements',
         article: announcement.data.data.data

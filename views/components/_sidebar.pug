@@ -1,4 +1,4 @@
-//- function to add elements in the sidebar with its texk, link and icon
+//- function to add elements in the sidebar with its text, link and icon
 mixin sidebarMenu(link, text, icon)
     li.nav-item
         a.nav-link(href= link)
@@ -11,7 +11,7 @@ mixin sidebarMenu(link, text, icon)
 #wrapper
     // Sidebar
     ul.sidebar.navbar-nav
-        //- First element with the dashborad
+        //- First element with the dashboard
         li.nav-item.active#dashboard
             a.nav-link(href='/home')
                 svg.icon-box_sidebar.mr-2.pb-1
@@ -51,7 +51,7 @@ mixin sidebarMenu(link, text, icon)
                         svg.icon-box_sidebar.ml-3.pb-1
                             use(xlink:href=`/img/icons.svg#icon-arrow-sidebar-down`)
                     .dropdown-menu(aria-labelledby='pagesDropdown')
-                        //- Creation elemenets
+                        //- Creation elements
                         h6.dropdown-header Management:
                         a.dropdown-item(href='/create_forum') Create Forum
                         a.dropdown-item(href='/create_topic') Create Topic

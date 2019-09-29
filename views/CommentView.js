@@ -6,7 +6,7 @@ const AppError = require('./../utils/AppError');
 // method to get all comment by the topic slug to be display to all users
 exports.getCommentsByTopicSlug = async function(req, res, next) {
   try {
-    //add authentitcation to axios
+    //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
     //get object forum by its slug in the URL
@@ -33,7 +33,7 @@ exports.getCommentsByTopicSlug = async function(req, res, next) {
       objTopic.data.status === 'success' &&
       objComments.data.status === 'success'
     ) {
-      //render the data to the commente page
+      //render the data to the comment page
       res.status(200).render('CommentView', {
         title: 'Comments',
         comments: objComments.data.data.data,
@@ -50,7 +50,7 @@ exports.getCommentsByTopicSlug = async function(req, res, next) {
 //cerate method to redirect the user to the creation comment page
 exports.createComment = async function(req, res, next) {
   try {
-    //add authentitcation to axios
+    //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
     //get forum by its slug
@@ -88,16 +88,16 @@ exports.createComment = async function(req, res, next) {
 // get the management comment list byt its topic slug to manage the comment by the admin
 exports.getManageCommentsListByTopicSlug = async function(req, res, next) {
   try {
-    //add authentitcation to axios
+    //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
-    //get the forum obecjt from the API by its slug
+    //get the forum object from the API by its slug
     const objForum = await axios({
       method: 'GET',
       url: `http://127.0.0.1:8000/api/v1/forums/slug/${req.params.forumSlug}`
     });
 
-    //get topic obejct by its slug from API
+    //get topic object by its slug from API
     const objTopic = await axios({
       method: 'GET',
       url: `http://127.0.0.1:8000/api/v1/topics/slug/${req.params.topicSlug}`
@@ -129,10 +129,10 @@ exports.getManageCommentsListByTopicSlug = async function(req, res, next) {
   }
 };
 
-// edit method to get the commnet details and by edited by the user who created
+// edit method to get the comment details and by edited by the user who created
 exports.editComment = async function(req, res, next) {
   try {
-    //add authentitcation to axios
+    //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
     //get forum by its slug from api
@@ -159,7 +159,7 @@ exports.editComment = async function(req, res, next) {
       objTopic.data.status === 'success' &&
       objComment.data.status === 'success'
     ) {
-      //send data tp the pug templace to edit the comment
+      //send data tp the pug template to edit the comment
       res.status(200).render('EditElementView', {
         title: 'Comment',
         forum: objForum.data.data.data,

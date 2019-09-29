@@ -98,7 +98,7 @@ block content
         -forumId = forum.id
         -topicId = topic.id
     
-    //- bopdy title
+    //- body title
     h2 Create New #{title}
 
     //- form to create an element
@@ -129,7 +129,7 @@ block content
                     p.text-muted (max: 400 characters)
                 .col-sm-10
                     textarea#inputCreationDescription.form-control(type='text'  rows="5" maxlength="400" placeholder='Description (max: 400 characters)' required='required')
-        //- case it is a fourm, it will have a slecet element with the types available
+        //- case it is a forum, it will have a select element with the types available
         -else
             .form-group.row
                 label.col-sm-2.col-form-label(for='inputCreationType') Type 

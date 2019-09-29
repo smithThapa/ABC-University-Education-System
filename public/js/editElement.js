@@ -16,7 +16,7 @@ export const editElement = async (data, type, id, previousPath) => {
       //move top
       window.scrollTo(0, 0);
       showAlert('success', `${type} updated successfully!`, '');
-      //retunr previos path
+      //return previous path
       window.setTimeout(() => {
         location.assign(previousPath);
       }, 0);
@@ -28,7 +28,7 @@ export const editElement = async (data, type, id, previousPath) => {
   }
 };
 
-//edit article mthod
+//edit article method
 export const editArticle = async function(id, data, type, previousPath) {
   try {
     //get respond from the API of edit article
@@ -43,7 +43,7 @@ export const editArticle = async function(id, data, type, previousPath) {
       //move top
       window.scrollTo(0, 0);
       showAlert('success', `${type} updated successfully!`, '');
-      //return previos path
+      //return previous path
       window.setTimeout(() => {
         location.assign(previousPath);
       }, 0);
@@ -58,7 +58,7 @@ export const editArticle = async function(id, data, type, previousPath) {
 //edit user method by admin
 export const editUser = async function(data, id) {
   try {
-    //get respon from API edit user
+    //get response from API edit user
     const res = await axios({
       method: 'PATCH',
       url: `http://127.0.0.1:8000/api/v1/users/${id}`,
@@ -70,7 +70,7 @@ export const editUser = async function(data, id) {
       //move top
       window.scrollTo(0, 0);
       showAlert('success', `User updated successfully!`, '');
-      //return previos path
+      //return previous path
       window.setTimeout(() => {
         location.assign('/manage_users');
       }, 0);
@@ -101,7 +101,7 @@ export const editMe = async function(data) {
         `Your User Details has been successfully Updated!`,
         'Thank you for sharing your details with us'
       );
-      //return previos path
+      //return previous path
       window.setTimeout(() => {
         location.assign('/my_details/me');
       }, 0);
@@ -113,7 +113,7 @@ export const editMe = async function(data) {
   }
 };
 
-//edit personal passowrd
+//edit personal password
 export const editMyPassword = async function(data) {
   try {
     //get response API from edit personal password
@@ -128,7 +128,7 @@ export const editMyPassword = async function(data) {
       //move top
       window.scrollTo(0, 0);
       showAlert('success', `Your Password has been updated!`, '');
-      //retun to my details
+      //return to my details
       window.setTimeout(() => {
         location.assign('/my_details/me');
       }, 0);

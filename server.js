@@ -1,4 +1,4 @@
-// Node.js mofules
+// Node.js modules
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 
@@ -11,7 +11,7 @@ process.on('uncaughtException', err => {
   process.exit(1);
 });
 
-//Get the enviroment varible from the file
+//Get the environment variable from the file
 dotenv.config({ path: './config.env' });
 
 // get application file
@@ -54,7 +54,7 @@ process.on('unhandledRejection', err => {
 // any error that is not expected to be notified
 process.on('uncaughtException', err => {
   console.log('UNCAUGHT EXCEPTION! Shutting down...');
-  console.log(err.name, err.messsage);
+  console.log(err.name, err.message);
 
   server.close(() => {
     process.exit(1);

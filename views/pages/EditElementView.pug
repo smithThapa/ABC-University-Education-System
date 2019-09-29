@@ -87,7 +87,7 @@ block content
 
     //- form to edit element
     form#editElementForm
-        //- hiddent inputs with title, id and previousPath
+        //- hidden inputs with title, id and previousPath
         input#hiddenInputEditionType.d-none(value=`${title}`)
         input#hiddenInputEditionId.d-none(value=`${elementId}`)
         input#hiddenInputEditionPath.d-none(value= `${previousPath}`)
@@ -104,7 +104,7 @@ block content
                 .col-sm-10
                     textarea.inputsEdition#inputEdition2.form-control(type='text' rows="5" maxlength="400" placeholder='Description (max: 400 characters)' required='required')
                         |#{descriptionElement}
-        //- foeum type selection option with the current type
+        //- forum type selection option with the current type
         -else
             .form-group.row
                 label.col-sm-2.col-form-label(for='inputEdition3') Type 

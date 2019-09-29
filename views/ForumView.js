@@ -3,10 +3,10 @@ const axios = require('axios');
 // utilities to to use
 const AppError = require('./../utils/AppError');
 
-//get foirum view to all users
+//get foruum view to all users
 exports.getForums = async function(req, res, next) {
   try {
-    //add authentitcation to axios
+    //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
     //get forums from the API
@@ -29,10 +29,10 @@ exports.getForums = async function(req, res, next) {
   }
 };
 
-//get aall forum to send to the management view to admins
+//get all forum to send to the management view to admins
 exports.getManageForumsList = async function(req, res, next) {
   try {
-    //add authentitcation to axios
+    //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
     //get forum from the AI
@@ -43,7 +43,7 @@ exports.getManageForumsList = async function(req, res, next) {
 
     //check if response is successful
     if (forums.data.status === 'success') {
-      //send fourm to the pug templates
+      //send forum to the pug templates
       res.status(200).render('ForumListView', {
         title: 'Forum',
         forums: forums.data.data.data
@@ -67,7 +67,7 @@ exports.createForum = function(req, res) {
 // edit the forum method
 exports.editForum = async function(req, res, next) {
   try {
-    //add authentitcation to axios
+    //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
     //get from form API

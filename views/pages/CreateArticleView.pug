@@ -52,7 +52,7 @@ block content
 
     //- form to create an article (announcements or news)
     form#createArticleForm
-        //- hidden inputs to have the article type and previos path to redirect the user
+        //- hidden inputs to have the article type and previous path to redirect the user
         input#hiddenInputCreateArticleType.d-none(value=`${title}`)
         input#hiddenInputCreateArticlePath.d-none(value= `${previousPath}`)
         //- title input
@@ -66,7 +66,7 @@ block content
                 p.text-muted (max: #{numberOfCharacters} characters)
             .col-sm-10
                 textarea#inputCreationArticleDescription.form-control(type='text'  rows=`${numberOfRows}` maxlength=`${numberOfCharacters}` placeholder=`Description (max: ${numberOfCharacters} characters)` required='required')
-        //- add checkboxs if it is an announcement to email
+        //- add checkboxes if it is an announcement to email
         -if(title == 'Announcements')
             .form-group.row
                 label.col-sm-2.col-form-label(for='inputCheckboxEmail') Email Announcement

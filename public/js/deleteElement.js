@@ -4,7 +4,7 @@ import { showAlert } from './alerts';
 //delete methods to all the types
 export const deleteElement = async (id, type) => {
   try {
-    //get resonse from the API after delete user
+    //get response from the API after delete user
     const res = await axios({
       method: 'DELETE',
       url: `http://127.0.0.1:8000/api/v1/${type}s/${id}`
@@ -16,7 +16,7 @@ export const deleteElement = async (id, type) => {
       window.scrollTo(0, 0);
       showAlert(
         'success',
-        `Deleted ${type} Sucessfully!`,
+        `Deleted ${type} Successfully!`,
         `This ${type} will not be accessible in the system`
       );
       //reload page

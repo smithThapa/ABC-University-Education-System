@@ -6,7 +6,7 @@ const AppError = require('./../utils/AppError');
 //get error report page for the team-maintenance members
 exports.getErrorReportsPage = async function(req, res, next) {
   try {
-    //add authentitcation to axios
+    //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
     //get error report object from the API

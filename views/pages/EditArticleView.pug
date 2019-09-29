@@ -32,7 +32,7 @@ block content
 
     //- form to edit an article 
     form#editArticleForm
-        //- hidden inputs with the article id, type and previuos path
+        //- hidden inputs with the article id, type and previous path
         input#hiddenInputEditionArticleId.d-none(value=`${article.id}`)
         input#hiddenInputEditionArticleType.d-none(value=`${title}`)
         input#hiddenInputEditionArticlePath.d-none(value= `${previousPath}`)
@@ -41,7 +41,7 @@ block content
             label.col-sm-2.col-form-label(for='inputEditionArticleTitle') Title
             .col-sm-10
                 input#inputEditionArticleTitle.form-control(type='text' value=`${article.title}` maxlength="150"  placeholder='Title' required='required')
-        //- Description input with currrent description
+        //- Description input with current description
         .form-group.row
             label.col-sm-2.col-form-label(for='inputEditionArticleDescription') Description <br/> 
                 p.text-muted (max: #{numberOfCharacters} characters)
@@ -55,8 +55,8 @@ block content
         //-         label.col-sm-2.col-form-label(for='inputCheckboxEmail') Email Announcement
         //-         .col-sm-10#inputCheckboxEmail
         //-             .form-check.form-check-inline
-        //-                 input#inlineCheckboxStundet.form-check-input(type='checkbox' value='student')
-        //-                 label.form-check-label(for='inlineCheckboxStundet') Students
+        //-                 input#inlineCheckboxStudent.form-check-input(type='checkbox' value='student')
+        //-                 label.form-check-label(for='inlineCheckboxStudent') Students
         //-             .form-check.form-check-inline
         //-                 input#inlineCheckboxStaff.form-check-input(type='checkbox' value='staff')
         //-                 label.form-check-label(for='inlineCheckboxStaff') Staffs

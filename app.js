@@ -23,7 +23,7 @@ const maintainanceRequestRouter = require('./routes/maintenanceRequestRouter');
 //create the app object with express
 const app = express();
 
-// add pug enginering to log pages
+// add pug engine to log pages
 app.set('view engine', 'pug');
 //direction of where are the pug files
 app.set('views', path.join(__dirname, 'views', 'pages'));
@@ -35,7 +35,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 //app.use(helmet());
 
-//limite the number of requers into the api
+//limit the number of requests into the api
 const limiter = rateLimit({
   max: 2000,
   windowMs: 60 * 60 * 1000, //1 hour
@@ -61,7 +61,7 @@ app.use(express.urlencoded({ extended: true }));
 // data sanitization -- clean data - NoSQl query injection
 app.use(mongoSanitize());
 
-// data sanitization -- aganings XSS
+// data sanitization -- against XSS
 app.use(xss());
 
 //set favicon to the application
@@ -78,12 +78,12 @@ app.use('/api/v1/maintenanceRequests', maintainanceRequestRouter);
 
 //set all view router to the front-end
 app.use('/', viewRouter);
-// add to all the no defined pages the AppError ro display the no existance of the currrent page
+// add to all no defined pages the AppError to display the no existence of the current page
 app.all('*', (req, res, next) => {
   next(new AppError(`Cannot find ${req.originalUrl} on this server`, 404));
 });
 
-//ad globalErrorHandler to get extra error handeling
+//ad globalErrorHandler to get extra error handling
 app.use(globalErrorHandler);
 
 // export the app to be used in the server

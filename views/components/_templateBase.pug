@@ -16,7 +16,7 @@ mixin cardDisplayItems(header, title, author, date, link,  button, description)
             -if(button)
                 a.btn.btn-primary(href= link)= `Go to ${button}`
 
-//- Breadcrump in pages, with array
+//- Breadcrumb in pages, with array
 mixin breadcrumbDisplay(arrayBreadcrumb)
     nav.mb-0(aria-label='breadcrumb')
         ol.breadcrumb
@@ -31,7 +31,7 @@ mixin breadcrumbDisplay(arrayBreadcrumb)
                     li.breadcrumb-item
                         a(href= element[1])= element[0]
 
-//- Delete model to remove elements without susing another page
+//- Delete model to remove elements without using another page
 mixin deleteModalTemplate(id, type, title)
     .modal.fade(tabindex='-1' role='dialog' aria-labelledby='deleteModalLabel' aria-hidden='true' id=`deleteModal${id}`)
         .modal-dialog(role='document')
@@ -73,7 +73,7 @@ mixin deleteModalFileTemplate(id, filename, type)
                     form(action=`/${type}/files/del/${id}` method="post")
                         button.btn.btn-danger(type="submit") Delete 
 
-//- Modal to dispay the description of element for the admins to check each element
+//- Modal to display the description of element for the admins to check each element
 mixin displayDescriptionModal(id, type, title, description)
     .modal.fade(id=`displayDescriptionModal${id}` tabindex='-1' role='dialog' aria-labelledby='displayDescriptionModallLabel' aria-hidden='true')
         .modal-dialog(role='document')
@@ -127,7 +127,7 @@ html
                 include _footer
 
         // Script components
-        //- block to have same cripts in all page and add extra in some templates
+        //- block to have same scripts in all page and add extra in some templates
         block scripts
             //- JQuery
             script(src='https://code.jquery.com/jquery-3.3.1.slim.min.js' integrity='sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo' crossorigin='anonymous')

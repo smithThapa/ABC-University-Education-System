@@ -5,7 +5,7 @@ const AppError = require('./../utils/AppError');
 
 // get login page to start the application
 exports.getLoginPage = async function(req, res, next) {
-  //check if the user is loggin to redirect it to the home page
+  //check if the user is login to redirect it to the home page
   if (res.locals.user) {
     res.redirect('/home');
   }
@@ -20,7 +20,7 @@ exports.getLoginPage = async function(req, res, next) {
 // get the home page to all users after log in
 exports.getHomePage = async function(req, res, next) {
   try {
-    //add authentitcation to axios
+    //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
     //check if the user is not a team maintenance member
@@ -59,7 +59,7 @@ exports.getHomePage = async function(req, res, next) {
       });
     }
   } catch (err) {
-    //other wise redirect to the home page agan
+    //other wise redirect to the home page again
     res.status(200).render('HomeView', {
       title: 'Home'
     });
