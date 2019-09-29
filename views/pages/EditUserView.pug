@@ -1,29 +1,38 @@
+//- extend template
 extends ../components/_templateBase
 
 block content
-
+    //- Add breadcrumb
     +breadcrumbDisplay([['Home','/home'],['Manage Users','/manage_users'],['Edit User']])
 
+    //- body title
     h2 Edit #{title}
 
+    //- form to edit user
     form#editUserForm
+        //- hiddent input with the user id
         input#hiddenInputEditUserId.d-none(value=`${currentUser.id}`)
+        //- first name input with user value
         .form-group.row
             label.col-sm-2.col-form-label(for='inputEditFirstName') First Name
             .col-sm-10
                 input#inputEditFirstName.form-control(type='text' pattern="^[A-Za-z ]+$" value=`${currentUser.firstName}` maxlength="50"  placeholder='First Name' required='required')
+        //- Last name input with user value
         .form-group.row
             label.col-sm-2.col-form-label(for='inputEditLastName') Last Name
             .col-sm-10
                 input#inputEditLastName.form-control(type='text' pattern="^[A-Za-z ]+$" value=`${currentUser.lastName}` maxlength="50"  placeholder='Last Name' required='required')
+        //- Email input with user value
         .form-group.row
             label.col-sm-2.col-form-label(for='inputEditEmailAddress') Email Address
             .col-sm-10
                 input#inputEditEmailAddress.form-control(type='email' value=`${currentUser.email}` maxlength="50"  placeholder='Email Address' required='required')
+        //- Phone Number input with user value
         .form-group.row
             label.col-sm-2.col-form-label(for='inputEditPhoneNumber') Phone Number
             .col-sm-10
                 input#inputEditPhoneNumber.form-control(type='tel' value=`${currentUser.phoneNumber}` pattern="[0-9]{10}" minlength="10"  maxlength="10"  placeholder='Phone Number' required='required')
+        //- Role selection option with the current option
         .form-group.row
             label.col-sm-2.col-form-label(for='inputEditUserRole') Role 
             .col-sm-10                
@@ -35,6 +44,7 @@ block content
                             option(selected = true)= role
                         -else
                             option= role
+        //- Major selection option with current major
         .form-group.row
             label.col-sm-2.col-form-label(for='inputEditUserMajor') Major 
             .col-sm-10
@@ -45,6 +55,7 @@ block content
                             option(selected = true)= major
                         -else
                             option= major
+        //- active option by default true
         .form-group.row
             label.col-sm-2.col-form-label(for='inputEditUserActive') Active 
             .col-sm-10
@@ -56,6 +67,7 @@ block content
                             option(selected = true)= active
                         -else
                             option= active
+        //- edit button of user
         .form-group.row
             .col-sm-10
                 button.btn.btn-primary Edit #{title}

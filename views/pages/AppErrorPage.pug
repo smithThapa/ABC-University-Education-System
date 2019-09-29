@@ -1,12 +1,16 @@
+//- extend template
 extends ../components/_noBarsTemplateBase
 
 block noBarsContent
+    //- card to display the user that router does not exist
     .card.card-login.mx-auto.my-5
+        //- title with the status
         .card-header.d-inline-flex.justify-content-center.text-white
             img(src='/img/ABC_ICON_NAVBAR.svg' alt='ABC Logo' width='auto' height='60')
             h3.mt-4 University | Error #{statusCode}
         .card-body
             h5.text-center.py-5= msg
+            //- return page
             if user
                 a.btn.btn-primary.w-100(href='/home') Return Home Page
             else

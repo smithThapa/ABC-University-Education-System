@@ -1,9 +1,13 @@
+//- extend template
 extends ../components/_templateBase
 
 block content
+    //- Add breadcrumb
     +breadcrumbDisplay([['Home','/home'],['Login In As']])
 
+    //- body title
     h2 Login in as View
+    //- button to test users capabilities by the team maintenance
     div 
         a.btn.btn-primary.loginasbutton(href='/login_as_student') Login as Student 
         br

@@ -1,53 +1,72 @@
+//- extend template
 extends ../components/_templateBase
 
 block content
-    
+    //- variables to share
     -let previousPath
     -let numberOfRows
     -let numberOfCharacters
     
+    //- case that admin creates a new
     -if(title == 'News' && user.role == 'admin')
+        //- Add breadcrumb
         +breadcrumbDisplay([['Home','/home'],['Manage News','/manage_news'],['New News']])
         
+        //- assign variable the new type
         -previousPath = '/manage_news'
         -numberOfCharacters = 5000
         -numberOfRows = 20
     
+    //- case that staff creates a new
     -else if(title == 'News' && user.role == 'staff')
+        //- Add breadcrumb
         +breadcrumbDisplay([['Home','/home'],['New News']])
         
+        //- assign variable the new type
         -previousPath = '/news'
         -numberOfCharacters = 5000
         -numberOfRows = 20
         
+    //- case that admin creates an announcement
     -if(title == 'Announcements' && user.role == 'admin')
+        //- Add breadcrumb
         +breadcrumbDisplay([['Home','/home'],['Manage Announcements','/manage_announcements'],['New Announcement']])
         
+        //- assign variable the the new type
         -previousPath = '/manage_announcements'
         -numberOfCharacters = 3000
         -numberOfRows = 10
-    
+
+    //- case that staff creates an announcement
     -else if(title == 'Announcements' && user.role == 'staff')
+        //- Add breadcrumb
         +breadcrumbDisplay([['Home','/home'],['New Announcement']])
         
+        //- assign variable the the new type
         -previousPath = '/announcements'
         -numberOfCharacters = 3000
         -numberOfRows = 10
         
+    //- body title
     h2 Create New #{title}
 
+    //- form to create an article (announcements or news)
     form#createArticleForm
+        //- hidden inputs to have the article type and previos path to redirect the user
         input#hiddenInputCreateArticleType.d-none(value=`${title}`)
         input#hiddenInputCreateArticlePath.d-none(value= `${previousPath}`)
+        //- title input
         .form-group.row
             label.col-sm-2.col-form-label(for='inputCreationArticleTitle') Title
             .col-sm-10
                 input#inputCreationArticleTitle.form-control(type='text' maxlength="150"  placeholder='Title' required='required')
+        //- description input with the maximum number of characters
         .form-group.row
             label.col-sm-2.col-form-label(for='inputCreationArticleDescription') Description <br/> 
                 p.text-muted (max: #{numberOfCharacters} characters)
             .col-sm-10
                 textarea#inputCreationArticleDescription.form-control(type='text'  rows=`${numberOfRows}` maxlength=`${numberOfCharacters}` placeholder=`Description (max: ${numberOfCharacters} characters)` required='required')
+        //- add checkboxs if it is an announcement to email
         -if(title == 'Announcements')
             .form-group.row
                 label.col-sm-2.col-form-label(for='inputCheckboxEmail') Email Announcement
@@ -58,6 +77,7 @@ block content
                     .form-check.form-check-inline
                         input#inlineCheckboxStaff.form-check-input(type='checkbox' value='staff')
                         label.form-check-label(for='inlineCheckboxStaff') Staffs
+                    //- only admins can email to other admins or all users
                     if user.role == 'admin'
                         .form-check.form-check-inline
                             input#inlineCheckboxAdmin.form-check-input(type='checkbox' value='admin')
@@ -65,6 +85,7 @@ block content
                         .form-check.form-check-inline
                             input#inlineCheckboxAll.form-check-input(type='checkbox' value='all')
                             label.form-check-label(for='inlineCheckboxAll') All
+        //- button to create article
         .form-group.row
             .col-sm-10
                 button.btn.btn-primary New #{title}

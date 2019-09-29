@@ -1,9 +1,14 @@
+//- extend template
 extends ../components/_templateBase
 
 block content
+    //- Add breadcrumb
     +breadcrumbDisplay([['Home','/home'],['Maintenance Requests']])
 
+    //- body title
     h2 Send a maintenance request
+    
+    //- Form to create a maintenance request
     form#createMaintenanceRequestForm
         .form-group.form-maintenance-group.row
             label.form-label.col-sm-2.col-form-label(for='inputSubject') Subject
@@ -15,5 +20,5 @@ block content
             .col-sm-10
                 textarea#inputDescription.form-control(placeholder='Description for the maintenance request' rows='6' required='required', maxlength='5000')
 
-
+        //- submit button
         button.btn.btn-primary#maintenance-button Submit
