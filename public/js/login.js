@@ -35,10 +35,10 @@ export const login = async (email, password) => {
   }
 };
 
-//log out method to exit the app
+//log out method to exit the application
 export const logout = async () => {
   try {
-    //get reponse from API to log out
+    //get response from API to log out
     const res = await axios({
       method: 'GET',
       url: 'http://127.0.0.1:8000/api/v1/users/logout'
@@ -68,10 +68,10 @@ export const logout = async () => {
   }
 };
 
-//log out method to exit the app
+//log out method to exit the application
 export const logoutAs = async () => {
   try {
-    //get reponse from API to log out
+    //get response from API to log out
     const res = await axios({
       method: 'GET',
       url: 'http://127.0.0.1:8000/api/v1/users/logoutas'

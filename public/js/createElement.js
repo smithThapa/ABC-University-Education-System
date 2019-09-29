@@ -55,7 +55,7 @@ export const createForum = async (title, type, previousPath) => {
         'Created Forum Sucessfully!',
         'This forum new is visible to all users'
       );
-      //return previos page
+      //return previous page
       window.setTimeout(() => {
         location.assign(previousPath);
       }, 0);
@@ -85,7 +85,7 @@ export const createTopic = async (
       }
     });
 
-    //successful rsponse
+    //successful response
     if (res.data.status == 'success') {
       //move top
       window.scrollTo(0, 0);
@@ -94,7 +94,7 @@ export const createTopic = async (
         'Created Topic Sucessfully!',
         'This topic new is visible to all users'
       );
-      //return previos path
+      //return previous path
       window.setTimeout(() => {
         location.assign(previousPath);
       }, 0);
@@ -134,7 +134,7 @@ export const createComment = async (
         'Created commnet Sucessfully!',
         'Thank you for comment into this topic'
       );
-      //return previos path
+      //return previous path
       window.setTimeout(() => {
         location.assign(previousPath);
       }, 0);
@@ -169,7 +169,7 @@ export const createArticle = async function(
         `Created ${data.type} Sucessfully!`,
         `${data.type} is accessible to all users`
       );
-      //retun previos path
+      //return previous path
       window.setTimeout(() => {
         location.assign(previousPath);
       }, 0);
@@ -184,7 +184,7 @@ export const createArticle = async function(
 //create maintenanceRequests
 export const createMaintenanceRequest = async (subject, description) => {
   try {
-    //get response from the API by creatin maintenance request
+    //get response from the API by creating maintenance request
     const res = await axios({
       method: 'POST',
       url: 'http://127.0.0.1:8000/api/v1/maintenanceRequests',
@@ -203,7 +203,7 @@ export const createMaintenanceRequest = async (subject, description) => {
         'Maintenance Request is submitted',
         'Request will be processed by the maintenance staff in the next 2-3 working days'
       );
-      //retunr previos path
+      //return previous path
       window.setTimeout(() => {
         location.assign('/home');
       }, 1000);

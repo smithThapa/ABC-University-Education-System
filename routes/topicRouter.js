@@ -1,6 +1,6 @@
 //Node.js modules to implement
 const express = require('express');
-//Add presennters to use in the router
+//Add presenters to use in the router
 const topicPresenter = require('./../presenters/TopicPresenter');
 const authenticationPresenter = require('./../presenters/AuthenticationPresenter');
 //Add routers to implement creation of collection related
@@ -11,7 +11,7 @@ const router = express.Router({
   mergeParams: true
 });
 
-//Proptect the router to students, staff and admin
+//Protect the router to students, staff and admin
 router.use(
   authenticationPresenter.protect,
   authenticationPresenter.restrictTo('student', 'staff', 'admin')
@@ -25,7 +25,7 @@ router
   .route('/')
   //get all topics in the API
   .get(topicPresenter.getAllTopics)
-  //Create a new article, using the set User and Forum Ids middleware (staff and admin)
+  //Create a new article, using the set User and Forum Ids middle ware (staff and admin)
   .post(
     topicPresenter.setForumIds,
     topicPresenter.setUserId,

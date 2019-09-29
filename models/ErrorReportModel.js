@@ -3,12 +3,12 @@ const mongoose = require('mongoose');
 
 //create schema to integrate in the database
 const errorReportSchema = mongoose.Schema({
-  //subject varaiable to add a title in the error report
+  //subject variable to add a title in the error report
   subject: {
     type: String,
     required: true
   },
-  //description variabel with the contentof the report
+  //description variable with the content of the report
   description: {
     type: String,
     required: true
@@ -42,7 +42,7 @@ errorReportSchema.pre(/^find/, function(next) {
   next();
 });
 
-//create model into the mongodb
+//create model into the MongoDB
 const ErrorReport = mongoose.model('ErrorReport', errorReportSchema);
 //exports the module to manage the collection
 module.exports = ErrorReport;

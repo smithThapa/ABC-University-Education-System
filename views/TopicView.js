@@ -3,19 +3,19 @@ const axios = require('axios');
 // utilities to use
 const AppError = require('./../utils/AppError');
 
-//get topics in the fourm by its slug
+//get topics in the forum by its slug
 exports.getTopicsByForumSlug = async function(req, res, next) {
   try {
-    //add authentitcation to axios
+    //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
-    // get the fourm in the API by its slug
+    // get the forum in the API by its slug
     const objForum = await axios({
       method: 'GET',
       url: `http://127.0.0.1:8000/api/v1/forums/slug/${req.params.forumSlug}`
     });
 
-    //get all topics by the fourm id in the API
+    //get all topics by the forum id in the API
     const objTopics = await axios({
       method: 'GET',
       url: `http://127.0.0.1:8000/api/v1/forums/${objForum.data.data.data._id}/topics`
@@ -42,7 +42,7 @@ exports.getTopicsByForumSlug = async function(req, res, next) {
 // get the management view of the topic to admins
 exports.getManageTopicsListByForumSlug = async function(req, res, next) {
   try {
-    //add authentitcation to axios
+    //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
     // get the forum by its slug from API
@@ -78,7 +78,7 @@ exports.getManageTopicsListByForumSlug = async function(req, res, next) {
 //create a new topic by the forum slug
 exports.createTopicByForumSlug = async function(req, res, next) {
   try {
-    //add authentitcation to axios
+    //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
     //get the forum by its slug
@@ -89,7 +89,7 @@ exports.createTopicByForumSlug = async function(req, res, next) {
 
     //check if response is successful
     if (objForum.data.status === 'success') {
-      //send ata to the creation view to create a topic
+      //send to the creation view to create a topic
       res.status(200).render('CreateElementView', {
         title: 'Topic',
         forum: objForum.data.data.data,
@@ -105,7 +105,7 @@ exports.createTopicByForumSlug = async function(req, res, next) {
 // edit a topic view to get the topic details and edit it
 exports.editTopic = async function(req, res, next) {
   try {
-    //add authentitcation to axios
+    //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
     //get forum by slug from API
@@ -120,7 +120,7 @@ exports.editTopic = async function(req, res, next) {
       url: `http://127.0.0.1:8000/api/v1/topics/slug/${req.params.topicSlug}`
     });
 
-    // cehck if responses are successful
+    // check if responses are successful
     if (
       objForum.data.status === 'success' &&
       objTopic.data.status === 'success'
@@ -138,13 +138,13 @@ exports.editTopic = async function(req, res, next) {
   }
 };
 
-// create a topic by the fourm slug
+// create a topic by the forum slug
 exports.createTopicByForumSlug = async function(req, res, next) {
   try {
-    //add authentitcation to axios
+    //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
-    // get forum bu its lsug from API
+    // get forum bu its slug from API
     const objForum = await axios({
       method: 'GET',
       url: `http://127.0.0.1:8000/api/v1/forums/slug/${req.params.forumSlug}`
@@ -165,10 +165,10 @@ exports.createTopicByForumSlug = async function(req, res, next) {
   }
 };
 
-//edit method to ghet a topci and edit it
+//edit method to get a topic and edit it
 exports.editTopic = async function(req, res, next) {
   try {
-    //add authentitcation to axios
+    //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
     //get forum by its slug from API
@@ -188,7 +188,7 @@ exports.editTopic = async function(req, res, next) {
       objForum.data.status === 'success' &&
       objTopic.data.status === 'success'
     ) {
-      //send data to the dit view
+      //send data to the view
       res.status(200).render('EditElementView', {
         title: 'Topic',
         forum: objForum.data.data.data,
@@ -204,7 +204,7 @@ exports.editTopic = async function(req, res, next) {
 // create topic method to create a topic by the staff
 exports.createTopic = async function(req, res, next) {
   try {
-    //add authentitcation to axios
+    //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
     //get all forums from the API

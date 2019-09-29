@@ -1,6 +1,6 @@
 //Node.js modules to implement
 const express = require('express');
-//Add presennters to use in the router
+//Add presenters to use in the router
 const resourcePresenter = require('../presenters/ResourcePresenter');
 const authenticationPresenter = require('../presenters/AuthenticationPresenter');
 

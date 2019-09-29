@@ -2,36 +2,36 @@
 const Topic = require('./../models/TopicModel');
 //factor methods to implements
 const factory = require('./HandlerFactory');
-//utils of the system
+//utilities of the system
 const catchAsync = require('./../utils/CatchAsync');
 const AppError = require('./../utils/AppError');
 
-//middleware to add user id
+//middle ware to add user id
 exports.setUserId = (req, res, next) => {
   //Allows nested routes
   if (!req.body.user) req.body.user = req.user.id;
   next();
 };
 
-//middleware to all forum id
+//middle ware to all forum id
 exports.setForumIds = (req, res, next) => {
   if (!req.body.forum) req.body.forum = req.params.forumId;
   next();
 };
 
-//functo to get topic by slug
+//function to get topic by slug
 exports.getTopicSlug = catchAsync(async (req, res, next) => {
   //get the topic by the slug
   const topic = await Topic.findOne({ slug: req.params.slug }).populate({
     path: 'comments'
   });
 
-  //no tpic in the system
+  //no topic in the system
   if (!topic) {
     return next(new AppError('No Topic found with that name', 404));
   }
 
-  //rsponse
+  //response
   res.status(200).json({
     status: 'success',
     data: {
@@ -51,7 +51,7 @@ exports.updateTopic = factory.updateOne(Topic);
 //delete the topic by id
 exports.deleteTopic = factory.deleteOne(Topic);
 
-//get topic ststas
+//get topic stats
 exports.getTopicStats = catchAsync(async (req, res, next) => {
   //array to aggregate the model by the forum types in the topics
   const baseArrayAggregate = [
@@ -93,7 +93,7 @@ exports.getTopicStats = catchAsync(async (req, res, next) => {
     }
   ];
 
-  //array po get total of the topic model
+  //array to get total of the topic model
   const totalBaseArrayAggregate = [
     {
       $group: {
@@ -104,7 +104,7 @@ exports.getTopicStats = catchAsync(async (req, res, next) => {
     }
   ];
 
-  //stast array with all topics and months
+  //stats array with all topics and months
   const statsTopicList = await factory.getAggregationStatsArray(
     Topic,
     baseArrayAggregate,

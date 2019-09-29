@@ -16,7 +16,7 @@ export const sendNotification = async function(type, data) {
       //move top
       window.scrollTo(0, 0);
       showAlert('success', 'Notifications have been successfully sent!', '');
-      //retun send_notification
+      //return send_notification
       window.setTimeout(() => {
         //return to page
         location.assign('/send_notifications');

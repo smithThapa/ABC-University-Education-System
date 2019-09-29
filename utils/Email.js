@@ -1,4 +1,4 @@
-//Node.js modules to be implemenet
+//Node.js modules to be implement
 const nodemailer = require('nodemailer');
 const pug = require('pug');
 const htmlToText = require('html-to-text');
@@ -13,7 +13,7 @@ module.exports = class Email {
     this.firstName = user.firstName;
     //set the last name with the user last name
     this.lastName = user.lastName;
-    //set the url with the given URL
+    //set the URL with the given URL
     this.url = url;
     //set the from value of the email
     this.from = `ABC Univeristy Edication System <${process.env.EMAIL_FROM}>`;
@@ -45,9 +45,9 @@ module.exports = class Email {
     });
   }
 
-  // sent method to send the email, which receive the templete to use and a subject to be attached to the email
+  // sent method to send the email, which receive the template to use and a subject to be attached to the email
   async send(template, subject) {
-    // render html on a pug templare with the templace name
+    // render HTML on a pug template with the template name
     const html = pug.renderFile(
       `${__dirname}/../views/emails/${template}.pug`,
       {
@@ -72,9 +72,9 @@ module.exports = class Email {
     await this.newTransport().sendMail(mailOptions);
   }
 
-  // sendWithBody method to send the email, which receive the templete to use and a subject to be attached to the email and extra data to be sent
+  // sendWithBody method to send the email, which receive the template to use and a subject to be attached to the email and extra data to be sent
   async sendWithBody(template, subject, data) {
-    // render html on a pug templare with the templace name
+    // render HTML on a pug template with the template name
     const html = pug.renderFile(
       `${__dirname}/../views/emails/${template}.pug`,
       {
@@ -100,17 +100,17 @@ module.exports = class Email {
     await this.newTransport().sendMail(mailOptions);
   }
 
-  // class method to send welcome email, setting the welcome templace and the subject
+  // class method to send welcome email, setting the welcome template and the subject
   async sendWelcome() {
     await this.send('welcome', 'Welcome to the ABC University');
   }
 
-  // class method to send password reset email, setting the passwordReset templace and the subject
+  // class method to send password reset email, setting the passwordReset template and the subject
   async sendPasswordReset() {
     await this.send('passwordReset', 'Your new password reset token');
   }
 
-  // class method to send announcement email, setting the announcementNotification templace and the subject, with the extra data for the announcement title and description
+  // class method to send announcement email, setting the announcementNotification template and the subject, with the extra data for the announcement title and description
   async sendAnnouncement(data) {
     await this.sendWithBody(
       'announcementNotification',
@@ -119,7 +119,7 @@ module.exports = class Email {
     );
   }
 
-  // class method to send notification to change passsword email, setting the changePassword templace and the subject
+  // class method to send notification to change password email, setting the changePassword template and the subject
   async sendNotificationChangePassword() {
     await this.send(
       'changePassword',
@@ -127,12 +127,12 @@ module.exports = class Email {
     );
   }
 
-  // class method to send an email with a notification email, setting the emailNotification templace, the data subject and the data obejct
+  // class method to send an email with a notification email, setting the emailNotification template, the data subject and the data object
   async sendEmailNotification(data) {
     await this.sendWithBody('emailNotification', data.subject, data);
   }
 
-  // class method to send maintenance resolution email, setting the maintenanceResolutionEmail templace and the subject, and the data
+  // class method to send maintenance resolution email, setting the maintenanceResolutionEmail template and the subject, and the data
   async sendMaintenanceResolution(data) {
     await this.sendWithBody(
       'maintenanceResolutionEmail',

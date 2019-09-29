@@ -37,7 +37,7 @@ exports.getArticleSlug = catchAsync(async (req, res, next) => {
 
 //function to get all article that their type is Announcements
 exports.getAllAnnouncements = catchAsync(async (req, res, next) => {
-  //Execute query by allowing query option from the url, type = announcement
+  //Execute query by allowing query option from the URL, type = announcement
   const features = new APIFeatures(
     Article.find({ type: 'Announcements' }),
     req.query
@@ -50,7 +50,7 @@ exports.getAllAnnouncements = catchAsync(async (req, res, next) => {
   //get announcements from the query
   const announcements = await features.query;
 
-  //Send responce
+  //Send response
   res.status(200).json({
     status: 'success',
     results: announcements.length,
@@ -72,7 +72,7 @@ exports.getAllNews = catchAsync(async (req, res, next) => {
   //get the news from the query
   const news = await features.query;
 
-  //Send responce
+  //Send response
   res.status(200).json({
     status: 'success',
     results: news.length,
@@ -94,7 +94,7 @@ exports.getArticleType = catchAsync(async (req, res, next) => {
     }
   ]);
 
-  //respos with json object
+  //response with JSON object
   res.status(200).json({
     status: 'success',
     data: articleTypeNumbers
@@ -113,12 +113,12 @@ exports.createArticle = catchAsync(async (req, res, next) => {
   //create the article with the body of the data
   const data = await Article.create(req.body.data);
 
-  //if the type is annoucnement
+  //if the type is announcement
   if (data.type === 'Announcements') {
     //get all roles that the user selected
     const { arrayRoleEmails } = req.body;
 
-    //check if ther is 1 or more roles to send email
+    //check if there is 1 or more roles to send email
     if (arrayRoleEmails.length > 0) {
       //attribute to query by role
       let queryRole;
@@ -137,11 +137,11 @@ exports.createArticle = catchAsync(async (req, res, next) => {
       } else {
         //array with the roles selected
         const roles = [];
-        //inser the roles selecte into the array
+        //inset the roles select into the array
         arrayRoleEmails.forEach(element => {
           roles.push({ role: element });
         });
-        //query stateme with the role selected
+        //query statement with the role selected
         queryRole = {
           $and: [{ $or: roles }, { testUser: { $ne: true } }]
         };
@@ -150,18 +150,18 @@ exports.createArticle = catchAsync(async (req, res, next) => {
       //get users by the query above with the selected roles by the user
       let users = await User.find(queryRole);
 
-      //if there is more tha  1 users found
+      //if there is more than 1 users found
       if (users) {
-        //rul to access announcements
+        //URL to access announcements
         const announcementURL = `${req.protocol}://${req.get(
           'host'
         )}/announcements`;
 
-        //case development wo send only two email
+        //case development to send only two email
         if (process.env.NODE_ENV.trim() === 'development' && users.length > 2) {
           users = users.slice(0, 2);
         }
-        //iterate through all users foudn with those rols to send the email
+        //iterate through all users found with those roles to send the email
         users.forEach(async elementUser => {
           await new Email(elementUser, announcementURL).sendAnnouncement(data);
         });
@@ -169,7 +169,7 @@ exports.createArticle = catchAsync(async (req, res, next) => {
     }
   }
 
-  //respounse with the object
+  //response with the object
   res.status(201).json({
     status: 'success',
     data: {
@@ -185,7 +185,7 @@ exports.deleteArticle = factory.deleteOne(Article);
 
 //get statistics of the article
 exports.getArticleStats = catchAsync(async (req, res, next) => {
-  //array to aggergate by each required month, grouping by type
+  //array to aggregate by each required month, grouping by type
   const baseArrayAggregate = [
     {
       $project: {

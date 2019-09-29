@@ -4,10 +4,10 @@ const moment = require('moment');
 // utilities to use
 const AppError = require('./../utils/AppError');
 
-//Variable to store the html response to generate the data
+//Variable to store the HTML response to generate the data
 let responseHtml = '';
 
-//Function to parse a string to html
+//Function to parse a string to HTML
 
 // eslint-disable-next-line no-extend-native
 String.prototype.deentitize = function() {
@@ -19,10 +19,10 @@ String.prototype.deentitize = function() {
   return ret;
 };
 
-// get the statistics data html to be stored in the responseHTML variable
+// get the statistics data HTML to be stored in the responseHTML variable
 exports.getResourceStatsByHTML = async function(req, res, next) {
   try {
-    //store the reponseHTML from the req,body
+    //store the reponseHTML from the req.body
     responseHtml = req.body.html;
     res.status(200).json({
       status: 'success',
@@ -34,7 +34,7 @@ exports.getResourceStatsByHTML = async function(req, res, next) {
   }
 };
 
-// get response HTML to send to the broser as pdf to be printed
+// get response HTML to send to the browser as PDF to be printed
 exports.getResourceHtml = async function(req, res, next) {
   try {
     //open a browser puppeteer to launch the application
@@ -42,7 +42,7 @@ exports.getResourceHtml = async function(req, res, next) {
     //htmlPage to get page
     const htmlPage = await browser.newPage();
 
-    //get text Report to generate to make the title in the pdf
+    //get text Report to generate to make the title in the PDF
     let titleIn = req.params.textReport.split('-')[0];
     titleIn = titleIn.charAt(0).toUpperCase() + titleIn.slice(1); //set first letter as capital
 
@@ -54,7 +54,7 @@ exports.getResourceHtml = async function(req, res, next) {
     //get moment PDF was created to be added it
     const creationDate = moment().format('DD/MMM/YYYY HH:mm');
 
-    //get the table stats from the html abd deentitize wo convert from String to HTML
+    //get the table stats from the HTML and deentitize to convert from String to HTML
     const tableStats = responseHtml.deentitize();
 
     //create the content to add in the PDf from the title and table
@@ -68,7 +68,7 @@ exports.getResourceHtml = async function(req, res, next) {
       path: 'public/css/sb-admin.css'
     });
 
-    //create a buffer object to lunch the htmlPage with the pdf specifications
+    //create a buffer object to lunch the htmlPage with the PDF specifications
     const buffer = await htmlPage.pdf({
       format: 'A4',
       margin: {

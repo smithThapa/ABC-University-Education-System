@@ -1,15 +1,15 @@
 // require node modulates to use in the schema
 const mongoose = require('mongoose');
 
-//mongodb schema with the comment
+//MongoDB schema with the comment
 const commentSchema = mongoose.Schema(
   {
-    //title varaiable of the comment
+    //title variable of the comment
     title: {
       type: String,
       required: true
     },
-    //description variabke with the content of the comment object
+    //description variable with the content of the comment object
     description: {
       type: String
     },
@@ -53,8 +53,8 @@ commentSchema.pre(/^find/, function(next) {
   next();
 });
 
-//comment model for mongodb
+//comment model for MongoDB
 const Comment = mongoose.model('Comment', commentSchema);
 
-//export the modul for use in node.js
+//export the module for use in app.js
 module.exports = Comment;

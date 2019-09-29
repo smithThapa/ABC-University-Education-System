@@ -1,6 +1,6 @@
 //Node.js modules to implement
 const express = require('express');
-//Add presennters to use in the router
+//Add presenters to use in the router
 const userPresenter = require('./../presenters/UserPresenter');
 const authenticationPresenter = require('./../presenters/AuthenticationPresenter');
 
@@ -25,7 +25,7 @@ router.post('/forgotPassword', authenticationPresenter.forgotPassword);
 // '/resetPassword/:token' root to create a new password with the given token
 router.patch('/resetPassword/:token', authenticationPresenter.resetPassword);
 
-//Proptect the router to all logged users
+//Protect the router to all logged users
 router.use(authenticationPresenter.protect);
 
 //Roots to manage personal account

@@ -2,12 +2,12 @@
 class AppError extends Error {
   // class constructor to add a message to the user and the status code
   constructor(message, statusCode) {
-    //import the error constructore with the added message from the Error class
+    //import the error constructor with the added message from the Error class
     super(message);
 
-    //set ststaus code in the object
+    //set status code in the object
     this.statusCode = statusCode;
-    // set status of the report by checking if the statuscode starts with 4
+    // set status of the report by checking if the status code starts with 4
     this.status = `${statusCode}`.startsWith('4') ? 'fail' : 'error';
     //set that the error is operational
     this.isOperational = true;
@@ -17,5 +17,5 @@ class AppError extends Error {
   }
 }
 
-//export the AppError classs to be used in the project
+//export the AppError class to be used in the project
 module.exports = AppError;
