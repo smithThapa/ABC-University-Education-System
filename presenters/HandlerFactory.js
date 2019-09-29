@@ -113,7 +113,7 @@ exports.updateOne = Model =>
     //get element by id
     const doc = await Model.findById(req.params.id, req.body);
 
-    //if the couemnt does not exist
+    //if the document does not exist
     if (!doc) {
       return next(new AppError('No document found with that ID', 404));
     }
