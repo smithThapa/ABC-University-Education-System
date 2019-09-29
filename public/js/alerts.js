@@ -6,9 +6,9 @@ export const hideAlert = () => {
 };
 
 export const showAlert = (type, strongMsg, msg) => {
-  //hide all alers
+  //hide all alerts
   hideAlert();
-  //make up html with the alert
+  //make up HTML with the alert
   const markup = `
   <div class="alert alert-${type} alert-dismissible fade show text-center" role="alert">
     <strong>${strongMsg}</strong> ${msg}
@@ -16,7 +16,7 @@ export const showAlert = (type, strongMsg, msg) => {
       <span aria-hidden="true">&times;</span>
     </button>
   </div>`;
-  //insert html
+  //insert HTML
   document.querySelector('body').insertAdjacentHTML('afterbegin', markup);
   //set timeout to hide alert
   window.setTimeout(hideAlert, 5000);

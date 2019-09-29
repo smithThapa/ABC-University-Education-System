@@ -9,7 +9,7 @@ const moment = require('moment');
 const Resource = require('../models/ResourceModel');
 //factory to manage the module
 const factory = require('./HandlerFactory');
-//util of the application
+//utilities of the application
 const catchAsync = require('./../utils/CatchAsync');
 const AppError = require('./../utils/AppError');
 
@@ -24,11 +24,11 @@ const connection = mongoose.connection.on('error', err => {
   return new AppError(err.message, 404);
 });
 
-// init gridfsBucket
+// initialize gridfsBucket
 let gridfsBucket;
-//connect to the datase and assign gridfsBucket to upload collections
+//connect to the database and assign gridfsBucket to upload collections
 connection.once('open', () => {
-  // init stream
+  // initialize stream
   gridfsBucket = new mongoose.mongo.GridFSBucket(connection.db, {
     bucketName: 'uploads'
   });
@@ -54,7 +54,7 @@ const storage = new GridFsStorage({
   }
 });
 
-//middleware to store the files with multre
+//middle ware to store the files with multre
 const uploadMulter = multer({
   storage
 });
@@ -63,7 +63,7 @@ exports.resources = catchAsync(async (req, res, next) => {
   //get all resources
   const files = await gridfsBucket.find().toArray();
 
-  // check if files and the url com from the manage_resources
+  // check if files and the URL com from the manage_resources
   if (
     (!files || files.length === 0) &&
     req._parsedOriginalUrl.pathname.startsWith('/manage_resources')
@@ -71,7 +71,7 @@ exports.resources = catchAsync(async (req, res, next) => {
     return res.render('ResourceListView', {
       files: false
     });
-  } //if the request comes from the rsoirce url
+  } //if the request comes from the resource URL
   if (!files || files.length === 0) {
     return res.render('ResourceView', {
       files: false
@@ -80,9 +80,9 @@ exports.resources = catchAsync(async (req, res, next) => {
 
   //wait all the files
   await Promise.all(
-    //iterate thorugh all files
+    //iterate through all files
     files.map(async file => {
-      //f the file iks an image, asign the attribute to image
+      //f the file is an image, assign the attribute to image
       if (
         file.contentType === 'image/png' ||
         file.contentType === 'image/jpeg'
@@ -92,7 +92,7 @@ exports.resources = catchAsync(async (req, res, next) => {
         file.isImage = false;
       }
 
-      //get the file from the resource model and asign the user in the file object
+      //get the file from the resource model and assign the user in the file object
       const resource = await Resource.findOne({ fileId: file._id });
       if (resource) {
         file.user = resource.userId;
@@ -100,14 +100,14 @@ exports.resources = catchAsync(async (req, res, next) => {
     })
   );
 
-  //response to manage_resources url
+  //response to manage_resources URL
   if (req._parsedOriginalUrl.pathname === '/manage_resources') {
     return res.render('ResourceListView', {
       files: files,
       user: req.user
     });
   }
-  //response to resources url
+  //response to resources URL
   return res.render('ResourceView', {
     files: files,
     user: req.user
@@ -115,19 +115,19 @@ exports.resources = catchAsync(async (req, res, next) => {
   });
 });
 
-//upload the file with multer middleare
+//upload the file with multer middle ware
 exports.uploadMulterMiddle = uploadMulter.single('file');
 
 //function to upload the file
 exports.upload = (req, res) => {
   try {
-    //create the respoorce record in the database to connect file and user
+    //create the resource record in the database to connect file and user
     Resource.create({
       fileId: req.file.id,
       userId: req.user.id
     });
 
-    //is the url to retrun the the right one
+    //is the URL to return the the right one
     if (req.baseUrl.startsWith('/manage_resources'))
       res.redirect('/manage_resources');
     else res.redirect('/resources');
@@ -145,7 +145,7 @@ exports.files = (req, res) => {
         err: 'no files exist'
       });
     }
-    //response as json
+    //response as JSON
     return res.json(files);
   });
 };
@@ -186,7 +186,7 @@ exports.getImage = (req, res) => {
     });
 };
 
-//delete the dile
+//delete the file
 exports.deleteFile = catchAsync(async (req, res, next) => {
   //get the id
   const id = mongoose.Types.ObjectId(req.params.id);
@@ -200,7 +200,7 @@ exports.deleteFile = catchAsync(async (req, res, next) => {
     if (err) return res.status(404).json({ err: err.message });
   });
 
-  //redirect user to the right url
+  //redirect user to the right URL
   if (req.baseUrl.startsWith('/manage_resources'))
     res.redirect('/manage_resources');
   else res.redirect('/resources');
@@ -229,7 +229,7 @@ exports.getResourceStats = catchAsync(async (req, res, next) => {
 
   //await all months first
   await Promise.all(
-    //iterate over all motnhs
+    //iterate over all months
     arrayMonths.map(async month => {
       //get the data of the first date of the month to query
       const dateQuery = moment()
@@ -305,10 +305,10 @@ exports.getResourceStats = catchAsync(async (req, res, next) => {
     [{ _id: 'Resources', totalNumResources: statsResourceList.length }]
   ];
 
-  //psuh the total to the end of the arra
+  //push the total to the end of the array
   arrayList.push(totalMonthArray);
 
-  //standar the array to avoid missing data
+  //standard the array to avoid missing data
   const statsArrayStandard = factory.standardAggregationArrayExports(arrayList);
 
   //response

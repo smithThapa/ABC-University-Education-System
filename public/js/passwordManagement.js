@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { showAlert } from './alerts';
 
-//method to reset paswird
+//method to reset password
 export const resetPassword = async function(password, confirmPassword, token) {
   try {
     //get response from API to reset password

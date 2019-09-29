@@ -1,6 +1,6 @@
 //Node.js modules to implement
 const express = require('express');
-//Add presennters to use in the router
+//Add presenters to use in the router
 const maintenanceRequestPresenter = require('../presenters/MaintenanceRequestPresenter');
 const authenticationPresenter = require('../presenters/AuthenticationPresenter');
 
@@ -9,7 +9,7 @@ const router = express.Router({
   mergeParams: true
 });
 
-//Proptect the router to any user who is loged in
+//Protect the router to any user who is logged in
 router.use(authenticationPresenter.protect);
 
 // '/' root
@@ -20,7 +20,7 @@ router
     authenticationPresenter.restrictTo('team-maintenance'),
     maintenanceRequestPresenter.getAllMaintenanceRequests
   )
-  //Create a new forum, using the set User Id middleware
+  //Create a new forum, using the set User Id middle ware
   .post(
     maintenanceRequestPresenter.setUserId,
     maintenanceRequestPresenter.createMaintenanceRequest

@@ -2,7 +2,7 @@
 
 //Node.js modules to implement
 const express = require('express');
-//Add presennters to use in the router
+//Add presenters to use in the router
 const authenticationPresenter = require('./../presenters/AuthenticationPresenter');
 //Router and presenters to use (Resources)
 const resourceRouter = require('./resourceRouter');
@@ -28,7 +28,7 @@ const router = express.Router();
 //----No Logged Users---------
 //----------------------------
 
-// '/' root, start root which chech if the users is logged in to redirect to home page. This root allows users to log in
+// '/' root, start root which check if the users is logged in to redirect to home page. This root allows users to log in
 router.get('/', authenticationPresenter.isLoggedIn, homeView.getLoginPage);
 
 // '/my_details/forgot_password' root to require a new token to access the application
@@ -59,7 +59,7 @@ router.get(
 );
 
 //-------------------------------------
-//----Stundet, Staff and Admin---------
+//----Student, Staff and Admin---------
 //-------------------------------------
 
 // '/resources' root to access the resource router
@@ -84,7 +84,7 @@ router.all(
 
 // '/forums' root to see all forums
 router.get('/forums', forumView.getForums);
-// '/forums/:forumSlug/topics' root to see all topics ijn the forum by its slug
+// '/forums/:forumSlug/topics' root to see all topics in the forum by its slug
 router.get('/forums/:forumSlug/topics', topicView.getTopicsByForumSlug);
 // '/forums/:forumSlug/topics/:topicSlug/comments' root to see all comments in a topic by its slug
 router.get(
@@ -287,7 +287,7 @@ router.get(
   statisticsView.getStatisticsView
 );
 
-// '/report_generation/sendHtml' root to send the stadistics data page to the root as a html string
+// '/report_generation/sendHtml' root to send the statistics data page to the root as a HTML string
 router.post(
   '/report_generation/sendHtml',
   authenticationPresenter.protect,
@@ -295,7 +295,7 @@ router.post(
   reportGenerationView.getResourceStatsByHTML
 );
 
-// '/report_generation/:textReport' root to request an specific statistic table to send as a pdf tan to print it out
+// '/report_generation/:textReport' root to request an specific statistic table to send as a PDF tan to print it out
 router.get(
   '/report_generation/:textReport',
   authenticationPresenter.protect,
@@ -307,7 +307,7 @@ router.get(
 //----Admin & Team-Maintenance---------
 //-------------------------------------
 
-// '/send_notifications' root to send emaqil notification to users by the admin and team-maintenance
+// '/send_notifications' root to send email notification to users by the admin and team-maintenance
 router.get(
   '/send_notifications',
   authenticationPresenter.protect,

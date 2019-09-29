@@ -1,6 +1,6 @@
 //Node.js modules to implement
 const express = require('express');
-//Add presennters to use in the router
+//Add presenters to use in the router
 const forumPresenter = require('./../presenters/ForumPresenter');
 const authenticationPresenter = require('./../presenters/AuthenticationPresenter');
 //Add routers to implement creation of collection related
@@ -10,7 +10,7 @@ const commentRouter = require('./commentRouter');
 //create a router object with Express for (http://127.0.0.1:8000/api/v1/forums)
 const router = express.Router();
 
-//Proptect the router to students, staff and admin
+//Protect the router to students, staff and admin
 router.use(
   authenticationPresenter.protect,
   authenticationPresenter.restrictTo('student', 'staff', 'admin')
@@ -26,7 +26,7 @@ router
   .route('/')
   //get all forums in the API
   .get(forumPresenter.getAllForums)
-  //Create a new forum, using the set User Id middleware (staff and admin))
+  //Create a new forum, using the set User Id middle ware (staff and admin))
   .post(
     forumPresenter.setUserId,
     authenticationPresenter.restrictTo('staff', 'admin'),

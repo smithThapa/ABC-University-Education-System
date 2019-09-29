@@ -3,10 +3,10 @@ const axios = require('axios');
 // utilities to use
 const AppError = require('./../utils/AppError');
 
-//get statistics of the wesbite to be displayed to admins
+//get statistics of the website to be displayed to admins
 exports.getStatisticsView = async function(req, res, next) {
   try {
-    //add authentitcation to axios
+    //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
     //get user statistics from API

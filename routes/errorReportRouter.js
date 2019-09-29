@@ -1,6 +1,6 @@
 //Node.js modules to implement
 const express = require('express');
-//Add presennters to use in the router
+//Add presenters to use in the router
 const errorReportPresenter = require('../presenters/ErrorReportPresenter');
 const authenticationPresenter = require('../presenters/AuthenticationPresenter');
 
@@ -9,7 +9,7 @@ const router = express.Router({
   mergeParams: true
 });
 
-//Proptect the router to team maintenance
+//Protect the router to team maintenance
 router.use(
   authenticationPresenter.protect,
   authenticationPresenter.restrictTo('team-maintenance')
@@ -20,7 +20,7 @@ router
   .route('/')
   //get all article in the API
   .get(errorReportPresenter.getAllErrorReports)
-  //Create a new article, using the set User Id middleware
+  //Create a new article, using the set User Id middle ware
   .post(errorReportPresenter.setUserId, errorReportPresenter.createErrorReport);
 
 // '/:id' root get manage the element in the model by Id, such as get one, update and delete by Id

@@ -1,6 +1,6 @@
 //Node.js modules to implement
 const express = require('express');
-//Add presennters to use in the router
+//Add presenters to use in the router
 const commentPresenter = require('./../presenters/CommentPresenter');
 const authenticationPresenter = require('./../presenters/AuthenticationPresenter');
 
@@ -9,7 +9,7 @@ const router = express.Router({
   mergeParams: true
 });
 
-//Proptect the router to students, staff and admin
+//Protect the router to students, staff and admin
 router.use(
   authenticationPresenter.protect,
   authenticationPresenter.restrictTo('student', 'staff', 'admin')
@@ -20,7 +20,7 @@ router
   .route('/')
   //get all comments in the API
   .get(commentPresenter.getAllComments)
-  //Create a new comment, using the set User and Forum Ids middleware
+  //Create a new comment, using the set User and Forum Ids middle ware
   .post(
     commentPresenter.setUserId,
     commentPresenter.setForumAndTopicIds,

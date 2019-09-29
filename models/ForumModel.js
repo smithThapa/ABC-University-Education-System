@@ -19,7 +19,7 @@ const forumSchema = mongoose.Schema(
       default: Date.now(),
       immutable: true
     },
-    //foru type in an enum to restrict values
+    //forum type in an ENUM to restrict values
     type: {
       type: String,
       required: true,
@@ -60,7 +60,7 @@ forumSchema.pre(/^find/, function(next) {
   next();
 });
 
-//createa  virtual atribute for the topics associated with the dorum
+//create virtual attribute for the topics associated with the forum
 forumSchema.virtual('topics', {
   ref: 'Topic',
   foreignField: 'forum',
@@ -84,13 +84,13 @@ forumSchema.pre('remove', async function(next) {
   //remove the all topic
   await Topic.remove({ forum: this._id });
   topics.map(async topic => {
-    //iterate in the topic to remove the commentes with topic id
+    //iterate in the topic to remove the comments with topic id
     await Comment.remove({ topic: topic._id });
   });
   next();
 });
 
-//create sceham object to store in the collection
+//create schema object to store in the collection
 const Forum = mongoose.model('Forum', forumSchema);
 
 //export the model

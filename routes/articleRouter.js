@@ -1,6 +1,6 @@
 //Node.js modules to implement
 const express = require('express');
-//Add presennters to use in the router
+//Add presenters to use in the router
 const articlePresenter = require('../presenters/ArticlePresenter');
 const authenticationPresenter = require('../presenters/AuthenticationPresenter');
 
@@ -9,7 +9,7 @@ const router = express.Router({
   mergeParams: true
 });
 
-//Proptect the router to students, staff and admin
+//Protect the router to students, staff and admin
 router.use(
   authenticationPresenter.protect,
   authenticationPresenter.restrictTo('student', 'staff', 'admin')
@@ -20,21 +20,21 @@ router
   .route('/')
   //get all article in the API
   .get(articlePresenter.getAllArticles)
-  //Create a new article, using the set User Id middleware (staff and admin)
+  //Create a new article, using the set User Id middle ware (staff and admin)
   .post(
     articlePresenter.setUserId,
     authenticationPresenter.restrictTo('staff', 'admin'),
     articlePresenter.createArticle
   );
 
-// 'stats' root to get the number of announcements and news in the artciles
+// 'stats' root to get the number of announcements and news in the articles
 router.route('/stats').get(articlePresenter.getArticleType);
 
-// 'announcements' and 'news' roots to get all artciles by type
+// 'announcements' and 'news' roots to get all articles by type
 router.route('/news').get(articlePresenter.getAllNews);
 router.route('/announcements').get(articlePresenter.getAllAnnouncements);
 
-// '/articleStats' root of the system to get all statistics of the artcile (only Admin)
+// '/articleStats' root of the system to get all statistics of the article (only Admin)
 router
   .route('/articleStats')
   .get(

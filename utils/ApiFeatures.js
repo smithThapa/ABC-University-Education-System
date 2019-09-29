@@ -1,5 +1,5 @@
 /* eslint-disable node/no-unsupported-features/es-syntax */
-//Class API Features to add url query in the mongo query
+//Class API Features to add URL query in the MongoDB query
 class APIFeatures {
   //class constructor with the query object and URL query from the URL
   constructor(query, queryString) {
@@ -14,7 +14,7 @@ class APIFeatures {
     const queryObj = { ...this.queryString };
     // exclusion types to omit in this step (following methods will implement them)
     const excludedFields = ['page', 'sort', 'limit', 'fields'];
-    // delete these exclusion fileds from the queryObj copy
+    // delete these exclusion fields from the queryObj copy
     excludedFields.forEach(el => delete queryObj[el]);
 
     //convert queryObject JSON object into a String
@@ -38,15 +38,15 @@ class APIFeatures {
       //add the sort string into the mongoose query to further execution
       this.query = this.query.sort(sortBy);
     } else {
-      //if there is not added fiels, all query will be sorted by the creation time of the object in ascencion
+      //if there is not added fields, all query will be sorted by the creation time of the object in ascencion
       this.query = this.query.sort('-createAt');
     }
 
-    //retun query
+    //rerun query
     return this;
   }
 
-  //limit fields methods to select the fileds to be displayed in the query
+  //limit fields methods to select the fields to be displayed in the query
   limitFields() {
     //check if the field option is added
     if (this.queryString.fields) {
@@ -55,7 +55,7 @@ class APIFeatures {
       //add the filed string into the mongoose query to further execution
       this.query = this.query.select(fields);
     } else {
-      //by default it will be select all but the __v attribute from mongodb
+      //by default it will be select all but the __v attribute from MongoDB
       this.query = this.query.select('-__v');
     }
 
@@ -67,7 +67,7 @@ class APIFeatures {
   pagination() {
     // set the page number (default 1)
     const page = this.queryString.page * 1 || 1;
-    //set the number of obejct to display (default 100)
+    //set the number of object to display (default 100)
     const limit = this.queryString.limit * 1 || 100;
     //skip values to to set the values in the page selected
     const skip = (page - 1) * limit;

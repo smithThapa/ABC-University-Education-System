@@ -3,10 +3,10 @@ const axios = require('axios');
 // utilities to use
 const AppError = require('./../utils/AppError');
 
-//get news for user to nagivate thorugh them
+//get news for user to navigate through them
 exports.getNews = async function(req, res, next) {
   try {
-    //add authentitcation to axios
+    //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
     //get the stats with the number of news in the system
@@ -39,7 +39,7 @@ exports.getNews = async function(req, res, next) {
 //get new details to be displayed to any user
 exports.getNewsDetails = async function(req, res, next) {
   try {
-    //add authentitcation to axios
+    //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
     //get new element from API and its slug
@@ -48,7 +48,7 @@ exports.getNewsDetails = async function(req, res, next) {
       url: `http://127.0.0.1:8000/api/v1/articles/slug/${req.params.slug}`
     });
 
-    //check fi the response is successful
+    //check if the response is successful
     if (newElement.data.status === 'success') {
       //send the new to the pug template to be displayed
       res.status(200).render('NewsDetailsView', {
@@ -65,7 +65,7 @@ exports.getNewsDetails = async function(req, res, next) {
 // get news list to display tot he admin to manage news
 exports.getManageNewsList = async function(req, res, next) {
   try {
-    //add authentitcation to axios
+    //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
     //get news from API
@@ -96,10 +96,10 @@ exports.createNews = function(req, res, next) {
   });
 };
 
-// edit method to pen tht e pug teamplete with the news data to be edited
+// edit method to open edit pug template with the news data to be edited
 exports.editNews = async function(req, res, next) {
   try {
-    //add authentitcation to axios
+    //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
     //get new element from API and its slug

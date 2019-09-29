@@ -93,14 +93,14 @@ const userSchema = new mongoose.Schema(
       default: false
     }
   },
-  //convertion fo the virtual attributes
+  //conversion to the virtual attributes
   {
     toJSON: { virtuals: true },
     toObject: { virtuals: true }
   }
 );
 
-//before the user is saved, it will be codificaed the password
+//before the user is saved, it will be codification the password
 userSchema.pre('save', async function(next) {
   // Only run this function if password was actually modified
   if (!this.isModified('password')) return next();
@@ -137,7 +137,7 @@ userSchema.methods.changedPasswordAfter = function(JWTTimestamp) {
       this.passwordChangedAt.getTime() / 1000,
       10
     );
-    //return if the jwt has expirted when the password was changed
+    //return if the JWT has expired when the password was changed
     return JWTTimestamp < changedTimestamp;
   }
 

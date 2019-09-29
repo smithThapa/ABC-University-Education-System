@@ -6,7 +6,7 @@ const AppError = require('./../utils/AppError');
 //get maintenance users view to admins
 exports.getManageUsersList = async function(req, res, next) {
   try {
-    //add authentitcation to axios
+    //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
     //get users from the API
@@ -46,7 +46,7 @@ exports.createUser = async function(req, res, next) {
 //edit method to edit a user
 exports.editUser = async function(req, res, next) {
   try {
-    //add authentitcation to axios
+    //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
     //get current User from API by Id
@@ -69,7 +69,7 @@ exports.editUser = async function(req, res, next) {
   }
 };
 
-// reser password page after user click in the url in their email to reset password
+// reset password page after user click in the URL in their email to reset password
 exports.resetPassword = async function(req, res, next) {
   //send token to the page
   res.status(200).render('ResetPasswordView', {
@@ -85,14 +85,14 @@ exports.forgotPassword = async function(req, res, next) {
   });
 };
 
-//get my deatils page to check detail users
+//get my details page to check detail users
 exports.getMyDetails = async function(req, res, next) {
   res.status(200).render('UserDetailsView', {
     title: 'User'
   });
 };
 
-//get send nofitication page to email notitication to users
+//get send notification page to email notification to users
 exports.getSendNotificationPage = function(req, res) {
   res.status(200).render('SendNotificationPage', {
     title: 'Send Notifications'

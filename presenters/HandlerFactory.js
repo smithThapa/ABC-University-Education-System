@@ -1,12 +1,12 @@
 /* eslint-disable no-plusplus */
 //Node.js modules to implement
 const moment = require('moment');
-//utils of the system to implement
+//utilities of the system to implement
 const catchAsync = require('./../utils/CatchAsync');
 const AppError = require('./../utils/AppError');
 const APIFeatures = require('./../utils/ApiFeatures');
 
-//standarised the array by month, adding zero to values no existing
+//standardized the array by month, adding zero to values no existing
 const standardAggregationArray = array => {
   //get last element in the array
   const lastElement = array[array.length - 1];
@@ -33,7 +33,7 @@ const standardAggregationArray = array => {
 
     //complete element before
     let start = 0;
-    // for loop for rthe mon elements
+    // for loop for the month elements
     for (let j = 0; j < array[i][1].length; j++) {
       //for loop to compare with the attributes
       for (let k = start; k < arrayIdValues.length; k++) {
@@ -66,13 +66,13 @@ const standardAggregationArray = array => {
       }
     }
 
-    //push each mont array in the new array
+    //push each month array in the new array
     newArray.push(subArrayEachMonth);
   }
 
-  //assign the final array to retrun to the ones given
+  //assign the final array to return to the ones given
   const finalArray = array;
-  // chanege the original array witht eh new values
+  // change the original array with eh new values
   for (let i = 0; i < array.length - 1; i++) {
     finalArray[i][1] = newArray[i];
   }
@@ -81,12 +81,12 @@ const standardAggregationArray = array => {
   return finalArray;
 };
 
-//export function to standarised the array to other activiites
+//export function to standardized the array to other activities
 exports.standardAggregationArrayExports = array => {
   return standardAggregationArray(array);
 };
 
-//delete a document from mongodb by id
+//delete a document from MongoDB by id
 exports.deleteOne = Model =>
   catchAsync(async (req, res, next) => {
     //get element by id
@@ -128,7 +128,7 @@ exports.updateOne = Model =>
       }
     }
 
-    //update the docuemnt
+    //update the document
     await doc.save();
 
     //response
@@ -143,7 +143,7 @@ exports.updateOne = Model =>
 //create one document
 exports.createOne = Model =>
   catchAsync(async (req, res, next) => {
-    //create docuemtn with the data provided
+    //create document with the data provided
     const doc = await Model.create(req.body);
 
     //response
@@ -188,7 +188,7 @@ exports.getAll = (Model, popOptions) =>
   catchAsync(async (req, res, next) => {
     // to allow for nested get review on tours
     let filter = {};
-    //if ther is forumid
+    //if there is forum id
     if (req.params.forumId) {
       filter = {
         forum: req.params.forumId
@@ -201,7 +201,7 @@ exports.getAll = (Model, popOptions) =>
       };
     }
 
-    //Execute query allowing url queries
+    //Execute query allowing URL queries
     const features = new APIFeatures(Model.find(filter), req.query)
       .filter()
       .sort()
@@ -213,10 +213,10 @@ exports.getAll = (Model, popOptions) =>
       features.query = features.query.populate(popOptions);
     }
 
-    //execute query with all previos options
+    //execute query with all previous options
     const doc = await features.query;
 
-    //Send responce
+    //Send response
     res.status(200).json({
       status: 'success',
       results: doc.length,
@@ -238,7 +238,7 @@ exports.getAggregationStatsArray = async function(
   //months to iterate and get
   const arrayMonths = [1, 2, 3, 6, 12];
 
-  //aggergation option to sort by id after group
+  //aggregation option to sort by id after group
   const sortBaseArrayAggregate = [{ $sort: { _id: 1 } }];
 
   //await all before all the total
@@ -286,12 +286,12 @@ exports.getAggregationStatsArray = async function(
     })
   );
 
-  //aggregate to get final elemenet with not matchin date
+  //aggregate to get final element with not matching date
   const stats = await Model.aggregate(
     baseArrayAggregate.concat(sortBaseArrayAggregate)
   );
 
-  //total values of the stst of the model
+  //total values of the stats of the model
   const statsTotal = await Model.aggregate(
     baseArrayAggregate
       .concat(totalBaseArrayAggregate)
@@ -301,7 +301,7 @@ exports.getAggregationStatsArray = async function(
   //push total in the array
   arrayList.push(['Total', stats, statsTotal]);
 
-  //sort the array to acoid conflicts
+  //sort the array to avoid conflicts
   arrayList.sort();
 
   //return the standard array

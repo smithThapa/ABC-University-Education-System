@@ -147,13 +147,6 @@ if (editMyPasswordForm) {
   });
 }
 
-//3.a: file input to show filename in the input field
-if (fileInput) {
-  document.getElementById('fileInput').onchange = function() {
-    alert(`Selected file: ${this.value}`);
-  };
-}
-
 //4.a: Create element, forum, topic and comment
 if (createElementForm) {
   //add event to all forums

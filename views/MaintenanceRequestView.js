@@ -13,7 +13,7 @@ exports.getMaintenancePage = (req, res) => {
 // get the maintenance request list to manage the requests by the team-maintenance members
 exports.getManageMaintenanceRequestsList = async function(req, res, next) {
   try {
-    //add authentitcation to axios
+    //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
     //get maintenance requests from the API

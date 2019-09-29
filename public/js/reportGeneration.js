@@ -15,7 +15,7 @@ export const reportGeneration = async function(text, html) {
 
     //response successful
     if (res.data.status == 'success') {
-      //open report pdf
+      //open report PDF
       window.open(`/report_generation/${text}`);
     }
   } catch (err) {
