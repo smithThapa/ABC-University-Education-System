@@ -14,6 +14,9 @@ const standardAggregationArray = array => {
   //full data
   const dataToIterateAsObjects = lastElement[1];
 
+  //total data
+  const totalValuesObject = lastElement[2][0];
+
   //convert objects into id values
   const arrayIdValues = [];
   dataToIterateAsObjects.forEach(element => {
@@ -70,11 +73,47 @@ const standardAggregationArray = array => {
     newArray.push(subArrayEachMonth);
   }
 
+  //New total standard
+  const totalNewArray = [];
+
+  //array with all attributes
+  const arrayTotalKeysObject = Object.getOwnPropertyNames(totalValuesObject);
+
+  //iterate through all elements
+  for (let i = 0; i < array.length - 1; i++) {
+    //check if the array is empty
+    if (array[i][2].length === 0) {
+      //create object variable to append in the array
+      const totalObject = {};
+
+      //iterate through the total object property name to append zeros, from the second element
+      arrayTotalKeysObject.forEach(element => {
+        if (element === '_id') {
+          //- append id of the object
+          totalObject._id = totalValuesObject._id;
+        } else {
+          totalObject[element] = 0;
+        }
+      });
+
+      //push the element in the array
+      totalNewArray.push([totalObject]);
+    }
+
+    // case that the object is not empty, push the right element
+    else {
+      totalNewArray.push(array[i][2]);
+    }
+  }
+
   //assign the final array to return to the ones given
   const finalArray = array;
   // change the original array with eh new values
   for (let i = 0; i < array.length - 1; i++) {
+    //change in the case first element
     finalArray[i][1] = newArray[i];
+    //case second element
+    finalArray[i][2] = totalNewArray[i];
   }
 
   //return the array

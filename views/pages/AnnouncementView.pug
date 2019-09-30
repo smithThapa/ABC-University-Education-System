@@ -65,15 +65,15 @@ block content
                                         //- header announcements
                                         .card-header.bg-info.text-white(id=`heading${i}`)
                                             //- event to the header to open accordion 
-                                            h5.mb-0
-                                                button.btn.text-white.d-flex(data-toggle='collapse' data-target=`#collapse${i}` aria-expanded='false' aria-controls=`collapse${i}`)
-                                                    |#{announcementDateHeader} - #{announcements[i].title}
+
+                                            button.btn.text-white.d-flex.text-wrap(data-toggle='collapse' data-target=`#collapse${i}` aria-expanded='false' aria-controls=`collapse${i}`)
+                                                p.text-break.mb-0 #{announcementDateHeader} - #{announcements[i].title}
 
                                         .collapse(id=`collapse${i}` aria-labelledby=`heading${i}` data-parent='#accordion')
                                             //- body of the card
                                             .card-body
                                                 //- author
-                                                .card-subtitle.mb-2
+                                                .card-text.mb-2
                                                     if (announcements[i].user)
                                                         small.text-muted= `${announcements[i].user.firstName} ${announcements[i].user.lastName} | Created At:  ${announcementDate}`
                                                     else

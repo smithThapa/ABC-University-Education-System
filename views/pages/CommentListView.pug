@@ -6,12 +6,14 @@ block append head
     //- style for the table
     link(rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css")
     link(rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css")
+    link(rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css")
     
 //- add script to make table dynamic from dataTable
 block append scripts
     //- DataTable from Bootstrap
     script(src='https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js')
     script(src='https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js')
+    script(src='https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js')
     //- Internal Js to active the Tables
     script(src='/js/databaseDesignJQuery.js')
            
@@ -44,7 +46,7 @@ block content
     p #{topic.description}
     
     //- title on the body, with button to create new comment
-    .d-flex
+    .d-sm-flex
         h2 Manage Comments
         a.btn.btn-primary.text-white.mb-auto.ml-auto(href =`/manage_forums/${forum.slug}/manage_topics/${topic.slug}/manage_comments/new_comment`) + Create Comment
       
@@ -53,7 +55,7 @@ block content
         h4.font-weight-bold.text-dark.mt-0.ml-4 No comments in this topic to manage.
     - else
         //- Comment table
-        table.table#dataTable.table.table-striped.table-bordered.table-sm.text-center
+        table#dataTable.table.table-striped.table-bordered.table-sm.text-xl-center.display.responsive
             thead
                 tr
                     th Title
@@ -76,7 +78,7 @@ block content
                     tr
                         //- Comment title
                         td 
-                            a.btn(type="button" data-toggle="modal" data-target=`#displayDescriptionModal${comment.id}`) #{comment.title}
+                            a.btn.text-wrap(type="button" data-toggle="modal" data-target=`#displayDescriptionModal${comment.id}`) #{comment.title}
                         //- Author
                         if comment.user
                             td= `${comment.user.firstName} ${comment.user.lastName}`

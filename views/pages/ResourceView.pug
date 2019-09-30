@@ -27,7 +27,7 @@ block content
     //- upload input
     .row
         //- form to add file
-        form.col-6(action="/resources/upload" method="post" enctype="multipart/form-data")
+        form.col-md-6(action="/resources/upload" method="post" enctype="multipart/form-data")
             .input-group
                 .custom-file
                     //- input of the file with the choose button
@@ -43,7 +43,7 @@ block content
             thead
                 tr
                     //- sort characters
-                    th.text-right.px-5 Sort By Date
+                    th.text-md-right.px-5 Sort By Date
             tbody
                 //- iterate through each file to add each as a row
                 each file in files
@@ -58,12 +58,12 @@ block content
                             p.d-none #{uploadTime}
                             .card
                                 //- filename
-                                .h5.card-header.bg-info.text-white= file.filename
+                                .h5.card-header.bg-info.text-white.text-break= file.filename
                                 .card-body
-                                    //- dispaly image if the resource is a image
+                                    //- display image if the resource is a image
                                     if file.isImage
-                                        img(src=`/resources/image/${file.filename}`, width="250", alt="", class="img-responsive")
-                                    .card-subtitle.my-2
+                                        img.w-25(src=`/resources/image/${file.filename}`, width="250", alt="", class="img-responsive")
+                                    .card-text.my-2
                                         //- author format
                                         -const author = file.user ? `${file.user.firstName} ${file.user.lastName}` : 'Anonymous'
                                         
@@ -74,13 +74,12 @@ block content
                                         -const updateDate = moment(file.uploadDate).format('dddd DD MMM YYYY HH:mm')
                                         //- file creation date
                                         small.text-muted= `Upload date: ${updateDate}`
-                                .card-footer
+                                .card-footer.d-sm-flex
                                     //- Download button
                                     a.btn.btn-primary( href= `/resources/files/${file.filename}` target="_blank") Download
-                                    hr
                                     //- if user uploaded the file, it has a delete button
                                     if file.user && user._id == file.user.id
-                                        a.btn.btn-danger.text-white(type='button' data-toggle="modal" data-target=`#deleteModalFile${file._id}`) Delete
+                                        a.btn.btn-danger.text-white.ml-auto(type='button' data-toggle="modal" data-target=`#deleteModalFile${file._id}`) Delete
 
     else
         h4.font-weight-bold.text-dark.mt-0.ml-4 No files in the system.   
