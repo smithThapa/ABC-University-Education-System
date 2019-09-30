@@ -56,7 +56,7 @@ block content
                             //- creation date
                             -const creationDateTopic = moment(topic.createdAt).format('dddd DD MMM YYYY HH:mm');
                             //- topic author
-                            -const authorTopic = topic.user.firstName ? `${topic.user.firstName} ${topic.user.lastName}` : 'ABC University'
+                            -const authorTopic = topic.user ? `${topic.user.firstName} ${topic.user.lastName}` : 'Anonymous'
                             
                             //- create card of the topic to be displayed
                             +cardDisplayItems(topic.title, topic.description, `${authorTopic}`, creationDateTopic, `/forums/${forum.slug}/topics/${topic.slug}/comments`, 'Topic', `Number of Comments: ${topic.comments.length}`)

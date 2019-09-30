@@ -10,7 +10,7 @@ block content
     //- case that admin creates a new
     -if(title == 'News' && user.role == 'admin')
         //- Add breadcrumb
-        +breadcrumbDisplay([['Home','/home'],['Manage News','/manage_news'],['New News']])
+        +breadcrumbDisplay([['Home','/home'],['Manage News','/manage_news'],['Create News']])
         
         //- assign variable the new type
         -previousPath = '/manage_news'
@@ -20,7 +20,7 @@ block content
     //- case that staff creates a new
     -else if(title == 'News' && user.role == 'staff')
         //- Add breadcrumb
-        +breadcrumbDisplay([['Home','/home'],['New News']])
+        +breadcrumbDisplay([['Home','/home'],['Create News']])
         
         //- assign variable the new type
         -previousPath = '/news'
@@ -30,7 +30,7 @@ block content
     //- case that admin creates an announcement
     -if(title == 'Announcements' && user.role == 'admin')
         //- Add breadcrumb
-        +breadcrumbDisplay([['Home','/home'],['Manage Announcements','/manage_announcements'],['New Announcement']])
+        +breadcrumbDisplay([['Home','/home'],['Manage Announcements','/manage_announcements'],['Create Announcement']])
         
         //- assign variable the the new type
         -previousPath = '/manage_announcements'
@@ -40,7 +40,7 @@ block content
     //- case that staff creates an announcement
     -else if(title == 'Announcements' && user.role == 'staff')
         //- Add breadcrumb
-        +breadcrumbDisplay([['Home','/home'],['New Announcement']])
+        +breadcrumbDisplay([['Home','/home'],['Create Announcement']])
         
         //- assign variable the the new type
         -previousPath = '/announcements'
@@ -48,7 +48,7 @@ block content
         -numberOfRows = 10
         
     //- body title
-    h2 Create New #{title}
+    h2 Create #{title}
 
     //- form to create an article (announcements or news)
     form#createArticleForm
@@ -88,4 +88,4 @@ block content
         //- button to create article
         .form-group.row
             .col-sm-10
-                button.btn.btn-primary New #{title}
+                button.btn.btn-primary Create #{title}
