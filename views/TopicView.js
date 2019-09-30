@@ -3,6 +3,19 @@ const axios = require('axios');
 // utilities to use
 const AppError = require('./../utils/AppError');
 
+// Accepts the array and key to group the array by the keys
+const groupBy = (array, key) => {
+  // Return the end result
+  return array.reduce((result, currentValue) => {
+    // If an array already present for key, push it to the array. Else create an array and push the object
+    (result[currentValue[key]] = result[currentValue[key]] || []).push(
+      currentValue
+    );
+    // Return the current iteration `result` value, this will be taken as next iteration `result` value and accumulate
+    return result;
+  }, {}); // empty object is the initial value for result object
+};
+
 //get topics in the forum by its slug
 exports.getTopicsByForumSlug = async function(req, res, next) {
   try {
@@ -213,12 +226,16 @@ exports.createTopic = async function(req, res, next) {
       url: `http://127.0.0.1:8000/api/v1/forums`
     });
 
+    // array group it by the type to get the selection
+    const objectTitlesByType = groupBy(objForums.data.data.data, 'type');
+
     // check if response is successful
     if (objForums.data.status === 'success') {
       //send forum to the pug template
       res.status(200).render('CreateElementView', {
         title: 'Topic',
-        forums: objForums.data.data.data
+        forums: objForums.data.data.data,
+        objectTitlesByType
       });
     }
   } catch (err) {

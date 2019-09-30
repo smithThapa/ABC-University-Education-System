@@ -9976,9 +9976,6 @@ var resetPasswordForm = document.getElementById('resetPasswordForm'); //a
 var forgotPasswordForm = document.getElementById('forgotPasswordForm'); //b
 
 var editMyPasswordForm = document.getElementById('editMyPasswordForm'); //c
-//3: file related
-
-var fileInput = document.getElementById('fileInput'); //a
 //4: create elements
 
 var createElementForm = document.getElementById('createElementForm'); //a
@@ -10114,9 +10111,9 @@ if (createElementForm) {
 
       if (userRole == 'staff') {
         //forum id from selection
-        forumId = document.getElementById('inputCreationForum').selectedOptions[0].dataset.forumId; //forums slug to redirect
+        forumId = document.getElementById('inputCreationForumTitle').selectedOptions[0].dataset.forumId; //forums slug to redirect
 
-        var forumSlug = document.getElementById('inputCreationForum').selectedOptions[0].dataset.forumSlug; //change precious path to redirect
+        var forumSlug = document.getElementById('inputCreationForumTitle').selectedOptions[0].dataset.forumSlug; //change precious path to redirect
 
         _previousPath += "/".concat(forumSlug, "/topics");
       } //user has role = admin
@@ -10505,7 +10502,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50811" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53035" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

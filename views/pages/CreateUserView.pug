@@ -3,10 +3,10 @@ extends ../components/_templateBase
 
 block content
     //- Add breadcrumb
-    +breadcrumbDisplay([['Home','/home'],['Manage Users','/manage_users'],['New User']])
+    +breadcrumbDisplay([['Home','/home'],['Manage Users','/manage_users'],['Create User']])
 
     //- body title
-    h2 Create New #{title}
+    h2 Create #{title}
 
     //- form to create user
     form#createUserForm
@@ -35,6 +35,7 @@ block content
             label.col-sm-2.col-form-label(for='inputCreationUserRole') Role 
             .col-sm-10
                 select#inputCreationUserRole.form-control(required='required')
+                    option(value='') SELECT A ROLE
                     option Student
                     option Staff
                     option Admin
@@ -44,6 +45,7 @@ block content
             label.col-sm-2.col-form-label(for='inputCreationUserMajor') Major 
             .col-sm-10
                 select#inputCreationUserMajor.form-control(required='required')
+                    option(value='') SELECT A MAJOR
                     option Information Technology
                     option Business
                     option Accounting
@@ -52,4 +54,4 @@ block content
         //- creation button
         .form-group.row
             .col-sm-10
-                button.btn.btn-primary New #{title}
+                button.btn.btn-primary Create #{title}

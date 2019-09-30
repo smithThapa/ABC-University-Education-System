@@ -1,6 +1,11 @@
 //- extend template
 extends ../components/_templateBase
 
+//- add script
+block append scripts
+    //- Select Forum js to change the title with the forum type
+    script(src='/js/selectChangeForumTitle.js')
+
 block content
     //- variables to share
     -let forumId
@@ -10,7 +15,7 @@ block content
     //- case that admin creates a forum
     -if(title == 'Forum' && user.role == 'admin')
         //- Add breadcrumb
-        +breadcrumbDisplay([['Home','/home'],['Manage Forums','/manage_forums'],['New Forum']])
+        +breadcrumbDisplay([['Home','/home'],['Manage Forums','/manage_forums'],['Create Forum']])
         
         //- assign variable the new type
         -previousPath = '/manage_forums'
@@ -18,7 +23,7 @@ block content
     //- case that staff creates a forum
     -if(title == 'Forum' && user.role == 'staff')
         //- Add breadcrumb
-        +breadcrumbDisplay([['Home','/home'],['New Forum']])
+        +breadcrumbDisplay([['Home','/home'],['Create Forum']])
         
         //- assign variable the new type
         -previousPath = '/forums'
@@ -31,7 +36,7 @@ block content
         -previousPath = `/manage_forums/${forum.slug}/manage_topics`
         
         //- Add breadcrumb
-        +breadcrumbDisplay([['Home','/home'],['Manage Forums','/manage_forums'], ['Manage Topics', `${previousPath}`],['New Topic']]) 
+        +breadcrumbDisplay([['Home','/home'],['Manage Forums','/manage_forums'], ['Manage Topics', `${previousPath}`],['Create Topic']]) 
         
         //- forum creation date and author format
         -const creationDateForum = moment(forum.createdAt).format('dddd DD MMM YYYY HH:mm');
@@ -48,7 +53,7 @@ block content
     //- case that staff creates a topic
     -if(title == 'Topic' && user.role == 'staff')
         //- Add breadcrumb
-        +breadcrumbDisplay([['Home','/home'],['New Topic']])
+        +breadcrumbDisplay([['Home','/home'],['Create Topic']])
         
         //- assign variable the new type
         -previousPath = '/forums'
@@ -111,12 +116,26 @@ block content
         input#hiddenInputCreatePath.d-none(value= `${previousPath}`)
         //- case staff create a topic, display a dropdown with forums
         -if(title == 'Topic' && user.role == 'staff')
+            //- selection drop down with the forum types
             .form-group.row
-                label.col-sm-2.col-form-label(for='inputCreationForum') Forum 
+                label.col-sm-2.col-form-label(for='inputCreationForumType') Forum Type
                 .col-sm-10
-                    select#inputCreationForum.form-control(required='required')
-                        each forum, index in forums
-                            option(data-forum-id= `${forum.id}` data-forum-slug=`${forum.slug}`) #{forum.title} - #{forum.type}
+                    select#inputCreationForumType.form-control(required='required')
+                        option(value='') SELECT A FORUM TYPE
+                        -for(const key in objectTitlesByType)
+                            option= key
+            //- list with all the titles to hide
+            .form-group.row.d-none
+                -for(const key in objectTitlesByType)
+                    ul(id=`forumType${key.split(' ').join('')}List`)
+                        each forumElement in objectTitlesByType[key]
+                            li(data-forum-id=`${forumElement.id}` data-forum-slug=`${forumElement.slug}`)= forumElement.title
+            //- select of the title of the forum          
+            .form-group.row
+                label.col-sm-2.col-form-label(for='inputCreationForumTitle') Forum Title
+                .col-sm-10
+                    select#inputCreationForumTitle.form-control(required='required')
+                                       
         //- Title input
         .form-group.row
             label.col-sm-2.col-form-label(for='inputCreationTitle') Title
@@ -134,12 +153,12 @@ block content
             .form-group.row
                 label.col-sm-2.col-form-label(for='inputCreationType') Type 
                 .col-sm-10
+                    -const arrayForumType = ['Accounting','Business','Information Technology','Other','Project Management',]
                     select#inputCreationType.form-control(required='required')
-                        option Information Technology
-                        option Business
-                        option Accounting
-                        option Project Management
-                        option Other
+                        option(value='') SELECT A FORUM TYPE
+                        each forumType in arrayForumType
+                            option #{forumType}
+                        
         //- button to create element  
         .form-group.row
             .col-sm-10

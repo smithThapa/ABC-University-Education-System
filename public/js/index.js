@@ -33,8 +33,6 @@ const logoutAsBtn = document.getElementById('logoutAsBtn'); //c
 const resetPasswordForm = document.getElementById('resetPasswordForm'); //a
 const forgotPasswordForm = document.getElementById('forgotPasswordForm'); //b
 const editMyPasswordForm = document.getElementById('editMyPasswordForm'); //c
-//3: file related
-const fileInput = document.getElementById('fileInput'); //a
 //4: create elements
 const createElementForm = document.getElementById('createElementForm'); //a
 const createArticleForm = document.getElementById('createArticleForm'); //b
@@ -182,10 +180,10 @@ if (createElementForm) {
       //case role = staff
       if (userRole == 'staff') {
         //forum id from selection
-        forumId = document.getElementById('inputCreationForum')
+        forumId = document.getElementById('inputCreationForumTitle')
           .selectedOptions[0].dataset.forumId;
         //forums slug to redirect
-        const forumSlug = document.getElementById('inputCreationForum')
+        const forumSlug = document.getElementById('inputCreationForumTitle')
           .selectedOptions[0].dataset.forumSlug;
         //change precious path to redirect
         previousPath += `/${forumSlug}/topics`;
