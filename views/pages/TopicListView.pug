@@ -69,10 +69,10 @@ block content
                         td
                             a.btn(type="button" data-toggle="modal" data-target=`#displayDescriptionModal${topic.id}`) #{topic.title}
                         //- Author
-                        if topic.user.firstName
+                        if topic.user
                             td= `${topic.user.firstName} ${topic.user.lastName}`
                         else
-                            td ABC University
+                            td Anonymous
                         //- Created date
                         td= creationDate
                         //- number of comments

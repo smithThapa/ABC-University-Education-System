@@ -60,10 +60,10 @@ block content
                         //- File name
                         td.text-left.pl-3= file.filename
                         //- Author
-                        if file.user.firstName
+                        if file.user
                             td #{file.user.firstName} #{file.user.lastName}
                         else
-                            td ABC University
+                            td Anonymous
                         //- Upload times
                         td= updateDate
                         //- Download button

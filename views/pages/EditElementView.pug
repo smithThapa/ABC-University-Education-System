@@ -33,7 +33,7 @@ block content
         //- creation date of forum
         -const creationDateForum = moment(forum.createdAt).format('dddd DD MMM YYYY HH:mm');
         //- author of forum
-        -const authorForum = forum.user.firstName ? `${forum.user.firstName} ${forum.user.lastName}` : 'ABC University'
+        -const authorForum = forum.user ? `${forum.user.firstName} ${forum.user.lastName}` : 'Anonymous'
         
         //- FORUM
         //- title
@@ -59,8 +59,8 @@ block content
         -const creationDateTopic = moment(topic.createdAt).format('dddd DD MMM YYYY HH:mm');
         
         //- author format of forum and topic
-        -const authorForum = forum.user.firstName ? `${forum.user.firstName} ${forum.user.lastName}` : 'ABC University'
-        -const authorTopic = topic.user.firstName ? `${topic.user.firstName} ${topic.user.lastName}` : 'ABC University'
+        -const authorForum = forum.user ? `${forum.user.firstName} ${forum.user.lastName}` : 'Anonymous'
+        -const authorTopic = topic.user ? `${topic.user.firstName} ${topic.user.lastName}` : 'Anonymous'
 
         //- FORUM
         //- title

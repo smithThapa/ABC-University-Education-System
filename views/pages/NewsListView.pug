@@ -54,10 +54,10 @@ block content
                         td.text-left.pl-3
                             a(type="button" data-toggle="modal" data-target=`#displayDescriptionModal${newElement.id}`) #{newElement.title}
                         //- Author
-                        if newElement.user.firstName
+                        if newElement.user
                             td #{newElement.user.firstName} #{newElement.user.lastName}
                         else
-                            td ABC University
+                            td Anonymous
                         //- Created date
                         td= creationDate
                         //- Edit Button

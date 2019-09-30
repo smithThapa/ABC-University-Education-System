@@ -8,7 +8,7 @@ block content
     
     //- new creation date and author
     -const creationDate = moment(newElement.createdAt).format('dddd DD MMM YYYY HH:mm');
-    -const author = newElement.user.firstName ? `${newElement.user.firstName} ${newElement.user.lastName}` : 'ABC University'
+    -const author = newElement.user ? `${newElement.user.firstName} ${newElement.user.lastName}` : 'Anonymous'
     
     //- new title and author with the format
     h2= newElement.title

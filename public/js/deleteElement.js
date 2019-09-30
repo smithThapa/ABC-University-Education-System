@@ -11,7 +11,7 @@ export const deleteElement = async (id, type) => {
     });
 
     //if successful delete
-    if (response.data.status === 'success') {
+    if (res.data.status === 'success') {
       //move top
       window.scrollTo(0, 0);
       showAlert(

@@ -66,7 +66,7 @@ block content
                                                     .h6.card-title= news[i].title
                                                     //- author
                                                     .card-subtitle.mb-2
-                                                        -const author = news[i].user.firstName ? `${news[i].user.firstName} ${news[i].user.lastName}` : 'ABC University'
+                                                        -const author = news[i].user ? `${news[i].user.firstName} ${news[i].user.lastName}` : 'Anonymous'
                                                         //- creation date
                                                         small.text-muted= `${author} | Created At: ${creationDate}`
                                                 //- button to access the news

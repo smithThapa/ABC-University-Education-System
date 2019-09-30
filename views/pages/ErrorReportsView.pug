@@ -70,10 +70,10 @@ block content
                         td.text-left.pl-3
                             a(type="button" data-toggle="modal" data-target=`#displayDescriptionModal${errorReport.id}`) #{errorReport.subject}
                         //- Author
-                        if errorReport.user.firstName
+                        if errorReport.user
                             td= `${errorReport.user.firstName} ${errorReport.user.lastName}`
                         else
-                            td ABC University
+                            td Anonymous
                         //- Creation date
                         td= creationDate
                         //- Status

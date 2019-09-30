@@ -54,7 +54,7 @@ const storage = new GridFsStorage({
   }
 });
 
-//middle ware to store the files with multre
+//middle ware to store the files with multer
 const uploadMulter = multer({
   storage
 });
@@ -69,11 +69,13 @@ exports.resources = catchAsync(async (req, res, next) => {
     req._parsedOriginalUrl.pathname.startsWith('/manage_resources')
   ) {
     return res.render('ResourceListView', {
+      title: 'Resources',
       files: false
     });
   } //if the request comes from the resource URL
   if (!files || files.length === 0) {
     return res.render('ResourceView', {
+      title: 'Resources',
       files: false
     });
   }
@@ -103,12 +105,14 @@ exports.resources = catchAsync(async (req, res, next) => {
   //response to manage_resources URL
   if (req._parsedOriginalUrl.pathname === '/manage_resources') {
     return res.render('ResourceListView', {
+      title: 'Resources',
       files: files,
       user: req.user
     });
   }
   //response to resources URL
   return res.render('ResourceView', {
+    title: 'Resources',
     files: files,
     user: req.user
     // userFilesIds

@@ -138,7 +138,7 @@ if (editMyPasswordForm) {
     userPasswordObj.password = document.getElementById(
       'inputUpdateNewMyPassword'
     ).value;
-    userPasswordObj.confirmPassword = document.getElementById(
+    userPasswordObj.passwordConfirm = document.getElementById(
       'inputUpdateConfirmMyPassword'
     ).value;
 

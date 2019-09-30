@@ -48,7 +48,7 @@ block content
                 //- iterate through each file to add each as a row
                 each file in files
                     //-delete models of each user
-                    if user.id == file.user.id
+                    if file.user && user.id == file.user.id
                         +deleteModalFileTemplate(file._id, file.filename, 'resources')
                     
                     tr
@@ -65,7 +65,7 @@ block content
                                         img(src=`/resources/image/${file.filename}`, width="250", alt="", class="img-responsive")
                                     .card-subtitle.my-2
                                         //- author format
-                                        -const author = file.user.firstName ? `${file.user.firstName} ${file.user.lastName}` : 'ABC University'
+                                        -const author = file.user ? `${file.user.firstName} ${file.user.lastName}` : 'Anonymous'
                                         
                                         //- user who upload file
                                         small.text-muted= `Uploaded by: ${author}`
@@ -79,7 +79,7 @@ block content
                                     a.btn.btn-primary( href= `/resources/files/${file.filename}` target="_blank") Download
                                     hr
                                     //- if user uploaded the file, it has a delete button
-                                    -if (user._id == file.user.id)
+                                    if file.user && user._id == file.user.id
                                         a.btn.btn-danger.text-white(type='button' data-toggle="modal" data-target=`#deleteModalFile${file._id}`) Delete
 
     else

@@ -88,10 +88,10 @@ block content
                         td.text-left.pl-3
                             a(type="button" data-toggle="modal" data-target=`#displayDescriptionModal${maintenanceRequest.id}`) #{maintenanceRequest.subject}
                         //- Author
-                        if maintenanceRequest.user.firstName
+                        if maintenanceRequest.user
                             td= `${maintenanceRequest.user.firstName} ${maintenanceRequest.user.lastName}`
                         else
-                            td ABC University
+                            td Anonymous
                         //- Created date
                         td= creationDate
                         //- maintenance requests status

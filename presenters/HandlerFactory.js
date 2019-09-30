@@ -101,7 +101,7 @@ exports.deleteOne = Model =>
     await doc.remove();
 
     //response
-    res.status(204).json({
+    res.status(201).json({
       status: 'success',
       data: null
     });

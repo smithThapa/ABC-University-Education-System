@@ -22,12 +22,15 @@ block content
     //- creation date of forum and topic
     -const creationDateForum = moment(forum.createdAt).format('dddd DD MMM YYYY HH:mm');
     -const creationDateTopic = moment(topic.createdAt).format('dddd DD MMM YYYY HH:mm');
+    //- author format of forum and topic
+    -const authorForum = forum.user ? `${forum.user.firstName} ${forum.user.lastName}` : 'Anonymous'
+    -const authorTopic = topic.user ? `${topic.user.firstName} ${topic.user.lastName}` : 'Anonymous'
     
     //- FORUM
     //- title
     a.text-decoration-none.h2(href='/forums') Forum : #{forum.title} - #{forum.type}
     //- author
-    small.text-muted.mt-0= `Author: ${forum.user.firstName} ${forum.user.lastName}. Created on: ${creationDateForum}`
+    small.text-muted.mt-0= `Author: ${authorForum}. Created on: ${creationDateForum}`
     //- description
     p #{forum.description}
     
@@ -35,7 +38,7 @@ block content
     //- title
     a.text-decoration-none.h3.mt-0(href=`/forums/${forum.slug}/topics`) Topic : #{topic.title}
     //- author
-    small.text-muted.mt-0= `Author: ${topic.user.firstName} ${topic.user.lastName}. Created on: ${creationDateTopic}`
+    small.text-muted.mt-0= `Author: ${authorTopic}. Created on: ${creationDateTopic}`
     //- description
     p #{topic.description}
     
@@ -67,7 +70,7 @@ block content
                             -const author = comment.user.firstName ? `${comment.user.firstName} ${comment.user.lastName}` : 'ABC University'
                             
                             //- check if the user is who created to allow delete element
-                            -if (user.id == comment.user.id)
-                                +cardDisplayItems(comment.title, comment.description, author, creationDateComment, `/forums/${forum.slug}/topics/${topic.slug}/comments/${comment.id}/edit_comment`, `Edit Comment`)
-                            -else
+                            if comment.user && user.id == comment.user.id
+                                    +cardDisplayItems(comment.title, comment.description, author, creationDateComment, `/forums/${forum.slug}/topics/${topic.slug}/comments/${comment.id}/edit_comment`, `Edit Comment`)
+                            else
                                 +cardDisplayItems(comment.title, comment.description, author, creationDateComment)

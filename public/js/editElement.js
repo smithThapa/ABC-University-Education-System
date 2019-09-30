@@ -136,7 +136,7 @@ export const editMyPassword = async function(data) {
   } catch (err) {
     window.scrollTo(0, 0);
     // console.log(err);
-    showAlert('error', err.response.data.message);
+    showAlert('danger', `Your Password cannot be updated!`, '');
   }
 };
 
@@ -166,6 +166,10 @@ export const editMaintenanceRequest = async (id, status, resolvedMessage) => {
     }
   } catch (err) {
     window.scrollTo(0, 0);
-    showAlert('danger', 'Maintenance Request is not submitted.');
+    showAlert(
+      'danger',
+      'Maintenance Request is not submitted.',
+      err.response.data.message
+    );
   }
 };

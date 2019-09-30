@@ -23,7 +23,7 @@ block content
     //- forum creation date
     -const creationDateForum = moment(forum.createdAt).format('dddd DD MMM YYYY HH:mm');
     //- forum author
-    -const authorForum = forum.user.firstName ? `${forum.user.firstName} ${forum.user.lastName}` : 'ABC University'
+    -const authorForum = forum.user ? `${forum.user.firstName} ${forum.user.lastName}` : 'Anonymous'
     
     //- FORUM
     //- title

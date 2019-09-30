@@ -67,7 +67,7 @@ mixin deleteModalFileTemplate(id, filename, type)
                     h5.text-center
                         | If you delete this <b> Resource: #{filename} </b>, it will be erased from the system.     
                     
-                //- Footer of the body wiht the buton to delete element            
+                //- Footer of the body with the button to delete element            
                 .modal-footer
                     button.btn.btn-secondary(type='button' data-dismiss='modal') Cancel
                     form(action=`/${type}/files/del/${id}` method="post")
@@ -104,7 +104,7 @@ html
             //- Personal Style sheet
             link(rel='stylesheet' href='/css/style.css')
             //- favicon of the application
-            link(rel='shortcut icon' type='image/svg' href='/img/favicon.svg') 
+            link(rel='shortcut icon' type='image/ico' href='/img/favicon.ico') 
             //-Title of the application
             title ABC University Educational System | #{title}
     // Body Component

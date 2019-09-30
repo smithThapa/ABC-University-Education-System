@@ -23,11 +23,15 @@ block content
     -const creationDateForum = moment(forum.createdAt).format('dddd DD MMM YYYY HH:mm');
     -const creationDateTopic = moment(topic.createdAt).format('dddd DD MMM YYYY HH:mm');
     
+    //- author format of forum and topic
+    -const authorForum = forum.user ? `${forum.user.firstName} ${forum.user.lastName}` : 'Anonymous'
+    -const authorTopic = topic.user ? `${topic.user.firstName} ${topic.user.lastName}` : 'Anonymous'
+    
     //- FORUM
     //- title
     a.text-decoration-none.h2(href='/manage_forums') Forum : #{forum.title} - #{forum.type}
     //- Author
-    small.text-muted.mt-0= `Author: ${forum.user.firstName} ${forum.user.lastName}. Created on: ${creationDateForum}`
+    small.text-muted.mt-0= `Author: ${authorForum}. Created on: ${creationDateForum}`
     //- description
     p #{forum.description}
     
@@ -35,7 +39,7 @@ block content
     //- title
     a.text-decoration-none.h3.mt-0(href=`/manage_forums/${forum.slug}/manage_topics`) Topic : #{topic.title}
     //- Author
-    small.text-muted.mt-0= `Author: ${topic.user.firstName} ${topic.user.lastName}. Created on: ${creationDateTopic}`
+    small.text-muted.mt-0= `Author: ${authorTopic}. Created on: ${creationDateTopic}`
     //- description
     p #{topic.description}
     
@@ -74,10 +78,10 @@ block content
                         td 
                             a.btn(type="button" data-toggle="modal" data-target=`#displayDescriptionModal${comment.id}`) #{comment.title}
                         //- Author
-                        if comment.user.firstName
+                        if comment.user
                             td= `${comment.user.firstName} ${comment.user.lastName}`
                         else
-                            td ABC University
+                            td Anonymous
                         //- Created date
                         td= creationDate
                         //- Edit Button

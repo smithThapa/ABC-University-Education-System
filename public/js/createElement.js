@@ -131,7 +131,7 @@ export const createComment = async (
       window.scrollTo(0, 0);
       showAlert(
         'success',
-        'Created commnet Sucessfully!',
+        'Created comment successfully!',
         'Thank you for comment into this topic'
       );
       //return previous path

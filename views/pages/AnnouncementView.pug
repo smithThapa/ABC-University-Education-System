@@ -74,10 +74,10 @@ block content
                                             .card-body
                                                 //- author
                                                 .card-subtitle.mb-2
-                                                    if (announcements[i].user.firstName)
+                                                    if (announcements[i].user)
                                                         small.text-muted= `${announcements[i].user.firstName} ${announcements[i].user.lastName} | Created At:  ${announcementDate}`
                                                     else
-                                                        small.text-muted= `ABC University | Created At:  ${announcementDate}`
+                                                        small.text-muted= `Anonymous | Created At:  ${announcementDate}`
                                                 |#{announcements[i].description}
                                 -countDown += 10
                     -currentPage++
