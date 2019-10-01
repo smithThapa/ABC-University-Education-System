@@ -18,7 +18,7 @@ const topicRouter = require('./routes/topicRouter');
 const commentRouter = require('./routes/commentRouter');
 const articleRouter = require('./routes/articleRouter');
 const errorReportRouter = require('./routes/errorReportRouter');
-const maintainanceRequestRouter = require('./routes/maintenanceRequestRouter');
+const maintenanceRequestRouter = require('./routes/maintenanceRequestRouter');
 
 //create the app object with express
 const app = express();
@@ -74,7 +74,7 @@ app.use('/api/v1/forums', forumRouter);
 app.use('/api/v1/topics', topicRouter);
 app.use('/api/v1/comments', commentRouter);
 app.use('/api/v1/errorReports', errorReportRouter);
-app.use('/api/v1/maintenanceRequests', maintainanceRequestRouter);
+app.use('/api/v1/maintenanceRequests', maintenanceRequestRouter);
 
 //set all view router to the front-end
 app.use('/', viewRouter);
