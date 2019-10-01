@@ -67,6 +67,9 @@ exports.getResourceHtml = async function(req, res, next) {
     await htmlPage.addStyleTag({
       path: 'public/css/sb-admin.css'
     });
+    await htmlPage.addStyleTag({
+      path: 'public/css/style.css'
+    });
 
     //create a buffer object to lunch the htmlPage with the PDF specifications
     const buffer = await htmlPage.pdf({

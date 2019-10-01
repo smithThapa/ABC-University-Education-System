@@ -302,6 +302,18 @@ exports.getResourceStats = catchAsync(async (req, res, next) => {
     }
   }
 
+  //check if the total array is empty
+  if (arrayTotal.length === 0) {
+    //Create empty Object to push in the array
+    // eslint-disable-next-line no-case-declarations
+    const resourceStatsObject = {
+      _id: 'none',
+      numResources: 0
+    };
+    //add the element to the array stats
+    arrayTotal.push(resourceStatsObject);
+  }
+
   //total array with all values
   const totalMonthArray = [
     `Total`,

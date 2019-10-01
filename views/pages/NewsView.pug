@@ -36,7 +36,7 @@ block content
                 -const rows = parseInt((records/3)+1)
                 //- at least one row
                 -let currentRow = 1
-                //- number of news proccessed
+                //- number of news processed
                 -let countDown = 0
                 //- current news looped
                 -let i = 0
@@ -60,10 +60,10 @@ block content
                                             
                                             .card
                                                 //- news title
-                                                .h5.card-header.bg-info.text-white= news[i].type
+                                                .h5.card-header.bg-info.text-white.text-break= news[i].title
                                                 .card-body
                                                     //- title
-                                                    .h6.card-title= news[i].title
+                                                    .h6.card-title.text-break #{news[i].description.substr(0,100)}...
                                                     //- author
                                                     .card-subtitle.mb-2
                                                         -const author = news[i].user ? `${news[i].user.firstName} ${news[i].user.lastName}` : 'Anonymous'
@@ -71,7 +71,7 @@ block content
                                                         small.text-muted= `${author} | Created At: ${creationDate}`
                                                 //- button to access the news
                                                 .card-footer
-                                                     a.btn.btn-primary(href=`/news/${news[i].slug}`)= `Go to New`
+                                                     a.btn.btn-primary(href=`/news/${news[i].slug}`) View this News
                     //- increase current row
                     -currentRow++
                     //- add three to the count down

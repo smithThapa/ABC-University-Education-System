@@ -59,4 +59,4 @@ block content
                             -const authorTopic = topic.user ? `${topic.user.firstName} ${topic.user.lastName}` : 'Anonymous'
                             
                             //- create card of the topic to be displayed
-                            +cardDisplayItems(topic.title, topic.description, `${authorTopic}`, creationDateTopic, `/forums/${forum.slug}/topics/${topic.slug}/comments`, 'Topic', `Number of Comments: ${topic.comments.length}`)
+                            +cardDisplayItems(topic.title, topic.description, `${authorTopic}`, creationDateTopic, `/forums/${forum.slug}/topics/${topic.slug}/comments`, 'View Comments', `Number of Comments: ${topic.comments.length}`)

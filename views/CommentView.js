@@ -9,22 +9,25 @@ exports.getCommentsByTopicSlug = async function(req, res, next) {
     //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
+    //get href for axios
+    const href = `${req.protocol}://${req.get('host')}/`;
+
     //get object forum by its slug in the URL
     const objForum = await axios({
       method: 'GET',
-      url: `http://127.0.0.1:8000/api/v1/forums/slug/${req.params.forumSlug}`
+      url: `${href}api/v1/forums/slug/${req.params.forumSlug}`
     });
 
     //get object topic by its slug
     const objTopic = await axios({
       method: 'GET',
-      url: `http://127.0.0.1:8000/api/v1/topics/slug/${req.params.topicSlug}`
+      url: `${href}api/v1/topics/slug/${req.params.topicSlug}`
     });
 
     //get all comments in the current topic
     const objComments = await axios({
       method: 'GET',
-      url: `http://127.0.0.1:8000/api/v1/topics/${objTopic.data.data.data._id}/comments`
+      url: `${href}api/v1/topics/${objTopic.data.data.data._id}/comments`
     });
 
     //check if forum, topic and comments were successfully gotten
@@ -53,16 +56,19 @@ exports.createComment = async function(req, res, next) {
     //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
+    //get href for axios
+    const href = `${req.protocol}://${req.get('host')}/`;
+
     //get forum by its slug
     const objForum = await axios({
       method: 'GET',
-      url: `http://127.0.0.1:8000/api/v1/forums/slug/${req.params.forumSlug}`
+      url: `${href}api/v1/forums/slug/${req.params.forumSlug}`
     });
 
     //get topic by its slug
     const objTopic = await axios({
       method: 'GET',
-      url: `http://127.0.0.1:8000/api/v1/topics/slug/${req.params.topicSlug}`
+      url: `${href}api/v1/topics/slug/${req.params.topicSlug}`
     });
 
     //check if both, forum and topic were successfully created
@@ -91,22 +97,25 @@ exports.getManageCommentsListByTopicSlug = async function(req, res, next) {
     //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
+    //get href for axios
+    const href = `${req.protocol}://${req.get('host')}/`;
+
     //get the forum object from the API by its slug
     const objForum = await axios({
       method: 'GET',
-      url: `http://127.0.0.1:8000/api/v1/forums/slug/${req.params.forumSlug}`
+      url: `${href}api/v1/forums/slug/${req.params.forumSlug}`
     });
 
     //get topic object by its slug from API
     const objTopic = await axios({
       method: 'GET',
-      url: `http://127.0.0.1:8000/api/v1/topics/slug/${req.params.topicSlug}`
+      url: `${href}api/v1/topics/slug/${req.params.topicSlug}`
     });
 
     //get comments by the topic ID from API
     const objComments = await axios({
       method: 'GET',
-      url: `http://127.0.0.1:8000/api/v1/topics/${objTopic.data.data.data._id}/comments`
+      url: `${href}api/v1/topics/${objTopic.data.data.data._id}/comments`
     });
 
     //check if the data was successfully received
@@ -135,22 +144,25 @@ exports.editComment = async function(req, res, next) {
     //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
+    //get href for axios
+    const href = `${req.protocol}://${req.get('host')}/`;
+
     //get forum by its slug from api
     const objForum = await axios({
       method: 'GET',
-      url: `http://127.0.0.1:8000/api/v1/forums/slug/${req.params.forumSlug}`
+      url: `${href}api/v1/forums/slug/${req.params.forumSlug}`
     });
 
     //get topic by its slug from API
     const objTopic = await axios({
       method: 'GET',
-      url: `http://127.0.0.1:8000/api/v1/topics/slug/${req.params.topicSlug}`
+      url: `${href}api/v1/topics/slug/${req.params.topicSlug}`
     });
 
     //get the comment by its id through API
     const objComment = await axios({
       method: 'GET',
-      url: `http://127.0.0.1:8000/api/v1/comments/${req.params.commentId}`
+      url: `${href}api/v1/comments/${req.params.commentId}`
     });
 
     //check if all responses were successful

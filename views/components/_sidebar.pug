@@ -2,7 +2,7 @@
 mixin sidebarMenu(link, text, icon)
     li.nav-item
         a.nav-link(href= link)
-            //- isert icons
+            //- insert icons
             svg.icon-box_sidebar.mr-md-2.pb-1
                 use(xlink:href=`/img/icons.svg#icon-${icon}`)
             span= text
@@ -25,7 +25,7 @@ mixin sidebarMenu(link, text, icon)
                     a#pagesDropdown.nav-link.dropdown-toggle(href='#' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
                         svg.icon-box_sidebar.mr-md-2.pb-1
                             use(xlink:href=`/img/icons.svg#icon-settings`)
-                        span Admin Management
+                        span.text-wrap Admin Management
                         svg.icon-box_sidebar.ml-md-3.pb-1
                             use(xlink:href=`/img/icons.svg#icon-arrow-sidebar-down`)
                     .dropdown-menu(aria-labelledby='pagesDropdown')

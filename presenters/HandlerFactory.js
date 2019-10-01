@@ -330,12 +330,156 @@ exports.getAggregationStatsArray = async function(
     baseArrayAggregate.concat(sortBaseArrayAggregate)
   );
 
+  //Case that stats is empty array
+  if (stats.length === 0) {
+    //switch through the models
+    switch (Model.collection.collectionName) {
+      // Model = User
+      case 'users':
+        //Create empty Object to push in the array
+        // eslint-disable-next-line no-case-declarations
+        const userStatsObject = {
+          _id: 'none',
+          numUsers: 0,
+          numAccounting: 0,
+          numBusiness: 0,
+          numInformationTechnology: 0,
+          numProjectManagement: 0,
+          numNOTAMAJOR: 0
+        };
+        //add the element to the array stats
+        stats.push(userStatsObject);
+        break;
+
+      // Model = Forum
+      case 'forums':
+        //Create empty Object to push in the array
+        // eslint-disable-next-line no-case-declarations
+        const forumStatsObject = {
+          _id: 'none',
+          numForums: 0,
+          totalNumTopics: 0
+        };
+        //add the element to the array stats
+        stats.push(forumStatsObject);
+        break;
+
+      // Model = Topic
+      case 'topics':
+        //Create empty Object to push in the array
+        // eslint-disable-next-line no-case-declarations
+        const topicStatsObject = {
+          _id: 'none',
+          numTopics: 0,
+          totalNumComments: 0
+        };
+        //add the element to the array stats
+        stats.push(topicStatsObject);
+        break;
+
+      // Model = Article
+      case 'articles':
+        //Create empty Object to push in the array
+        // eslint-disable-next-line no-case-declarations
+        const articleStatsObject = {
+          _id: 'none',
+          numArticle: 0
+        };
+        //add the element to the array stats
+        stats.push(articleStatsObject);
+        break;
+
+      //default case
+      default:
+        //Create empty Object to push in the array
+        // eslint-disable-next-line no-case-declarations
+        const defaultStatsObject = {
+          _id: 'none',
+          num: 0
+        };
+        //add the element to the array stats
+        stats.push(defaultStatsObject);
+    }
+  }
+
   //total values of the stats of the model
   const statsTotal = await Model.aggregate(
     baseArrayAggregate
       .concat(totalBaseArrayAggregate)
       .concat(sortBaseArrayAggregate)
   );
+
+  //Case that the statsTotal is empty array
+  if (statsTotal.length === 0) {
+    //switch through the models
+    switch (Model.collection.collectionName) {
+      // Model = User
+      case 'users':
+        //Create empty Object to push in the array
+        // eslint-disable-next-line no-case-declarations
+        const userStatsTotalObject = {
+          _id: 'User',
+          totalNumUsers: 0,
+          totalNumAccounting: 0,
+          totalNumBusiness: 0,
+          totalNumInformationTechnology: 0,
+          totalNumProjectManagement: 0,
+          totalNumNOTAMAJOR: 0
+        };
+        //add the element to the array stats
+        stats.push(userStatsTotalObject);
+        break;
+
+      // Model = Forum
+      case 'forums':
+        //Create empty Object to push in the array
+        // eslint-disable-next-line no-case-declarations
+        const forumStatsTotalObject = {
+          _id: 'Forum',
+          totalNumForums: 0,
+          totalNumTopicsAllForums: 0
+        };
+        //add the element to the array stats
+        stats.push(forumStatsTotalObject);
+        break;
+
+      // Model = Topic
+      case 'topics':
+        //Create empty Object to push in the array
+        // eslint-disable-next-line no-case-declarations
+        const topicStatsTotalObject = {
+          _id: 'Topic',
+          totalNumTopics: 0,
+          totalNumCommentsAllTopics: 0
+        };
+        //add the element to the array stats
+        stats.push(topicStatsTotalObject);
+        break;
+
+      // Model = Article
+      case 'articles':
+        //Create empty Object to push in the array
+        // eslint-disable-next-line no-case-declarations
+        const articleStatsTotalObject = {
+          _id: 'Article',
+          totalNumArticle: 0
+        };
+        //add the element to the array stats
+        stats.push(articleStatsTotalObject);
+        break;
+
+      //default case
+      default:
+        //Create empty Object to push in the array
+        // eslint-disable-next-line no-case-declarations
+        const defaultStatsTotalObject = {
+          _id: 'NONE',
+          totalNum: 0
+        };
+        //add the element to the array stats
+        stats.push(defaultStatsTotalObject);
+    }
+  }
 
   //push total in the array
   arrayList.push(['Total', stats, statsTotal]);

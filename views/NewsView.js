@@ -9,16 +9,19 @@ exports.getNews = async function(req, res, next) {
     //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
+    //get href for axios
+    const href = `${req.protocol}://${req.get('host')}/`;
+
     //get the stats with the number of news in the system
     const stats = await axios({
       method: 'GET',
-      url: `http://127.0.0.1:8000/api/v1/articles/stats`
+      url: `${href}api/v1/articles/stats`
     });
 
     //get news from API
     const news = await axios({
       method: 'GET',
-      url: `http://127.0.0.1:8000/api/v1/articles/news?sort=-createdAt`
+      url: `${href}api/v1/articles/news?sort=-createdAt`
     });
 
     //check if the response is successful
@@ -42,10 +45,13 @@ exports.getNewsDetails = async function(req, res, next) {
     //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
+    //get href for axios
+    const href = `${req.protocol}://${req.get('host')}/`;
+
     //get new element from API and its slug
     const newElement = await axios({
       method: 'GET',
-      url: `http://127.0.0.1:8000/api/v1/articles/slug/${req.params.slug}`
+      url: `${href}api/v1/articles/slug/${req.params.slug}`
     });
 
     //check if the response is successful
@@ -68,10 +74,13 @@ exports.getManageNewsList = async function(req, res, next) {
     //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
+    //get href for axios
+    const href = `${req.protocol}://${req.get('host')}/`;
+
     //get news from API
     const news = await axios({
       method: 'GET',
-      url: 'http://127.0.0.1:8000/api/v1/articles/news'
+      url: `${href}api/v1/articles/news`
     });
 
     // check if response is successful
@@ -102,10 +111,13 @@ exports.editNews = async function(req, res, next) {
     //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
+    //get href for axios
+    const href = `${req.protocol}://${req.get('host')}/`;
+
     //get new element from API and its slug
     const newElement = await axios({
       method: 'GET',
-      url: `http://127.0.0.1:8000/api/v1/articles/slug/${req.params.newsSlug}`
+      url: `${href}api/v1/articles/slug/${req.params.newsSlug}`
     });
 
     //check if the response is successful

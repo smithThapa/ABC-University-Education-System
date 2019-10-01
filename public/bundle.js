@@ -8330,6 +8330,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//Get href for api
+var href = "".concat(location.protocol, "//").concat(location.host, "/");
+
 var login =
 /*#__PURE__*/
 function () {
@@ -8345,7 +8348,7 @@ function () {
             _context.next = 3;
             return (0, _axios.default)({
               method: 'POST',
-              url: 'http://127.0.0.1:8000/api/v1/users/login',
+              url: "".concat(href, "api/v1/users/login"),
               data: {
                 email: email,
                 password: password
@@ -8354,8 +8357,8 @@ function () {
 
           case 3:
             res = _context.sent;
-            console.log(res.data.status); //successful response
 
+            //successful response
             if (res.data.status === 'success') {
               //move top
               window.scrollTo(0, 0);
@@ -8366,22 +8369,22 @@ function () {
               }, 1000);
             }
 
-            _context.next = 12;
+            _context.next = 11;
             break;
 
-          case 8:
-            _context.prev = 8;
+          case 7:
+            _context.prev = 7;
             _context.t0 = _context["catch"](0);
             // console.log(err.response.data);
             window.scrollTo(0, 0);
             (0, _alerts.showAlert)('danger', 'Logged in failed!', _context.t0.response.data.message);
 
-          case 12:
+          case 11:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 8]]);
+    }, _callee, null, [[0, 7]]);
   }));
 
   return function login(_x, _x2) {
@@ -8407,7 +8410,7 @@ function () {
             _context2.next = 3;
             return (0, _axios.default)({
               method: 'GET',
-              url: 'http://127.0.0.1:8000/api/v1/users/logout'
+              url: "".concat(href, "api/v1/users/logout")
             });
 
           case 3:
@@ -8417,7 +8420,7 @@ function () {
             if (res.data.status === 'success') {
               //move topic
               window.scrollTo(0, 0);
-              (0, _alerts.showAlert)('info', 'Sucessfully log out!', 'Thank you for using ABC University Education System'); //return login page
+              (0, _alerts.showAlert)('info', 'Successfully log out!', 'Thank you for using ABC University Education System'); //return login page
 
               window.setTimeout(function () {
                 location.assign('/');
@@ -8431,7 +8434,7 @@ function () {
             _context2.prev = 7;
             _context2.t0 = _context2["catch"](0);
             window.scrollTo(0, 0);
-            (0, _alerts.showAlert)('error', 'Error loggin out! Try again!', _context2.t0.response.data.message);
+            (0, _alerts.showAlert)('error', 'Error logging out! Try again!', _context2.t0.response.data.message);
 
           case 11:
           case "end":
@@ -8464,7 +8467,7 @@ function () {
             _context3.next = 3;
             return (0, _axios.default)({
               method: 'GET',
-              url: 'http://127.0.0.1:8000/api/v1/users/logoutas'
+              url: "".concat(href, "api/v1/users/logoutAs")
             });
 
           case 3:
@@ -8474,7 +8477,7 @@ function () {
             if (res.data.status === 'success') {
               //move topic
               window.scrollTo(0, 0);
-              (0, _alerts.showAlert)('info', 'Sucessfully log out!', 'Thank you for using ABC University Education System'); //return login page
+              (0, _alerts.showAlert)('info', 'Successfully log out!', 'Thank you for using ABC University Education System'); //return login page
 
               window.setTimeout(function () {
                 location.assign('/');
@@ -8488,7 +8491,7 @@ function () {
             _context3.prev = 7;
             _context3.t0 = _context3["catch"](0);
             window.scrollTo(0, 0);
-            (0, _alerts.showAlert)('error', 'Error loggin out! Try again!', _context3.t0.response.data.message);
+            (0, _alerts.showAlert)('error', 'Error logging out! Try again!', _context3.t0.response.data.message);
 
           case 11:
           case "end":
@@ -8522,7 +8525,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//methods to create user
+//Get href for api
+var href = "".concat(location.protocol, "//").concat(location.host, "/"); //methods to create user
+
 var createUser =
 /*#__PURE__*/
 function () {
@@ -8538,7 +8543,7 @@ function () {
             _context.next = 3;
             return (0, _axios.default)({
               method: 'POST',
-              url: 'http://127.0.0.1:8000/api/v1/users/createUser',
+              url: "".concat(href, "api/v1/users/createUser"),
               data: data
             });
 
@@ -8550,7 +8555,7 @@ function () {
               //mode window to top
               window.scrollTo(0, 0); //show alert
 
-              (0, _alerts.showAlert)('success', 'Created User Sucessfully!', 'An activation email has been send to the new user to active its account within 24 hours.'); //return to the previous page
+              (0, _alerts.showAlert)('success', 'Created User Successfully!', 'An activation email has been send to the new user to active its account within 24 hours.'); //return to the previous page
 
               window.setTimeout(function () {
                 location.assign('/manage_users');
@@ -8598,7 +8603,7 @@ function () {
             _context2.next = 3;
             return (0, _axios.default)({
               method: 'POST',
-              url: 'http://127.0.0.1:8000/api/v1/forums',
+              url: "".concat(href, "api/v1/forums"),
               data: {
                 title: title,
                 type: type
@@ -8612,7 +8617,7 @@ function () {
             if (res.data.status === 'success') {
               //move to top
               window.scrollTo(0, 0);
-              (0, _alerts.showAlert)('success', 'Created Forum Sucessfully!', 'This forum new is visible to all users'); //return previous page
+              (0, _alerts.showAlert)('success', 'Created Forum Successfully!', 'This forum new is visible to all users'); //return previous page
 
               window.setTimeout(function () {
                 location.assign(previousPath);
@@ -8660,7 +8665,7 @@ function () {
             _context3.next = 3;
             return (0, _axios.default)({
               method: 'POST',
-              url: "http://127.0.0.1:8000/api/v1/forums/".concat(forumId, "/topics"),
+              url: "".concat(href, "api/v1/forums/").concat(forumId, "/topics"),
               data: {
                 title: title,
                 description: description
@@ -8674,7 +8679,7 @@ function () {
             if (res.data.status == 'success') {
               //move top
               window.scrollTo(0, 0);
-              (0, _alerts.showAlert)('success', 'Created Topic Sucessfully!', 'This topic new is visible to all users'); //return previous path
+              (0, _alerts.showAlert)('success', 'Created Topic Successfully!', 'This topic new is visible to all users'); //return previous path
 
               window.setTimeout(function () {
                 location.assign(previousPath);
@@ -8722,7 +8727,7 @@ function () {
             _context4.next = 3;
             return (0, _axios.default)({
               method: 'POST',
-              url: 'http://127.0.0.1:8000/api/v1/comments',
+              url: "".concat(href, "api/v1/comments"),
               data: {
                 title: title,
                 description: description,
@@ -8785,7 +8790,7 @@ function () {
             _context5.next = 3;
             return (0, _axios.default)({
               method: 'POST',
-              url: 'http://127.0.0.1:8000/api/v1/articles',
+              url: "".concat(href, "api/v1/articles"),
               data: {
                 data: data,
                 arrayRoleEmails: arrayRoleEmails
@@ -8799,7 +8804,7 @@ function () {
             if (res.data.status === 'success') {
               //move top site
               window.scrollTo(0, 0);
-              (0, _alerts.showAlert)('success', "Created ".concat(data.type, " Sucessfully!"), "".concat(data.type, " is accessible to all users")); //return previous path
+              (0, _alerts.showAlert)('success', "Created ".concat(data.type, " Successfully!"), "".concat(data.type, " is accessible to all users")); //return previous path
 
               window.setTimeout(function () {
                 location.assign(previousPath);
@@ -8847,7 +8852,7 @@ function () {
             _context6.next = 3;
             return (0, _axios.default)({
               method: 'POST',
-              url: 'http://127.0.0.1:8000/api/v1/maintenanceRequests',
+              url: "".concat(href, "api/v1/maintenanceRequests"),
               data: {
                 subject: subject,
                 description: description
@@ -8908,7 +8913,7 @@ function () {
             _context7.next = 3;
             return (0, _axios.default)({
               method: 'POST',
-              url: 'http://127.0.0.1:8000/api/v1/errorReports',
+              url: "".concat(href, "api/v1/errorReports"),
               data: data
             });
 
@@ -8967,7 +8972,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//edit method general to edit forum, topic
+//Get href for api
+var href = "".concat(location.protocol, "//").concat(location.host, "/"); //edit method general to edit forum, topic
+
 var editElement =
 /*#__PURE__*/
 function () {
@@ -8983,7 +8990,7 @@ function () {
             _context.next = 3;
             return (0, _axios.default)({
               method: 'PATCH',
-              url: "http://127.0.0.1:8000/api/v1/".concat(type, "s/").concat(id),
+              url: "".concat(href, "api/v1/").concat(type, "s/").concat(id),
               data: data
             });
 
@@ -9042,7 +9049,7 @@ function () {
             _context2.next = 3;
             return (0, _axios.default)({
               method: 'PATCH',
-              url: "http://127.0.0.1:8000/api/v1/articles/".concat(id),
+              url: "".concat(href, "api/v1/articles/").concat(id),
               data: data
             });
 
@@ -9101,7 +9108,7 @@ function () {
             _context3.next = 3;
             return (0, _axios.default)({
               method: 'PATCH',
-              url: "http://127.0.0.1:8000/api/v1/users/".concat(id),
+              url: "".concat(href, "api/v1/users/").concat(id),
               data: data
             });
 
@@ -9160,7 +9167,7 @@ function () {
             _context4.next = 3;
             return (0, _axios.default)({
               method: 'PATCH',
-              url: "http://127.0.0.1:8000/api/v1/users/updateMe",
+              url: "".concat(href, "api/v1/users/updateMe"),
               data: data
             });
 
@@ -9219,7 +9226,7 @@ function () {
             _context5.next = 3;
             return (0, _axios.default)({
               method: 'PATCH',
-              url: "http://127.0.0.1:8000/api/v1/users/updateMyPassword",
+              url: "".concat(href, "api/v1/users/updateMyPassword"),
               data: data
             });
 
@@ -9278,7 +9285,7 @@ function () {
             _context6.next = 3;
             return (0, _axios.default)({
               method: 'PATCH',
-              url: "http://127.0.0.1:8000/api/v1/maintenanceRequests/".concat(id),
+              url: "".concat(href, "api/v1/maintenanceRequests/").concat(id),
               data: {
                 status: status,
                 resolvedAt: Date.now(),
@@ -9341,7 +9348,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//delete methods to all the types
+//Get href for api
+var href = "".concat(location.protocol, "//").concat(location.host, "/"); //delete methods to all the types
+
 var deleteElement =
 /*#__PURE__*/
 function () {
@@ -9357,7 +9366,7 @@ function () {
             _context.next = 3;
             return (0, _axios.default)({
               method: 'DELETE',
-              url: "http://127.0.0.1:8000/api/v1/".concat(type, "s/").concat(id)
+              url: "".concat(href, "api/v1/").concat(type, "s/").concat(id)
             });
 
           case 3:
@@ -9414,7 +9423,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//method to reset password
+//Get href for api
+var href = "".concat(location.protocol, "//").concat(location.host, "/"); //method to reset password
+
 var resetPassword =
 /*#__PURE__*/
 function () {
@@ -9430,7 +9441,7 @@ function () {
             _context.next = 3;
             return (0, _axios.default)({
               method: 'PATCH',
-              url: "http://127.0.0.1:8000/api/v1/users/resetPassword/".concat(token),
+              url: "".concat(href, "api/v1/users/resetPassword/").concat(token),
               data: {
                 password: password,
                 confirmPassword: confirmPassword
@@ -9492,7 +9503,7 @@ function () {
             _context2.next = 3;
             return (0, _axios.default)({
               method: 'POST',
-              url: 'http://127.0.0.1:8000/api/v1/users/forgotPassword',
+              url: "".concat(href, "api/v1/users/forgotPassword"),
               data: {
                 email: email,
                 resetURL: resetURL
@@ -9555,7 +9566,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//send notification method
+//Get href for api
+var href = "".concat(location.protocol, "//").concat(location.host, "/"); //send notification method
+
 var sendNotification =
 /*#__PURE__*/
 function () {
@@ -9571,7 +9584,7 @@ function () {
             _context.next = 3;
             return (0, _axios.default)({
               method: 'POST',
-              url: "http://127.0.0.1:8000/api/v1/users/notifyUsers/".concat(type),
+              url: "".concat(href, "api/v1/users/notifyUsers/").concat(type),
               data: {
                 data: data
               }
@@ -9634,7 +9647,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//report generation method
+//Get href for api
+var href = "".concat(location.protocol, "//").concat(location.host, "/"); //report generation method
+
 var reportGeneration =
 /*#__PURE__*/
 function () {
@@ -9650,7 +9665,7 @@ function () {
             _context.next = 3;
             return (0, _axios.default)({
               method: 'POST',
-              url: "http://127.0.0.1:8000/report_generation/sendHtml",
+              url: "".concat(href, "report_generation/sendHtml"),
               data: {
                 html: html
               }
@@ -10502,7 +10517,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53035" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51081" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

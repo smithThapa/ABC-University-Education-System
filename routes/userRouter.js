@@ -16,7 +16,7 @@ router.post('/login', authenticationPresenter.login);
 // '/logout' root to log out a user
 router.get('/logout', authenticationPresenter.logout);
 // '/logoutAs' root to log in a test user to return to the team maintenance account
-router.get('/logoutas', authenticationPresenter.logoutAs);
+router.get('/logoutAs', authenticationPresenter.logoutAs);
 
 //Roots to rest the password if users have forgotten their password
 

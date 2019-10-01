@@ -14,7 +14,7 @@ mixin cardDisplayItems(header, title, author, date, link,  button, description)
                     small= description
             //- button to go into the element
             -if(button)
-                a.btn.btn-primary(href= link)= `Go to ${button}`
+                a.btn.btn-primary(href= link)= `${button}`
 
 //- Breadcrumb in pages, with array
 mixin breadcrumbDisplay(arrayBreadcrumb)

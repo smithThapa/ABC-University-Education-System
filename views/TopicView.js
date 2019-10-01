@@ -22,16 +22,19 @@ exports.getTopicsByForumSlug = async function(req, res, next) {
     //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
+    //get href for axios
+    const href = `${req.protocol}://${req.get('host')}/`;
+
     // get the forum in the API by its slug
     const objForum = await axios({
       method: 'GET',
-      url: `http://127.0.0.1:8000/api/v1/forums/slug/${req.params.forumSlug}`
+      url: `${href}api/v1/forums/slug/${req.params.forumSlug}`
     });
 
     //get all topics by the forum id in the API
     const objTopics = await axios({
       method: 'GET',
-      url: `http://127.0.0.1:8000/api/v1/forums/${objForum.data.data.data._id}/topics`
+      url: `${href}api/v1/forums/${objForum.data.data.data._id}/topics`
     });
 
     //check if responses are successful
@@ -58,16 +61,19 @@ exports.getManageTopicsListByForumSlug = async function(req, res, next) {
     //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
+    //get href for axios
+    const href = `${req.protocol}://${req.get('host')}/`;
+
     // get the forum by its slug from API
     const objForum = await axios({
       method: 'GET',
-      url: `http://127.0.0.1:8000/api/v1/forums/slug/${req.params.forumSlug}`
+      url: `${href}api/v1/forums/slug/${req.params.forumSlug}`
     });
 
     //get topics by forum id from API
     const objTopics = await axios({
       method: 'GET',
-      url: `http://127.0.0.1:8000/api/v1/forums/${objForum.data.data.data._id}/topics`
+      url: `${href}api/v1/forums/${objForum.data.data.data._id}/topics`
     });
 
     //check if responses are valid successful
@@ -94,10 +100,13 @@ exports.createTopicByForumSlug = async function(req, res, next) {
     //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
+    //get href for axios
+    const href = `${req.protocol}://${req.get('host')}/`;
+
     //get the forum by its slug
     const objForum = await axios({
       method: 'GET',
-      url: `http://127.0.0.1:8000/api/v1/forums/slug/${req.params.forumSlug}`
+      url: `${href}api/v1/forums/slug/${req.params.forumSlug}`
     });
 
     //check if response is successful
@@ -121,16 +130,19 @@ exports.editTopic = async function(req, res, next) {
     //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
+    //get href for axios
+    const href = `${req.protocol}://${req.get('host')}/`;
+
     //get forum by slug from API
     const objForum = await axios({
       method: 'GET',
-      url: `http://127.0.0.1:8000/api/v1/forums/slug/${req.params.forumSlug}`
+      url: `${href}api/v1/forums/slug/${req.params.forumSlug}`
     });
 
     // get the topic details by its id from API
     const objTopic = await axios({
       method: 'GET',
-      url: `http://127.0.0.1:8000/api/v1/topics/slug/${req.params.topicSlug}`
+      url: `${href}api/v1/topics/slug/${req.params.topicSlug}`
     });
 
     // check if responses are successful
@@ -157,10 +169,13 @@ exports.createTopicByForumSlug = async function(req, res, next) {
     //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
+    //get href for axios
+    const href = `${req.protocol}://${req.get('host')}/`;
+
     // get forum bu its slug from API
     const objForum = await axios({
       method: 'GET',
-      url: `http://127.0.0.1:8000/api/v1/forums/slug/${req.params.forumSlug}`
+      url: `${href}api/v1/forums/slug/${req.params.forumSlug}`
     });
 
     // check if response is successful
@@ -184,16 +199,19 @@ exports.editTopic = async function(req, res, next) {
     //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
+    //get href for axios
+    const href = `${req.protocol}://${req.get('host')}/`;
+
     //get forum by its slug from API
     const objForum = await axios({
       method: 'GET',
-      url: `http://127.0.0.1:8000/api/v1/forums/slug/${req.params.forumSlug}`
+      url: `${href}api/v1/forums/slug/${req.params.forumSlug}`
     });
 
     // get topic by its slog from API
     const objTopic = await axios({
       method: 'GET',
-      url: `http://127.0.0.1:8000/api/v1/topics/slug/${req.params.topicSlug}`
+      url: `${href}api/v1/topics/slug/${req.params.topicSlug}`
     });
 
     // check if responses are successful
@@ -220,10 +238,13 @@ exports.createTopic = async function(req, res, next) {
     //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
+    //get href for axios
+    const href = `${req.protocol}://${req.get('host')}/`;
+
     //get all forums from the API
     const objForums = await axios({
       method: 'GET',
-      url: `http://127.0.0.1:8000/api/v1/forums`
+      url: `${href}api/v1/forums`
     });
 
     // array group it by the type to get the selection

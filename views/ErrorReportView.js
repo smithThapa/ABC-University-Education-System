@@ -9,10 +9,13 @@ exports.getErrorReportsPage = async function(req, res, next) {
     //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
+    //get href for axios
+    const href = `${req.protocol}://${req.get('host')}/`;
+
     //get error report object from the API
     const errorReports = await axios({
       method: 'GET',
-      url: 'http://127.0.0.1:8000/api/v1/errorReports'
+      url: `${href}/api/v1/errorReports`
     });
 
     //check if the response is successful

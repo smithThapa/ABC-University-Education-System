@@ -1,13 +1,16 @@
 import axios from 'axios';
 import { showAlert } from './alerts';
 
+//Get href for api
+const href = `${location.protocol}//${location.host}/`;
+
 //send notification method
 export const sendNotification = async function(type, data) {
   try {
     //get response from the API from send notification
     const res = await axios({
       method: 'POST',
-      url: `http://127.0.0.1:8000/api/v1/users/notifyUsers/${type}`,
+      url: `${href}api/v1/users/notifyUsers/${type}`,
       data: { data }
     });
 

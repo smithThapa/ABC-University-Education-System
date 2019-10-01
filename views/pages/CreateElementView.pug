@@ -67,13 +67,13 @@ block content
             - previousPath = `/manage_forums/${forum.slug}/manage_topics/${topic.slug}/manage_comments`
             
             //- Add breadcrumb
-            +breadcrumbDisplay([['Home','/home'],['Manage Forums','/manage_forums'],['Manage Topics',`/manage _forums/${forum.slug}/manage_topics`], ['Manage Comments', previousPath ], ['New Comment']])  
+            +breadcrumbDisplay([['Home','/home'],['Manage Forums','/manage_forums'],['Manage Topics',`/manage _forums/${forum.slug}/manage_topics`], ['Manage Comments', previousPath ], ['Create Comment']])  
         -else
             //- assign variable the new type
             -previousPath = `/forums/${forum.slug}/topics/${topic.slug}/comments`
             
             //- Add breadcrumb
-            +breadcrumbDisplay([['Home','/home'],['Forums','/forums'],['Topics',`/forums/${forum.slug}/topics`], ['Comments', previousPath ], ['New Comment']])
+            +breadcrumbDisplay([['Home','/home'],['Forums','/forums'],['Topics',`/forums/${forum.slug}/topics`], ['Comments', previousPath ], ['Create Comment']])
 
         //- Creation date forums and topics
         -const creationDateForum = moment(forum.createdAt).format('dddd DD MMM YYYY HH:mm');

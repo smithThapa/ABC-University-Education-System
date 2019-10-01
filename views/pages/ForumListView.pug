@@ -31,7 +31,7 @@ block content
         h4.font-weight-bold.text-dark.mt-0.ml-4 No forum to manage.
     - else
         //- Forum table
-        table#dataTable.table.table-striped.table-bordered.table-sm.text-xl-center.display.responsive
+        table#dataTable.table.table-striped.table-bordered.table-sm.text-xl-center.display.responsive(style="width:100%;")
             thead
                 tr
                     th Title
@@ -56,19 +56,19 @@ block content
                         //- Forum title
                         td.text-wrap= forum.title
                         //- Forum type
-                        td= forum.type
+                        td.text-break= forum.type
                         //- Author
                         if forum.user
-                            td #{forum.user.firstName} #{forum.user.lastName}
+                            td.text-wrap #{forum.user.firstName} #{forum.user.lastName}
                         else
-                            td Anonymous
+                            td.text-wrap Anonymous
                         //- Created date
                         td= creationDate
                         //- Number of topics
                         td= forum.topics.length
                         //- Open forum button
                         td
-                            a.btn.btn-info(href=`/manage_forums/${forum.slug}/manage_topics`) Open
+                            a.btn.btn-info(href=`/manage_forums/${forum.slug}/manage_topics`) View
                         //- Edit button
                         td
                             a.btn.btn-success.text-white(href=`/manage_forums/${forum.slug}/edit_forum`) Edit

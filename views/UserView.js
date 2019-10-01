@@ -9,10 +9,13 @@ exports.getManageUsersList = async function(req, res, next) {
     //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
+    //get href for axios
+    const href = `${req.protocol}://${req.get('host')}/`;
+
     //get users from the API
     const users = await axios({
       method: 'GET',
-      url: `http://127.0.0.1:8000/api/v1/users`
+      url: `${href}api/v1/users`
     });
 
     //check if response is successful
@@ -49,10 +52,13 @@ exports.editUser = async function(req, res, next) {
     //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
+    //get href for axios
+    const href = `${req.protocol}://${req.get('host')}/`;
+
     //get current User from API by Id
     const currentUser = await axios({
       method: 'GET',
-      url: `http://127.0.0.1:8000/api/v1/users/${req.params.currentUserId}`
+      url: `${href}api/v1/users/${req.params.currentUserId}`
     });
 
     //check if response is successful

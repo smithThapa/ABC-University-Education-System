@@ -45,4 +45,4 @@ block content
                             -const author = forum.user ? `${forum.user.firstName} ${forum.user.lastName}` : 'Anonymous'
                             
                             //- create forum card
-                            +cardDisplayItems(forum.type, `${forum.title} | Number of topics: ${forum.topics.length}`, `${author}`, creationDate, `/forums/${forum.slug}/topics`, 'Forum')
+                            +cardDisplayItems(forum.type, `${forum.title} | Number of topics: ${forum.topics.length}`, `${author}`, creationDate, `/forums/${forum.slug}/topics`, 'View Topics')

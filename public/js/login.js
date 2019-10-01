@@ -1,19 +1,21 @@
 import axios from 'axios';
 import { showAlert } from './alerts';
 
+//Get href for api
+const href = `${location.protocol}//${location.host}/`;
+
 export const login = async (email, password) => {
   try {
     //get response from the login API
     const res = await axios({
       method: 'POST',
-      url: 'http://127.0.0.1:8000/api/v1/users/login',
+      url: `${href}api/v1/users/login`,
       data: {
         email,
         password
       }
     });
 
-    console.log(res.data.status);
     //successful response
     if (res.data.status === 'success') {
       //move top
@@ -41,7 +43,7 @@ export const logout = async () => {
     //get response from API to log out
     const res = await axios({
       method: 'GET',
-      url: 'http://127.0.0.1:8000/api/v1/users/logout'
+      url: `${href}api/v1/users/logout`
     });
 
     //successful response
@@ -50,7 +52,7 @@ export const logout = async () => {
       window.scrollTo(0, 0);
       showAlert(
         'info',
-        'Sucessfully log out!',
+        'Successfully log out!',
         'Thank you for using ABC University Education System'
       );
       //return login page
@@ -62,7 +64,7 @@ export const logout = async () => {
     window.scrollTo(0, 0);
     showAlert(
       'error',
-      'Error loggin out! Try again!',
+      'Error logging out! Try again!',
       err.response.data.message
     );
   }
@@ -74,7 +76,7 @@ export const logoutAs = async () => {
     //get response from API to log out
     const res = await axios({
       method: 'GET',
-      url: 'http://127.0.0.1:8000/api/v1/users/logoutas'
+      url: `${href}api/v1/users/logoutAs`
     });
 
     //successful response
@@ -83,7 +85,7 @@ export const logoutAs = async () => {
       window.scrollTo(0, 0);
       showAlert(
         'info',
-        'Sucessfully log out!',
+        'Successfully log out!',
         'Thank you for using ABC University Education System'
       );
       //return login page
@@ -95,7 +97,7 @@ export const logoutAs = async () => {
     window.scrollTo(0, 0);
     showAlert(
       'error',
-      'Error loggin out! Try again!',
+      'Error logging out! Try again!',
       err.response.data.message
     );
   }

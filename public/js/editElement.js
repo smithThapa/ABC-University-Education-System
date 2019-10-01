@@ -1,13 +1,16 @@
 import axios from 'axios';
 import { showAlert } from './alerts';
 
+//Get href for api
+const href = `${location.protocol}//${location.host}/`;
+
 //edit method general to edit forum, topic
 export const editElement = async (data, type, id, previousPath) => {
   try {
     //get response from API after edit element
     const res = await axios({
       method: 'PATCH',
-      url: `http://127.0.0.1:8000/api/v1/${type}s/${id}`,
+      url: `${href}api/v1/${type}s/${id}`,
       data
     });
 
@@ -34,7 +37,7 @@ export const editArticle = async function(id, data, type, previousPath) {
     //get respond from the API of edit article
     const res = await axios({
       method: 'PATCH',
-      url: `http://127.0.0.1:8000/api/v1/articles/${id}`,
+      url: `${href}api/v1/articles/${id}`,
       data
     });
 
@@ -61,7 +64,7 @@ export const editUser = async function(data, id) {
     //get response from API edit user
     const res = await axios({
       method: 'PATCH',
-      url: `http://127.0.0.1:8000/api/v1/users/${id}`,
+      url: `${href}api/v1/users/${id}`,
       data
     });
 
@@ -88,7 +91,7 @@ export const editMe = async function(data) {
     //get response from API after edit account
     const res = await axios({
       method: 'PATCH',
-      url: `http://127.0.0.1:8000/api/v1/users/updateMe`,
+      url: `${href}api/v1/users/updateMe`,
       data
     });
 
@@ -119,7 +122,7 @@ export const editMyPassword = async function(data) {
     //get response API from edit personal password
     const res = await axios({
       method: 'PATCH',
-      url: `http://127.0.0.1:8000/api/v1/users/updateMyPassword`,
+      url: `${href}api/v1/users/updateMyPassword`,
       data
     });
 
@@ -146,7 +149,7 @@ export const editMaintenanceRequest = async (id, status, resolvedMessage) => {
     //get response from API for editing maintenance request
     const res = await axios({
       method: 'PATCH',
-      url: `http://127.0.0.1:8000/api/v1/maintenanceRequests/${id}`,
+      url: `${href}api/v1/maintenanceRequests/${id}`,
       data: {
         status,
         resolvedAt: Date.now(),

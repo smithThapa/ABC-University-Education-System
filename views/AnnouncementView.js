@@ -9,16 +9,19 @@ exports.getAnnouncementView = async function(req, res, next) {
     //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
+    //get href for axios
+    const href = `${req.protocol}://${req.get('host')}/`;
+
     //get stats of numbers of announcements and news from API
     const stats = await axios({
       method: 'GET',
-      url: `http://127.0.0.1:8000/api/v1/articles/stats`
+      url: `${href}api/v1/articles/stats`
     });
 
     //get articles from the API sorted
     const announcements = await axios({
       method: 'GET',
-      url: 'http://127.0.0.1:8000/api/v1/articles/announcements?sort=-createdAt'
+      url: `${href}api/v1/articles/announcements?sort=-createdAt`
     });
 
     //if both axios responses were successful
@@ -46,10 +49,13 @@ exports.getManageAnnouncementList = async function(req, res, next) {
     //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
+    //get href for axios
+    const href = `${req.protocol}://${req.get('host')}/`;
+
     //get announcements from the API
     const announcements = await axios({
       method: 'GET',
-      url: 'http://127.0.0.1:8000/api/v1/articles/announcements'
+      url: `${href}api/v1/articles/announcements`
     });
 
     //check if axios response was successful
@@ -81,10 +87,13 @@ exports.editAnnouncement = async function(req, res, next) {
     //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
+    //get href for axios
+    const href = `${req.protocol}://${req.get('host')}/`;
+
     //get announcement by its slug from API
     const announcement = await axios({
       method: 'GET',
-      url: `http://127.0.0.1:8000/api/v1/articles/slug/${req.params.announcementSlug}`
+      url: `${href}api/v1/articles/slug/${req.params.announcementSlug}`
     });
 
     //check if the response was successful

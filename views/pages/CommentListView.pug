@@ -55,7 +55,7 @@ block content
         h4.font-weight-bold.text-dark.mt-0.ml-4 No comments in this topic to manage.
     - else
         //- Comment table
-        table#dataTable.table.table-striped.table-bordered.table-sm.text-xl-center.display.responsive
+        table#dataTable.table.table-striped.table-bordered.table-sm.text-xl-center.display.responsive(style="width:100%;")
             thead
                 tr
                     th Title
@@ -77,18 +77,18 @@ block content
                     //- Row
                     tr
                         //- Comment title
-                        td 
+                        td.text-wrap
                             a.btn.text-wrap(type="button" data-toggle="modal" data-target=`#displayDescriptionModal${comment.id}`) #{comment.title}
                         //- Author
                         if comment.user
-                            td= `${comment.user.firstName} ${comment.user.lastName}`
+                            td.text-wrap= `${comment.user.firstName} ${comment.user.lastName}`
                         else
-                            td Anonymous
+                            td.text-wrap Anonymous
                         //- Created date
                         td= creationDate
                         //- Edit Button
                         td
-                            a.btn.btn-info.text-white(type='button' data-toggle="modal" data-target=`#displayDescriptionModal${comment.id}`) Open
+                            a.btn.btn-info.text-white(type='button' data-toggle="modal" data-target=`#displayDescriptionModal${comment.id}`) View
                         //- Delete Button
                         td
                             a.btn.btn-danger.text-white(type='button' data-toggle="modal" data-target=`#deleteModal${comment.id}`) Delete

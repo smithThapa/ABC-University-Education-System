@@ -9,20 +9,26 @@ block append scripts
 //- function to create statistics cards
 mixin cardStatisticStyle(design, type, totalThisMonth, totalLastMonth, total, link)
     .card.text-white(class=`bg-${design}` id=`${type.toLowerCase()}-statistics-card`)
+        //-calculate the differences between last and this month
+        -const totalDivision = (totalLastMonth - totalThisMonth) > 0 ? totalLastMonth - totalThisMonth : 1
+        -const percentageCalculation = (((2*totalThisMonth - totalLastMonth)/totalDivision) * 100).toFixed(0)
+        -const differenceDescription = percentageCalculation > 0 ? `${percentageCalculation}% more` : `${percentageCalculation*-1}% less`
+        
         .card-body.mb-0
             //- new elements in last month
-            .h5.font-weight-bold #{totalThisMonth} New #{type}s!
+            .card-text.d-flex
+                .h5.font-weight-bold <u>#{totalThisMonth}</u> New #{type}s!
+                //- add icon with the arrow down or up depending of the number of records of the current month related with the previous month
+                svg.icon-box_sidebar.ml-auto
+                    use(xlink:href=`/img/icons.svg#icon-arrow-${percentageCalculation > 0 ? 'up' : 'down'}-circle`) 
             //- total number of element
             p.card-text Total #{type}s: <b>#{total}</b>
             //- display the difference of element related with the last month
-            p.card-text
-                -const totalDivision = (totalLastMonth - totalThisMonth) > 0 ? totalLastMonth - totalThisMonth : 1
-                -const percentageCalculation = (((2*totalThisMonth - totalLastMonth)/totalDivision) * 100).toFixed(0)
-                -const differenceDescription = percentageCalculation > 0 ? `${percentageCalculation}% more` : `${percentageCalculation*-1}% less`
-                small.text-light It has been created a <b>#{differenceDescription}</b> than last month.
+            p.card-text               
+                small.text-light It has been created a <b> #{differenceDescription} </b> than last month.
         //- link to manage the element
         .card-footer
-            a.btn.bg-light.text-wrap(class=`btn-outline-${design}` href=`${link}`) Manage #{type}s
+            a.btn.bg-light.btn-sm.text-wrap(class=`btn-outline-${design}` href=`${link}`) Manage #{type}s
 
 block content
     //- Add breadcrumb

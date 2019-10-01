@@ -16,10 +16,13 @@ exports.getManageMaintenanceRequestsList = async function(req, res, next) {
     //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
+    //get href for axios
+    const href = `${req.protocol}://${req.get('host')}/`;
+
     //get maintenance requests from the API
     const maintenanceRequests = await axios({
       method: 'GET',
-      url: 'http://127.0.0.1:8000/api/v1/maintenanceRequests'
+      url: `${href}api/v1/maintenanceRequests`
     });
 
     //check if the response was successful

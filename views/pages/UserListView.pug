@@ -31,7 +31,7 @@ block content
         h4.font-weight-bold.text-dark.mt-0.ml-4 No users in the system.
     - else
         //- User table
-        table#dataTable.table.table-striped.table-bordered.table-sm.text-xl-center.display.responsive.compact
+        table#dataTable.table.table-striped.table-bordered.table-sm.text-xl-center.display.responsive(style="width:100%;")
             thead
                 tr
                     th Name
@@ -39,7 +39,7 @@ block content
                     th Role
                     th Major
                     th Date
-                    th.none Active
+                    th Active
                     th Edit
                     th Delete
             
@@ -61,9 +61,9 @@ block content
                         //- User name
                         td.text-wrap= `${currentUser.firstName} ${currentUser.lastName}`
                         //- email
-                        td.compact= currentUser.email
+                        td.text-break= currentUser.email
                         //- role
-                        td= role
+                        td.text-break= role
                         //- major
                         td.text-break= currentUser.major
                         //- created date

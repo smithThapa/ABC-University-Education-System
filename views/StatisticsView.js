@@ -9,34 +9,37 @@ exports.getStatisticsView = async function(req, res, next) {
     //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
+    //get href for axios
+    const href = `${req.protocol}://${req.get('host')}/`;
+
     //get user statistics from API
     const userStatistics = await axios({
       method: 'GET',
-      url: 'http://127.0.0.1:8000/api/v1/users/userStats'
+      url: `${href}api/v1/users/userStats`
     });
 
     //get forum statistics from API
     const forumStatistics = await axios({
       method: 'GET',
-      url: 'http://127.0.0.1:8000/api/v1/forums/forumStats'
+      url: `${href}api/v1/forums/forumStats`
     });
 
     //get topics statistics from API
     const topicStatistics = await axios({
       method: 'GET',
-      url: 'http://127.0.0.1:8000/api/v1/topics/topicStats'
+      url: `${href}api/v1/topics/topicStats`
     });
 
     //get article Statistics statistics from API
     const articleStatistics = await axios({
       method: 'GET',
-      url: 'http://127.0.0.1:8000/api/v1/articles/articleStats'
+      url: `${href}api/v1/articles/articleStats`
     });
 
     //get resources statistics from API
     const resourceStatistics = await axios({
       method: 'GET',
-      url: 'http://127.0.0.1:8000/api/v1/resources/resourceStats'
+      url: `${href}api/v1/resources/resourceStats`
     });
 
     //if all stats were successful gotten

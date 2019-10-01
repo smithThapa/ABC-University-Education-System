@@ -23,20 +23,21 @@ exports.getHomePage = async function(req, res, next) {
     //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
+    //get href for axios
+    const href = `${req.protocol}://${req.get('host')}/`;
+
     //check if the user is not a team maintenance member
     if (req.user.role !== 'team-maintenance') {
       // get last three news from the API
       const news = await axios({
         method: 'GET',
-        url:
-          'http://127.0.0.1:8000/api/v1/articles/news?sort=-createdAt&limit=3'
+        url: `${href}api/v1/articles/news?sort=-createdAt&limit=3`
       });
 
       // get last three announcements from the API
       const announcements = await axios({
         method: 'GET',
-        url:
-          'http://127.0.0.1:8000/api/v1/articles/announcements?sort=-createdAt&limit=3'
+        url: `${href}api/v1/articles/announcements?sort=-createdAt&limit=3`
       });
 
       //check if last three news and announcements were successfully received

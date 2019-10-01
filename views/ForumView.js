@@ -3,16 +3,19 @@ const axios = require('axios');
 // utilities to to use
 const AppError = require('./../utils/AppError');
 
-//get foruum view to all users
+//get forum view to all users
 exports.getForums = async function(req, res, next) {
   try {
     //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
+    //get href for axios
+    const href = `${req.protocol}://${req.get('host')}/`;
+
     //get forums from the API
     const forums = await axios({
       method: 'GET',
-      url: 'http://127.0.0.1:8000/api/v1/forums'
+      url: `${href}api/v1/forums`
     });
 
     //check if response is successful
@@ -35,10 +38,13 @@ exports.getManageForumsList = async function(req, res, next) {
     //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
+    //get href for axios
+    const href = `${req.protocol}://${req.get('host')}/`;
+
     //get forum from the AI
     const forums = await axios({
       method: 'GET',
-      url: 'http://127.0.0.1:8000/api/v1/forums'
+      url: `${href}api/v1/forums`
     });
 
     //check if response is successful
@@ -70,10 +76,13 @@ exports.editForum = async function(req, res, next) {
     //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
+    //get href for axios
+    const href = `${req.protocol}://${req.get('host')}/`;
+
     //get from form API
     const forums = await axios({
       method: 'GET',
-      url: `http://127.0.0.1:8000/api/v1/forums/slug/${req.params.forumSlug}`
+      url: `${href}api/v1/forums/slug/${req.params.forumSlug}`
     });
 
     //check if response is successful

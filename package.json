@@ -1,7 +1,7 @@
 {
   "name": "abc-university-education-system",
   "version": "1.0.0",
-  "description": "MY NAME IS SMITH jk",
+  "description": "ABC University Educational System for university members and maintenance staff",
   "main": "app.js",
   "scripts": {
     "start": "nodemon server.js",
