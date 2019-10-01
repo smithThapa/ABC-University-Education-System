@@ -2,7 +2,7 @@
 const Forum = require('./../models/ForumModel');
 //factory method for the model
 const factory = require('./HandlerFactory');
-//util methods to implement
+//utilities methods to implement
 const catchAsync = require('./../utils/CatchAsync');
 const AppError = require('./../utils/AppError');
 
@@ -41,12 +41,12 @@ exports.getForum = factory.getOne(Forum, { path: 'topics' });
 exports.createForum = factory.createOne(Forum);
 //update forum by id
 exports.updateForum = factory.updateOne(Forum);
-//delte foru=m by id
+//delete forum by id
 exports.deleteForum = factory.deleteOne(Forum);
 
 //get forum statistics
 exports.getForumStats = catchAsync(async (req, res, next) => {
-  //array to aggregate the fourm and get the statistics by forum type
+  //array to aggregate the forum and get the statistics by forum type
   const baseArrayAggregate = [
     {
       $lookup: {

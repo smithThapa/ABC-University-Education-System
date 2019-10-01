@@ -1,22 +1,25 @@
 import axios from 'axios';
 import { showAlert } from './alerts';
 
+//Get href for api
+const href = `${location.protocol}//${location.host}/`;
+
 //delete methods to all the types
 export const deleteElement = async (id, type) => {
   try {
-    //get resonse from the API after delete user
+    //get response from the API after delete user
     const res = await axios({
       method: 'DELETE',
-      url: `http://127.0.0.1:8000/api/v1/${type}s/${id}`
+      url: `${href}api/v1/${type}s/${id}`
     });
 
     //if successful delete
-    if (response.data.status === 'success') {
+    if (res.data.status === 'success') {
       //move top
       window.scrollTo(0, 0);
       showAlert(
         'success',
-        `Deleted ${type} Sucessfully!`,
+        `Deleted ${type} Successfully!`,
         `This ${type} will not be accessible in the system`
       );
       //reload page

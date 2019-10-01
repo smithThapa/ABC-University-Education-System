@@ -2,7 +2,7 @@
 const User = require('./../models/UserModel');
 //factory methods to manage models
 const factory = require('./HandlerFactory');
-//utils of the application
+//utilities of the application
 const catchAsync = require('./../utils/CatchAsync');
 const AppError = require('./../utils/AppError');
 const Email = require('./../utils/Email');
@@ -13,19 +13,19 @@ const filterObj = (obj, ...allowedFields) => {
   Object.keys(obj).forEach(el => {
     if (allowedFields.includes(el)) newObj[el] = obj[el];
   });
-  //return new obecjt
+  //return new object
   return newObj;
 };
 
-//middleware before get user
+//middle ware before get user
 exports.getMe = (req, res, next) => {
   req.params.id = req.user.id;
   next();
 };
 
-//funtion to update personal account (not password)
+//function to update personal account (not password)
 exports.updateMe = catchAsync(async (req, res, next) => {
-  //1 crfeate error if user post password
+  //1 create error if user post password
   if (req.body.password || req.body.passwordConfirm) {
     return next(
       new AppError(
@@ -59,9 +59,9 @@ exports.updateMe = catchAsync(async (req, res, next) => {
   });
 });
 
-//delete personal accoutn fucntion
+//delete personal account function
 exports.deleteMe = catchAsync(async (req, res, next) => {
-  //set accoputn as inactive
+  //set account as inactive
   await User.findByIdAndUpdate(req.user.id, { active: false });
 
   //response
@@ -77,7 +77,7 @@ exports.getUser = factory.getOne(User);
 exports.getAllUsers = factory.getAll(User);
 //update user by admin
 exports.updateUser = catchAsync(async (req, res, next) => {
-  //do not allow update pasword
+  //do not allow update password
   if (req.body.password || req.body.passwordConfirm) {
     return next(
       new AppError('Administrator cannot update other user password.', 400)
@@ -118,7 +118,7 @@ exports.updateUser = catchAsync(async (req, res, next) => {
 //delete user by id
 exports.deleteUser = factory.deleteOne(User);
 
-//send notification user for team-maintenace
+//send notification user for team-maintenance
 exports.sendNotificationUser = catchAsync(async (req, res, next) => {
   //check type notification
   const { type } = req.params;
@@ -139,7 +139,7 @@ exports.sendNotificationUser = catchAsync(async (req, res, next) => {
       if (process.env.NODE_ENV.trim() === 'development' && users.length > 2) {
         users = users.slice(0, 2);
       }
-      //emaill all users
+      //email all users
       users.forEach(async elementUser => {
         await new Email(elementUser, homeURL).sendNotificationChangePassword();
       });
@@ -160,9 +160,7 @@ exports.sendNotificationUser = catchAsync(async (req, res, next) => {
       }
 
       users.forEach(async elementUser => {
-        await new Email(elementUser, homeURL).sendNotificationEmailNotification(
-          data
-        );
+        await new Email(elementUser, homeURL).sendEmailNotification(data);
       });
     }
   }

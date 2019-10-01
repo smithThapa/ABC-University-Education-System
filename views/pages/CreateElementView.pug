@@ -1,101 +1,165 @@
+//- extend template
 extends ../components/_templateBase
 
+//- add script
+block append scripts
+    //- Select Forum js to change the title with the forum type
+    script(src='/js/selectChangeForumTitle.js')
+
 block content
-    
+    //- variables to share
     -let forumId
     -let topicId
     -let previousPath
     
+    //- case that admin creates a forum
     -if(title == 'Forum' && user.role == 'admin')
-        +breadcrumbDisplay([['Home','/home'],['Manage Forums','/manage_forums'],['New Forum']])
+        //- Add breadcrumb
+        +breadcrumbDisplay([['Home','/home'],['Manage Forums','/manage_forums'],['Create Forum']])
         
+        //- assign variable the new type
         -previousPath = '/manage_forums'
-        
+    
+    //- case that staff creates a forum
     -if(title == 'Forum' && user.role == 'staff')
-        +breadcrumbDisplay([['Home','/home'],['New Forum']])
+        //- Add breadcrumb
+        +breadcrumbDisplay([['Home','/home'],['Create Forum']])
         
+        //- assign variable the new type
+        -previousPath = '/forums'
+    
+    //- case that admin creates a topic
+    -if(title == 'Topic' && user.role == 'admin')
+        //- assign forum id
+        -forumId = forum.id
+        //- assign variable the new type
+        -previousPath = `/manage_forums/${forum.slug}/manage_topics`
+        
+        //- Add breadcrumb
+        +breadcrumbDisplay([['Home','/home'],['Manage Forums','/manage_forums'], ['Manage Topics', `${previousPath}`],['Create Topic']]) 
+        
+        //- forum creation date and author format
+        -const creationDateForum = moment(forum.createdAt).format('dddd DD MMM YYYY HH:mm');
+        -const authorForum = forum.user? `${forum.user.firstName} ${forum.user.lastName}` : 'Anonymous'
+        
+        //- FORUM
+        //- title
+        a.text-decoration-none.h2(href='/manage_forums') Forum: #{forum.title} - #{forum.type}
+        //- Author
+        small.text-muted.mt-0= `Author: ${authorForum}. Created on: ${creationDateForum}`
+        //- Description
+        p #{forum.description}
+    
+    //- case that staff creates a topic
+    -if(title == 'Topic' && user.role == 'staff')
+        //- Add breadcrumb
+        +breadcrumbDisplay([['Home','/home'],['Create Topic']])
+        
+        //- assign variable the new type
         -previousPath = '/forums'
         
-    -if(title == 'Topic' && user.role == 'admin')
-    
-        -forumId = forum.id
-        -previousPath = `/manage_forums/${forum.slug}/manage_topics`  
-        +breadcrumbDisplay([['Home','/home'],['Manage Forums','/manage_forums'], ['Manage Topics', `${previousPath}`],['New Topic']])
-        
-        -const creationDateForum = moment(forum.createdAt).format('dddd DD MMM YYYY HH:mm');
-        -const authorForum = forum.user.firstName ? `${forum.user.firstName} ${forum.user.lastName}` : 'ABC University'
-        
-        a.text-decoration-none.h2(href='/manage_forums') Forum: #{forum.title} - #{forum.type}
-        small.text-muted.mt-0= `Author: ${authorForum}. Created on: ${creationDateForum}`
-        p #{forum.description}
-        
+    //- User creates a comment
     -if (title == 'Comment')
     
+        //- check the original URL to redirect the user 
         -if(originalUrl && originalUrl.includes('manage_comments'))
+            //- assign variable the new type
             - previousPath = `/manage_forums/${forum.slug}/manage_topics/${topic.slug}/manage_comments`
-            +breadcrumbDisplay([['Home','/home'],['Manage Forums','/manage_forums'],['Manage Topics',`/manage _forums/${forum.slug}/manage_topics`], ['Manage Comments', previousPath ], ['New Comment']])  
+            
+            //- Add breadcrumb
+            +breadcrumbDisplay([['Home','/home'],['Manage Forums','/manage_forums'],['Manage Topics',`/manage _forums/${forum.slug}/manage_topics`], ['Manage Comments', previousPath ], ['Create Comment']])  
         -else
+            //- assign variable the new type
             -previousPath = `/forums/${forum.slug}/topics/${topic.slug}/comments`
-            +breadcrumbDisplay([['Home','/home'],['Forums','/forums'],['Topics',`/forums/${forum.slug}/topics`], ['Comments', previousPath ], ['New Comment']])
+            
+            //- Add breadcrumb
+            +breadcrumbDisplay([['Home','/home'],['Forums','/forums'],['Topics',`/forums/${forum.slug}/topics`], ['Comments', previousPath ], ['Create Comment']])
 
-        //- -const creationDate = forum.createdAt.format();
+        //- Creation date forums and topics
         -const creationDateForum = moment(forum.createdAt).format('dddd DD MMM YYYY HH:mm');
         -const creationDateTopic = moment(topic.createdAt).format('dddd DD MMM YYYY HH:mm');
         
-        -const authorForum = forum.user.firstName ? `${forum.user.firstName} ${forum.user.lastName}` : 'ABC University'
-        -const authorTopic = topic.user.firstName ? `${topic.user.firstName} ${topic.user.lastName}` : 'ABC University'
+        //- author format of forum and topic
+        -const authorForum = forum.user ? `${forum.user.firstName} ${forum.user.lastName}` : 'Anonymous'
+        -const authorTopic = topic.user ? `${topic.user.firstName} ${topic.user.lastName}` : 'Anonymous'
 
+        //- FORUM
+        //- title
         a.text-decoration-none.h2(href='/forums') Forum: #{forum.title} - #{forum.type}
+        //- author
         small.text-muted.mt-0= `Author: ${authorForum}. Created on: ${creationDateForum}`
+        //- description
         p #{forum.description}
 
+        //- TOPIC
+        //- title
         a.text-decoration-none.h3.mt-0(href=`/forums/${forum.slug}/topics`) Topic: #{topic.title}
+        //- Author
         small.text-muted.mt-0= `Author: ${authorTopic}. Created on: ${creationDateTopic}`
+        //- description
         p #{topic.description}
         
+        //- assign forum and topic ot the variables
         -forumId = forum.id
         -topicId = topic.id
     
-    -if(title == 'Topic' && user.role == 'staff')
-        +breadcrumbDisplay([['Home','/home'],['New Topic']])
-        
-        -previousPath = '/forums'
+    //- body title
+    h2 Create #{title}
 
-    h2 Create New #{title}
-
+    //- form to create an element
     form#createElementForm
+        //- hide inputs type, forum id, topic id, role and previousPath
         input#hiddenInputCreateType.d-none(value=`${title}`)
         input#hiddenInputCreateForum.d-none(value=`${forumId}`)
         input#hiddenInputCreateTopic.d-none(value=`${topicId}`)
         input#hiddenInputCreateUserRole.d-none(value=`${user.role}`)
         input#hiddenInputCreatePath.d-none(value= `${previousPath}`)
+        //- case staff create a topic, display a dropdown with forums
         -if(title == 'Topic' && user.role == 'staff')
+            //- selection drop down with the forum types
             .form-group.row
-                label.col-sm-2.col-form-label(for='inputCreationForum') Forum 
+                label.col-sm-2.col-form-label(for='inputCreationForumType') Forum Type
                 .col-sm-10
-                    select#inputCreationForum.form-control(required='required')
-                        each forum, index in forums
-                            option(data-forum-id= `${forum.id}` data-forum-slug=`${forum.slug}`) #{forum.title} - #{forum.type}
+                    select#inputCreationForumType.form-control(required='required')
+                        option(value='') SELECT A FORUM TYPE
+                        -for(const key in objectTitlesByType)
+                            option= key
+            //- list with all the titles to hide
+            .form-group.row.d-none
+                -for(const key in objectTitlesByType)
+                    ul(id=`forumType${key.split(' ').join('')}List`)
+                        each forumElement in objectTitlesByType[key]
+                            li(data-forum-id=`${forumElement.id}` data-forum-slug=`${forumElement.slug}`)= forumElement.title
+            //- select of the title of the forum          
+            .form-group.row
+                label.col-sm-2.col-form-label(for='inputCreationForumTitle') Forum Title
+                .col-sm-10
+                    select#inputCreationForumTitle.form-control(required='required')
+                                       
+        //- Title input
         .form-group.row
             label.col-sm-2.col-form-label(for='inputCreationTitle') Title
             .col-sm-10
                 input#inputCreationTitle.form-control(type='text' maxlength="50"  placeholder='Title' required='required')
+        //- if the element is not a forum, description text area to all
         -if (title != 'Forum')
             .form-group.row
                 label.col-sm-2.col-form-label(for='inputCreationDescription') Description <br/> 
                     p.text-muted (max: 400 characters)
                 .col-sm-10
                     textarea#inputCreationDescription.form-control(type='text'  rows="5" maxlength="400" placeholder='Description (max: 400 characters)' required='required')
-        -if (title == 'Forum')
+        //- case it is a forum, it will have a select element with the types available
+        -else
             .form-group.row
                 label.col-sm-2.col-form-label(for='inputCreationType') Type 
                 .col-sm-10
+                    -const arrayForumType = ['Accounting','Business','Information Technology','Other','Project Management',]
                     select#inputCreationType.form-control(required='required')
-                        option Information Technology
-                        option Business
-                        option Accounting
-                        option Project Management
-                        option Other   
+                        option(value='') SELECT A FORUM TYPE
+                        each forumType in arrayForumType
+                            option #{forumType}
+                        
+        //- button to create element  
         .form-group.row
             .col-sm-10
-                button.btn.btn-primary New #{title}
+                button.btn.btn-primary Create #{title}

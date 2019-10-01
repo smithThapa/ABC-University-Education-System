@@ -1,28 +1,35 @@
+// Node.js modules to use
 const axios = require('axios');
+// utilities to use
 const AppError = require('./../utils/AppError');
 
-//get announcements page
+//get news for user to navigate through them
 exports.getNews = async function(req, res, next) {
   try {
-    //add authentitcation to axios
+    //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
+    //get href for axios
+    const href = `${req.protocol}://${req.get('host')}/`;
+
+    //get the stats with the number of news in the system
     const stats = await axios({
       method: 'GET',
-      url: `http://127.0.0.1:8000/api/v1/articles/stats`
+      url: `${href}api/v1/articles/stats`
     });
 
-    //get api
-    const objs = await axios({
+    //get news from API
+    const news = await axios({
       method: 'GET',
-      url: `http://127.0.0.1:8000/api/v1/articles/news?sort=-createdAt`
+      url: `${href}api/v1/articles/news?sort=-createdAt`
     });
-    // console.log(objs.data.data.data[0].createdAt);
 
-    if (objs.data.status === 'success') {
+    //check if the response is successful
+    if (news.data.status === 'success') {
+      //send news and numbers of records to the pug template
       res.status(200).render('NewsView', {
         title: 'News',
-        news: objs.data.data.data,
+        news: news.data.data.data,
         records: stats.data.data[1].typeTotal
       });
     }
@@ -32,21 +39,27 @@ exports.getNews = async function(req, res, next) {
   }
 };
 
+//get new details to be displayed to any user
 exports.getNewsDetails = async function(req, res, next) {
   try {
-    //add authentitcation to axios
+    //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
-    //get api
-    const obj = await axios({
+    //get href for axios
+    const href = `${req.protocol}://${req.get('host')}/`;
+
+    //get new element from API and its slug
+    const newElement = await axios({
       method: 'GET',
-      url: `http://127.0.0.1:8000/api/v1/articles/slug/${req.params.slug}`
+      url: `${href}api/v1/articles/slug/${req.params.slug}`
     });
 
-    if (obj.data.status === 'success') {
+    //check if the response is successful
+    if (newElement.data.status === 'success') {
+      //send the new to the pug template to be displayed
       res.status(200).render('NewsDetailsView', {
         title: 'News',
-        newElement: obj.data.data.data
+        newElement: newElement.data.data.data
       });
     }
   } catch (err) {
@@ -55,21 +68,27 @@ exports.getNewsDetails = async function(req, res, next) {
   }
 };
 
+// get news list to display tot he admin to manage news
 exports.getManageNewsList = async function(req, res, next) {
   try {
-    //add authentitcation to axios
+    //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
-    //get api
-    const objs = await axios({
+    //get href for axios
+    const href = `${req.protocol}://${req.get('host')}/`;
+
+    //get news from API
+    const news = await axios({
       method: 'GET',
-      url: 'http://127.0.0.1:8000/api/v1/articles/news'
+      url: `${href}api/v1/articles/news`
     });
 
-    if (objs.data.status === 'success') {
+    // check if response is successful
+    if (news.data.status === 'success') {
+      //send news to the pug template
       res.status(200).render('NewsListView', {
         title: 'News',
-        news: objs.data.data.data
+        news: news.data.data.data
       });
     }
   } catch (err) {
@@ -78,6 +97,7 @@ exports.getManageNewsList = async function(req, res, next) {
   }
 };
 
+// create new page
 exports.createNews = function(req, res, next) {
   res.status(200).render('CreateArticleView', {
     title: 'News',
@@ -85,21 +105,27 @@ exports.createNews = function(req, res, next) {
   });
 };
 
+// edit method to open edit pug template with the news data to be edited
 exports.editNews = async function(req, res, next) {
   try {
-    //add authentitcation to axios
+    //add authentication to axios
     axios.defaults.headers.common.Authorization = `Bearer ${req.cookies.jwt}`;
 
-    //get api
-    const obj = await axios({
+    //get href for axios
+    const href = `${req.protocol}://${req.get('host')}/`;
+
+    //get new element from API and its slug
+    const newElement = await axios({
       method: 'GET',
-      url: `http://127.0.0.1:8000/api/v1/articles/slug/${req.params.newsSlug}`
+      url: `${href}api/v1/articles/slug/${req.params.newsSlug}`
     });
 
-    if (obj.data.status === 'success') {
+    //check if the response is successful
+    if (newElement.data.status === 'success') {
+      //send new element to the pug template
       res.status(200).render('EditArticleView', {
         title: 'News',
-        article: obj.data.data.data
+        article: newElement.data.data.data
       });
     }
   } catch (err) {

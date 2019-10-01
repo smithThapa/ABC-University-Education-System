@@ -1,13 +1,16 @@
 import axios from 'axios';
 import { showAlert } from './alerts';
 
+//Get href for api
+const href = `${location.protocol}//${location.host}/`;
+
 //report generation method
 export const reportGeneration = async function(text, html) {
   try {
     //get response from API to report generation
     const res = await axios({
       method: 'POST',
-      url: `http://127.0.0.1:8000/report_generation/sendHtml`,
+      url: `${href}report_generation/sendHtml`,
       data: {
         html
       }
@@ -15,7 +18,7 @@ export const reportGeneration = async function(text, html) {
 
     //response successful
     if (res.data.status == 'success') {
-      //open report pdf
+      //open report PDF
       window.open(`/report_generation/${text}`);
     }
   } catch (err) {

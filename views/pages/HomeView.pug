@@ -1,63 +1,79 @@
+//- extend template
 extends ../components/_templateBase
 
+//- add script into the page
 block append scripts
+    //- collapse js to add accordion into the page
     script(src='/js/collapse.js')
 
 block content
+    //- Add breadcrumb
     +breadcrumbDisplay([['Home']])
 
+    //- log in user role format
     - let role = user.role.charAt(0).toUpperCase() + user.role.slice(1)
-    
     -if(role == 'Team-maintenance')
         -role = 'Team Maintenance'
 
+    //- welcome message with user name and role
     h2 Welcome #{user.firstName} #{user.lastName} to ABC University - #{role}
-    .container.d-flex
+    .container.d-sm-inline-flex
         .container
             p  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse neque magna, congue eget rutrum non, blandit ut elit. Fusce scelerisque malesuada metus ut facilisis. Etiam efficitur, purus sit amet venenatis ullamcorper, risus libero tempor magna, id euismod urna felis ut orci. Suspendisse finibus ante rutrum facilisis condimentum. Praesent eu eros felis. Mauris gravida dui viverra, pharetra arcu et, congue enim. Sed ipsum felis, ornare sed luctus vel, gravida non orci. Donec rhoncus pulvinar diam, vitae faucibus eros pharetra eu. Curabitur pulvinar dictum sodales. In ac aliquet lectus, at dignissim ipsum.
 
             p  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse neque magna, congue eget rutrum non, blandit ut elit. Fusce scelerisque malesuada metus ut facilisis. Etiam efficitur, purus sit amet venenatis ullamcorper, risus libero tempor magna, id euismod urna felis ut orci. Suspendisse finibus ante rutrum facilisis condimentum. Praesent eu eros felis. Mauris gravida dui viverra, pharetra arcu et, congue enim. Sed ipsum felis, ornare sed luctus vel, gravida non orci. Donec rhoncus pulvinar diam, vitae faucibus eros pharetra eu. Curabitur pulvinar dictum sodales. In ac aliquet lectus, at dignissim ipsum.
 
+        //- display last three announcements to user who are not team maintenance
         -if (announcements && user.role != 'team-maintenance')
 
-            .ml-auto(style='width:35%;')
-                .d-flex
+            //- title and button to go to all announcements
+            .ml-auto
+                .d-sm-flex
                     h4(style='color: #006972;') Announcements
                     a.ml-auto(href='/announcements') View all >
                                         
                 #accordion
+                    //- iterate through last three announcements
                     each announcement,index in announcements
+                        //- creation date format
                         -const announcementDate = moment(announcement.createdAt).format("DD MMM").toUpperCase()
                         .card
-                            .card-header.bg-info.text-white(id=`heading${index}`)                               
-                                h5.mb-0
-                                    button.btn.text-white.d-flex(data-toggle='collapse' data-target=`#collapse${index}` aria-expanded='false' aria-controls=`collapse${index}`)
-                                        |#{announcementDate}
-                                        .ml-4 #{announcement.title.substr(0,25)}...
+                            .card-header.bg-info.text-white.pl-0.pl-md-2(id=`heading${index}`)
+                                //- title
+                                button.btn.text-white.d-sm-flex(data-toggle='collapse' data-target=`#collapse${index}` aria-expanded='false' aria-controls=`collapse${index}`)
+                                    h6.my-0 #{announcementDate}
+                                    p.my-0.ml-md-4 #{announcement.title.substr(0,20)}...
 
                             .collapse(id=`collapse${index}` aria-labelledby=`heading${index}` data-parent='#accordion')
+                                //- body with 100 characters
                                 .card-body
                                     |#{announcement.description.substr(0,100)}...
-
+    //- display last three news to user who are not team maintenance
     - if(news && user.role != 'team-maintenance')
 
-        .d-flex.mb-4
+        //- title and button to go to all news
+        .d-sm-flex.mb-4
             h3(style='color: #006972;') Last News
             a.ml-auto(href='/news') View all News >
 
         .card-deck.mb-4 
+            //- iterate through last three news
             each element in news
+                //- creation date format relative to the moment
                 -const relativeTime = moment(element.createdAt).fromNow()
                 .card
                     .h5.card-header.bg-info.text-white= element.type
                     .card-body
+                        //- title
                         h6.card-title= element.title
+                        //- body with 100 characters
                         p.card-text
                             |#{element.description.substr(0,100)}...
                         p.card-text
                             small.text-muted Last updated #{relativeTime}
+                    //- button to go to nres
                     .card-footer
-                        a.btn.btn-primary.align-self-end(href=`news/${element.slug}`)= `Go to this News`
+                        a.btn.btn-primary.align-self-end(href=`/news/${element.slug}`)= `Go to this News`
 
 
 

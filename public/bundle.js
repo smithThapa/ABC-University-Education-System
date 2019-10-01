@@ -8301,10 +8301,10 @@ var hideAlert = function hideAlert() {
 exports.hideAlert = hideAlert;
 
 var showAlert = function showAlert(type, strongMsg, msg) {
-  //hide all alers
-  hideAlert(); //make up html with the alert
+  //hide all alerts
+  hideAlert(); //make up HTML with the alert
 
-  var markup = "\n  <div class=\"alert alert-".concat(type, " alert-dismissible fade show text-center\" role=\"alert\">\n    <strong>").concat(strongMsg, "</strong> ").concat(msg, "\n    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">\n      <span aria-hidden=\"true\">&times;</span>\n    </button>\n  </div>"); //insert html
+  var markup = "\n  <div class=\"alert alert-".concat(type, " alert-dismissible fade show text-center\" role=\"alert\">\n    <strong>").concat(strongMsg, "</strong> ").concat(msg, "\n    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">\n      <span aria-hidden=\"true\">&times;</span>\n    </button>\n  </div>"); //insert HTML
 
   document.querySelector('body').insertAdjacentHTML('afterbegin', markup); //set timeout to hide alert
 
@@ -8330,6 +8330,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//Get href for api
+var href = "".concat(location.protocol, "//").concat(location.host, "/");
+
 var login =
 /*#__PURE__*/
 function () {
@@ -8345,7 +8348,7 @@ function () {
             _context.next = 3;
             return (0, _axios.default)({
               method: 'POST',
-              url: 'http://127.0.0.1:8000/api/v1/users/login',
+              url: "".concat(href, "api/v1/users/login"),
               data: {
                 email: email,
                 password: password
@@ -8354,8 +8357,8 @@ function () {
 
           case 3:
             res = _context.sent;
-            console.log(res.data.status); //successful response
 
+            //successful response
             if (res.data.status === 'success') {
               //move top
               window.scrollTo(0, 0);
@@ -8366,28 +8369,28 @@ function () {
               }, 1000);
             }
 
-            _context.next = 12;
+            _context.next = 11;
             break;
 
-          case 8:
-            _context.prev = 8;
+          case 7:
+            _context.prev = 7;
             _context.t0 = _context["catch"](0);
             // console.log(err.response.data);
             window.scrollTo(0, 0);
             (0, _alerts.showAlert)('danger', 'Logged in failed!', _context.t0.response.data.message);
 
-          case 12:
+          case 11:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 8]]);
+    }, _callee, null, [[0, 7]]);
   }));
 
   return function login(_x, _x2) {
     return _ref.apply(this, arguments);
   };
-}(); //log out method to exit the app
+}(); //log out method to exit the application
 
 
 exports.login = login;
@@ -8407,7 +8410,7 @@ function () {
             _context2.next = 3;
             return (0, _axios.default)({
               method: 'GET',
-              url: 'http://127.0.0.1:8000/api/v1/users/logout'
+              url: "".concat(href, "api/v1/users/logout")
             });
 
           case 3:
@@ -8417,7 +8420,7 @@ function () {
             if (res.data.status === 'success') {
               //move topic
               window.scrollTo(0, 0);
-              (0, _alerts.showAlert)('info', 'Sucessfully log out!', 'Thank you for using ABC University Education System'); //return login page
+              (0, _alerts.showAlert)('info', 'Successfully log out!', 'Thank you for using ABC University Education System'); //return login page
 
               window.setTimeout(function () {
                 location.assign('/');
@@ -8431,7 +8434,7 @@ function () {
             _context2.prev = 7;
             _context2.t0 = _context2["catch"](0);
             window.scrollTo(0, 0);
-            (0, _alerts.showAlert)('error', 'Error loggin out! Try again!', _context2.t0.response.data.message);
+            (0, _alerts.showAlert)('error', 'Error logging out! Try again!', _context2.t0.response.data.message);
 
           case 11:
           case "end":
@@ -8444,7 +8447,7 @@ function () {
   return function logout() {
     return _ref2.apply(this, arguments);
   };
-}(); //log out method to exit the app
+}(); //log out method to exit the application
 
 
 exports.logout = logout;
@@ -8464,7 +8467,7 @@ function () {
             _context3.next = 3;
             return (0, _axios.default)({
               method: 'GET',
-              url: 'http://127.0.0.1:8000/api/v1/users/logoutas'
+              url: "".concat(href, "api/v1/users/logoutAs")
             });
 
           case 3:
@@ -8474,7 +8477,7 @@ function () {
             if (res.data.status === 'success') {
               //move topic
               window.scrollTo(0, 0);
-              (0, _alerts.showAlert)('info', 'Sucessfully log out!', 'Thank you for using ABC University Education System'); //return login page
+              (0, _alerts.showAlert)('info', 'Successfully log out!', 'Thank you for using ABC University Education System'); //return login page
 
               window.setTimeout(function () {
                 location.assign('/');
@@ -8488,7 +8491,7 @@ function () {
             _context3.prev = 7;
             _context3.t0 = _context3["catch"](0);
             window.scrollTo(0, 0);
-            (0, _alerts.showAlert)('error', 'Error loggin out! Try again!', _context3.t0.response.data.message);
+            (0, _alerts.showAlert)('error', 'Error logging out! Try again!', _context3.t0.response.data.message);
 
           case 11:
           case "end":
@@ -8522,7 +8525,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//methods to create user
+//Get href for api
+var href = "".concat(location.protocol, "//").concat(location.host, "/"); //methods to create user
+
 var createUser =
 /*#__PURE__*/
 function () {
@@ -8538,7 +8543,7 @@ function () {
             _context.next = 3;
             return (0, _axios.default)({
               method: 'POST',
-              url: 'http://127.0.0.1:8000/api/v1/users/createUser',
+              url: "".concat(href, "api/v1/users/createUser"),
               data: data
             });
 
@@ -8550,7 +8555,7 @@ function () {
               //mode window to top
               window.scrollTo(0, 0); //show alert
 
-              (0, _alerts.showAlert)('success', 'Created User Sucessfully!', 'An activation email has been send to the new user to active its account within 24 hours.'); //return to the previous page
+              (0, _alerts.showAlert)('success', 'Created User Successfully!', 'An activation email has been send to the new user to active its account within 24 hours.'); //return to the previous page
 
               window.setTimeout(function () {
                 location.assign('/manage_users');
@@ -8598,7 +8603,7 @@ function () {
             _context2.next = 3;
             return (0, _axios.default)({
               method: 'POST',
-              url: 'http://127.0.0.1:8000/api/v1/forums',
+              url: "".concat(href, "api/v1/forums"),
               data: {
                 title: title,
                 type: type
@@ -8612,7 +8617,7 @@ function () {
             if (res.data.status === 'success') {
               //move to top
               window.scrollTo(0, 0);
-              (0, _alerts.showAlert)('success', 'Created Forum Sucessfully!', 'This forum new is visible to all users'); //return previos page
+              (0, _alerts.showAlert)('success', 'Created Forum Successfully!', 'This forum new is visible to all users'); //return previous page
 
               window.setTimeout(function () {
                 location.assign(previousPath);
@@ -8660,7 +8665,7 @@ function () {
             _context3.next = 3;
             return (0, _axios.default)({
               method: 'POST',
-              url: "http://127.0.0.1:8000/api/v1/forums/".concat(forumId, "/topics"),
+              url: "".concat(href, "api/v1/forums/").concat(forumId, "/topics"),
               data: {
                 title: title,
                 description: description
@@ -8670,11 +8675,11 @@ function () {
           case 3:
             res = _context3.sent;
 
-            //successful rsponse
+            //successful response
             if (res.data.status == 'success') {
               //move top
               window.scrollTo(0, 0);
-              (0, _alerts.showAlert)('success', 'Created Topic Sucessfully!', 'This topic new is visible to all users'); //return previos path
+              (0, _alerts.showAlert)('success', 'Created Topic Successfully!', 'This topic new is visible to all users'); //return previous path
 
               window.setTimeout(function () {
                 location.assign(previousPath);
@@ -8722,7 +8727,7 @@ function () {
             _context4.next = 3;
             return (0, _axios.default)({
               method: 'POST',
-              url: 'http://127.0.0.1:8000/api/v1/comments',
+              url: "".concat(href, "api/v1/comments"),
               data: {
                 title: title,
                 description: description,
@@ -8737,7 +8742,7 @@ function () {
             if (res.data.status === 'success') {
               //go top
               window.scrollTo(0, 0);
-              (0, _alerts.showAlert)('success', 'Created commnet Sucessfully!', 'Thank you for comment into this topic'); //return previos path
+              (0, _alerts.showAlert)('success', 'Created comment successfully!', 'Thank you for comment into this topic'); //return previous path
 
               window.setTimeout(function () {
                 location.assign(previousPath);
@@ -8785,7 +8790,7 @@ function () {
             _context5.next = 3;
             return (0, _axios.default)({
               method: 'POST',
-              url: 'http://127.0.0.1:8000/api/v1/articles',
+              url: "".concat(href, "api/v1/articles"),
               data: {
                 data: data,
                 arrayRoleEmails: arrayRoleEmails
@@ -8799,7 +8804,7 @@ function () {
             if (res.data.status === 'success') {
               //move top site
               window.scrollTo(0, 0);
-              (0, _alerts.showAlert)('success', "Created ".concat(data.type, " Sucessfully!"), "".concat(data.type, " is accessible to all users")); //retun previos path
+              (0, _alerts.showAlert)('success', "Created ".concat(data.type, " Successfully!"), "".concat(data.type, " is accessible to all users")); //return previous path
 
               window.setTimeout(function () {
                 location.assign(previousPath);
@@ -8847,7 +8852,7 @@ function () {
             _context6.next = 3;
             return (0, _axios.default)({
               method: 'POST',
-              url: 'http://127.0.0.1:8000/api/v1/maintenanceRequests',
+              url: "".concat(href, "api/v1/maintenanceRequests"),
               data: {
                 subject: subject,
                 description: description
@@ -8861,7 +8866,7 @@ function () {
             if (res.data.status === 'success') {
               //move top
               window.scrollTo(0, 0);
-              (0, _alerts.showAlert)('success', 'Maintenance Request is submitted', 'Request will be processed by the maintenance staff in the next 2-3 working days'); //retunr previos path
+              (0, _alerts.showAlert)('success', 'Maintenance Request is submitted', 'Request will be processed by the maintenance staff in the next 2-3 working days'); //return previous path
 
               window.setTimeout(function () {
                 location.assign('/home');
@@ -8908,7 +8913,7 @@ function () {
             _context7.next = 3;
             return (0, _axios.default)({
               method: 'POST',
-              url: 'http://127.0.0.1:8000/api/v1/errorReports',
+              url: "".concat(href, "api/v1/errorReports"),
               data: data
             });
 
@@ -8967,7 +8972,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//edit method general to edit forum, topic
+//Get href for api
+var href = "".concat(location.protocol, "//").concat(location.host, "/"); //edit method general to edit forum, topic
+
 var editElement =
 /*#__PURE__*/
 function () {
@@ -8983,7 +8990,7 @@ function () {
             _context.next = 3;
             return (0, _axios.default)({
               method: 'PATCH',
-              url: "http://127.0.0.1:8000/api/v1/".concat(type, "s/").concat(id),
+              url: "".concat(href, "api/v1/").concat(type, "s/").concat(id),
               data: data
             });
 
@@ -8994,7 +9001,7 @@ function () {
             if (res.data.status === 'success') {
               //move top
               window.scrollTo(0, 0);
-              (0, _alerts.showAlert)('success', "".concat(type, " updated successfully!"), ''); //retunr previos path
+              (0, _alerts.showAlert)('success', "".concat(type, " updated successfully!"), ''); //return previous path
 
               window.setTimeout(function () {
                 location.assign(previousPath);
@@ -9022,7 +9029,7 @@ function () {
   return function editElement(_x, _x2, _x3, _x4) {
     return _ref.apply(this, arguments);
   };
-}(); //edit article mthod
+}(); //edit article method
 
 
 exports.editElement = editElement;
@@ -9042,7 +9049,7 @@ function () {
             _context2.next = 3;
             return (0, _axios.default)({
               method: 'PATCH',
-              url: "http://127.0.0.1:8000/api/v1/articles/".concat(id),
+              url: "".concat(href, "api/v1/articles/").concat(id),
               data: data
             });
 
@@ -9053,7 +9060,7 @@ function () {
             if (res.data.status === 'success') {
               //move top
               window.scrollTo(0, 0);
-              (0, _alerts.showAlert)('success', "".concat(type, " updated successfully!"), ''); //return previos path
+              (0, _alerts.showAlert)('success', "".concat(type, " updated successfully!"), ''); //return previous path
 
               window.setTimeout(function () {
                 location.assign(previousPath);
@@ -9101,7 +9108,7 @@ function () {
             _context3.next = 3;
             return (0, _axios.default)({
               method: 'PATCH',
-              url: "http://127.0.0.1:8000/api/v1/users/".concat(id),
+              url: "".concat(href, "api/v1/users/").concat(id),
               data: data
             });
 
@@ -9112,7 +9119,7 @@ function () {
             if (res.data.status === 'success') {
               //move top
               window.scrollTo(0, 0);
-              (0, _alerts.showAlert)('success', "User updated successfully!", ''); //return previos path
+              (0, _alerts.showAlert)('success', "User updated successfully!", ''); //return previous path
 
               window.setTimeout(function () {
                 location.assign('/manage_users');
@@ -9160,7 +9167,7 @@ function () {
             _context4.next = 3;
             return (0, _axios.default)({
               method: 'PATCH',
-              url: "http://127.0.0.1:8000/api/v1/users/updateMe",
+              url: "".concat(href, "api/v1/users/updateMe"),
               data: data
             });
 
@@ -9171,7 +9178,7 @@ function () {
             if (res.data.status === 'success') {
               //move top
               window.scrollTo(0, 0);
-              (0, _alerts.showAlert)('success', "Your User Details has been successfully Updated!", 'Thank you for sharing your details with us'); //return previos path
+              (0, _alerts.showAlert)('success', "Your User Details has been successfully Updated!", 'Thank you for sharing your details with us'); //return previous path
 
               window.setTimeout(function () {
                 location.assign('/my_details/me');
@@ -9199,7 +9206,7 @@ function () {
   return function editMe(_x11) {
     return _ref4.apply(this, arguments);
   };
-}(); //edit personal passowrd
+}(); //edit personal password
 
 
 exports.editMe = editMe;
@@ -9219,7 +9226,7 @@ function () {
             _context5.next = 3;
             return (0, _axios.default)({
               method: 'PATCH',
-              url: "http://127.0.0.1:8000/api/v1/users/updateMyPassword",
+              url: "".concat(href, "api/v1/users/updateMyPassword"),
               data: data
             });
 
@@ -9230,7 +9237,7 @@ function () {
             if (res.data.status === 'success') {
               //move top
               window.scrollTo(0, 0);
-              (0, _alerts.showAlert)('success', "Your Password has been updated!", ''); //retun to my details
+              (0, _alerts.showAlert)('success', "Your Password has been updated!", ''); //return to my details
 
               window.setTimeout(function () {
                 location.assign('/my_details/me');
@@ -9245,7 +9252,7 @@ function () {
             _context5.t0 = _context5["catch"](0);
             window.scrollTo(0, 0); // console.log(err);
 
-            (0, _alerts.showAlert)('error', _context5.t0.response.data.message);
+            (0, _alerts.showAlert)('danger', "Your Password cannot be updated!", '');
 
           case 11:
           case "end":
@@ -9278,7 +9285,7 @@ function () {
             _context6.next = 3;
             return (0, _axios.default)({
               method: 'PATCH',
-              url: "http://127.0.0.1:8000/api/v1/maintenanceRequests/".concat(id),
+              url: "".concat(href, "api/v1/maintenanceRequests/").concat(id),
               data: {
                 status: status,
                 resolvedAt: Date.now(),
@@ -9307,7 +9314,7 @@ function () {
             _context6.prev = 7;
             _context6.t0 = _context6["catch"](0);
             window.scrollTo(0, 0);
-            (0, _alerts.showAlert)('danger', 'Maintenance Request is not submitted.');
+            (0, _alerts.showAlert)('danger', 'Maintenance Request is not submitted.', _context6.t0.response.data.message);
 
           case 11:
           case "end":
@@ -9341,7 +9348,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//delete methods to all the types
+//Get href for api
+var href = "".concat(location.protocol, "//").concat(location.host, "/"); //delete methods to all the types
+
 var deleteElement =
 /*#__PURE__*/
 function () {
@@ -9357,17 +9366,17 @@ function () {
             _context.next = 3;
             return (0, _axios.default)({
               method: 'DELETE',
-              url: "http://127.0.0.1:8000/api/v1/".concat(type, "s/").concat(id)
+              url: "".concat(href, "api/v1/").concat(type, "s/").concat(id)
             });
 
           case 3:
             res = _context.sent;
 
             //if successful delete
-            if (response.data.status === 'success') {
+            if (res.data.status === 'success') {
               //move top
               window.scrollTo(0, 0);
-              (0, _alerts.showAlert)('success', "Deleted ".concat(type, " Sucessfully!"), "This ".concat(type, " will not be accessible in the system")); //reload page
+              (0, _alerts.showAlert)('success', "Deleted ".concat(type, " Successfully!"), "This ".concat(type, " will not be accessible in the system")); //reload page
 
               window.location.reload();
             }
@@ -9414,7 +9423,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//method to reset paswird
+//Get href for api
+var href = "".concat(location.protocol, "//").concat(location.host, "/"); //method to reset password
+
 var resetPassword =
 /*#__PURE__*/
 function () {
@@ -9430,7 +9441,7 @@ function () {
             _context.next = 3;
             return (0, _axios.default)({
               method: 'PATCH',
-              url: "http://127.0.0.1:8000/api/v1/users/resetPassword/".concat(token),
+              url: "".concat(href, "api/v1/users/resetPassword/").concat(token),
               data: {
                 password: password,
                 confirmPassword: confirmPassword
@@ -9492,7 +9503,7 @@ function () {
             _context2.next = 3;
             return (0, _axios.default)({
               method: 'POST',
-              url: 'http://127.0.0.1:8000/api/v1/users/forgotPassword',
+              url: "".concat(href, "api/v1/users/forgotPassword"),
               data: {
                 email: email,
                 resetURL: resetURL
@@ -9555,7 +9566,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//send notification method
+//Get href for api
+var href = "".concat(location.protocol, "//").concat(location.host, "/"); //send notification method
+
 var sendNotification =
 /*#__PURE__*/
 function () {
@@ -9571,7 +9584,7 @@ function () {
             _context.next = 3;
             return (0, _axios.default)({
               method: 'POST',
-              url: "http://127.0.0.1:8000/api/v1/users/notifyUsers/".concat(type),
+              url: "".concat(href, "api/v1/users/notifyUsers/").concat(type),
               data: {
                 data: data
               }
@@ -9584,7 +9597,7 @@ function () {
             if (res.data.status === 'success') {
               //move top
               window.scrollTo(0, 0);
-              (0, _alerts.showAlert)('success', 'Notifications have been successfully sent!', ''); //retun send_notification
+              (0, _alerts.showAlert)('success', 'Notifications have been successfully sent!', ''); //return send_notification
 
               window.setTimeout(function () {
                 //return to page
@@ -9634,7 +9647,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//report generation method
+//Get href for api
+var href = "".concat(location.protocol, "//").concat(location.host, "/"); //report generation method
+
 var reportGeneration =
 /*#__PURE__*/
 function () {
@@ -9650,7 +9665,7 @@ function () {
             _context.next = 3;
             return (0, _axios.default)({
               method: 'POST',
-              url: "http://127.0.0.1:8000/report_generation/sendHtml",
+              url: "".concat(href, "report_generation/sendHtml"),
               data: {
                 html: html
               }
@@ -9661,7 +9676,7 @@ function () {
 
             //response successful
             if (res.data.status == 'success') {
-              //open report pdf
+              //open report PDF
               window.open("/report_generation/".concat(text));
             }
 
@@ -9976,9 +9991,6 @@ var resetPasswordForm = document.getElementById('resetPasswordForm'); //a
 var forgotPasswordForm = document.getElementById('forgotPasswordForm'); //b
 
 var editMyPasswordForm = document.getElementById('editMyPasswordForm'); //c
-//3: file related
-
-var fileInput = document.getElementById('fileInput'); //a
 //4: create elements
 
 var createElementForm = document.getElementById('createElementForm'); //a
@@ -10036,11 +10048,11 @@ if (logoutBtn) {
 if (logoutAsBtn) {
   //add event to click and execute the method to logout and return to team-maintenance
   logoutAsBtn.addEventListener('click', _login.logoutAs);
-} //2.a: Reset own passwird form
+} //2.a: Reset own password form
 
 
 if (resetPasswordForm) {
-  //add event to forum when it is submiteed
+  //add event to forum when it is submitted
   resetPasswordForm.addEventListener('submit', function (e) {
     e.preventDefault(); //get the password from the user
 
@@ -10055,7 +10067,7 @@ if (resetPasswordForm) {
 
 
 if (forgotPasswordForm) {
-  //add event to forum to add email and send new ptoken
+  //add event to forum to add email and send new token
   forgotPasswordForm.addEventListener('submit', function (e) {
     e.preventDefault(); //get email
 
@@ -10073,21 +10085,14 @@ if (editMyPasswordForm) {
   editMyPasswordForm.addEventListener('submit', function (e) {
     e.preventDefault(); //new object to fill up with data
 
-    var userPasswordObj = new Object(); //add old passord, new password and confirm password
+    var userPasswordObj = new Object(); //add old password, new password and confirm password
 
     userPasswordObj.passwordCurrent = document.getElementById('inputUpdateCurrentMyPassword').value;
     userPasswordObj.password = document.getElementById('inputUpdateNewMyPassword').value;
-    userPasswordObj.confirmPassword = document.getElementById('inputUpdateConfirmMyPassword').value; //send obejct to edit the password
+    userPasswordObj.passwordConfirm = document.getElementById('inputUpdateConfirmMyPassword').value; //send object to edit the password
 
     (0, _editElement.editMyPassword)(userPasswordObj);
   });
-} //3.a: file input to show filename in the input field
-
-
-if (fileInput) {
-  document.getElementById('fileInput').onchange = function () {
-    alert("Selected file: ".concat(this.value));
-  };
 } //4.a: Create element, forum, topic and comment
 
 
@@ -10101,7 +10106,7 @@ if (createElementForm) {
     var userRole = document.getElementById('hiddenInputCreateUserRole').value; //case type = forum
 
     if (elementType == 'Forum') {
-      //set element of forum and previos path to redirect
+      //set element of forum and previous path to redirect
       var title = document.getElementById('inputCreationTitle').value;
       var type = document.getElementById('inputCreationType').value;
       var previousPath = document.getElementById('hiddenInputCreatePath').value; //method to create forum
@@ -10121,9 +10126,9 @@ if (createElementForm) {
 
       if (userRole == 'staff') {
         //forum id from selection
-        forumId = document.getElementById('inputCreationForum').selectedOptions[0].dataset.forumId; //forums slug to redirect
+        forumId = document.getElementById('inputCreationForumTitle').selectedOptions[0].dataset.forumId; //forums slug to redirect
 
-        var forumSlug = document.getElementById('inputCreationForum').selectedOptions[0].dataset.forumSlug; //change precious path to redirect
+        var forumSlug = document.getElementById('inputCreationForumTitle').selectedOptions[0].dataset.forumSlug; //change precious path to redirect
 
         _previousPath += "/".concat(forumSlug, "/topics");
       } //user has role = admin
@@ -10153,9 +10158,9 @@ if (createElementForm) {
 
 
 if (createArticleForm) {
-  //add event to the form at submittion
+  //add event to the form at submission
   createArticleForm.addEventListener('submit', function (e) {
-    e.preventDefault(); //get previos path
+    e.preventDefault(); //get previous path
 
     var previousPath = document.getElementById('hiddenInputCreateArticlePath').value; //empty object to fill
 
@@ -10166,14 +10171,14 @@ if (createArticleForm) {
     article.description = document.getElementById('inputCreationArticleDescription').value; //array to the roles to email announcements
 
     var arrayRoleEmails = [];
-    var checkboxs; //checkbox varaible to check the checkbox in the html
+    var checkboxes; //checkbox variable to check the checkbox in the html
     //case that it is a announcement type
 
     if (article.type == 'Announcements') {
       //get all the checkbox
-      checkboxs = document.querySelectorAll('.form-check-input'); //add the values of checkbox in the array
+      checkboxes = document.querySelectorAll('.form-check-input'); //add the values of checkbox in the array
 
-      checkboxs.forEach(function (e) {
+      checkboxes.forEach(function (e) {
         if (e.checked) arrayRoleEmails.push(e.value);
       });
     } // create the article by the method
@@ -10185,9 +10190,9 @@ if (createArticleForm) {
 
 
 if (createUserForm) {
-  //add evenet to the user forum
+  //add event to the user forum
   createUserForm.addEventListener('submit', function (e) {
-    e.preventDefault(); //obecjt to fill with user information
+    e.preventDefault(); //object to fill with user information
 
     var newUser = new Object(); //get first name
 
@@ -10220,7 +10225,7 @@ if (createUserForm) {
 
     newUser.email = document.getElementById('inputCreationEmailAddress').value; //get phone number
 
-    newUser.phoneNumber = document.getElementById('inputCreationPhoneNumber').value; //asign role
+    newUser.phoneNumber = document.getElementById('inputCreationPhoneNumber').value; //assign role
 
     newUser.role = document.getElementById('inputCreationUserRole').value.toLowerCase();
     if (newUser.role == 'team maintenance') newUser.role = 'team-maintenance'; //add major to the object
@@ -10237,7 +10242,7 @@ if (createUserForm) {
 if (createMaintenanceRequestForm) {
   //add event listener to the forum to submit
   createMaintenanceRequestForm.addEventListener('submit', function (e) {
-    e.preventDefault(); //get the subject and descripto to send in the maintenanceRequests
+    e.preventDefault(); //get the subject and description to send in the maintenanceRequests
 
     var subject = document.getElementById('inputSubject').value;
     var description = document.getElementById('inputDescription').value; //create the maintenance request
@@ -10250,7 +10255,7 @@ if (createMaintenanceRequestForm) {
 if (createErrorReportForm) {
   //add event to submit an error report
   createErrorReportForm.addEventListener('submit', function (e) {
-    e.preventDefault(); //obecjt to send
+    e.preventDefault(); //object to send
 
     var errorReport = new Object(); //get values with subject and description to send
 
@@ -10276,7 +10281,7 @@ if (editElementForm) {
     var obj = new Object(); //iterate through all inputs
 
     inputs.forEach(function (element) {
-      //add title, descriptionnd type a
+      //add title, description type a
       if (element.id === 'inputEdition1') obj.title = element.value;
       if (element.id === 'inputEdition2') obj.description = element.value;
       if (element.id === 'inputEdition3') obj.type = element.value;
@@ -10288,7 +10293,7 @@ if (editElementForm) {
 
 
 if (editArticleForm) {
-  //add event to the edit artcile form
+  //add event to the edit article form
   editArticleForm.addEventListener('submit', function (e) {
     e.preventDefault(); //get id, type of article and previous path to send
 
@@ -10296,7 +10301,7 @@ if (editArticleForm) {
     var elementType = document.getElementById('hiddenInputEditionArticleType').value;
     var previousPath = document.getElementById('hiddenInputEditionArticlePath').value; //create article object to populate
 
-    var article = new Object(); //get title and descripton of the article
+    var article = new Object(); //get title and description of the article
 
     article.title = document.getElementById('inputEditionArticleTitle').value;
     article.description = document.getElementById('inputEditionArticleDescription').value; // edit the article
@@ -10315,7 +10320,7 @@ if (editUserForm) {
 
     var editUserObj = new Object(); //get first name
 
-    editUserObj.firstName = document.getElementById('inputEditFirstName').value; //case that threr is more than one word to add capital letter in the first letter of each word
+    editUserObj.firstName = document.getElementById('inputEditFirstName').value; //case that their is more than one word to add capital letter in the first letter of each word
 
     if (editUserObj.firstName.includes(' ')) {
       var firstNameArray = editUserObj.firstName.split(' ');
@@ -10328,7 +10333,7 @@ if (editUserForm) {
     } //add last name
 
 
-    editUserObj.lastName = document.getElementById('inputEditLastName').value; //case that threr is more than one word to add capital letter in the first letter of each word
+    editUserObj.lastName = document.getElementById('inputEditLastName').value; //case that their is more than one word to add capital letter in the first letter of each word
 
     if (editUserObj.lastName.includes(' ')) {
       var lastNameArray = editUserObj.lastName.split(' ');
@@ -10361,11 +10366,11 @@ if (editUserForm) {
 if (editMeForm) {
   //edit personal form
   editMeForm.addEventListener('submit', function (e) {
-    e.preventDefault(); //create empty obhect to edit own account
+    e.preventDefault(); //create empty object to edit own account
 
     var currentUser = new Object(); //edit current user first name
 
-    currentUser.firstName = document.getElementById('inputDetailFirstName').value; //case that threr is more than one word to add capital letter in the first letter of each word
+    currentUser.firstName = document.getElementById('inputDetailFirstName').value; //case that their is more than one word to add capital letter in the first letter of each word
 
     if (currentUser.firstName.includes(' ')) {
       var firstNameArray = currentUser.firstName.split(' ');
@@ -10378,7 +10383,7 @@ if (editMeForm) {
     } //edit current user last name
 
 
-    currentUser.lastName = document.getElementById('inputDetailLastName').value; //case that threr is more than one word to add capital letter in the first letter of each word
+    currentUser.lastName = document.getElementById('inputDetailLastName').value; //case that their is more than one word to add capital letter in the first letter of each word
 
     if (currentUser.lastName.includes(' ')) {
       var lastNameArray = currentUser.lastName.split(' ');
@@ -10411,7 +10416,7 @@ if (editMaintenanceRequestBtnList) {
           requestId = _e$target$dataset.requestId,
           requestStatus = _e$target$dataset.requestStatus; //get message to be sent
 
-      var resolvedMessage = document.getElementById("inputReasonMaintenance".concat(requestStatus).concat(requestId)).value; //edit the mainteance request if the message is not empty
+      var resolvedMessage = document.getElementById("inputReasonMaintenance".concat(requestStatus).concat(requestId)).value; //edit the maintenance request if the message is not empty
 
       if (resolvedMessage != '' && resolvedMessage.trim() != '') (0, _editElement.editMaintenanceRequest)(requestId, requestStatus, resolvedMessage);
     });
@@ -10435,7 +10440,7 @@ if (deleteElementBtnList) {
 
 
 if (sendNotificationChangePasswordBtn) {
-  //add event to buttins to send notification
+  //add event to buttons to send notification
   sendNotificationChangePasswordBtn.addEventListener('click', function (e) {
     //get element type by dataset
     var elementType = e.target.dataset.elementType; //send notification to users
@@ -10450,7 +10455,7 @@ if (sendNotificationFromMaintenanceForm) {
   sendNotificationFromMaintenanceForm.addEventListener('submit', function (e) {
     e.preventDefault(); //object to send
 
-    var notification = new Object(); //assign subject and message to notificate
+    var notification = new Object(); //assign subject and message to notification
 
     notification.subject = document.getElementById('inputNoticationSubject').value;
     notification.description = document.getElementById('inputNoticationDescription').value; //method to send notification
@@ -10463,12 +10468,12 @@ if (sendNotificationFromMaintenanceForm) {
 if (reportGenerationBtnList) {
   //add event to all the button to generate report
   reportGenerationBtnList.forEach(function (btn) {
-    //evenet
+    //event
     btn.addEventListener('click', function (e) {
-      //get the stadistic variable to generate
+      //get the statistic variable to generate
       var reportId = e.target.dataset.reportId; //empty variable to add card(s)
 
-      var cardHTML; //check if the id is artticle to add both cards
+      var cardHTML; //check if the id is article to add both cards
 
       if (reportId == 'article-statistics') {
         cardHTML = '<div class="card-deck">' + document.getElementById("announcement-statistics-card").outerHTML + document.getElementById("new-statistics-card").outerHTML + '</div>';
@@ -10512,7 +10517,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49864" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51081" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

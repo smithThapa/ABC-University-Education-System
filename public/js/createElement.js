@@ -1,13 +1,16 @@
 import axios from 'axios';
 import { showAlert } from './alerts';
 
+//Get href for api
+const href = `${location.protocol}//${location.host}/`;
+
 //methods to create user
 export const createUser = async data => {
   try {
     //response from the API fro create user
     const res = await axios({
       method: 'POST',
-      url: 'http://127.0.0.1:8000/api/v1/users/createUser',
+      url: `${href}api/v1/users/createUser`,
       data
     });
 
@@ -18,7 +21,7 @@ export const createUser = async data => {
       //show alert
       showAlert(
         'success',
-        'Created User Sucessfully!',
+        'Created User Successfully!',
         'An activation email has been send to the new user to active its account within 24 hours.'
       );
       //return to the previous page
@@ -39,7 +42,7 @@ export const createForum = async (title, type, previousPath) => {
     //get response from API to create forum
     const res = await axios({
       method: 'POST',
-      url: 'http://127.0.0.1:8000/api/v1/forums',
+      url: `${href}api/v1/forums`,
       data: {
         title,
         type
@@ -52,10 +55,10 @@ export const createForum = async (title, type, previousPath) => {
       window.scrollTo(0, 0);
       showAlert(
         'success',
-        'Created Forum Sucessfully!',
+        'Created Forum Successfully!',
         'This forum new is visible to all users'
       );
-      //return previos page
+      //return previous page
       window.setTimeout(() => {
         location.assign(previousPath);
       }, 0);
@@ -78,23 +81,23 @@ export const createTopic = async (
     //get response from API to create topic
     const res = await axios({
       method: 'POST',
-      url: `http://127.0.0.1:8000/api/v1/forums/${forumId}/topics`,
+      url: `${href}api/v1/forums/${forumId}/topics`,
       data: {
         title,
         description
       }
     });
 
-    //successful rsponse
+    //successful response
     if (res.data.status == 'success') {
       //move top
       window.scrollTo(0, 0);
       showAlert(
         'success',
-        'Created Topic Sucessfully!',
+        'Created Topic Successfully!',
         'This topic new is visible to all users'
       );
-      //return previos path
+      //return previous path
       window.setTimeout(() => {
         location.assign(previousPath);
       }, 0);
@@ -117,7 +120,7 @@ export const createComment = async (
     //get response from the API by creating comment
     const res = await axios({
       method: 'POST',
-      url: 'http://127.0.0.1:8000/api/v1/comments',
+      url: `${href}api/v1/comments`,
       data: {
         title,
         description,
@@ -131,10 +134,10 @@ export const createComment = async (
       window.scrollTo(0, 0);
       showAlert(
         'success',
-        'Created commnet Sucessfully!',
+        'Created comment successfully!',
         'Thank you for comment into this topic'
       );
-      //return previos path
+      //return previous path
       window.setTimeout(() => {
         location.assign(previousPath);
       }, 0);
@@ -156,7 +159,7 @@ export const createArticle = async function(
     //get response from user
     const res = await axios({
       method: 'POST',
-      url: 'http://127.0.0.1:8000/api/v1/articles',
+      url: `${href}api/v1/articles`,
       data: { data, arrayRoleEmails }
     });
 
@@ -166,10 +169,10 @@ export const createArticle = async function(
       window.scrollTo(0, 0);
       showAlert(
         'success',
-        `Created ${data.type} Sucessfully!`,
+        `Created ${data.type} Successfully!`,
         `${data.type} is accessible to all users`
       );
-      //retun previos path
+      //return previous path
       window.setTimeout(() => {
         location.assign(previousPath);
       }, 0);
@@ -184,10 +187,10 @@ export const createArticle = async function(
 //create maintenanceRequests
 export const createMaintenanceRequest = async (subject, description) => {
   try {
-    //get response from the API by creatin maintenance request
+    //get response from the API by creating maintenance request
     const res = await axios({
       method: 'POST',
-      url: 'http://127.0.0.1:8000/api/v1/maintenanceRequests',
+      url: `${href}api/v1/maintenanceRequests`,
       data: {
         subject,
         description
@@ -203,7 +206,7 @@ export const createMaintenanceRequest = async (subject, description) => {
         'Maintenance Request is submitted',
         'Request will be processed by the maintenance staff in the next 2-3 working days'
       );
-      //retunr previos path
+      //return previous path
       window.setTimeout(() => {
         location.assign('/home');
       }, 1000);
@@ -220,7 +223,7 @@ export const createErrorReport = async data => {
     //get response from API after creating error report
     const res = await axios({
       method: 'POST',
-      url: 'http://127.0.0.1:8000/api/v1/errorReports',
+      url: `${href}api/v1/errorReports`,
       data
     });
 

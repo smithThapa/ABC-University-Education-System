@@ -92,7 +92,7 @@ const sendErrorProd = (err, req, res) => {
         message: err.message,
         statusCode: err.statusCode
       });
-      //Proframmon or other unkonwn error: don't leak error details
+      //Programming or other unknown error: don't leak error details
     }
     //1 log
     console.log('Error!', err);
@@ -112,7 +112,7 @@ const sendErrorProd = (err, req, res) => {
       msg: err.message,
       statusCode: err.statusCode
     });
-    //Proframmon or other unkonwn error: don't leak error details
+    //Programming or other unknown error: don't leak error details
   }
   //1 log
   console.log('Error!', err);

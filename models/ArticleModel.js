@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const slugify = require('slugify');
 const moment = require('moment');
 
-//Article Mongo schema to save records into DB
+//Article MongoDB schema to save records into DB
 const articleSchema = new mongoose.Schema(
   {
     //title variable of the article
@@ -11,7 +11,7 @@ const articleSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Please enter the title']
     },
-    //describe vraible with the content of the object
+    //describe variable with the content of the object
     description: {
       type: String
     },
@@ -27,7 +27,7 @@ const articleSchema = new mongoose.Schema(
       required: true,
       immutable: true
     },
-    //hunique string to display in the front=end
+    //unique string to display in the front=end
     slug: String,
     //relational variable with user model
     user: {
@@ -36,7 +36,7 @@ const articleSchema = new mongoose.Schema(
       required: [true, 'Article must belong a user']
     }
   },
-  //virtuals varaible convertible
+  //virtual variable convertible
   {
     toJSON: { virtuals: true },
     toObject: { virtuals: true }
@@ -46,7 +46,7 @@ const articleSchema = new mongoose.Schema(
 //unique title and type for object. Ex. one news with a title
 articleSchema.index({ type: 1, title: 1 }, { unique: true });
 
-//pre middleware to populate the user vaibale with the names and roles
+//pre middleware to populate the user variable with the names and roles
 articleSchema.pre(/^find/, function(next) {
   this.populate({
     path: 'user',
@@ -55,7 +55,7 @@ articleSchema.pre(/^find/, function(next) {
   next();
 });
 
-//pre save(create and update) to update the slug varaible (unique), with title, type and time
+//pre save(create and update) to update the slug variable (unique), with title, type and time
 articleSchema.pre('save', function(next) {
   this.slug = slugify(
     `${this.title} ${this.type} ${moment(this.createdAt).format(

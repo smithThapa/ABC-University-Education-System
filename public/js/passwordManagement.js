@@ -1,13 +1,16 @@
 import axios from 'axios';
 import { showAlert } from './alerts';
 
-//method to reset paswird
+//Get href for api
+const href = `${location.protocol}//${location.host}/`;
+
+//method to reset password
 export const resetPassword = async function(password, confirmPassword, token) {
   try {
     //get response from API to reset password
     const res = await axios({
       method: 'PATCH',
-      url: `http://127.0.0.1:8000/api/v1/users/resetPassword/${token}`,
+      url: `${href}api/v1/users/resetPassword/${token}`,
       data: {
         password,
         confirmPassword
@@ -41,7 +44,7 @@ export const forgotPassword = async function(email, resetURL) {
     //get response from API to forget password
     const res = await axios({
       method: 'POST',
-      url: 'http://127.0.0.1:8000/api/v1/users/forgotPassword',
+      url: `${href}api/v1/users/forgotPassword`,
       data: {
         email,
         resetURL

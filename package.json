@@ -1,14 +1,14 @@
 {
   "name": "abc-university-education-system",
   "version": "1.0.0",
-  "description": "MY NAME IS SMITH jk",
+  "description": "ABC University Educational System for university members and maintenance staff",
   "main": "app.js",
   "scripts": {
     "start": "nodemon server.js",
     "start:prod": "SET NODE_ENV=production & nodemon server.js",
     "debug": "ndb server.js",
-    "watch:js": "parcel watch ./public/js/index.js --out-dir ./public/js --out-file bundle.js",
-    "build:js": "parcel build ./public/js/index.js --out-dir ./public/js --out-file bundle.js"
+    "watch:js": "parcel watch ./public/js/index.js --out-dir ./public --out-file bundle.js",
+    "build:js": "parcel build ./public/js/index.js --out-dir ./public --out-file bundle.js"
   },
   "repository": {
     "type": "git",

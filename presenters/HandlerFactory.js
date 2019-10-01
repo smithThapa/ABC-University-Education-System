@@ -1,18 +1,21 @@
 /* eslint-disable no-plusplus */
 //Node.js modules to implement
 const moment = require('moment');
-//utils of the system to implement
+//utilities of the system to implement
 const catchAsync = require('./../utils/CatchAsync');
 const AppError = require('./../utils/AppError');
 const APIFeatures = require('./../utils/ApiFeatures');
 
-//standarised the array by month, adding zero to values no existing
+//standardized the array by month, adding zero to values no existing
 const standardAggregationArray = array => {
   //get last element in the array
   const lastElement = array[array.length - 1];
 
   //full data
   const dataToIterateAsObjects = lastElement[1];
+
+  //total data
+  const totalValuesObject = lastElement[2][0];
 
   //convert objects into id values
   const arrayIdValues = [];
@@ -33,7 +36,7 @@ const standardAggregationArray = array => {
 
     //complete element before
     let start = 0;
-    // for loop for rthe mon elements
+    // for loop for the month elements
     for (let j = 0; j < array[i][1].length; j++) {
       //for loop to compare with the attributes
       for (let k = start; k < arrayIdValues.length; k++) {
@@ -66,27 +69,63 @@ const standardAggregationArray = array => {
       }
     }
 
-    //push each mont array in the new array
+    //push each month array in the new array
     newArray.push(subArrayEachMonth);
   }
 
-  //assign the final array to retrun to the ones given
-  const finalArray = array;
-  // chanege the original array witht eh new values
+  //New total standard
+  const totalNewArray = [];
+
+  //array with all attributes
+  const arrayTotalKeysObject = Object.getOwnPropertyNames(totalValuesObject);
+
+  //iterate through all elements
   for (let i = 0; i < array.length - 1; i++) {
+    //check if the array is empty
+    if (array[i][2].length === 0) {
+      //create object variable to append in the array
+      const totalObject = {};
+
+      //iterate through the total object property name to append zeros, from the second element
+      arrayTotalKeysObject.forEach(element => {
+        if (element === '_id') {
+          //- append id of the object
+          totalObject._id = totalValuesObject._id;
+        } else {
+          totalObject[element] = 0;
+        }
+      });
+
+      //push the element in the array
+      totalNewArray.push([totalObject]);
+    }
+
+    // case that the object is not empty, push the right element
+    else {
+      totalNewArray.push(array[i][2]);
+    }
+  }
+
+  //assign the final array to return to the ones given
+  const finalArray = array;
+  // change the original array with eh new values
+  for (let i = 0; i < array.length - 1; i++) {
+    //change in the case first element
     finalArray[i][1] = newArray[i];
+    //case second element
+    finalArray[i][2] = totalNewArray[i];
   }
 
   //return the array
   return finalArray;
 };
 
-//export function to standarised the array to other activiites
+//export function to standardized the array to other activities
 exports.standardAggregationArrayExports = array => {
   return standardAggregationArray(array);
 };
 
-//delete a document from mongodb by id
+//delete a document from MongoDB by id
 exports.deleteOne = Model =>
   catchAsync(async (req, res, next) => {
     //get element by id
@@ -101,7 +140,7 @@ exports.deleteOne = Model =>
     await doc.remove();
 
     //response
-    res.status(204).json({
+    res.status(201).json({
       status: 'success',
       data: null
     });
@@ -113,7 +152,7 @@ exports.updateOne = Model =>
     //get element by id
     const doc = await Model.findById(req.params.id, req.body);
 
-    //if the couemnt does not exist
+    //if the document does not exist
     if (!doc) {
       return next(new AppError('No document found with that ID', 404));
     }
@@ -128,7 +167,7 @@ exports.updateOne = Model =>
       }
     }
 
-    //update the docuemnt
+    //update the document
     await doc.save();
 
     //response
@@ -143,7 +182,7 @@ exports.updateOne = Model =>
 //create one document
 exports.createOne = Model =>
   catchAsync(async (req, res, next) => {
-    //create docuemtn with the data provided
+    //create document with the data provided
     const doc = await Model.create(req.body);
 
     //response
@@ -188,7 +227,7 @@ exports.getAll = (Model, popOptions) =>
   catchAsync(async (req, res, next) => {
     // to allow for nested get review on tours
     let filter = {};
-    //if ther is forumid
+    //if there is forum id
     if (req.params.forumId) {
       filter = {
         forum: req.params.forumId
@@ -201,7 +240,7 @@ exports.getAll = (Model, popOptions) =>
       };
     }
 
-    //Execute query allowing url queries
+    //Execute query allowing URL queries
     const features = new APIFeatures(Model.find(filter), req.query)
       .filter()
       .sort()
@@ -213,10 +252,10 @@ exports.getAll = (Model, popOptions) =>
       features.query = features.query.populate(popOptions);
     }
 
-    //execute query with all previos options
+    //execute query with all previous options
     const doc = await features.query;
 
-    //Send responce
+    //Send response
     res.status(200).json({
       status: 'success',
       results: doc.length,
@@ -238,7 +277,7 @@ exports.getAggregationStatsArray = async function(
   //months to iterate and get
   const arrayMonths = [1, 2, 3, 6, 12];
 
-  //aggergation option to sort by id after group
+  //aggregation option to sort by id after group
   const sortBaseArrayAggregate = [{ $sort: { _id: 1 } }];
 
   //await all before all the total
@@ -286,22 +325,166 @@ exports.getAggregationStatsArray = async function(
     })
   );
 
-  //aggregate to get final elemenet with not matchin date
+  //aggregate to get final element with not matching date
   const stats = await Model.aggregate(
     baseArrayAggregate.concat(sortBaseArrayAggregate)
   );
 
-  //total values of the stst of the model
+  //Case that stats is empty array
+  if (stats.length === 0) {
+    //switch through the models
+    switch (Model.collection.collectionName) {
+      // Model = User
+      case 'users':
+        //Create empty Object to push in the array
+        // eslint-disable-next-line no-case-declarations
+        const userStatsObject = {
+          _id: 'none',
+          numUsers: 0,
+          numAccounting: 0,
+          numBusiness: 0,
+          numInformationTechnology: 0,
+          numProjectManagement: 0,
+          numNOTAMAJOR: 0
+        };
+        //add the element to the array stats
+        stats.push(userStatsObject);
+        break;
+
+      // Model = Forum
+      case 'forums':
+        //Create empty Object to push in the array
+        // eslint-disable-next-line no-case-declarations
+        const forumStatsObject = {
+          _id: 'none',
+          numForums: 0,
+          totalNumTopics: 0
+        };
+        //add the element to the array stats
+        stats.push(forumStatsObject);
+        break;
+
+      // Model = Topic
+      case 'topics':
+        //Create empty Object to push in the array
+        // eslint-disable-next-line no-case-declarations
+        const topicStatsObject = {
+          _id: 'none',
+          numTopics: 0,
+          totalNumComments: 0
+        };
+        //add the element to the array stats
+        stats.push(topicStatsObject);
+        break;
+
+      // Model = Article
+      case 'articles':
+        //Create empty Object to push in the array
+        // eslint-disable-next-line no-case-declarations
+        const articleStatsObject = {
+          _id: 'none',
+          numArticle: 0
+        };
+        //add the element to the array stats
+        stats.push(articleStatsObject);
+        break;
+
+      //default case
+      default:
+        //Create empty Object to push in the array
+        // eslint-disable-next-line no-case-declarations
+        const defaultStatsObject = {
+          _id: 'none',
+          num: 0
+        };
+        //add the element to the array stats
+        stats.push(defaultStatsObject);
+    }
+  }
+
+  //total values of the stats of the model
   const statsTotal = await Model.aggregate(
     baseArrayAggregate
       .concat(totalBaseArrayAggregate)
       .concat(sortBaseArrayAggregate)
   );
 
+  //Case that the statsTotal is empty array
+  if (statsTotal.length === 0) {
+    //switch through the models
+    switch (Model.collection.collectionName) {
+      // Model = User
+      case 'users':
+        //Create empty Object to push in the array
+        // eslint-disable-next-line no-case-declarations
+        const userStatsTotalObject = {
+          _id: 'User',
+          totalNumUsers: 0,
+          totalNumAccounting: 0,
+          totalNumBusiness: 0,
+          totalNumInformationTechnology: 0,
+          totalNumProjectManagement: 0,
+          totalNumNOTAMAJOR: 0
+        };
+        //add the element to the array stats
+        stats.push(userStatsTotalObject);
+        break;
+
+      // Model = Forum
+      case 'forums':
+        //Create empty Object to push in the array
+        // eslint-disable-next-line no-case-declarations
+        const forumStatsTotalObject = {
+          _id: 'Forum',
+          totalNumForums: 0,
+          totalNumTopicsAllForums: 0
+        };
+        //add the element to the array stats
+        stats.push(forumStatsTotalObject);
+        break;
+
+      // Model = Topic
+      case 'topics':
+        //Create empty Object to push in the array
+        // eslint-disable-next-line no-case-declarations
+        const topicStatsTotalObject = {
+          _id: 'Topic',
+          totalNumTopics: 0,
+          totalNumCommentsAllTopics: 0
+        };
+        //add the element to the array stats
+        stats.push(topicStatsTotalObject);
+        break;
+
+      // Model = Article
+      case 'articles':
+        //Create empty Object to push in the array
+        // eslint-disable-next-line no-case-declarations
+        const articleStatsTotalObject = {
+          _id: 'Article',
+          totalNumArticle: 0
+        };
+        //add the element to the array stats
+        stats.push(articleStatsTotalObject);
+        break;
+
+      //default case
+      default:
+        //Create empty Object to push in the array
+        // eslint-disable-next-line no-case-declarations
+        const defaultStatsTotalObject = {
+          _id: 'NONE',
+          totalNum: 0
+        };
+        //add the element to the array stats
+        stats.push(defaultStatsTotalObject);
+    }
+  }
+
   //push total in the array
   arrayList.push(['Total', stats, statsTotal]);
 
-  //sort the array to acoid conflicts
+  //sort the array to avoid conflicts
   arrayList.sort();
 
   //return the standard array

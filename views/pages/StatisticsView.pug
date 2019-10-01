@@ -1,30 +1,45 @@
+//- extend template
 extends ../components/_templateBase
 
+//- add script into the page
 block append scripts
+    //- collapse js to add accordion into the page
     script(src='/js/collapse.js')
-    
+
+//- function to create statistics cards
 mixin cardStatisticStyle(design, type, totalThisMonth, totalLastMonth, total, link)
     .card.text-white(class=`bg-${design}` id=`${type.toLowerCase()}-statistics-card`)
-        //- .h4.card-header= type
+        //-calculate the differences between last and this month
+        -const totalDivision = (totalLastMonth - totalThisMonth) > 0 ? totalLastMonth - totalThisMonth : 1
+        -const percentageCalculation = (((2*totalThisMonth - totalLastMonth)/totalDivision) * 100).toFixed(0)
+        -const differenceDescription = percentageCalculation > 0 ? `${percentageCalculation}% more` : `${percentageCalculation*-1}% less`
+        
         .card-body.mb-0
-            .h5.font-weight-bold #{totalThisMonth} New #{type}s!
-            //- p.card-text Number of #{type} created last month: <b>#{totalLastMonth - totalThisMonth}</b>
+            //- new elements in last month
+            .card-text.d-flex
+                .h5.font-weight-bold <u>#{totalThisMonth}</u> New #{type}s!
+                //- add icon with the arrow down or up depending of the number of records of the current month related with the previous month
+                svg.icon-box_sidebar.ml-auto
+                    use(xlink:href=`/img/icons.svg#icon-arrow-${percentageCalculation > 0 ? 'up' : 'down'}-circle`) 
+            //- total number of element
             p.card-text Total #{type}s: <b>#{total}</b>
-            p.card-text
-                -const totalDivision = (totalLastMonth - totalThisMonth) > 0 ? totalLastMonth - totalThisMonth : 1
-                -const percentageCalculation = (((2*totalThisMonth - totalLastMonth)/totalDivision) * 100).toFixed(0)
-                -const differenceDescription = percentageCalculation > 0 ? `${percentageCalculation}% more` : `${percentageCalculation*-1} less`
-                small.text-light It has been created a <b>#{differenceDescription}</b> than last month.
+            //- display the difference of element related with the last month
+            p.card-text               
+                small.text-light It has been created a <b> #{differenceDescription} </b> than last month.
+        //- link to manage the element
         .card-footer
-            a.btn.bg-light(class=`btn-outline-${design}` href=`${link}`) Manage #{type}s
+            a.btn.bg-light.btn-sm.text-wrap(class=`btn-outline-${design}` href=`${link}`) Manage #{type}s
 
 block content
+    //- Add breadcrumb
     +breadcrumbDisplay([['Home','/home'],['Statistics']])
 
+    //- body title
     h2.mt-0 System Statistics
-    .d-flex.justify-content-between
+    //- display card with statistics
+    .d-lg-inline-flex.justify-content-between
         div
-            //-cards to show the most relevant data
+            //- display three statistics cards in three rows
             .card-deck
                 +cardStatisticStyle('success', 'User', userStatistics[0][2][0].totalNumUsers, userStatistics[1][2][0].totalNumUsers, userStatistics[userStatistics.length-1][2][0].totalNumUsers, '/manage_users')
                 +cardStatisticStyle('primary', 'Forum', forumStatistics[0][2][0].totalNumForums, forumStatistics[1][2][0].totalNumForums, forumStatistics[forumStatistics.length-1][2][0].totalNumForums, '/manage_forums')
@@ -39,153 +54,183 @@ block content
                 +cardStatisticStyle('dark', 'Resource', resourceStatistics[0][2][0].totalNumResources, resourceStatistics [1][2][0].totalNumResources, resourceStatistics[resourceStatistics.length-1][2][0].totalNumResources, '/manage_resources')
                 .card.bg-transparent.border-0
                 .card.bg-transparent.border-0
-        .ml-auto.text-center.text-white(style='width:35%;') 
-            h3.mb-4(style='color:#006972;') Report Generation
+        //- Report generation in the right hand
+        .ml-auto.d-flex.flex-column.text-center.text-white.pl-3#ReportGenerationList
+            h3.text-left.mb-4(style='color:#006972;') Report Generation
+            //- button to generate each report
             a.btn.btn-success.reportGenerationBtn.mb-4(data-report-id='user-statistics') Generate Users Report
             a.btn.btn-info.reportGenerationBtn.mb-4(data-report-id='forum-statistics') Generate Forums Report
             a.btn.btn-warning.reportGenerationBtn.mb-4(data-report-id='topic-statistics') Generate Topics Report
             a.btn.btn-danger.reportGenerationBtn.mb-4(data-report-id='article-statistics') Generate Announcements<br/>& News Report
             a.btn.btn-dark.reportGenerationBtn(data-report-id='resource-statistics') Generate Resources Report
 
+    //- body subtitle
     h3 Statistics Tables
     #accordion
         //-User Statistics
         .card
-            .card-header.bg-info.d-flex(id=`userStatsCard`)                               
+            .card-header.bg-info.d-sm-flex(id=`userStatsCard`)
+                //- collapse User table                           
                 h5.mb-0
                     button.btn.text-white.d-flex.font-weight-bold(data-toggle='collapse' data-target=`#collapseUser` aria-expanded='false' aria-controls=`collapseUser`)
                         |User Statistics
-                a.btn.btn-light.ml-auto.reportGenerationBtn(data-report-id='user-statistics') Generate Users Report
+                a.btn.btn-light.ml-auto.text-wrap.reportGenerationBtn(data-report-id='user-statistics') Generate Users Report
 
             .collapse(id=`collapseUser` aria-labelledby='userStatsCard' data-parent='#accordion')
                 .card-body#user-statistics-table
-                    .card-subtitle.mb-2
+                    .card-text.mb-2.table-responsive
+                        //- User table
                         table.table.table-striped.text-center.table-sm.table-statistics.table-bordered
                             thead
                                 tr
                                     th(scope='col') User
+                                    //- Add months and total of the user
                                     each month in userStatistics
                                         th(scope='col')= `${month[0] == 'Total' ? '' : 'Last'} ${month[0].replace('0', '')}`
 
-                            tbody                               
+                            tbody 
+                                //- get total element list                           
                                 -const totalElementMonthsList = userStatistics[userStatistics.length-1][1];
                                 //-array with majors
                                 -const majorArray = ['Accounting', 'Business', 'Information Technology', 'Project Management', 'NOT A MAJOR'];
-
+                                
+                                //- iterate through last elements
                                 -for(let i=0; i<totalElementMonthsList.length; i++)
                                     tr.font-weight-bold.table-warning
 
                                         //- Change the role structure
                                         -let role = totalElementMonthsList[i]._id
-
                                         -if(role == 'team-maintenance')
                                             -role = 'Team Maintenance'
                                         -else
                                             -role = role.charAt(0).toUpperCase() + role.slice(1)
 
+                                        //- user role
                                         td.text-left #{role} Role
+                                        //- add values of each role user in each month
                                         -for(let j=0; j<userStatistics.length; j++)
                                             td= userStatistics[j][1][i].numUsers
-
 
                                     //- add the majors in the table
                                     -for(let k=0; k<majorArray.length; k++)
                                         tr
                                             td.text-left.pl-4= majorArray[k] != 'NOT A MAJOR' ? `${majorArray[k]} Major` : majorArray[k]
-
+                                            
+                                            //- get each major
                                             -const majorStringNoSpaces = majorArray[k].split(' ').join('')
+                                            //- get values of each major in each month
                                             -for(let j=0; j<userStatistics.length; j++)
                                                 td= userStatistics[j][1][i][`num${majorStringNoSpaces}`]
 
-                                tr.font-weight-bold.table-success(style='font-size:1.2em;')
-                                    td.text-left Total Forums
+                                //- add total users rows by months
+                                tr.font-weight-bold.table-success
+                                    td.text-left Total Users
                                     -for(let i=0;i<userStatistics.length;i++)
                                         td #{userStatistics[i][2][0].totalNumUsers}
 
-                                //-add summarise of all majors
+                                //-add summarize of all majors total
                                 -for(let i=0; i<majorArray.length; i++)
-                                    tr.table-success(style='font-size:1.2em;')
+                                    tr.table-success
                                         td.text-left.pl-4= majorArray[i] != 'NOT A MAJOR' ? `${majorArray[i]} Major` : majorArray[i]
 
+                                        //- get each major
                                         -const majorStringNoSpaces = majorArray[i].split(' ').join('')
+                                        //- get values of each major in each month
                                         -for(let j=0;j<userStatistics.length;j++)
                                             td= userStatistics[j][2][0][`totalNum${majorStringNoSpaces}`]
 
         //-Forum Statistics
         .card
-            .card-header.bg-info.d-flex(id=`forumStatsCard`)                               
+            .card-header.bg-info.d-sm-flex(id=`forumStatsCard`)
+                //- collapse Forum table 
                 h5.mb-0
                     button.btn.text-white.d-flex.font-weight-bold(data-toggle='collapse' data-target=`#collapseForum` aria-expanded='false' aria-controls=`collapseForum`)
                         |Forum Statistics
-                a.btn.btn-light.ml-auto.reportGenerationBtn(data-report-id='forum-statistics') Generate Forums Report
+                a.btn.btn-light.ml-auto.text-wrap.reportGenerationBtn(data-report-id='forum-statistics') Generate Forums Report
 
             .collapse(id=`collapseForum` aria-labelledby='forumStatsCard' data-parent='#accordion')
                 .card-body#forum-statistics-table
-                    .card-subtitle.mb-2
+                    .card-text.mb-2.table-responsive
+                        //- Forum table
                         table.table.table-striped.text-center.table-sm.table-statistics.table-bordered
                             thead
                                 tr
                                     th(scope='col') Forum
+                                    //- Add months and total of the forum
                                     each month in forumStatistics
                                         th(scope='col')= `${month[0] == 'Total' ? '' : 'Last'} ${month[0].replace('0', '')}`
 
                             tbody
+                                //- iterate through each month
                                 -for(let i=0; i<forumStatistics[forumStatistics.length-1][1].length; i++)
+                                    //- forum rows
                                     tr.font-weight-bold
                                         td.text-left #{forumStatistics[forumStatistics.length-1][1][i]._id} Forums
+                                        //- number of forum in each forum
                                         -for(let j=0; j<forumStatistics.length; j++)
                                             td= forumStatistics[j][1][i].numForums
+                                    //- topic by forum type
                                     tr
                                         td.text-left.pl-4 Number Of Topics in #{forumStatistics[forumStatistics.length-1][1][i]._id}
+                                        //- number of topic in each forum by month
                                         -for(let j=0; j<forumStatistics.length; j++)
                                             td= forumStatistics[j][1][i].totalNumTopics
 
+                                //- total number of forum row
                                 tr.font-weight-bold.table-success(style='font-size:1.2em;')
                                     td.text-left Total Forums
                                     -for(let i=0;i<forumStatistics.length;i++)
                                         td #{forumStatistics[i][2][0].totalNumForums}
 
+                                //- total numbers of topics by forum type
                                 tr.table-success(style='font-size:1.2em;')
                                     td.text-left.pl-4 Total Number of Topics in Forums
                                     -for(let i=0;i<forumStatistics.length;i++)
                                         td #{forumStatistics[i][2][0].totalNumTopicsAllForums}
+        
         //- Topic Statistics                              
         .card
-            .card-header.bg-info.d-flex(id=`topicStatsCard`)                               
+            .card-header.bg-info.d-sm-flex(id=`topicStatsCard`)
+                //- collapse Topic table                                
                 h5.mb-0
                     button.btn.text-white.d-flex.font-weight-bold(data-toggle='collapse' data-target=`#collapseTopic` aria-expanded='false' aria-controls=`collapsetopic`)
                         |Topic Statistics
-                a.btn.btn-light.ml-auto.reportGenerationBtn(data-report-id='topic-statistics') Generate Topics Report
+                a.btn.btn-light.ml-auto.text-wrap.reportGenerationBtn(data-report-id='topic-statistics') Generate Topics Report
 
             .collapse(id=`collapseTopic` aria-labelledby='topicStatsCard' data-parent='#accordion')
                 .card-body#topic-statistics-table
-                    .card-subtitle.mb-2
+                    .card-text.mb-2.table-responsive
+                        //- Topic table
                         table.table.table-striped.text-center.table-sm.table-statistics.table-bordered
                             thead
                                 tr
                                     th(scope='col') Topics
+                                    //- Add months and total of the topic
                                     each month in topicStatistics
                                         th(scope='col')= `${month[0] == 'Total' ? '' : 'Last'} ${month[0].replace('0', '')}`
 
                             tbody
+                                //- iterate through each month
                                 -for(let i=0; i<topicStatistics[topicStatistics.length-1][1].length; i++)
+                                    //- topic rows
                                     tr.font-weight-bold
-
                                         td.text-left #{topicStatistics[topicStatistics.length-1][1][i]._id} Topics
+                                        //- number of comment in each topic
                                         -for(let j=0; j<topicStatistics.length; j++)
                                             td= topicStatistics[j][1][i].numTopics
-
+                                    //- topic by forum type
                                     tr
                                         td.text-left.pl-4 Number Of Comments in #{topicStatistics[topicStatistics.length-1][1][i]._id}
+                                        //- number of comment in each topic by month
                                         -for(let j=0; j<topicStatistics.length; j++)
                                             td= topicStatistics[j][1][i].totalNumComments
 
-
+                                //- total number of topic row
                                 tr.font-weight-bold.table-success(style='font-size:1.2em;')
                                     td.text-left Total Topics
                                     -for(let i=0;i<topicStatistics.length;i++)
                                         td #{topicStatistics[i][2][0].totalNumTopics}
-
+                                //- total numbers of comments by topic type
                                 tr.table-success(style='font-size:1.2em;')
                                     td.text-left.pl-4 Total Number of Comments in Topics
                                     -for(let i=0;i<topicStatistics.length;i++)
@@ -193,30 +238,35 @@ block content
 
         //-Article statistics
         .card
-            .card-header.bg-info.d-flex(id=`articleStatsCard`)                               
+            .card-header.bg-info.d-sm-flex(id=`articleStatsCard`)
+                //- collapse Article table    
                 h5.mb-0
                     button.btn.text-white.d-flex.font-weight-bold(data-toggle='collapse' data-target=`#collapseArticle` aria-expanded='false' aria-controls=`collapseArticle`)
                         |Announcements & News Statistics
-                a.btn.btn-light.ml-auto.reportGenerationBtn(data-report-id='article-statistics') Generate Announcements<br/>& News Report
+                a.btn.btn-light.ml-auto.text-wrap.reportGenerationBtn(data-report-id='article-statistics') Generate Announcements<br/>& News Report
 
             .collapse(id=`collapseArticle` aria-labelledby='articleStatsCard' data-parent='#accordion')
                 .card-body#article-statistics-table
-                    .card-subtitle.mb-2
+                    .card-text.mb-2.table-responsive
+                        //- Article table
                         table.table.table-striped.text-center.table-sm.table-statistics.table-bordered
                             thead
                                 tr
                                     th(scope='col') Announcements & News
+                                    //- Add months and total of the article
                                     each month in articleStatistics
                                         th(scope='col')= `${month[0] == 'Total' ? '' : 'Last'} ${month[0].replace('0', '')}`
 
                             tbody
+                                //- iterate through each month
                                 -for(let i=0; i<articleStatistics[articleStatistics.length-1][1].length; i++)
+                                    //- article rows
                                     tr.font-weight-bold
-
                                         td.text-left #{articleStatistics[articleStatistics.length-1][1][i]._id}
+                                        //- number of articles by type
                                         -for(let j=0; j<articleStatistics.length; j++)
                                             td= articleStatistics[j][1][i].numArticle
-
+                                //- total number of article row
                                 tr.font-weight-bold.table-success(style='font-size:1.2em;')
                                     td.text-left Total Announcements & News
                                     -for(let i=0;i<articleStatistics.length;i++)
@@ -224,30 +274,36 @@ block content
         
         //-Resources statistics
         .card
-            .card-header.bg-info.d-flex(id=`resourceStatsCard`)                               
+            .card-header.bg-info.d-sm-flex(id=`resourceStatsCard`)
+                //- collapse Resource table                                
                 h5.mb-0
                     button.btn.text-white.d-flex.font-weight-bold(data-toggle='collapse' data-target=`#collapseResource` aria-expanded='false' aria-controls=`collapseResource`)
                         |Resources Statistics
-                a.btn.btn-light.ml-auto.reportGenerationBtn(data-report-id='resource-statistics') Generate Resources Report
+                a.btn.btn-light.ml-auto.text-wrap.reportGenerationBtn(data-report-id='resource-statistics') Generate Resources Report
 
             .collapse(id=`collapseResource` aria-labelledby='resourceStatsCard' data-parent='#accordion')
                 .card-body#resource-statistics-table
-                    .card-subtitle.mb-2
+                    .card-text.mb-2.table-responsive
+                        //- Resource table
                         table.table.table-striped.text-center.table-sm.table-statistics.table-bordered
                             thead
                                 tr
                                     th(scope='col') Resources
+                                    //- Add months and total of the article
                                     each month in resourceStatistics
                                         th(scope='col')= `${month[0] == 'Total' ? '' : 'Last'} ${month[0].replace('0', '')}`
 
                             tbody
+                                
                                 -for(let i=0; i<resourceStatistics[resourceStatistics.length-1][1].length; i++)
+                                    //- resource rows
                                     tr.font-weight-bold
-
                                         td.text-left #{resourceStatistics[resourceStatistics.length-1][1][i]._id} resources
+                                        //- number of resource by type
                                         -for(let j=0; j<resourceStatistics.length; j++)
                                             td= resourceStatistics[j][1][i].numResources
-
+                                
+                                //- total number of resource row
                                 tr.font-weight-bold.table-success(style='font-size:1.2em;')
                                     td.text-left Total resources
                                     -for(let i=0;i<resourceStatistics.length;i++)

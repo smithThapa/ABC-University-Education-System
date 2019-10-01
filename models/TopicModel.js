@@ -39,14 +39,14 @@ const topicSchema = mongoose.Schema(
       immutable: true
     }
   },
-  //allow convertion for virtual attributes
+  //allow conversion for virtual attributes
   {
     toJSON: { virtuals: true },
     toObject: { virtuals: true }
   }
 );
 
-//add unique topic with the title and fourm
+//add unique topic with the title and forum
 topicSchema.index({ title: 1, forum: 1 }, { unique: true });
 
 //populate the topic each time it is found with the user names and role and forum data
@@ -68,7 +68,7 @@ topicSchema.virtual('comments', {
   localField: '_id'
 });
 
-//create unique slug with the title and fourm id
+//create unique slug with the title and forum id
 topicSchema.pre('save', async function(next) {
   this.slug = slugify(`${this.title} ${this.forum} topic`, {
     remove: null,

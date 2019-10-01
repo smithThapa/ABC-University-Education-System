@@ -33,8 +33,6 @@ const logoutAsBtn = document.getElementById('logoutAsBtn'); //c
 const resetPasswordForm = document.getElementById('resetPasswordForm'); //a
 const forgotPasswordForm = document.getElementById('forgotPasswordForm'); //b
 const editMyPasswordForm = document.getElementById('editMyPasswordForm'); //c
-//3: file related
-const fileInput = document.getElementById('fileInput'); //a
 //4: create elements
 const createElementForm = document.getElementById('createElementForm'); //a
 const createArticleForm = document.getElementById('createArticleForm'); //b
@@ -90,9 +88,9 @@ if (logoutAsBtn) {
   logoutAsBtn.addEventListener('click', logoutAs);
 }
 
-//2.a: Reset own passwird form
+//2.a: Reset own password form
 if (resetPasswordForm) {
-  //add event to forum when it is submiteed
+  //add event to forum when it is submitted
   resetPasswordForm.addEventListener('submit', e => {
     e.preventDefault();
     //get the password from the user
@@ -109,7 +107,7 @@ if (resetPasswordForm) {
 
 //2.b: forgot forum to request new password
 if (forgotPasswordForm) {
-  //add event to forum to add email and send new ptoken
+  //add event to forum to add email and send new token
   forgotPasswordForm.addEventListener('submit', e => {
     e.preventDefault();
 
@@ -131,27 +129,20 @@ if (editMyPasswordForm) {
     //new object to fill up with data
     const userPasswordObj = new Object();
 
-    //add old passord, new password and confirm password
+    //add old password, new password and confirm password
     userPasswordObj.passwordCurrent = document.getElementById(
       'inputUpdateCurrentMyPassword'
     ).value;
     userPasswordObj.password = document.getElementById(
       'inputUpdateNewMyPassword'
     ).value;
-    userPasswordObj.confirmPassword = document.getElementById(
+    userPasswordObj.passwordConfirm = document.getElementById(
       'inputUpdateConfirmMyPassword'
     ).value;
 
-    //send obejct to edit the password
+    //send object to edit the password
     editMyPassword(userPasswordObj);
   });
-}
-
-//3.a: file input to show filename in the input field
-if (fileInput) {
-  document.getElementById('fileInput').onchange = function() {
-    alert(`Selected file: ${this.value}`);
-  };
 }
 
 //4.a: Create element, forum, topic and comment
@@ -166,7 +157,7 @@ if (createElementForm) {
     const userRole = document.getElementById('hiddenInputCreateUserRole').value;
     //case type = forum
     if (elementType == 'Forum') {
-      //set element of forum and previos path to redirect
+      //set element of forum and previous path to redirect
       const title = document.getElementById('inputCreationTitle').value;
       const type = document.getElementById('inputCreationType').value;
       const previousPath = document.getElementById('hiddenInputCreatePath')
@@ -189,10 +180,10 @@ if (createElementForm) {
       //case role = staff
       if (userRole == 'staff') {
         //forum id from selection
-        forumId = document.getElementById('inputCreationForum')
+        forumId = document.getElementById('inputCreationForumTitle')
           .selectedOptions[0].dataset.forumId;
         //forums slug to redirect
-        const forumSlug = document.getElementById('inputCreationForum')
+        const forumSlug = document.getElementById('inputCreationForumTitle')
           .selectedOptions[0].dataset.forumSlug;
         //change precious path to redirect
         previousPath += `/${forumSlug}/topics`;
@@ -224,11 +215,11 @@ if (createElementForm) {
 
 //4.b: Create Article
 if (createArticleForm) {
-  //add event to the form at submittion
+  //add event to the form at submission
   createArticleForm.addEventListener('submit', e => {
     e.preventDefault();
 
-    //get previos path
+    //get previous path
     const previousPath = document.getElementById('hiddenInputCreateArticlePath')
       .value;
 
@@ -246,14 +237,14 @@ if (createArticleForm) {
 
     //array to the roles to email announcements
     let arrayRoleEmails = [];
-    let checkboxs; //checkbox varaible to check the checkbox in the html
+    let checkboxes; //checkbox variable to check the checkbox in the html
 
     //case that it is a announcement type
     if (article.type == 'Announcements') {
       //get all the checkbox
-      checkboxs = document.querySelectorAll('.form-check-input');
+      checkboxes = document.querySelectorAll('.form-check-input');
       //add the values of checkbox in the array
-      checkboxs.forEach(e => {
+      checkboxes.forEach(e => {
         if (e.checked) arrayRoleEmails.push(e.value);
       });
     }
@@ -265,11 +256,11 @@ if (createArticleForm) {
 
 //4.c: user form creation to add new users by admin
 if (createUserForm) {
-  //add evenet to the user forum
+  //add event to the user forum
   createUserForm.addEventListener('submit', e => {
     e.preventDefault();
 
-    //obecjt to fill with user information
+    //object to fill with user information
     const newUser = new Object();
 
     //get first name
@@ -306,7 +297,7 @@ if (createUserForm) {
     newUser.phoneNumber = document.getElementById(
       'inputCreationPhoneNumber'
     ).value;
-    //asign role
+    //assign role
     newUser.role = document
       .getElementById('inputCreationUserRole')
       .value.toLowerCase();
@@ -327,7 +318,7 @@ if (createMaintenanceRequestForm) {
   createMaintenanceRequestForm.addEventListener('submit', e => {
     e.preventDefault();
 
-    //get the subject and descripto to send in the maintenanceRequests
+    //get the subject and description to send in the maintenanceRequests
     const subject = document.getElementById('inputSubject').value;
     const description = document.getElementById('inputDescription').value;
 
@@ -342,7 +333,7 @@ if (createErrorReportForm) {
   createErrorReportForm.addEventListener('submit', function(e) {
     e.preventDefault();
 
-    //obecjt to send
+    //object to send
     const errorReport = new Object();
 
     //get values with subject and description to send
@@ -377,7 +368,7 @@ if (editElementForm) {
 
     //iterate through all inputs
     inputs.forEach(element => {
-      //add title, descriptionnd type a
+      //add title, description type a
       if (element.id === 'inputEdition1') obj.title = element.value;
       if (element.id === 'inputEdition2') obj.description = element.value;
       if (element.id === 'inputEdition3') obj.type = element.value;
@@ -390,7 +381,7 @@ if (editElementForm) {
 
 //5.b: edit article
 if (editArticleForm) {
-  //add event to the edit artcile form
+  //add event to the edit article form
   editArticleForm.addEventListener('submit', e => {
     e.preventDefault();
 
@@ -406,7 +397,7 @@ if (editArticleForm) {
     //create article object to populate
     const article = new Object();
 
-    //get title and descripton of the article
+    //get title and description of the article
     article.title = document.getElementById('inputEditionArticleTitle').value;
     article.description = document.getElementById(
       'inputEditionArticleDescription'
@@ -432,7 +423,7 @@ if (editUserForm) {
 
     //get first name
     editUserObj.firstName = document.getElementById('inputEditFirstName').value;
-    //case that threr is more than one word to add capital letter in the first letter of each word
+    //case that their is more than one word to add capital letter in the first letter of each word
     if (editUserObj.firstName.includes(' ')) {
       const firstNameArray = editUserObj.firstName.split(' ');
       editUserObj.firstName = '';
@@ -447,7 +438,7 @@ if (editUserForm) {
 
     //add last name
     editUserObj.lastName = document.getElementById('inputEditLastName').value;
-    //case that threr is more than one word to add capital letter in the first letter of each word
+    //case that their is more than one word to add capital letter in the first letter of each word
     if (editUserObj.lastName.includes(' ')) {
       const lastNameArray = editUserObj.lastName.split(' ');
       editUserObj.lastName = '';
@@ -490,14 +481,14 @@ if (editMeForm) {
   editMeForm.addEventListener('submit', e => {
     e.preventDefault();
 
-    //create empty obhect to edit own account
+    //create empty object to edit own account
     const currentUser = new Object();
 
     //edit current user first name
     currentUser.firstName = document.getElementById(
       'inputDetailFirstName'
     ).value;
-    //case that threr is more than one word to add capital letter in the first letter of each word
+    //case that their is more than one word to add capital letter in the first letter of each word
     if (currentUser.firstName.includes(' ')) {
       const firstNameArray = currentUser.firstName.split(' ');
       currentUser.firstName = '';
@@ -511,7 +502,7 @@ if (editMeForm) {
     }
     //edit current user last name
     currentUser.lastName = document.getElementById('inputDetailLastName').value;
-    //case that threr is more than one word to add capital letter in the first letter of each word
+    //case that their is more than one word to add capital letter in the first letter of each word
     if (currentUser.lastName.includes(' ')) {
       const lastNameArray = currentUser.lastName.split(' ');
       currentUser.lastName = '';
@@ -551,7 +542,7 @@ if (editMaintenanceRequestBtnList) {
         `inputReasonMaintenance${requestStatus}${requestId}`
       ).value;
 
-      //edit the mainteance request if the message is not empty
+      //edit the maintenance request if the message is not empty
       if (resolvedMessage != '' && resolvedMessage.trim() != '')
         editMaintenanceRequest(requestId, requestStatus, resolvedMessage);
     });
@@ -574,7 +565,7 @@ if (deleteElementBtnList) {
 
 //7.a: send notification to users to change password
 if (sendNotificationChangePasswordBtn) {
-  //add event to buttins to send notification
+  //add event to buttons to send notification
   sendNotificationChangePasswordBtn.addEventListener('click', e => {
     //get element type by dataset
     const { elementType } = e.target.dataset;
@@ -593,7 +584,7 @@ if (sendNotificationFromMaintenanceForm) {
     //object to send
     const notification = new Object();
 
-    //assign subject and message to notificate
+    //assign subject and message to notification
     notification.subject = document.getElementById(
       'inputNoticationSubject'
     ).value;
@@ -610,15 +601,15 @@ if (sendNotificationFromMaintenanceForm) {
 if (reportGenerationBtnList) {
   //add event to all the button to generate report
   reportGenerationBtnList.forEach(function(btn) {
-    //evenet
+    //event
     btn.addEventListener('click', e => {
-      //get the stadistic variable to generate
+      //get the statistic variable to generate
       const { reportId } = e.target.dataset;
 
       //empty variable to add card(s)
       let cardHTML;
 
-      //check if the id is artticle to add both cards
+      //check if the id is article to add both cards
       if (reportId == 'article-statistics') {
         cardHTML =
           '<div class="card-deck">' +

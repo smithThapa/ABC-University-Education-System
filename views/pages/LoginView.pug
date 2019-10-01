@@ -1,5 +1,5 @@
+//- extend template
 extends ../components/_noBarsTemplateBase
-
 
 block noBarsContent
     .card.card-login.mx-auto.my-5
@@ -7,7 +7,9 @@ block noBarsContent
             img(src='/img/ABC_ICON_NAVBAR.svg' alt='ABC Logo' width='auto' height='60')
             h3.mt-4 University Login
         .card-body
+            //- log in form
             form#login-form
+                //- case that the user is for test
                 if confirmLogInAs
                     .form-group
                         .form-label-group
@@ -18,18 +20,13 @@ block noBarsContent
                         .form-label-group
                             input#inputEmail.form-control(type='email' placeholder='Email address' required='required' autofocus='autofocus')
                             label(for='inputEmail') Email Address
-
                 .form-group
                     .form-label-group
                         input#inputPassword.form-control(type='password' placeholder='Password' required='required', minlength='8')
                         label(for='inputPassword') Password
-                //- .form-group
-                //-     .checkbox
-                //-         label
-                //-         input(type='checkbox' value='remember-me')
-                //-         |                 Remember Password
+                //- button to log in
                 button.btn.btn-primary.btn-block#submitLogin Login
+            //- link to user who has forgotten their passwords
             .text-center
-                //- a.d-block.small.mt-3(href='register.html') Register an Account
                 a.d-block.small.pt-2(href='/my_details/forgot_password') Forgot Password?
         

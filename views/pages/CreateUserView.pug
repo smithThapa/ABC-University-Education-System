@@ -1,45 +1,57 @@
+//- extend template
 extends ../components/_templateBase
 
 block content
-    
-    +breadcrumbDisplay([['Home','/home'],['Manage Users','/manage_users'],['New User']])
+    //- Add breadcrumb
+    +breadcrumbDisplay([['Home','/home'],['Manage Users','/manage_users'],['Create User']])
 
-    h2 Create New #{title}
+    //- body title
+    h2 Create #{title}
 
+    //- form to create user
     form#createUserForm
+        //- First Name input
         .form-group.row
             label.col-sm-2.col-form-label(for='inputCreationFirstName') First Name
             .col-sm-10
                 input#inputCreationFirstName.form-control(type='text' pattern="^[A-Za-z ]+$" maxlength="50"  placeholder='First Name' required='required')
+        //- Last Name input
         .form-group.row
             label.col-sm-2.col-form-label(for='inputCreationLastName') Last Name
             .col-sm-10
                 input#inputCreationLastName.form-control(type='text' pattern="^[A-Za-z ]+$" maxlength="50"  placeholder='Last Name' required='required')
+        //- User email
         .form-group.row
             label.col-sm-2.col-form-label(for='inputCreationEmailAddress') Email Address
             .col-sm-10
                 input#inputCreationEmailAddress.form-control(type='email' maxlength="50"  placeholder='Email Address' required='required')
+        //- Phone number
         .form-group.row
             label.col-sm-2.col-form-label(for='inputCreationPhoneNumber') Phone Number
             .col-sm-10
                 input#inputCreationPhoneNumber.form-control(type='tel'  pattern="[0-9]{10}" minlength="10"  maxlength="10"  placeholder='Phone Number' required='required')
+        //- Role selection option
         .form-group.row
             label.col-sm-2.col-form-label(for='inputCreationUserRole') Role 
             .col-sm-10
                 select#inputCreationUserRole.form-control(required='required')
+                    option(value='') SELECT A ROLE
                     option Student
                     option Staff
                     option Admin
                     option Team Maintenance
+        //- Major selection option
         .form-group.row
             label.col-sm-2.col-form-label(for='inputCreationUserMajor') Major 
             .col-sm-10
                 select#inputCreationUserMajor.form-control(required='required')
+                    option(value='') SELECT A MAJOR
                     option Information Technology
                     option Business
                     option Accounting
                     option Project Management
                     option NOT A MAJOR
+        //- creation button
         .form-group.row
             .col-sm-10
-                button.btn.btn-primary New #{title}
+                button.btn.btn-primary Create #{title}

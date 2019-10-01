@@ -1,5 +1,7 @@
 
+// Top Navigation Component
 nav.navbar.navbar-expand.navbar-dark.static-top
+    //- left hand university icon that redirect to the home page
     a(href='/home').mt-2
         img(src="/img/ABC_ICON_NAVBAR.svg" style='max-width:55px;').mb-3
         h1.navbar-brand.mr-1 &nbsp;&nbsp;University
@@ -7,19 +9,19 @@ nav.navbar.navbar-expand.navbar-dark.static-top
 
     .d-none.d-md-inline-block.form-inline.ml-auto.mr-0.mr-md-3.my-2.my-md-0
 
-    // Navbar
+    //- Account management dropdown
     ul.navbar-nav.ml-auto.ml-md-0
         li.nav-item.dropdown.no-arrow
+            //- user icon to display dropdown
             a#userDropdown.nav-link.dropdown-toggle(href='#' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
                 svg.icon-box.rounded-circle.border.border-white.px-1
                     use(xlink:href=`/img/icons.svg#icon-user`)
             .dropdown-menu.dropdown-menu-right(aria-labelledby='userDropdown')
+                //- link to my details
                 a.dropdown-item(href='/my_details/me') My Details
-                //- a.dropdown-item(href='#') Activity Log
                 .dropdown-divider
+                //- link to log out of the system
                 if user.testUser
                     a#logoutAsBtn.dropdown-item(style='cursor: pointer;') Logout As
                 else
                     a#logoutBtn.dropdown-item(style='cursor: pointer;') Logout
-                
-                //- (href='#' data-toggle='modal' data-target='#logoutModal') Logout

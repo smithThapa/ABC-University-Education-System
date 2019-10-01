@@ -48,7 +48,7 @@ mainRequestSchema.pre(/^find/, function(next) {
   next();
 });
 
-//add shcema in the mongodb
+//add schema in the MongoDB
 const MainRequest = mongoose.model('MainRequest', mainRequestSchema);
 
 //export the model to manage the collection data
