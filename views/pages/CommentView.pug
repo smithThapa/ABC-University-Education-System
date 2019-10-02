@@ -32,7 +32,7 @@ block content
     //- author
     small.text-muted.mt-0= `Author: ${authorForum}. Created on: ${creationDateForum}`
     //- description
-    p #{forum.description}
+    p(style='white-space: pre-wrap;') #{forum.description}
     
     //- TOPIC
     //- title
@@ -40,7 +40,7 @@ block content
     //- author
     small.text-muted.mt-0= `Author: ${authorTopic}. Created on: ${creationDateTopic}`
     //- description
-    p #{topic.description}
+    p(style='white-space: pre-wrap;') #{topic.description}
     
     //- title on the body, with button to create new comment
     .d-sm-flex
@@ -71,6 +71,6 @@ block content
                             
                             //- check if the user is who created to allow delete element
                             if comment.user && user.id == comment.user.id
-                                    +cardDisplayItems(comment.title, comment.description, author, creationDateComment, `/forums/${forum.slug}/topics/${topic.slug}/comments/${comment.id}/edit_comment`, `Edit Comment`)
+                                +cardDisplayItems(comment.title, comment.description, author, creationDateComment, `/forums/${forum.slug}/topics/${topic.slug}/comments/${comment.id}/edit_comment`, `Edit Comment`)
                             else
                                 +cardDisplayItems(comment.title, comment.description, author, creationDateComment)

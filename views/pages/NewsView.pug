@@ -63,7 +63,7 @@ block content
                                                 .h5.card-header.bg-info.text-white.text-break= news[i].title
                                                 .card-body
                                                     //- title
-                                                    .h6.card-title.text-break #{news[i].description.substr(0,100)}...
+                                                    .h6.card-title.text-break(style='white-space: pre-wrap;') #{news[i].description.substr(0,100)}...
                                                     //- author
                                                     .card-subtitle.mb-2
                                                         -const author = news[i].user ? `${news[i].user.firstName} ${news[i].user.lastName}` : 'Anonymous'

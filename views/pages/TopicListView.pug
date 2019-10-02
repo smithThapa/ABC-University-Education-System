@@ -32,7 +32,7 @@ block content
     //- author
     small.text-muted.mt-0= `Author: ${authorForum}. Created on: ${creationDate}`
     //- description
-    p #{forum.description}
+    p(style='white-space: pre-wrap;') #{forum.description}
     
     //- title on the body, with button to create new topic
     .d-sm-flex.mt-0

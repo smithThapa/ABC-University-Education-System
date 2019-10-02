@@ -48,7 +48,7 @@ block content
         //- Author
         small.text-muted.mt-0= `Author: ${authorForum}. Created on: ${creationDateForum}`
         //- Description
-        p #{forum.description}
+        p(style='white-space: pre-wrap;') #{forum.description}
     
     //- case that staff creates a topic
     -if(title == 'Topic' && user.role == 'staff')
@@ -89,7 +89,7 @@ block content
         //- author
         small.text-muted.mt-0= `Author: ${authorForum}. Created on: ${creationDateForum}`
         //- description
-        p #{forum.description}
+        p(style='white-space: pre-wrap;') #{forum.description}
 
         //- TOPIC
         //- title
@@ -97,7 +97,7 @@ block content
         //- Author
         small.text-muted.mt-0= `Author: ${authorTopic}. Created on: ${creationDateTopic}`
         //- description
-        p #{topic.description}
+        p(style='white-space: pre-wrap;') #{topic.description}
         
         //- assign forum and topic ot the variables
         -forumId = forum.id

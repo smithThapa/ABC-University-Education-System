@@ -35,7 +35,7 @@ block content
     //- Author
     small.text-muted.mt-0= `Author: ${authorForum}. Created on: ${creationDateForum}`
     //- description
-    p #{forum.description}
+    p(style='white-space: pre-wrap;') #{forum.description}
     
     //- TOPIC
     //- title
@@ -43,7 +43,7 @@ block content
     //- Author
     small.text-muted.mt-0= `Author: ${authorTopic}. Created on: ${creationDateTopic}`
     //- description
-    p #{topic.description}
+    p(style='white-space: pre-wrap;') #{topic.description}
     
     //- title on the body, with button to create new comment
     .d-sm-flex

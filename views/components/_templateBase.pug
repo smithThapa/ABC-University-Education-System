@@ -10,7 +10,7 @@ mixin cardDisplayItems(header, title, author, date, link,  button, description)
             .card-subtitle.mb-2
                 small.text-muted= `${author} | Created At:  ${date}`
             -if(description)
-                p.card-text
+                p.card-text(style='white-space: pre-wrap;')
                     small= description
             //- button to go into the element
             -if(button)
@@ -84,7 +84,7 @@ mixin displayDescriptionModal(id, type, title, description)
                     button.close(type='button' data-dismiss='modal' aria-label='Close')
                     span(aria-hidden='true') &times;
                 //- Body with the description
-                .modal-body <b><u>Description:</u></b> #{description}
+                .modal-body(style='white-space: pre-wrap;') <b><u>Description:</u></b> #{description}
                 //- Only one button to close the modal
                 .modal-footer
                     button.btn.btn-secondary(type='button' data-dismiss='modal') Close
