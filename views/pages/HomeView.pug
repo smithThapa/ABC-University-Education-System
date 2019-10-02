@@ -23,7 +23,7 @@ block content
             p  We regularly experience outstanding graduate outcomes and student experience results from The Good Universities Guide and in Quality Indicators for Learning and Teaching (QILT) data. ABCUniversity produces research that has a real-world impact, and our Excellence in Research for Australia (ERA) results show we produce world-class research in 22 research categories.
             p  We’re proud of our reputation locally and globally for our teaching, research, graduate outcomes, inclusiveness and social innovation. Explore why ABCUniversity could be the right choice for you.
         //- display last three announcements to user who are not team maintenance
-        -if (announcements && user.role != 'team-maintenance')
+        -if (announcements.length > 0 && user.role != 'team-maintenance')
 
             //- title and button to go to all announcements
             .ml-auto
@@ -48,7 +48,7 @@ block content
                                 .card-body
                                     |#{announcement.description.substr(0,100)}...
     //- display last three news to user who are not team maintenance
-    - if(news && user.role != 'team-maintenance')
+    - if(news.length > 0 && user.role != 'team-maintenance')
 
         //- title and button to go to all news
         .d-sm-flex.mb-4
