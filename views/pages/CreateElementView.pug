@@ -145,9 +145,9 @@ block content
         -if (title != 'Forum')
             .form-group.row
                 label.col-sm-2.col-form-label(for='inputCreationDescription') Description <br/> 
-                    p.text-muted (max: 400 characters)
+                    p.text-muted (max: 1000 characters)
                 .col-sm-10
-                    textarea#inputCreationDescription.form-control(type='text'  rows="5" maxlength="400" placeholder='Description (max: 400 characters)' required='required')
+                    textarea#inputCreationDescription.form-control(type='text'  rows="5" maxlength="1000" placeholder='Description (max: 1000 characters)' required='required')
         //- case it is a forum, it will have a select element with the types available
         -else
             .form-group.row
