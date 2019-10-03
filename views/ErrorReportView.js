@@ -15,7 +15,7 @@ exports.getErrorReportsPage = async function(req, res, next) {
     //get error report object from the API
     const errorReports = await axios({
       method: 'GET',
-      url: `${href}/api/v1/errorReports`
+      url: `${href}api/v1/errorReports`
     });
 
     //check if the response is successful

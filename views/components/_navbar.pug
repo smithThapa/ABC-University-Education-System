@@ -1,11 +1,15 @@
 
 // Top Navigation Component
 nav.navbar.navbar-expand.navbar-dark.static-top
+
+    button.btn.btn-link.btn-sm.text-white.order-1.order-sm-0#sidebarToggle(href="#")
+        svg.icon-box
+            use(xlink:href=`/img/icons.svg#icon-menu`)
+    
     //- left hand university icon that redirect to the home page
     a(href='/home').mt-2
         img(src="/img/ABC_ICON_NAVBAR.svg" style='max-width:55px;').mb-3
         h1.navbar-brand.mr-1 &nbsp;&nbsp;University
-    button#sidebarToggle.btn.btn-link.btn-sm.text-white.order-1.order-sm-0(href='#')
 
     .d-none.d-md-inline-block.form-inline.ml-auto.mr-0.mr-md-3.my-2.my-md-0
 

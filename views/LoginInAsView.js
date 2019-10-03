@@ -10,7 +10,7 @@ exports.getLoginStudentPage = (req, res) => {
   res.status(200).render('LoginView', {
     title: 'Login',
     confirmLogInAs: true,
-    emailAddress: 'test-student@abcuniversity.com'
+    emailAddress: 'test-student@abcuniversity.edu.au'
   });
 };
 
@@ -19,7 +19,7 @@ exports.getLoginStaffPage = (req, res) => {
   res.status(200).render('LoginView', {
     title: 'Login',
     confirmLogInAs: true,
-    emailAddress: 'test-staff@abcuniversity.com'
+    emailAddress: 'test-staff@abcuniversity.edu.au'
   });
 };
 
@@ -28,6 +28,6 @@ exports.getLoginAdminPage = (req, res) => {
   res.status(200).render('LoginView', {
     title: 'Login',
     confirmLogInAs: true,
-    emailAddress: 'test-admin@abcuniversity.com'
+    emailAddress: 'test-admin@abcuniversity.edu.au'
   });
 };

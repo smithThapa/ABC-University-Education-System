@@ -5,13 +5,13 @@ mixin cardDisplayItems(header, title, author, date, link,  button, description)
         .h5.card-header.bg-info.text-white= header
         .card-body
             //- title in the card
-            .h6.card-title= title
+            .h6.card-title(style='white-space: pre-wrap;')= title
             //- author with small font-size
             .card-subtitle.mb-2
                 small.text-muted= `${author} | Created At:  ${date}`
             -if(description)
-                p.card-text(style='white-space: pre-wrap;')
-                    small= description
+                p.card-text
+                    small(style='white-space: pre-wrap;')= description
             //- button to go into the element
             -if(button)
                 a.btn.btn-primary(href= link)= `${button}`
@@ -134,5 +134,7 @@ html
             //- Bootstrap JS
             script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js' integrity='sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49' crossorigin='anonymous')
             script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js' integrity='sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy' crossorigin='anonymous')
+            //- add open and close event in the sidebar
+            script(src='/js/sidebarNav.js')
             //- Bundle.js with contains all JS from index.js
             script(src='/bundle.js')
