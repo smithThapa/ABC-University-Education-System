@@ -67,7 +67,7 @@ block content
                             //- creation date
                             -const creationDateComment = moment(comment.createdAt).format('dddd DD MMM YYYY HH:mm');
                             //- author
-                            -const author = comment.user.firstName ? `${comment.user.firstName} ${comment.user.lastName}` : 'ABC University'
+                            -const author = comment.user ? `${comment.user.firstName} ${comment.user.lastName}` : 'Anonymous'
                             
                             //- check if the user is who created to allow delete element
                             if comment.user && user.id == comment.user.id

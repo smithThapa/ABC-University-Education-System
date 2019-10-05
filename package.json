@@ -4,7 +4,8 @@
   "description": "ABC University Educational System for university members and maintenance staff",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon server.js",
+    "open": "start http://localhost:8000/",
+    "start": "npm run open & nodemon server.js",
     "start:prod": "SET NODE_ENV=production & nodemon server.js",
     "debug": "ndb server.js",
     "watch:js": "parcel watch ./public/js/index.js --out-dir ./public --out-file bundle.js",
@@ -56,6 +57,7 @@
     "xss-clean": "^0.1.1"
   },
   "devDependencies": {
+    "concurrently": "^4.1.2",
     "eslint": "^6.3.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-prettier": "^6.1.0",
