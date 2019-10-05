@@ -63,6 +63,19 @@ const reportGenerationBtnList = document.querySelectorAll(
   '.reportGenerationBtn'
 ); //a
 
+//function to change each first letter into upper case in a string
+function upperCaseFirstLetterEachWork(str) {
+  var splitStr = str.toLowerCase().split(' ');
+  for (var i = 0; i < splitStr.length; i++) {
+    // You do not need to check if i is larger than splitStr length, as your for does that for you
+    // Assign it back to the array
+    splitStr[i] =
+      splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
+  }
+  // Directly return the joined string
+  return splitStr.join(' ');
+}
+
 //1.a: Log in button starts
 if (loginBtn) {
   //add event to click
@@ -263,34 +276,16 @@ if (createUserForm) {
     //object to fill with user information
     const newUser = new Object();
 
-    //get first name
-    newUser.firstName = document.getElementById('inputCreationFirstName').value;
-    //more tha one and capital letter in the first letter in each word
-    if (newUser.firstName.includes(' ')) {
-      const firstNameArray = newUser.firstName.split(' ');
-      newUser.firstName = '';
-      for (let i = 0; i < firstNameArray.length; i++) {
-        const element =
-          firstNameArray[i].charAt(0).toUpperCase() +
-          firstNameArray[i].slice(1).toLowerCase();
-        if (i == firstNameArray.length - 1) newUser.firstName += element;
-        else newUser.firstName += element + ' ';
-      }
-    }
-    //get last name
-    newUser.lastName = document.getElementById('inputCreationLastName').value;
-    //more tha one and capital letter in the first letter in each word
-    if (newUser.lastName.includes(' ')) {
-      const lastNameArray = newUser.lastName.split(' ');
-      newUser.lastName = '';
-      for (let i = 0; i < lastNameArray.length; i++) {
-        const element =
-          lastNameArray[i].charAt(0).toUpperCase() +
-          lastNameArray[i].slice(1).toLowerCase();
-        if (i == lastNameArray.length - 1) newUser.lastName += element;
-        else newUser.lastName += element + ' ';
-      }
-    }
+    //get first name with each work capital letter
+    newUser.firstName = upperCaseFirstLetterEachWork(
+      document.getElementById('inputCreationFirstName').value
+    );
+
+    //get last name with each work capital letter
+    newUser.lastName = upperCaseFirstLetterEachWork(
+      document.getElementById('inputCreationLastName').value
+    );
+
     //get email
     newUser.email = document.getElementById('inputCreationEmailAddress').value;
     //get phone number
@@ -421,35 +416,16 @@ if (editUserForm) {
     //object to edit
     const editUserObj = new Object();
 
-    //get first name
-    editUserObj.firstName = document.getElementById('inputEditFirstName').value;
-    //case that their is more than one word to add capital letter in the first letter of each word
-    if (editUserObj.firstName.includes(' ')) {
-      const firstNameArray = editUserObj.firstName.split(' ');
-      editUserObj.firstName = '';
-      for (let i = 0; i < firstNameArray.length; i++) {
-        const element =
-          firstNameArray[i].charAt(0).toUpperCase() +
-          firstNameArray[i].slice(1).toLowerCase();
-        if (i == firstNameArray.length - 1) editUserObj.firstName += element;
-        else editUserObj.firstName += element + ' ';
-      }
-    }
+    //get first name with each work capital letter
+    editUserObj.firstName = upperCaseFirstLetterEachWork(
+      document.getElementById('inputEditFirstName').value
+    );
 
     //add last name
-    editUserObj.lastName = document.getElementById('inputEditLastName').value;
-    //case that their is more than one word to add capital letter in the first letter of each word
-    if (editUserObj.lastName.includes(' ')) {
-      const lastNameArray = editUserObj.lastName.split(' ');
-      editUserObj.lastName = '';
-      for (let i = 0; i < lastNameArray.length; i++) {
-        const element =
-          lastNameArray[i].charAt(0).toUpperCase() +
-          lastNameArray[i].slice(1).toLowerCase();
-        if (i == lastNameArray.length - 1) editUserObj.lastName += element;
-        else editUserObj.lastName += element + ' ';
-      }
-    }
+    editUserObj.lastName = upperCaseFirstLetterEachWork(
+      document.getElementById('inputEditLastName').value
+    );
+
     //add email
     editUserObj.email = document.getElementById('inputEditEmailAddress').value;
     //add phoneNumber
@@ -484,36 +460,16 @@ if (editMeForm) {
     //create empty object to edit own account
     const currentUser = new Object();
 
-    //edit current user first name
-    currentUser.firstName = document.getElementById(
-      'inputDetailFirstName'
-    ).value;
-    //case that their is more than one word to add capital letter in the first letter of each word
-    if (currentUser.firstName.includes(' ')) {
-      const firstNameArray = currentUser.firstName.split(' ');
-      currentUser.firstName = '';
-      for (let i = 0; i < firstNameArray.length; i++) {
-        const element =
-          firstNameArray[i].charAt(0).toUpperCase() +
-          firstNameArray[i].slice(1).toLowerCase();
-        if (i == firstNameArray.length - 1) currentUser.firstName += element;
-        else currentUser.firstName += element + ' ';
-      }
-    }
-    //edit current user last name
-    currentUser.lastName = document.getElementById('inputDetailLastName').value;
-    //case that their is more than one word to add capital letter in the first letter of each word
-    if (currentUser.lastName.includes(' ')) {
-      const lastNameArray = currentUser.lastName.split(' ');
-      currentUser.lastName = '';
-      for (let i = 0; i < lastNameArray.length; i++) {
-        const element =
-          lastNameArray[i].charAt(0).toUpperCase() +
-          lastNameArray[i].slice(1).toLowerCase();
-        if (i == lastNameArray.length - 1) currentUser.lastName += element;
-        else currentUser.lastName += element + ' ';
-      }
-    }
+    //edit current user first name with upper case each first letter
+    currentUser.firstName = upperCaseFirstLetterEachWork(
+      document.getElementById('inputDetailFirstName').value
+    );
+
+    //edit current user last name with upper case each first letter
+    currentUser.lastName = upperCaseFirstLetterEachWork(
+      document.getElementById('inputDetailLastName').value
+    );
+
     //edit user email
     currentUser.email = document.getElementById(
       'inputDetailEmailAddress'
