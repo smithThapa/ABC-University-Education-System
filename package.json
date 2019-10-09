@@ -4,7 +4,6 @@
   "description": "ABC University Educational System for university members and maintenance staff",
   "main": "app.js",
   "scripts": {
-    "open": "start http://localhost:8000/",
     "start": "node server.js",
     "start:prod": "SET NODE_ENV=production & nodemon server.js",
     "debug": "ndb server.js",
