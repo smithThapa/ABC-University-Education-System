@@ -8,7 +8,8 @@ const authenticationPresenter = require('./../presenters/AuthenticationPresenter
 const resourceRouter = require('./resourceRouter');
 const resourcePresenter = require('./../presenters/ResourcePresenter');
 //View management classes to manage the view routers
-const homeView = require('./../views/HomeView');
+const homeView = require('../views/Homeview');
+//const homeView = require('./../views/HomeView');
 const forumView = require('./../views/ForumView');
 const topicView = require('./../views/TopicView');
 const commentView = require('./../views/CommentView');
