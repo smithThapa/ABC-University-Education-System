@@ -1,0 +1,140 @@
+//- create cards to display the information
+mixin cardDisplayItems(header, title, author, date, link,  button, description)
+    .card
+        //- top title
+        .h5.card-header.bg-info.text-white= header
+        .card-body
+            //- title in the card
+            .h6.card-title(style='white-space: pre-wrap;')= title
+            //- author with small font-size
+            .card-subtitle.mb-2
+                small.text-muted= `${author} | Created At:  ${date}`
+            -if(description)
+                p.card-text
+                    small(style='white-space: pre-wrap;')= description
+            //- button to go into the element
+            -if(button)
+                a.btn.btn-primary(href= link)= `${button}`
+
+//- Breadcrumb in pages, with array
+mixin breadcrumbDisplay(arrayBreadcrumb)
+    nav.mb-0(aria-label='breadcrumb')
+        ol.breadcrumb
+            //- get array size
+            -let size=arrayBreadcrumb.length;
+            //- get each element from the array
+            each element, index in arrayBreadcrumb
+                //- the last element, it is not with link
+                -if (index == size- 1)
+                    li.breadcrumb-item.active(aria-current='page')= element[0]
+                -else
+                    li.breadcrumb-item
+                        a(href= element[1])= element[0]
+
+//- Delete model to remove elements without using another page
+mixin deleteModalTemplate(id, type, title)
+    .modal.fade(tabindex='-1' role='dialog' aria-labelledby='deleteModalLabel' aria-hidden='true' id=`deleteModal${id}`)
+        .modal-dialog(role='document')
+            .modal-content
+                //- Header of the model
+                .modal-header
+                    h3#deleteModalLabel.modal-title Delete #{type}
+                    button.close(type='button' data-dismiss='modal' aria-label='Close')
+                        span(aria-hidden='true') &times;
+                //- Body to ask users to be sure to remove element
+                .modal-body
+                    h5.text-center
+                        | If you delete this <b> #{type}: #{title} </b>, it will be erased from the system.
+                //- Button tp delete element
+                .modal-footer
+                    button.btn.btn-secondary(type='button' data-dismiss='modal') Cancel
+                    -if(type=='News' || type=='Announcement')
+                        -type = 'Article' 
+                    button.btn.btn-danger.deleteModalBtn(type='button' data-type-id=`${id}` data-type-type =`${type}`) Delete #{type}
+                    
+//- Delete Modal to remove file        
+mixin deleteModalFileTemplate(id, filename, type)
+    .modal.fade(tabindex='-1' role='dialog' aria-labelledby='deleteModalFileLabel' aria-hidden='true' id=`deleteModalFile${id}`)
+        .modal-dialog(role='document')
+            .modal-content
+                //- Header of the modal
+                .modal-header
+                    h3#deleteModalFileLabel.modal-title Delete Resource
+                    button.close(type='button' data-dismiss='modal' aria-label='Close')
+                        span(aria-hidden='true') &times;
+                //- Body of the modal to verify if the user really wants to delete element
+                .modal-body
+                    h5.text-center
+                        | If you delete this <b> Resource: #{filename} </b>, it will be erased from the system.     
+                    
+                //- Footer of the body with the button to delete element            
+                .modal-footer
+                    button.btn.btn-secondary(type='button' data-dismiss='modal') Cancel
+                    form(action=`/${type}/files/del/${id}` method="post")
+                        button.btn.btn-danger(type="submit") Delete 
+
+//- Modal to display the description of element for the admins to check each element
+mixin displayDescriptionModal(id, type, title, description)
+    .modal.fade(id=`displayDescriptionModal${id}` tabindex='-1' role='dialog' aria-labelledby='displayDescriptionModallLabel' aria-hidden='true')
+        .modal-dialog(role='document')
+            .modal-content
+                //- Header with the type and title
+                .modal-header
+                    h3#displayDescriptionModallLabel.modal-title.font-weight-bold #{type} - #{title}
+                    button.close(type='button' data-dismiss='modal' aria-label='Close')
+                    span(aria-hidden='true') &times;
+                //- Body with the description
+                .modal-body(style='white-space: pre-wrap;') <b><u>Description:</u></b> #{description}
+                //- Only one button to close the modal
+                .modal-footer
+                    button.btn.btn-secondary(type='button' data-dismiss='modal') Close
+
+doctype html
+html
+    // Head Component
+    head
+        //- Add head block to have same elements in all pages, and add extra to others
+        block head
+            meta(charset='UTF-8')
+            meta(name='viewport' content='width=device-width, initial-scale=1.0')
+            //- Bootstrap CSS
+            link(rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous")
+            //- extra Bootstrap style
+            link(href="/css/sb-admin.css" rel="stylesheet")
+            //- Personal Style sheet
+            link(rel='stylesheet' href='/css/style.css')
+            //- favicon of the application
+            link(rel='shortcut icon' type='image/ico' href='/img/favicon.ico') 
+            //-Title of the application
+            title ABC University Educational System | #{title}
+    // Body Component
+    body
+        //- Header
+        include _navbar
+
+        //- sidebar
+        #wrapper
+            include _sidebar
+
+            //- right body with components
+            #content-wrapper
+                .container-fluid
+                    .container
+                        // content
+                        block content
+
+                //- Footer
+                include _footer
+
+        // Script components
+        //- block to have same scripts in all page and add extra in some templates
+        block scripts
+            //- JQuery
+            script(src='https://code.jquery.com/jquery-3.3.1.slim.min.js' integrity='sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo' crossorigin='anonymous')
+            //- Bootstrap JS
+            script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js' integrity='sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49' crossorigin='anonymous')
+            script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js' integrity='sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy' crossorigin='anonymous')
+            //- add open and close event in the sidebar
+            script(src='/js/sidebarNav.js')
+            //- Bundle.js with contains all JS from index.js
+            script(src='/bundle.js')

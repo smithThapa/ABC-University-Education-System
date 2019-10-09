@@ -1,0 +1,18 @@
+
+//- extend template
+extends ../components/_templateBase
+
+block content
+    //- Add breadcrumb
+    +breadcrumbDisplay([['Home','/home'],['News', '/news'], [`${newElement.title}`]])
+    
+    //- new creation date and author
+    -const creationDate = moment(newElement.createdAt).format('dddd DD MMM YYYY HH:mm');
+    -const author = newElement.user ? `${newElement.user.firstName} ${newElement.user.lastName}` : 'Anonymous'
+    
+    //- new title and author with the format
+    h2= newElement.title
+    small.text-muted.mt-0= `Author: ${author}. Created on: ${creationDate}`
+    
+    //- new description
+    p.mt-3(style='white-space: pre-wrap;') #{newElement.description}

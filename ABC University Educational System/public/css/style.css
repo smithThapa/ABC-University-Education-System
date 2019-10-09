@@ -1,0 +1,182 @@
+.navbar {
+  background-color: #0095a3;
+}
+
+.sidebar {
+  background-color: #00838f;
+}
+
+.sidebar .nav-item .nav-link {
+  color: rgba(255, 255, 255, 1);
+}
+
+#dashboard {
+  background-color: #006972;
+}
+
+.icon-box {
+  height: 2.25rem;
+  width: 2.25rem;
+  fill: #ffffff;
+}
+
+.icon-box_sidebar {
+  height: 1.5rem;
+  width: 1.5rem;
+  fill: #ffffff;
+}
+
+.dropdown-header {
+  font-size: 0.8rem;
+}
+
+.dropdown-item {
+  font-size: 0.8rem;
+}
+
+.container-fluid > .container {
+  background-color: #fafafb;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.container-fluid > .container > * {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.container-fluid > .container > h2 {
+  color: #006972;
+}
+.container-fluid > .container > h3 {
+  color: #006972;
+}
+.container-fluid > .container > .h2 {
+  color: #006972;
+}
+.container-fluid > .container > .h3 {
+  color: #006972;
+}
+.container-fluid > .container > h4 {
+  color: #006972;
+}
+.container-fluid > .container > .d-sm-flex h2 {
+  color: #006972;
+}
+
+.modal-header > h3 {
+  color: #006972;
+}
+
+.card-title {
+  font-size: 1.5em;
+}
+
+.footer__logo img {
+  height: 2.5rem;
+}
+
+.card-footer {
+  display: flex;
+}
+
+@media (min-width: 768px) {
+  .sidebar .nav-item .nav-link span {
+    font-size: 0.8rem;
+  }
+  .sidebar .nav-item .nav-link {
+    padding: 0.7rem;
+  }
+}
+
+/* Login */
+.card-login {
+  width: 30rem;
+}
+
+.card-login .card-header {
+  background-color: #0095a3;
+}
+
+.card-login .card-body form a {
+  background-color: #0095a3;
+}
+.card-login .card-body .text-center a {
+  color: #0095a3;
+}
+
+#footerLogin .sticky-footer {
+  width: 100%;
+  /* bottom: -4rem; */
+}
+
+@media (max-height: 500px) {
+  .card.card-login {
+    margin-top: 1rem;
+  }
+
+  /* #footerLogin .sticky-footer {
+     bottom: -3rem; 
+  } */
+}
+
+.table-statistics > tbody > tr > :nth-child(7) {
+  background-color: #b8daff;
+  font-size: 1em;
+  width: 6rem;
+}
+
+/* .reportGenerationBtn {
+  width: 215px;
+} */
+
+.row > .col-sm > .reportGenerationBtn {
+  font-size: 0.6em;
+  width: 80%;
+}
+
+.card {
+  max-width: 100%;
+}
+.card-text {
+  word-wrap: break-word;
+}
+
+/*Toggle sidebar*/
+.toggled li a svg {
+  margin-right: 0em !important;
+}
+
+.toggled li a svg:nth-child(3) {
+  margin-left: 0em !important;
+}
+
+/* Small devices (landscape phones, 576px and up)*/
+@media (min-width: 576px) {
+  #ReportGenerationList {
+    width: 100%;
+  }
+}
+
+/* Medium devices (tablets, 768px and up)*/
+@media (min-width: 768px) {
+  #ReportGenerationList {
+    width: 100%;
+  }
+}
+
+/* Large devices (desktops, 992px and up)*/
+@media (min-width: 992px) {
+  #ReportGenerationList {
+    width: 35%;
+  }
+}
+
+/* Extra large devices (large desktops, 1200px and up)*/
+@media (min-width: 1200px) {
+  #ReportGenerationList {
+    width: 35%;
+  }
+}

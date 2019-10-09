@@ -1,0 +1,122 @@
+//- extend template
+extends ../components/_templateBase
+
+block content
+    //- variables to share
+    -let previousPath
+    -let elementId
+    -let titleElement
+    -let descriptionElement
+    
+    //- case that admin creates a forum
+    -if(title == 'Forum' && user.role == 'admin')
+        //- Add breadcrumb
+        +breadcrumbDisplay([['Home','/home'],['Manage Forums','/manage_forums'],['Edit Forum']])
+        
+        //- assign variable the new type
+        -previousPath = '/manage_forums'
+        -elementId = forum.id
+        -titleElement = forum.title
+        
+    //- case that staff creates a forum
+    -if(title == 'Topic' && user.role == 'admin')
+        //- assign variable the new type
+        -forumId = forum.id
+        -elementId = topic.id
+        -titleElement = topic.title
+        -descriptionElement = topic.description
+        -previousPath = `/manage_forums/${forum.slug}/manage_topics`  
+        
+        //- Add breadcrumb
+        +breadcrumbDisplay([['Home','/home'],['Manage Forums','/manage_forums'], ['Manage Topics', `${previousPath}`],['Edit Topic']])
+        
+        //- creation date of forum
+        -const creationDateForum = moment(forum.createdAt).format('dddd DD MMM YYYY HH:mm');
+        //- author of forum
+        -const authorForum = forum.user ? `${forum.user.firstName} ${forum.user.lastName}` : 'Anonymous'
+        
+        //- FORUM
+        //- title
+        h2 Forum: #{forum.title} - #{forum.type}
+        //- Author
+        small.text-muted.mt-0= `Author: ${authorForum}. Created on: ${creationDateForum}`
+        //- Description
+        p(style='white-space: pre-wrap;') #{forum.description}
+        
+    //- case user edit comment
+    -if (title == 'Comment')
+        //- assign variable the new type
+        -previousPath = `/forums/${forum.slug}/topics/${topic.slug}/comments`
+        -elementId = comment.id
+        -titleElement = comment.title
+        -descriptionElement = comment.description
+        
+        //- Add breadcrumb
+        +breadcrumbDisplay([['Home','/home'],['Forums','/forums'],['Topics',`/forums/${forum.slug}/topics`], ['Comments', previousPath ], ['Edit Comment']])
+
+        //- creation date of forum and topic
+        -const creationDateForum = moment(forum.createdAt).format('dddd DD MMM YYYY HH:mm');
+        -const creationDateTopic = moment(topic.createdAt).format('dddd DD MMM YYYY HH:mm');
+        
+        //- author format of forum and topic
+        -const authorForum = forum.user ? `${forum.user.firstName} ${forum.user.lastName}` : 'Anonymous'
+        -const authorTopic = topic.user ? `${topic.user.firstName} ${topic.user.lastName}` : 'Anonymous'
+
+        //- FORUM
+        //- title
+        h2 Forum: #{forum.title} - #{forum.type}
+        //- author
+        small.text-muted.mt-0= `Author: ${authorForum}. Created on: ${creationDateForum}`
+        //- description
+        p(style='white-space: pre-wrap;') #{forum.description}
+
+        //- TOPIC
+        //- title
+        h3 Topic: #{topic.title}
+        //- Author
+        small.text-muted.mt-0= `Author: ${authorTopic}. Created on: ${creationDateTopic}`
+        //- description
+        p(style='white-space: pre-wrap;') #{topic.description}
+        
+        //- assign forum and topic ids to the values
+        -forumId = forum.id
+        -topicId = topic.id
+
+    //- body title
+    h2 Edit #{title}
+
+    //- form to edit element
+    form#editElementForm
+        //- hidden inputs with title, id and previousPath
+        input#hiddenInputEditionType.d-none(value=`${title}`)
+        input#hiddenInputEditionId.d-none(value=`${elementId}`)
+        input#hiddenInputEditionPath.d-none(value= `${previousPath}`)
+        //- title input with current values
+        .form-group.row
+            label.col-sm-2.col-form-label(for='inputEdition1') Title
+            .col-sm-10
+                input.inputsEdition#inputEdition1.form-control(type='text' value=`${titleElement}` maxlength="50"  placeholder='Title' required='required')
+        //- element is not a forum add a description text area with the values
+        -if (title != 'Forum')
+            .form-group.row
+                label.col-sm-2.col-form-label(for='inputEdition2') Description <br/> 
+                    p.text-muted (max: 400 characters)
+                .col-sm-10
+                    textarea.inputsEdition#inputEdition2.form-control(type='text' rows="5" maxlength="400" placeholder='Description (max: 400 characters)' required='required')
+                        |#{descriptionElement}
+        //- forum type selection option with the current type
+        -else
+            .form-group.row
+                label.col-sm-2.col-form-label(for='inputEdition3') Type 
+                .col-sm-10
+                    select.inputsEdition#inputEdition3.form-control(required='required')
+                        -const typeArray = ['Information Technology', 'Business', 'Accounting', 'Project Management', 'Other']
+                            each forumType in typeArray
+                                -if (forumType == forum.type)
+                                    option(selected = true)= forumType
+                                -else
+                                    option= forumType
+        //- edit element
+        .form-group.row
+            .col-sm-10
+                button.btn.btn-primary Edit #{title}

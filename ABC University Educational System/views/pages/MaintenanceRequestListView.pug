@@ -1,0 +1,120 @@
+//- extend template
+extends ../components/_templateBase
+
+//- add style in the head
+block append head
+    //- style for the table
+    link(rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css")
+    link(rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css")
+    link(rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css")
+    
+//- add script to make table dynamic from dataTable
+block append scripts
+    //- DataTable from Bootstrap
+    script(src='https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js')
+    script(src='https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js')
+    script(src='https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js')
+    //- Internal Js to active the Tables
+    script(src='/js/databaseDesignJQuery.js')
+
+//- Change status model to change fom pending to successful or unsuccessful
+mixin changeStatusModalTemplate(id, status)
+    .modal.fade(tabindex='-1' role='dialog' aria-labelledby='changeStatusModalLabel' aria-hidden='true' id=`changeStatusModal${status}${id}`)
+        .modal-dialog(role='document')
+            .modal-content
+                //- Header of the model
+                .modal-header
+                    h3#changeStatusModalLabel.modal-title #{status} Maintenance Request
+                    button.close(type='button' data-dismiss='modal' aria-label='Close')
+                        span(aria-hidden='true') &times;
+                //- Body with a form wot add a message to the user who made the request
+                .modal-body
+                    form
+                        .form-group.row
+                            label.col-sm-3.col-form-label(for=`inputReasonMaintenance${status}${id}`) <b> Reason </b><br/>(Max. 1000 words)
+                            .col-sm-9
+                                textarea.form-control(id=`inputReasonMaintenance${status}${id}` type='text' rows='5' placeholder='Reason (Max. 1000 words)' maxlength="1000" required)
+                //- Modal footer to  change status
+                .modal-footer
+                    button.btn.btn-secondary(type='button' data-dismiss='modal') Cancel
+                    -const button = status == 'Completed' ? 'btn-success' : 'btn-danger'                    
+                    button.btn.text-white.editMaintenanceRequestBtn(class=`${button}` data-request-id=`${id}` data-request-status=`${status}`) #{status}
+
+block content
+    //- Add breadcrumb
+    +breadcrumbDisplay([['Home','/home'],['Manage Maintenance Requests']])
+
+    //- Body title
+    h2 Manage Maintenance Requests
+
+    //- if there is not maintenance requests  
+    -if(maintenanceRequests.length<1)
+        h4.font-weight-bold.text-dark.mt-0.ml-4 No maintenance requests to process.
+    - else
+        //- Maintenance requests table
+        table#dataTable.table.table-striped.table-bordered.table-sm.text-xl-center.display.responsive
+            thead
+                tr
+                    th Subject
+                    th Author
+                    th Creation date
+                    th Status
+                    th Completed
+                    th Rejected
+
+            tbody
+                //- iterate through each maintenance request to add each as a row
+                each maintenanceRequest in maintenanceRequests
+                    //- modal to display the description
+                    +displayDescriptionModal(maintenanceRequest.id, title, maintenanceRequest.subject, maintenanceRequest.description)
+
+                    //- status syle to be displayed
+                    if maintenanceRequest.status == 'Pending'
+                        +changeStatusModalTemplate(maintenanceRequest._id, 'Completed')
+                        +changeStatusModalTemplate(maintenanceRequest._id, 'Rejected')
+
+                    //- creation date with format
+                    -const creationDate = moment(maintenanceRequest.createdAt).format('DD/MMM/YYYY HH:mm');
+                    //- Resolved date of the request
+                    -const resolvedDate = maintenanceRequest.resolvedAt ? moment(maintenanceRequest.resolvedAt).format('DD/MMM/YYYY') : ''
+                    
+                    //- table design for the status
+                    -let tableRowDesign = '';
+                    if maintenanceRequest.status == 'Completed' 
+                        -tableRowDesign = 'bg-success text-white' 
+                    else if maintenanceRequest.status == 'Rejected'
+                        -tableRowDesign = 'bg-danger text-white'
+                    //- Row
+                    tr
+                        //-subject
+                        td.text-left.pl-3
+                            a.btn.text-wrap(type="button" data-toggle="modal" data-target=`#displayDescriptionModal${maintenanceRequest.id}`) #{maintenanceRequest.subject}
+                        //- Author
+                        if maintenanceRequest.user
+                            td= `${maintenanceRequest.user.firstName} ${maintenanceRequest.user.lastName}`
+                        else
+                            td Anonymous
+                        //- Created date
+                        td= creationDate
+                        //- maintenance requests status
+                        td(class=`${tableRowDesign}`)= maintenanceRequest.status
+                        //- case that has not been resolved, display buttons
+                        if maintenanceRequest.status == 'Pending'
+                            td
+                                button.btn.btn-success.text-white(type='button' data-toggle="modal" data-target=`#changeStatusModalCompleted${ maintenanceRequest._id}`) Complete
+                            td
+                                button.btn.btn-danger.text-white(type='button' data-toggle="modal" data-target=`#changeStatusModalRejected${ maintenanceRequest._id}`) Reject
+                        //- otherwise display the status with date resolved
+                        else
+                            -const textDesign = maintenanceRequest.status == 'Completed' ? 'text-success' : 'text-danger'
+                            td.border-right-0.text-right(class=`${textDesign}`)  #{maintenanceRequest.status}
+                            td.text-left(class=`${textDesign}`) on #{resolvedDate}
+            //- Table footer
+            tfoot
+                tr
+                    th Subject
+                    th Author
+                    th Creation date
+                    th Status
+                    th Completed
+                    th Rejected

@@ -1,0 +1,73 @@
+//- extend template
+extends ../components/_templateBase
+
+block content
+    //- Add breadcrumb
+    +breadcrumbDisplay([['Home','/home'],['Manage Users','/manage_users'],['Edit User']])
+
+    //- body title
+    h2 Edit #{title}
+
+    //- form to edit user
+    form#editUserForm
+        //- hidden input with the user id
+        input#hiddenInputEditUserId.d-none(value=`${currentUser.id}`)
+        //- first name input with user value
+        .form-group.row
+            label.col-sm-2.col-form-label(for='inputEditFirstName') First Name
+            .col-sm-10
+                input#inputEditFirstName.form-control(type='text' pattern="^[A-Za-z ]+$" value=`${currentUser.firstName}` maxlength="50"  placeholder='First Name' required='required')
+        //- Last name input with user value
+        .form-group.row
+            label.col-sm-2.col-form-label(for='inputEditLastName') Last Name
+            .col-sm-10
+                input#inputEditLastName.form-control(type='text' pattern="^[A-Za-z ]+$" value=`${currentUser.lastName}` maxlength="50"  placeholder='Last Name' required='required')
+        //- Email input with user value
+        .form-group.row
+            label.col-sm-2.col-form-label(for='inputEditEmailAddress') Email Address
+            .col-sm-10
+                input#inputEditEmailAddress.form-control(type='email' value=`${currentUser.email}` maxlength="50"  placeholder='Email Address' required='required')
+        //- Phone Number input with user value
+        .form-group.row
+            label.col-sm-2.col-form-label(for='inputEditPhoneNumber') Phone Number
+            .col-sm-10
+                input#inputEditPhoneNumber.form-control(type='tel' value=`${currentUser.phoneNumber}` pattern="[0-9]{10}" minlength="10"  maxlength="10"  placeholder='Phone Number' required='required')
+        //- Role selection option with the current option
+        .form-group.row
+            label.col-sm-2.col-form-label(for='inputEditUserRole') Role 
+            .col-sm-10                
+                select#inputEditUserRole.form-control(required='required')
+                    -const currentRole = currentUser.role == 'team-maintenance' ? 'Team Maintenance' : currentUser.role.charAt(0).toUpperCase() + currentUser.role.slice(1).toLowerCase();
+                    -const roleArray = ['Student', 'Staff', 'Admin', 'Team Maintenance']
+                    each role in roleArray
+                        -if (role == currentRole)
+                            option(selected = true)= role
+                        -else
+                            option= role
+        //- Major selection option with current major
+        .form-group.row
+            label.col-sm-2.col-form-label(for='inputEditUserMajor') Major 
+            .col-sm-10
+                select#inputEditUserMajor.form-control(required='required')
+                    -const majorArray = ['Information Technology', 'Business', 'Accounting', 'Project Management', 'NOT A MAJOR']
+                    each major in majorArray
+                        -if (major == currentUser.major)
+                            option(selected = true)= major
+                        -else
+                            option= major
+        //- active option by default true
+        .form-group.row
+            label.col-sm-2.col-form-label(for='inputEditUserActive') Active 
+            .col-sm-10
+                select#inputEditUserActive.form-control(required='required')
+                    -const activeString = currentUser.active ? 'Yes' : 'No'
+                    -const activeArray = ['Yes', 'No']
+                    each active in activeArray
+                        -if (active == activeString)
+                            option(selected = true)= active
+                        -else
+                            option= active
+        //- edit button of user
+        .form-group.row
+            .col-sm-10
+                button.btn.btn-primary Edit #{title}
