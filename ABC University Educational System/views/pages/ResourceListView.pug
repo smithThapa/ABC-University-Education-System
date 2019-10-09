@@ -1,0 +1,86 @@
+//- extend template
+extends ../components/_templateBase
+
+//- add style in the head
+block append head
+    //- style for the table
+    link(rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css")
+    link(rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css")
+    link(rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css")
+
+//- add script to make table dynamic from dataTable
+block append scripts
+    //- DataTable from Bootstrap
+    script(src='https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js')
+    script(src='https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js')
+    script(src='https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js')
+    //- Internal Js to active the Tables
+    script(src='/js/databaseDesignJQuery.js')
+    //- Resource js to change input name with the filename
+    script(src='/js/resource.js') 
+           
+block content
+    //- Add breadcrumb
+    +breadcrumbDisplay([['Home','/home'],['Manage Resources']])
+    
+    //- title on the body, with button to add new resource
+    .row.d-flex
+        .col-md-6
+            h2 Manage Resources
+        .col-md-6
+            form(action="/manage_resources/upload" method="post" enctype="multipart/form-data")
+                .input-group
+                    //- .form-row.mb-1
+                    .custom-file
+                        //- .col-9.mr-4
+                        input.custom-file-input#file(type="file" name="file" required)
+                        label#file-label(for="file" class="custom-file-label" aria-describedby='custom-file-label-append-upload') Choose File...
+                    input.btn.btn-primary.input-group-text#custom-file-label-append-upload( type= "submit" value="Upload")
+           
+    //- if there is file         
+    if files
+        //- Resources table
+        table#dataTable.table.table-striped.table-bordered.table-sm.text-xl-center.display.responsive
+            thead
+                tr
+                    th Name
+                    th Author
+                    th Upload date
+                    th Download
+                    th Delete
+            
+            tbody
+                //- iterate through each file to add each as a row
+                each file in files
+                    //- modal to delete element
+                    +deleteModalFileTemplate(file._id, file.filename, 'manage_resources')
+                    
+                    //- creation date with format
+                    -const updateDate = moment(file.uploadDate).format('dddd DD MMM YYYY HH:mm')
+                    //- Row
+                    tr
+                        //- File name
+                        td.text-wrap= file.filename
+                        //- Author
+                        if file.user
+                            td #{file.user.firstName} #{file.user.lastName}
+                        else
+                            td Anonymous
+                        //- Upload times
+                        td= updateDate
+                        //- Download button
+                        td
+                            a.btn.btn-info.text-white(href=`/manage_resources/files/${file.filename}` target='_blank') Download
+                        //- Delete Button
+                        td
+                            a.btn.btn-danger.text-white(type='button' data-toggle="modal" data-target=`#deleteModalFile${file._id}`) Delete
+            //- Table footer
+            tfoot
+                tr
+                    th Name
+                    th Author
+                    th Upload date
+                    th Download
+                    th Delete
+    else
+        h4.font-weight-bold.text-dark.mt-0.ml-4 No files to manage.          
